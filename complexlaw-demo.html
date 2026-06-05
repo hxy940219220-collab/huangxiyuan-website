@@ -7,11 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
-
   <style>
     /* ============================================
-       Inspired by complexlaw.co.uk
-       Single font. Weight hierarchy. Real motion.
+       Complex Law 风格 · 黄锡源个人网站
+       单字体 · 字重层级 · 分栏排版 · 真实动效
        ============================================ */
 
     :root {
@@ -48,754 +47,413 @@
       overflow-x: hidden;
     }
 
-    /* === Only one font. Weight + size = hierarchy. === */
-
-    .fw-300 { font-weight: 300; }
-    .fw-500 { font-weight: 500; }
-    .fw-600 { font-weight: 600; }
-    .fw-700 { font-weight: 700; }
-    .fw-800 { font-weight: 800; }
+    /* === TYPOGRAPHY === */
     .italic  { font-style: italic; }
     .accent  { color: var(--accent); }
 
     h1, h2, h3, h4 { font-family: inherit; }
 
     /* === NAV === */
-
     .nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       background: rgba(253, 249, 246, 0.92);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       transition: box-shadow 350ms var(--ease);
     }
-
     .nav.scrolled { box-shadow: 0 1px 24px rgba(0,57,67,0.06); }
-
     .nav-inner {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 0 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 68px;
+      max-width: 1240px; margin: 0 auto; padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between; height: 68px;
     }
-
-    .nav-brand {
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
+    .nav-brand { text-decoration: none; display: flex; align-items: center; gap: 10px; }
     .nav-brand-icon {
-      width: 38px; height: 38px;
-      background: var(--accent);
-      border-radius: var(--radius);
-      display: grid;
-      place-items: center;
-      color: #fff;
-      font-size: 20px;
-      font-weight: 800;
-      font-style: italic;
+      width: 36px; height: 36px; background: var(--accent); border-radius: var(--radius);
+      display: grid; place-items: center; color: #fff; font-size: 18px;
+      font-weight: 800; font-style: italic;
       transition: background 250ms var(--ease);
     }
-
     .nav-brand:hover .nav-brand-icon { background: var(--accent-hover); }
-
-    .nav-brand-text {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.02em;
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 40px;
-    }
-
+    .nav-brand-text { font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+    .nav-links { display: flex; list-style: none; gap: 36px; }
     .nav-links a {
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 200ms ease;
-      position: relative;
-      padding: 6px 0;
+      text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500;
+      transition: color 200ms ease; position: relative; padding: 6px 0;
     }
-
     .nav-links a::after {
-      content: "";
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: left;
+      content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: var(--accent); transform: scaleX(0); transform-origin: left;
       transition: transform 300ms var(--ease-out);
     }
-
     .nav-links a:hover { color: var(--text); }
     .nav-links a:hover::after { transform: scaleX(1); }
-
     .nav-cta {
-      text-decoration: none;
-      padding: 11px 24px;
-      background: var(--accent);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 600;
-      border-radius: var(--radius);
+      text-decoration: none; padding: 11px 24px; background: var(--accent); color: #fff;
+      font-size: 13px; font-weight: 600; border-radius: var(--radius);
       transition: all 250ms var(--ease);
     }
+    .nav-cta:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,149,156,0.25); }
 
-    .nav-cta:hover {
-      background: var(--accent-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(0,149,156,0.25);
-    }
-
-    /* === PAGE === */
-
+    /* === PAGE WRAPPER === */
     .page { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
 
-    /* === HERO === */
+    /* === SECTION HEADINGS === */
+    .section { padding: 100px 0; }
+    .section-head { margin-bottom: 56px; }
+    .section-label {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 16px;
+    }
+    .section-head h2 {
+      font-size: clamp(28px, 3.5vw, 40px); font-weight: 800; line-height: 1.2;
+      letter-spacing: -0.03em; margin-bottom: 14px;
+    }
+    .section-head .sub {
+      color: var(--muted); font-size: 16px; font-weight: 400; line-height: 1.7; max-width: 560px;
+    }
 
+    /* === DIVIDER MOTIF (repeating logo mark, like Complex Law) === */
+    .section-divider {
+      display: flex; justify-content: center; padding: 24px 0;
+    }
+    .section-divider svg { width: 32px; height: 32px; opacity: 0.25; }
+
+    /* === HERO (2-col split, ref: Complex Law hero) === */
     .hero {
       padding: 160px 0 100px;
       display: grid;
-      grid-template-columns: 1fr 380px;
+      grid-template-columns: 1fr 420px;
       gap: 80px;
       align-items: center;
       position: relative;
     }
-
-    /* Decorative SVG stars - animated */
     .hero-stars {
-      position: absolute;
-      pointer-events: none;
+      position: absolute; pointer-events: none;
     }
-
     .hero-stars-1 {
-      top: 80px; right: 320px;
-      width: 100px; height: 100px;
-      opacity: 0.3;
+      top: 80px; right: 340px; width: 100px; height: 100px; opacity: 0.28;
       animation: star-float 8s ease-in-out infinite;
     }
-
     .hero-stars-2 {
-      bottom: 80px; left: -30px;
-      width: 60px; height: 60px;
-      opacity: 0.2;
+      bottom: 60px; left: -40px; width: 56px; height: 56px; opacity: 0.18;
       animation: star-float 7s ease-in-out 2s infinite reverse;
     }
-
     @keyframes star-float {
       0%, 100% { transform: translateY(0) rotate(0deg); }
       33% { transform: translateY(-12px) rotate(5deg); }
       66% { transform: translateY(6px) rotate(-3deg); }
     }
-
-    .star { fill: var(--accent); }
-
     .hero-label {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 24px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 20px;
     }
-
     .hero h1 {
-      font-size: clamp(42px, 5vw, 60px);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-      margin-bottom: 24px;
+      font-size: clamp(44px, 5.5vw, 64px); font-weight: 800; line-height: 1.08;
+      letter-spacing: -0.035em; margin-bottom: 20px;
     }
-
     .hero h1 .italic { color: var(--accent); }
-
     .hero-lead {
-      font-size: 17px;
-      font-weight: 400;
-      line-height: 1.75;
-      color: var(--muted);
-      margin-bottom: 40px;
-      max-width: var(--measure);
+      font-size: 17px; font-weight: 400; line-height: 1.75; color: var(--muted);
+      margin-bottom: 36px; max-width: var(--measure);
     }
-
-    .hero-lead strong { color: var(--accent); font-weight: 600; }
-
-    .hero-actions {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
     .btn {
-      display: inline-flex;
-      align-items: center;
-      padding: 16px 30px;
-      font-size: 15px;
-      font-weight: 600;
-      text-decoration: none;
-      border-radius: var(--radius);
-      transition: all 280ms var(--ease-out);
-      cursor: pointer;
+      display: inline-flex; align-items: center; padding: 15px 28px; font-size: 15px;
+      font-weight: 600; text-decoration: none; border-radius: var(--radius);
+      transition: all 280ms var(--ease-out); cursor: pointer; border: none;
     }
+    .btn-accent { background: var(--accent); color: #fff; }
+    .btn-accent:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,149,156,0.3); }
+    .btn-outline { background: transparent; color: var(--deep); border: 2px solid var(--deep); }
+    .btn-outline:hover { background: var(--deep); color: #fff; transform: translateY(-2px); }
 
-    .btn-accent {
-      background: var(--accent);
-      color: #fff;
+    /* Hero right: decorative card cluster (ref: Complex Law hero SVG + side card) */
+    .hero-side {
+      display: grid; gap: 20px;
     }
-
-    .btn-accent:hover {
-      background: var(--accent-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(0,149,156,0.3);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--deep);
-      border: 2px solid var(--deep);
-    }
-
-    .btn-outline:hover {
-      background: var(--deep);
-      color: #fff;
-      transform: translateY(-2px);
-    }
-
-    /* Hero card */
-
     .hero-card {
-      padding: 36px;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: 0 2px 24px rgba(0,57,67,0.04);
+      padding: 32px; background: #fff; border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: 0 2px 24px rgba(0,57,67,0.04);
       transition: all 350ms var(--ease-out);
     }
-
-    .hero-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(0,57,67,0.08);
-    }
-
+    .hero-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,57,67,0.08); }
     .hero-card .card-kicker {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 16px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 14px;
     }
-
-    .hero-card h2 {
-      font-size: 21px;
-      font-weight: 700;
-      line-height: 1.3;
-      letter-spacing: -0.02em;
-      margin-bottom: 10px;
+    .hero-card h2 { font-size: 19px; font-weight: 700; line-height: 1.35; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .hero-card p { font-size: 14px; font-weight: 400; color: var(--muted); line-height: 1.6; }
+    .hero-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .hero-mini-card {
+      padding: 22px; background: #fff; border: 1px solid var(--border);
+      border-radius: var(--radius); transition: all 300ms var(--ease-out);
     }
+    .hero-mini-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,57,67,0.05); }
+    .hero-mini-card .card-kicker { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .hero-mini-card ul { list-style: none; display: grid; gap: 6px; }
+    .hero-mini-card li { font-size: 13px; font-weight: 400; color: var(--muted); line-height: 1.5; position: relative; padding-left: 14px; }
+    .hero-mini-card li::before { content: ""; position: absolute; left: 0; top: 7px; width: 4px; height: 4px; border-radius: 999px; background: var(--accent); }
 
-    .hero-card p {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--muted);
-      line-height: 1.65;
-    }
-
-    /* === MARQUEE === */
-
+    /* === MARQUEE (ref: Complex Law logo strip) === */
     .marquee-wrap {
-      padding: 44px 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      overflow: hidden;
+      padding: 40px 0; border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border); overflow: hidden;
     }
-
     .marquee-track {
-      display: flex;
-      gap: 60px;
-      animation: marquee 28s linear infinite;
-      width: max-content;
+      display: flex; gap: 56px; animation: marquee 30s linear infinite; width: max-content;
     }
-
-    .marquee-item {
-      font-size: 17px;
-      font-weight: 500;
-      color: var(--faint);
-      white-space: nowrap;
-      transition: color 250ms ease;
-    }
-
-    .marquee-sep {
-      color: var(--accent);
-      font-weight: 300;
-    }
-
+    .marquee-item { font-size: 16px; font-weight: 500; color: var(--faint); white-space: nowrap; }
+    .marquee-sep { color: var(--accent); font-weight: 300; }
     @keyframes marquee {
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
 
-    /* === SECTION === */
-
-    .section { padding: 96px 0; }
-
-    .section-head { margin-bottom: 60px; text-align: center; }
-
-    .section-label {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 18px;
-    }
-
-    .section-head h2 {
-      font-size: clamp(28px, 3.5vw, 40px);
-      font-weight: 800;
-      line-height: 1.2;
-      letter-spacing: -0.03em;
-      margin-bottom: 14px;
-    }
-
-    .section-head p {
-      color: var(--muted);
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 1.7;
-      max-width: 520px;
-      margin: 0 auto;
-    }
-
-    /* === PROJECT === */
-
-    .project-grid {
+    /* === PROJECT SPOTLIGHT (ref: Complex Law split CTA panels) === */
+    .project-spotlight {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      gap: 28px;
     }
-
-    .project-hero {
-      grid-column: 1 / -1;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 32px;
-      align-items: center;
-      padding: 44px;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: 0 2px 24px rgba(0,57,67,0.03);
-      transition: all 350ms var(--ease-out);
+    .project-main {
+      padding: 40px; background: #fff; border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: 0 2px 24px rgba(0,57,67,0.03);
+      transition: all 350ms var(--ease-out); display: flex; flex-direction: column;
     }
-
-    .project-hero:hover {
+    .project-main:hover {
       box-shadow: 0 12px 44px rgba(0,57,67,0.07);
-      border-color: var(--accent-border);
-      transform: translateY(-2px);
+      border-color: var(--accent-border); transform: translateY(-2px);
     }
-
-    .project-icon-lg {
-      width: 92px; height: 92px;
-      object-fit: cover;
-      border-radius: 20px;
-      border: 1px solid var(--border-strong);
-      box-shadow: 0 2px 14px rgba(0,0,0,0.05);
-    }
-
-    .badge-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
+    .project-topline { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
     .badge {
-      padding: 5px 14px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 600;
+      padding: 5px 14px; border-radius: 999px; font-size: 11px; font-weight: 600;
     }
-
-    .badge-live {
-      background: #ECFDF5;
-      color: #166534;
-      border: 1px solid #BBF7D0;
+    .badge-accent { background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent-border); }
+    .badge-live  { background: #ECFDF5; color: #166534; border: 1px solid #BBF7D0; }
+    .badge-soft  { background: #F1E8E2; color: #6B5E53; border: 1px solid #D6CFC7; }
+    .project-brand-row {
+      display: flex; gap: 22px; align-items: flex-start; margin-bottom: 22px;
     }
-
-    .badge-platform {
-      background: var(--accent-light);
-      color: var(--accent);
-      border: 1px solid var(--accent-border);
+    .project-icon {
+      width: 72px; height: 72px; object-fit: cover; border-radius: 18px;
+      border: 1px solid var(--border-strong); box-shadow: 0 2px 12px rgba(0,0,0,0.05); flex-shrink: 0;
     }
-
-    .project-hero h3 {
-      font-size: 30px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      margin-bottom: 2px;
-    }
-
-    .project-hero .cn-sub {
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--muted);
-      display: block;
-      margin-top: 2px;
-    }
-
-    .project-hero .desc {
-      font-size: 15px;
-      font-weight: 400;
-      color: var(--muted);
-      line-height: 1.65;
-      max-width: 440px;
-      margin-bottom: 14px;
-    }
-
-    .project-dl {
-      display: inline-flex;
-      align-items: center;
-      padding: 12px 24px;
-      background: var(--accent);
-      color: #fff;
-      text-decoration: none;
-      border-radius: var(--radius);
-      font-size: 13px;
-      font-weight: 600;
+    .project-main h3 { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 4px; }
+    .project-main .cn-sub { font-size: 15px; font-weight: 500; color: var(--muted); display: block; margin-bottom: 8px; }
+    .project-main .desc { font-size: 15px; color: var(--muted); line-height: 1.65; margin-bottom: 20px; }
+    .project-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto; }
+    .project-link {
+      padding: 12px 22px; background: var(--accent); color: #fff; text-decoration: none;
+      border-radius: var(--radius); font-size: 13px; font-weight: 600;
       transition: all 250ms var(--ease-out);
     }
-
-    .project-dl:hover {
-      background: var(--accent-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 18px rgba(0,149,156,0.25);
+    .project-link:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 18px rgba(0,149,156,0.25); }
+    .project-link-ghost {
+      background: transparent; color: var(--deep); border: 2px solid var(--deep);
     }
+    .project-link-ghost:hover { background: var(--deep); color: #fff; }
+
+    /* Mini cards inside project spotlight */
+    .project-inline-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px;
+    }
+    .project-mini {
+      padding: 18px; background: var(--accent-light); border: 1px solid var(--accent-border);
+      border-radius: var(--radius); transition: all 250ms var(--ease-out);
+    }
+    .project-mini:hover { transform: translateY(-1px); }
+    .project-mini .card-kicker { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+    .project-mini p { font-size: 13px; font-weight: 400; color: var(--muted); line-height: 1.55; }
 
     /* Steps */
-
-    .steps-card {
-      padding: 32px;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      display: grid;
-      gap: 2px;
-      box-shadow: 0 2px 24px rgba(0,57,67,0.03);
-    }
-
+    .project-steps { display: grid; gap: 2px; }
     .step-item {
-      display: grid;
-      grid-template-columns: 44px 1fr;
-      gap: 16px;
-      align-items: center;
-      padding: 14px 4px;
-      border-bottom: 1px solid var(--border);
-      transition: padding-left 250ms var(--ease-out);
+      display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: center;
+      padding: 12px 4px; border-bottom: 1px solid var(--border); transition: padding-left 250ms var(--ease-out);
     }
-
     .step-item:last-child { border-bottom: none; }
-
     .step-item:hover { padding-left: 8px; }
-
     .step-num {
-      width: 44px; height: 44px;
-      display: grid;
-      place-items: center;
-      background: var(--accent-light);
-      border-radius: 999px;
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--accent);
+      width: 40px; height: 40px; display: grid; place-items: center;
+      background: var(--accent-light); border-radius: 999px;
+      font-size: 15px; font-weight: 700; color: var(--accent);
       transition: all 250ms var(--ease-out);
     }
+    .step-item:hover .step-num { background: var(--accent); color: #fff; transform: scale(1.08); }
+    .step-item p { font-size: 14px; font-weight: 400; color: var(--muted); line-height: 1.5; }
 
-    .step-item:hover .step-num {
-      background: var(--accent);
-      color: #fff;
-      transform: scale(1.08);
-    }
-
-    .step-item p {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    /* Detail cards */
-
-    .detail-stack { display: grid; gap: 18px; }
-
+    /* Side detail cards */
+    .project-side-grid { display: grid; gap: 16px; }
     .detail-card {
-      padding: 28px;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      transition: all 300ms var(--ease-out);
+      padding: 28px; background: #fff; border: 1px solid var(--border);
+      border-radius: var(--radius); transition: all 300ms var(--ease-out);
     }
-
-    .detail-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 30px rgba(0,57,67,0.05);
-    }
-
-    .detail-card-accent {
-      background: var(--accent-light);
-      border-color: var(--accent-border);
-    }
-
+    .detail-card:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(0,57,67,0.05); }
+    .detail-card-accent { background: var(--accent-light); border-color: var(--accent-border); }
     .detail-card .card-kicker {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 10px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
     }
+    .detail-card h4 { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .detail-card ul { list-style: none; display: grid; gap: 8px; }
+    .detail-card li { position: relative; padding-left: 16px; font-size: 14px; font-weight: 400; color: var(--muted); line-height: 1.55; }
+    .detail-card li::before { content: ""; position: absolute; left: 0; top: 8px; width: 4px; height: 4px; border-radius: 999px; background: var(--accent); }
+    .detail-card > p { font-size: 14px; color: var(--muted); line-height: 1.6; }
 
-    .detail-card h4 {
-      font-size: 17px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-    }
-
-    .detail-card ul {
-      list-style: none;
-      display: grid;
-      gap: 8px;
-    }
-
-    .detail-card li {
-      position: relative;
-      padding-left: 18px;
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--muted);
-      line-height: 1.55;
-    }
-
-    .detail-card li::before {
-      content: "";
-      position: absolute;
-      left: 0; top: 8px;
-      width: 5px; height: 5px;
-      border-radius: 999px;
-      background: var(--accent);
-    }
-
-    .detail-card p {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    /* === CAPABILITIES === */
-
+    /* === CAPABILITIES (ref: Complex Law 3-card services) === */
     .cap-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
     }
-
     .cap-card {
-      padding: 36px 32px;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      text-align: center;
-      transition: all 350ms var(--ease-out);
+      padding: 40px 32px; background: #fff; border: 1px solid var(--border);
+      border-radius: var(--radius); transition: all 350ms var(--ease-out);
     }
-
-    .cap-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 14px 44px rgba(0,57,67,0.07);
-      border-color: var(--accent-border);
-    }
-
-    .cap-icon {
-      width: 60px; height: 60px;
-      margin: 0 auto 20px;
-      background: var(--accent-light);
-      border-radius: 999px;
-      display: grid;
-      place-items: center;
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--accent);
+    .cap-card:hover { transform: translateY(-4px); box-shadow: 0 14px 44px rgba(0,57,67,0.07); border-color: var(--accent-border); }
+    .cap-num {
+      width: 52px; height: 52px; margin-bottom: 22px; display: grid; place-items: center;
+      background: var(--accent-light); border-radius: 999px;
+      font-size: 20px; font-weight: 800; color: var(--accent);
       transition: all 300ms var(--ease-out);
     }
-
-    .cap-card:hover .cap-icon {
-      background: var(--accent);
-      color: #fff;
-      transform: scale(1.08);
-    }
-
+    .cap-card:hover .cap-num { background: var(--accent); color: #fff; transform: scale(1.08); }
     .cap-card .card-kicker {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 12px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
     }
-
-    .cap-card h3 {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 10px;
-    }
-
-    .cap-card > p {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .cap-tags {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 16px;
-    }
-
+    .cap-card h3 { font-size: 21px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; }
+    .cap-card > p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .cap-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
     .cap-tags span {
-      padding: 5px 14px;
-      border: 1px solid var(--border-strong);
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--muted);
+      padding: 5px 14px; border: 1px solid var(--border-strong);
+      border-radius: 999px; font-size: 12px; font-weight: 500; color: var(--muted);
       transition: all 200ms ease;
     }
+    .cap-card:hover .cap-tags span { border-color: var(--accent-border); }
 
-    .cap-card:hover .cap-tags span {
-      border-color: var(--accent-border);
+    /* === RESEARCH ARCHIVE (ref: Complex Law values grid, mixed card widths) === */
+    .archive-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 22px;
     }
+    .archive-card {
+      padding: 32px; background: #fff; border: 1px solid var(--border);
+      border-radius: var(--radius); transition: all 350ms var(--ease-out);
+      text-decoration: none; color: inherit; display: block;
+    }
+    .archive-card:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(0,57,67,0.06); border-color: var(--accent-border); }
+    .archive-card-wide { grid-column: span 2; }
+    .archive-card .card-kicker {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 14px;
+    }
+    .archive-card h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; }
+    .archive-card p { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 10px; }
+    .archive-card p:last-child { margin-bottom: 0; }
+    .archive-more {
+      display: inline-block; margin-top: 12px; font-size: 13px; font-weight: 600; color: var(--accent);
+      transition: color 200ms ease;
+    }
+    .archive-card:hover .archive-more { color: var(--accent-hover); }
 
-    /* === CTA SECTION === */
-
-    .cta-section {
-      background: var(--deep);
-      border-radius: var(--radius);
-      padding: 72px 48px;
-      text-align: center;
-      color: #fff;
+    /* === WORKFLOW BLUEPRINT (ref: Complex Law 3-value flow) === */
+    .blueprint-row {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
       position: relative;
-      overflow: hidden;
     }
-
-    .cta-section h2 {
-      font-size: clamp(28px, 3.5vw, 38px);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      margin-bottom: 16px;
+    .blueprint-connector {
+      position: absolute; top: 40px; left: calc(16.67% + 26px); right: calc(16.67% + 26px);
+      height: 2px; background: var(--border-strong);
     }
-
-    .cta-section p {
-      font-size: 16px;
-      font-weight: 400;
-      color: rgba(255,255,255,0.7);
-      max-width: 480px;
-      margin: 0 auto 36px;
-      line-height: 1.7;
+    .blueprint-node {
+      padding: 36px 28px; background: #fff; border: 1px solid var(--border);
+      border-radius: var(--radius); text-align: center; position: relative; z-index: 1;
+      transition: all 350ms var(--ease-out);
     }
-
-    .cta-actions {
-      display: flex;
-      justify-content: center;
-      gap: 14px;
-      flex-wrap: wrap;
+    .blueprint-node:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,57,67,0.07); border-color: var(--accent-border); }
+    .node-icon {
+      width: 52px; height: 52px; display: grid; place-items: center; margin: 0 auto 18px;
+      background: var(--accent-light); border-radius: 999px;
+      font-size: 18px; font-weight: 800; color: var(--accent);
+      transition: all 300ms var(--ease-out);
     }
-
-    .btn-white {
-      background: #fff;
-      color: var(--deep);
+    .blueprint-node:hover .node-icon { background: var(--accent); color: #fff; transform: scale(1.08); }
+    .blueprint-node .card-kicker {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
     }
+    .blueprint-node h3 { font-size: 19px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .blueprint-node p { font-size: 14px; color: var(--muted); line-height: 1.6; }
 
-    .btn-white:hover {
-      background: var(--accent-light);
-      transform: translateY(-2px);
+    /* === CTA SPLIT PANEL (ref: Complex Law "Ready to move..." section) === */
+    .cta-split {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+      background: var(--deep); border-radius: var(--radius); padding: 72px 56px;
+      color: #fff; position: relative; overflow: hidden;
     }
-
-    .btn-ghost {
-      background: transparent;
-      color: #fff;
-      border: 2px solid rgba(255,255,255,0.25);
+    .cta-split h2 {
+      font-size: clamp(28px, 3.5vw, 40px); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 16px;
     }
-
-    .btn-ghost:hover {
-      border-color: #fff;
-      background: rgba(255,255,255,0.06);
-      transform: translateY(-2px);
+    .cta-split p {
+      font-size: 16px; font-weight: 400; color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 32px;
     }
+    .cta-split .cta-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-white { background: #fff; color: var(--deep); }
+    .btn-white:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.15); }
+    .btn-ghost { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.25); }
+    .btn-ghost:hover { border-color: #fff; background: rgba(255,255,255,0.06); transform: translateY(-2px); }
+    .cta-decor {
+      display: flex; justify-content: center; align-items: center;
+      opacity: 0.12;
+    }
+    .cta-decor svg { width: 180px; height: 180px; }
 
-    /* === FOOTER === */
-
+    /* === FOOTER (ref: Complex Law multi-column footer) === */
     .footer {
-      padding: 52px 0;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--faint);
+      padding: 56px 0 36px; border-top: 1px solid var(--border);
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 40px; font-size: 13px; color: var(--faint);
     }
-
-    .footer strong { color: var(--muted); font-weight: 500; }
+    .footer h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 14px; letter-spacing: -0.01em; }
+    .footer a { color: var(--muted); text-decoration: none; transition: color 200ms ease; }
+    .footer a:hover { color: var(--accent); }
+    .footer ul { list-style: none; display: grid; gap: 8px; }
+    .footer-bottom {
+      grid-column: 1 / -1; padding-top: 32px; margin-top: 32px;
+      border-top: 1px solid var(--border); display: flex; justify-content: space-between;
+      align-items: center; font-size: 12px; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-social { display: flex; gap: 16px; }
+    .footer-social a { font-size: 13px; font-weight: 500; }
 
     /* === SCROLL REVEAL === */
-
     [data-reveal] {
-      opacity: 0;
-      transform: translateY(28px);
+      opacity: 0; transform: translateY(28px);
       transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
     }
-
-    [data-reveal].visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Stagger delays */
+    [data-reveal].visible { opacity: 1; transform: translateY(0); }
     .d1 { transition-delay: 0ms; }
     .d2 { transition-delay: 100ms; }
     .d3 { transition-delay: 200ms; }
     .d4 { transition-delay: 300ms; }
 
     /* === RESPONSIVE === */
-
     @media (max-width: 960px) {
       .hero { grid-template-columns: 1fr; gap: 48px; padding: 140px 0 72px; }
-      .hero h1 { font-size: clamp(34px, 7vw, 46px); }
+      .hero h1 { font-size: clamp(34px, 7vw, 48px); }
       .hero-stars { display: none; }
-      .project-grid { grid-template-columns: 1fr; }
-      .project-hero { grid-template-columns: 1fr; gap: 20px; padding: 28px; }
+      .project-spotlight { grid-template-columns: 1fr; }
       .cap-grid { grid-template-columns: 1fr; }
-      .nav-links { gap: 24px; }
+      .archive-grid { grid-template-columns: 1fr; }
+      .archive-card-wide { grid-column: span 1; }
+      .blueprint-row { grid-template-columns: 1fr; }
+      .blueprint-connector { display: none; }
+      .cta-split { grid-template-columns: 1fr; gap: 40px; padding: 48px 32px; }
+      .cta-decor { display: none; }
+      .footer { grid-template-columns: 1fr 1fr; }
+      .nav-links { gap: 22px; }
     }
-
     @media (max-width: 640px) {
       .nav-links { display: none; }
       .nav-inner { height: 60px; }
@@ -803,8 +461,11 @@
       .section { padding: 60px 0; }
       .hero-actions, .cta-actions { flex-direction: column; }
       .btn { width: 100%; justify-content: center; }
-      .cta-section { padding: 48px 24px; }
-      .marquee-track { gap: 40px; animation-duration: 18s; }
+      .hero-mini-grid { grid-template-columns: 1fr; }
+      .project-inline-grid { grid-template-columns: 1fr; }
+      .cta-split { padding: 40px 24px; }
+      .footer { grid-template-columns: 1fr; }
+      .marquee-track { gap: 36px; animation-duration: 18s; }
     }
   </style>
 </head>
@@ -821,8 +482,8 @@
         <li><a href="#hero">首页</a></li>
         <li><a href="#projects">代表项目</a></li>
         <li><a href="#capabilities">核心能力</a></li>
-        <li><a href="#">研究归档</a></li>
-        <li><a href="#">工作流</a></li>
+        <li><a href="#archive">研究归档</a></li>
+        <li><a href="#blueprint">工作流</a></li>
       </ul>
       <a class="nav-cta" href="#projects">查看项目</a>
     </div>
@@ -830,16 +491,18 @@
 
   <div class="page">
 
-    <!-- HERO -->
+    <!-- ====== HERO (2-col split) ====== -->
     <section class="hero" id="hero">
+      <!-- Decorative stars -->
       <svg class="hero-stars hero-stars-1" viewBox="0 0 100 100" aria-hidden="true">
-        <polygon class="star" points="50,5 60,35 92,35 66,55 76,88 50,68 24,88 34,55 8,35 40,35" />
-        <polygon class="star" points="82,15 86,25 96,25 88,32 91,42 82,36 73,42 76,32 68,25 78,25" />
+        <polygon fill="var(--accent)" points="50,5 60,35 92,35 66,55 76,88 50,68 24,88 34,55 8,35 40,35" />
+        <polygon fill="var(--accent)" points="82,15 86,25 96,25 88,32 91,42 82,36 73,42 76,32 68,25 78,25" />
       </svg>
       <svg class="hero-stars hero-stars-2" viewBox="0 0 60 60" aria-hidden="true">
-        <polygon class="star" points="30,3 34,20 50,20 37,31 41,48 30,38 19,48 23,31 10,20 26,20" opacity="0.7"/>
+        <polygon fill="var(--accent)" points="30,3 34,20 50,20 37,31 41,48 30,38 19,48 23,31 10,20 26,20" opacity="0.7"/>
       </svg>
 
+      <!-- Left: text -->
       <div>
         <p class="hero-label">HX-01 · Product Manager</p>
         <h1>
@@ -857,16 +520,36 @@
         </div>
       </div>
 
-      <aside>
+      <!-- Right: card cluster -->
+      <aside class="hero-side">
         <div class="hero-card">
           <p class="card-kicker">当前定位</p>
           <h2>把前沿能力转化为<span class="accent">真实可用</span>的产品体验</h2>
           <p>更关注问题定义、交互路径、工作流设计与验证效率之间的闭环，而不是停留在概念层面。</p>
         </div>
+        <div class="hero-mini-grid">
+          <div class="hero-mini-card">
+            <p class="card-kicker">核心工具栈</p>
+            <ul>
+              <li>大模型能力</li>
+              <li>Agent 系统</li>
+              <li>Workflow 设计</li>
+              <li>Vibe Coding</li>
+            </ul>
+          </div>
+          <div class="hero-mini-card">
+            <p class="card-kicker">当前关注</p>
+            <ul>
+              <li>真实产品问题</li>
+              <li>Agent 产品化落地</li>
+              <li>前沿方法论研究</li>
+            </ul>
+          </div>
+        </div>
       </aside>
     </section>
 
-    <!-- MARQUEE -->
+    <!-- ====== MARQUEE ====== -->
     <div class="marquee-wrap">
       <div class="marquee-track">
         <span class="marquee-item">Large Language Models</span><span class="marquee-item marquee-sep">·</span>
@@ -877,7 +560,7 @@
         <span class="marquee-item">Product Shipping</span><span class="marquee-item marquee-sep">·</span>
         <span class="marquee-item">Open Source Tools</span><span class="marquee-item marquee-sep">·</span>
         <span class="marquee-item">AI Research</span><span class="marquee-item marquee-sep">·</span>
-        <!-- duplicate for seamless loop -->
+        <!-- duplicate -->
         <span class="marquee-item">Large Language Models</span><span class="marquee-item marquee-sep">·</span>
         <span class="marquee-item">Agent Systems</span><span class="marquee-item marquee-sep">·</span>
         <span class="marquee-item">Workflow Design</span><span class="marquee-item marquee-sep">·</span>
@@ -889,92 +572,189 @@
       </div>
     </div>
 
-    <!-- PROJECTS -->
+    <!-- ====== PROJECTS ====== -->
     <section class="section" id="projects">
       <div class="section-head" data-reveal>
         <p class="section-label">代表项目</p>
-        <h2>Making <span class="italic accent">real problems</span> into usable AI products</h2>
-        <p>从具体使用场景出发，先定义用户真正卡住的瞬间，再用 AI、交互结构和快速工程实现把它落到可体验的产品里。</p>
+        <h2>从灵感捕捉到情绪化专注，把<span class="italic accent">真实问题</span>转成可用的 AI 产品</h2>
+        <p class="sub">从具体使用场景出发，先定义用户真正卡住的瞬间，再用 AI、交互结构和快速工程实现把它落到可体验的产品里。</p>
       </div>
 
-      <div class="project-grid">
-        <!-- IdeaFlash hero -->
-        <div class="project-hero" data-reveal>
-          <img class="project-icon-lg" src="assets/ideaflash-app-icon.png" alt="灵感胶囊 icon" />
-          <div>
-            <div class="badge-row">
-              <span class="badge badge-live">Production</span>
-              <span class="badge badge-platform">Android APK</span>
+      <!-- Project 1: IdeaFlash -->
+      <div class="project-spotlight" style="margin-bottom: 48px;">
+        <div class="project-main" data-reveal>
+          <div class="project-topline">
+            <span class="badge badge-live">Production</span>
+            <span class="badge badge-accent">AI Capture App</span>
+            <span class="badge badge-soft">Android APK</span>
+          </div>
+          <div class="project-brand-row">
+            <img class="project-icon" src="assets/ideaflash-app-icon.png" alt="灵感胶囊 icon" />
+            <div>
+              <h3>IdeaFlash</h3>
+              <span class="cn-sub">灵感胶囊</span>
+              <p class="desc">一款用最快路径捕捉转瞬即逝灵感，并交给 AI 自动转写、提炼、生成卡片的轻量记录 app。</p>
             </div>
-            <h3>IdeaFlash<span class="cn-sub">灵感胶囊</span></h3>
-            <p class="desc">一款用最快路径捕捉转瞬即逝灵感，并交给 AI 自动转写、提炼、生成卡片的轻量记录 app。</p>
-            <a class="project-dl" href="assets/ideaflash.apk" download>点击即刻下载</a>
+          </div>
+          <div class="project-inline-grid">
+            <div class="project-mini">
+              <p class="card-kicker">设计目标</p>
+              <p>把"想到"到"记下"的路径压到最短，让用户不用先整理，只需要把灵感说出来。</p>
+            </div>
+            <div class="project-mini">
+              <p class="card-kicker">产品关键词</p>
+              <p>语音速记、桌面直达、息屏无感、AI 提炼、卡片化回看</p>
+            </div>
+          </div>
+          <div class="project-steps">
+            <div class="step-item">
+              <span class="step-num">01</span>
+              <p>灵感出现时，通过 App、桌面组件或快捷入口立即录音</p>
+            </div>
+            <div class="step-item">
+              <span class="step-num">02</span>
+              <p>AI 将口语化内容转写、提炼，保留原文用于回查</p>
+            </div>
+            <div class="step-item">
+              <span class="step-num">03</span>
+              <p>生成可滑动浏览的灵感卡片，降低后续整理成本</p>
+            </div>
+            <div class="step-item">
+              <span class="step-num">04</span>
+              <p>通过完成、丢弃与回收站管理每一个想法的生命周期</p>
+            </div>
+          </div>
+          <div class="project-links">
+            <a class="project-link" href="assets/ideaflash.apk" download>点击即刻下载</a>
           </div>
         </div>
 
-        <!-- Steps -->
-        <div class="steps-card" data-reveal>
-          <div class="step-item">
-            <span class="step-num">01</span>
-            <p>灵感出现时，通过 App、桌面组件或快捷入口立即录音</p>
-          </div>
-          <div class="step-item">
-            <span class="step-num">02</span>
-            <p>AI 将口语化内容转写、提炼，保留原文用于回查</p>
-          </div>
-          <div class="step-item">
-            <span class="step-num">03</span>
-            <p>生成可滑动浏览的灵感卡片，降低后续整理成本</p>
-          </div>
-          <div class="step-item">
-            <span class="step-num">04</span>
-            <p>通过完成、丢弃与回收站管理每一个想法的生命周期</p>
-          </div>
-        </div>
-
-        <!-- Detail cards -->
-        <div class="detail-stack">
+        <div class="project-side-grid">
           <div class="detail-card detail-card-accent" data-reveal>
             <p class="card-kicker">设计逻辑</p>
             <h4>不做复杂笔记，而做<span class="accent">灵感捕捉器</span></h4>
             <p>灵感胶囊的核心不是让用户写得更完整，而是在想法最脆弱的一瞬间把它接住；整理、提炼和结构化交给 AI 在后面完成。</p>
           </div>
-
           <div class="detail-card" data-reveal>
             <p class="card-kicker">核心模块</p>
             <ul>
-              <li>快速录音：打开后直接进入捕捉状态</li>
+              <li>快速录音：打开后直接进入捕捉状态，减少操作犹豫</li>
               <li>手动记录：补足不适合语音的输入场景</li>
               <li>AI 提炼：把零散表达整理成清晰灵感卡片</li>
-              <li>卡片浏览：左右滑动回看，上滑完成下滑丢弃</li>
-              <li>外部入口：桌面组件快捷触发</li>
+              <li>卡片浏览：左右滑动回看，上滑完成、下滑丢弃</li>
+              <li>外部入口：桌面组件与快捷触发减少打开成本</li>
             </ul>
           </div>
-
           <div class="detail-card" data-reveal>
             <p class="card-kicker">产品价值</p>
             <ul>
               <li>解决"刚刚想到但下一秒忘了"的真实痛点</li>
-              <li>让用户先捕捉再整理，保护灵感的流动性</li>
-              <li>AI 在后处理环节降低用户维护负担</li>
+              <li>让用户先捕捉，再整理，保护灵感出现时的流动性</li>
+              <li>AI 在后处理环节降低用户维护灵感库的负担</li>
               <li>极短入口和轻量反馈建立持续记录习惯</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="section-divider">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="4" fill="var(--accent)"/></svg>
+      </div>
+
+      <!-- Project 2: FocusMeow -->
+      <div class="project-spotlight">
+        <div class="project-main" data-reveal>
+          <div class="project-topline">
+            <span class="badge badge-accent">React Native App</span>
+            <span class="badge badge-soft">Xcode / iOS</span>
+          </div>
+          <div class="project-brand-row">
+            <img class="project-icon" src="assets/focusmeow-app-icon.jpg" alt="FocusMeow icon" />
+            <div>
+              <h3>FocusMeow</h3>
+              <span class="cn-sub">专注喵</span>
+              <p class="desc">一款用猫咪陪伴、成长奖励与 AI 反馈驱动长期专注习惯形成的情感化专注 app。</p>
+            </div>
+          </div>
+          <div class="project-inline-grid">
+            <div class="project-mini">
+              <p class="card-kicker">我的角色</p>
+              <p>产品设计、交互结构、前端实现与完整 app 体验落地</p>
+            </div>
+            <div class="project-mini">
+              <p class="card-kicker">技术栈</p>
+              <p>React Native、React Navigation、AsyncStorage、Dify API</p>
+            </div>
+          </div>
+          <div class="project-steps">
+            <div class="step-item">
+              <span class="step-num">01</span>
+              <p>选择陪伴猫咪与专注时长</p>
+            </div>
+            <div class="step-item">
+              <span class="step-num">02</span>
+              <p>进入专注态，处理中断与前后台切换</p>
+            </div>
+            <div class="step-item">
+              <span class="step-num">03</span>
+              <p>把结果沉淀为 XP、新猫、图鉴与记录</p>
+            </div>
+            <div class="step-item">
+              <span class="step-num">04</span>
+              <p>通过 AI 谈心与 AI 分析形成下一轮回流</p>
+            </div>
+          </div>
+          <div class="project-links">
+            <a class="project-link" href="https://github.com/think2do/FocusMeow" target="_blank" rel="noreferrer">查看 GitHub 仓库</a>
+            <a class="project-link project-link-ghost" href="https://www.producthunt.com/products/focus-meow/focus-meow/launch-day?utm_source=my-products" target="_blank" rel="noreferrer">Product Hunt</a>
+          </div>
+        </div>
+
+        <div class="project-side-grid">
+          <div class="detail-card detail-card-accent" data-reveal>
+            <p class="card-kicker">设计逻辑</p>
+            <h4>不把它做成<span class="accent">"又一个番茄钟"</span></h4>
+            <p>把 FocusMeow 设计成四层叠加的产品骨架：专注工具层、游戏养成层、情感陪伴层、智能解释层，让效率、情绪和长期动力同时成立。</p>
+          </div>
+          <div class="detail-card" data-reveal>
+            <p class="card-kicker">核心模块</p>
+            <ul>
+              <li>首页猫咪王国：展示累计数据、猫咪资产与主题切换</li>
+              <li>专注系统：选猫、选时长、倒计时、中断与结果判定</li>
+              <li>猫咪养成：XP、等级、掉落、稀有猫与图鉴收集</li>
+              <li>AI 谈心：按猫切换聊天对象，保留独立对话记忆</li>
+              <li>AI 分析：基于历史生成趋势、最佳时段与时长建议</li>
+            </ul>
+          </div>
+          <div class="detail-card" data-reveal>
+            <p class="card-kicker">产品价值</p>
+            <ul>
+              <li>把抽象的"坚持专注"转译成具体的成长反馈</li>
+              <li>通过猫咪陪伴降低效率工具的机械感与枯燥感</li>
+              <li>用 AI 把历史数据翻译成用户能执行的建议</li>
+              <li>兼顾游客体验、注册体系与长期留存机制</li>
             </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CAPABILITIES -->
+    <!-- Divider -->
+    <div class="section-divider">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="4" fill="var(--accent)"/></svg>
+    </div>
+
+    <!-- ====== CAPABILITIES (3 cards, ref: Complex Law services) ====== -->
     <section class="section" id="capabilities">
       <div class="section-head" data-reveal>
         <p class="section-label">核心能力</p>
-        <h2>Built for <span class="italic accent">shipping</span> AI products</h2>
-        <p>不是为了堆砌技术词，而是为了更快定义问题、验证方向，并把能力稳定地组织成产品体验。</p>
+        <h2>围绕 AI 产品落地，持续构建<span class="italic accent">三类核心能力</span></h2>
+        <p class="sub">不是为了堆砌技术词，而是为了更快定义问题、验证方向，并把能力稳定地组织成产品体验。</p>
       </div>
-
       <div class="cap-grid">
         <div class="cap-card" data-reveal>
-          <div class="cap-icon">01</div>
+          <div class="cap-num">01</div>
           <p class="card-kicker">产品化能力</p>
           <h3>AI 产品落地</h3>
           <p>关注模型能力与真实需求是否匹配，优先推进清晰、可用、可验证的产品表达。</p>
@@ -982,19 +762,17 @@
             <span>问题定义</span><span>体验逻辑</span><span>价值验证</span>
           </div>
         </div>
-
         <div class="cap-card" data-reveal>
-          <div class="cap-icon">02</div>
+          <div class="cap-num">02</div>
           <p class="card-kicker">Agent 系统</p>
           <h3>Agent 与 Workflow</h3>
-          <p>关注任务拆解、流程编排与协作逻辑，思考 agent 机制如何在产品中形成稳定的体验。</p>
+          <p>关注任务拆解、流程编排与协作逻辑，思考 agent 机制如何在产品中形成稳定且可持续的体验。</p>
           <div class="cap-tags">
             <span>任务路由</span><span>流程结构</span><span>反馈闭环</span>
           </div>
         </div>
-
         <div class="cap-card" data-reveal>
-          <div class="cap-icon">03</div>
+          <div class="cap-num">03</div>
           <p class="card-kicker">快速验证</p>
           <h3>快速验证与迭代</h3>
           <p>结合大模型与 vibe coding 进行低成本试错，让产品想法尽快进入验证与调整周期。</p>
@@ -1005,22 +783,135 @@
       </div>
     </section>
 
-    <!-- CTA -->
-    <section class="section" data-reveal>
-      <div class="cta-section">
-        <h2>Let&rsquo;s build <span class="italic accent">something real</span></h2>
-        <p>如果你也在思考 AI 产品如何从概念走向真实体验，欢迎交流。</p>
-        <div class="cta-actions">
-          <a class="btn btn-white" href="#">查看完整项目</a>
-          <a class="btn btn-ghost" href="#">了解我的方法论</a>
+    <!-- Divider -->
+    <div class="section-divider">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="4" fill="var(--accent)"/></svg>
+    </div>
+
+    <!-- ====== RESEARCH ARCHIVE (ref: Complex Law values grid) ====== -->
+    <section class="section" id="archive">
+      <div class="section-head" data-reveal>
+        <p class="section-label">研究归档</p>
+        <h2>持续追踪行业变化趋势，研究<span class="italic accent">方法论背后的设计逻辑</span></h2>
+      </div>
+      <div class="archive-grid">
+        <a class="archive-card" href="harness-engineering.html" data-reveal>
+          <p class="card-kicker">研究主题 01</p>
+          <h3>Harness Engineering</h3>
+          <p>关注 AI 协作流程中的约束设计、反馈闭环与执行稳定性，思考如何持续提升人机协同质量。</p>
+          <span class="archive-more">点击了解详细分析</span>
+        </a>
+        <div class="archive-card" data-reveal>
+          <p class="card-kicker">研究主题 02</p>
+          <h3>Claude Code 的源码设计逻辑</h3>
+          <p>关注客户端中的任务组织、工具协作与交互设计，理解工程实现如何映射产品判断。</p>
+        </div>
+        <a class="archive-card" href="hermes-vs-openclaw.html" data-reveal>
+          <p class="card-kicker">研究主题 03</p>
+          <h3>Hermes 和 OpenClaw 的对比研究</h3>
+          <p>对比 Hermes 与 OpenClaw 在产品定位、交互路径、能力边界与落地场景上的差异，理解 AI 工具如何形成不同的使用范式。</p>
+          <span class="archive-more">点击了解详细分析</span>
+        </a>
+        <div class="archive-card archive-card-wide" data-reveal>
+          <p class="card-kicker">研究主题 04</p>
+          <h3>前沿资讯追踪与落地方法</h3>
+          <p>主要通过 OpenAI Research 与 System Cards、Anthropic Newsroom / Research / Responsible Scaling Policy、Google DeepMind Research 以及 Gemini / Gemma 官方更新来跟踪模型能力、产品方向与安全边界的真实变化。</p>
+          <p>在实践上，把这些一手信息拆成三层：能力变化、产品机会、验证方法；再用小型原型、真实任务链路和对比评测去判断它是否真的值得进入产品，而不是只停留在"知道了一个新概念"。</p>
         </div>
       </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- Divider -->
+    <div class="section-divider">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="4" fill="var(--accent)"/></svg>
+    </div>
+
+    <!-- ====== WORKFLOW BLUEPRINT (ref: Complex Law 3-value flow) ====== -->
+    <section class="section" id="blueprint">
+      <div class="section-head" data-reveal>
+        <p class="section-label">工作流蓝图</p>
+        <h2>AI 产品的关键，不止是模型接入<br />更在于<span class="italic accent">流程如何被设计</span></h2>
+      </div>
+      <div class="blueprint-row">
+        <div class="blueprint-connector" aria-hidden="true"></div>
+        <div class="blueprint-node" data-reveal>
+          <div class="node-icon">01</div>
+          <p class="card-kicker">输入层</p>
+          <h3>问题定义</h3>
+          <p>先明确用户任务与场景边界，再决定 AI 应该承担什么角色。</p>
+        </div>
+        <div class="blueprint-node" data-reveal>
+          <div class="node-icon">02</div>
+          <p class="card-kicker">流程层</p>
+          <h3>工作流设计</h3>
+          <p>把模型、agent 与规则机制编排成可理解、可迭代的中间流程。</p>
+        </div>
+        <div class="blueprint-node" data-reveal>
+          <div class="node-icon">03</div>
+          <p class="card-kicker">输出层</p>
+          <h3>产品验证</h3>
+          <p>通过原型、发布与反馈，判断产品是否真的解决问题并值得继续放大。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== CTA SPLIT PANEL ====== -->
+    <section class="section" data-reveal>
+      <div class="cta-split">
+        <div>
+          <h2>Let&rsquo;s build <span class="italic accent">something real</span></h2>
+          <p>如果你也在思考 AI 产品如何从概念走向真实体验，欢迎交流。</p>
+          <div class="cta-actions">
+            <a class="btn btn-white" href="#projects">查看完整项目</a>
+            <a class="btn btn-ghost" href="#archive">了解我的方法论</a>
+          </div>
+        </div>
+        <div class="cta-decor" aria-hidden="true">
+          <svg viewBox="0 0 180 180" fill="none">
+            <circle cx="90" cy="90" r="60" stroke="white" stroke-width="2"/>
+            <circle cx="90" cy="90" r="40" stroke="white" stroke-width="1.5" stroke-dasharray="6 4"/>
+            <polygon fill="white" points="90,20 98,75 155,75 104,110 120,165 90,132 60,165 76,110 25,75 82,75"/>
+            <circle cx="90" cy="90" r="10" fill="white"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== FOOTER ====== -->
     <footer class="footer">
-      <span><strong>黄锡源</strong> · AI Product Manager &amp; Builder</span>
-      <span>Inspired by complexlaw.co.uk</span>
+      <div>
+        <h4>黄锡源</h4>
+        <p style="line-height:1.7;">AI Product Manager &amp; Builder<br />专注于 AI 产品落地与体验设计</p>
+      </div>
+      <div>
+        <h4>导航</h4>
+        <ul>
+          <li><a href="#hero">首页</a></li>
+          <li><a href="#projects">代表项目</a></li>
+          <li><a href="#capabilities">核心能力</a></li>
+          <li><a href="#archive">研究归档</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>项目</h4>
+        <ul>
+          <li><a href="#projects">灵感胶囊 IdeaFlash</a></li>
+          <li><a href="#projects">专注喵 FocusMeow</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>联系</h4>
+        <ul>
+          <li><a href="https://github.com/hxy940219220-collab" target="_blank" rel="noreferrer">GitHub</a></li>
+          <li><a href="mailto:huangxiyuan@example.com">Email</a></li>
+        </ul>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 黄锡源. All rights reserved.</span>
+        <div class="footer-social">
+          <a href="https://github.com/hxy940219220-collab" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+      </div>
     </footer>
 
   </div>
@@ -1028,7 +919,6 @@
   <!-- SCRIPTS -->
   <script>
     (function() {
-      // Nav shadow on scroll
       var nav = document.getElementById('navbar');
       var ticking = false;
       window.addEventListener('scroll', function() {
@@ -1042,7 +932,6 @@
         }
       }, { passive: true });
 
-      // Scroll reveal
       var revealEls = document.querySelectorAll('[data-reveal]');
       if ('IntersectionObserver' in window) {
         var observer = new IntersectionObserver(function(entries) {
@@ -1052,7 +941,6 @@
             observer.unobserve(entry.target);
           });
         }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
-
         revealEls.forEach(function(el) { observer.observe(el); });
       } else {
         revealEls.forEach(function(el) { el.classList.add('visible'); });
