@@ -442,6 +442,56 @@
       transition-delay: var(--d);
     }
 
+    /* === PERSPECTIVE 3D TILT === */
+    .tilt-cell {
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .tilt-cell:hover { transform: scale(1.02); }
+
+    /* === CUSTOM CURSOR === */
+    @media (pointer: fine) {
+      body { cursor: none; }
+      a, button, .btn, .nav-cta, .project-link, .dash-btn,
+      .card, .svc-card, .detail-card, .archive-card, .project-main,
+      .step-item, .cap-card, .blueprint-node, [data-tilt] {
+        cursor: none;
+      }
+      .cursor-outer {
+        position: fixed; top: 0; left: 0; z-index: 10000;
+        width: 40px; height: 40px;
+        border: 1px solid rgba(0,149,156,0.3);
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        transition: width 0.3s, height 0.3s, border-color 0.3s;
+        mix-blend-mode: difference;
+        backdrop-filter: blur(0px);
+      }
+      .cursor-inner {
+        position: fixed; top: 0; left: 0; z-index: 10001;
+        width: 6px; height: 6px;
+        background: var(--accent);
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        transition: width 0.2s, height 0.2s, background 0.2s;
+      }
+      .cursor-outer.hover-link { width: 56px; height: 56px; border-color: rgba(0,149,156,0.65); }
+      .cursor-inner.hover-link { width: 2px; height: 2px; background: var(--accent-hover); }
+    }
+
+    /* === HERO TEXT STAGGER REVEAL === */
+    .hero h1 .char {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(40px) rotateZ(4deg);
+      animation: char-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    @keyframes char-rise {
+      to { opacity: 1; transform: translateY(0) rotateZ(0deg); }
+    }
+
     /* === RESPONSIVE === */
     @media (max-width: 960px) {
       .hero { grid-template-columns: 1fr; gap: 40px; padding: 130px 0 48px; }
@@ -920,18 +970,22 @@
 
   </div>
 
+  <!-- Custom cursor elements -->
+  <div class="cursor-outer"></div>
+  <div class="cursor-inner"></div>
+
   <script>
     (function() {
       /* ---- Nav shadow on scroll ---- */
       var nav = document.getElementById('navbar');
-      var ticking = false;
+      var scrollTicking = false;
       window.addEventListener('scroll', function() {
-        if (!ticking) {
+        if (!scrollTicking) {
           requestAnimationFrame(function() {
             nav.classList.toggle('scrolled', window.scrollY > 10);
-            ticking = false;
+            scrollTicking = false;
           });
-          ticking = true;
+          scrollTicking = true;
         }
       }, { passive: true });
 
@@ -947,10 +1001,180 @@
         }, { passive: true });
       }
 
+      /* ================================================================
+         CUSTOM CURSOR with lerp-based trailing
+         ================================================================ */
+      var cursorOuter = document.querySelector('.cursor-outer');
+      var cursorInner = document.querySelector('.cursor-inner');
+      var cursorEnabled = window.matchMedia('(pointer: fine)').matches && cursorOuter && cursorInner;
+
+      var mouse = { x: -100, y: -100 };
+      var cursor = { x: -100, y: -100 };
+      var innerCursor = { x: -100, y: -100 };
+
+      if (cursorEnabled) {
+        document.addEventListener('mousemove', function(e) {
+          mouse.x = e.clientX;
+          mouse.y = e.clientY;
+          /* Inner dot follows instantly */
+          cursorInner.style.left = e.clientX + 'px';
+          cursorInner.style.top = e.clientY + 'px';
+        }, { passive: true });
+
+        /* Hover detection for cursor morphing */
+        var hoverTargets = document.querySelectorAll(
+          'a, button, .btn, .nav-cta, .project-link, .card, .svc-card, ' +
+          '.detail-card, .archive-card, .project-main, .step-item, .cap-card, ' +
+          '.blueprint-node, [data-tilt], .tilt-cell'
+        );
+        hoverTargets.forEach(function(el) {
+          el.addEventListener('mouseenter', function() {
+            cursorOuter.classList.add('hover-link');
+            cursorInner.classList.add('hover-link');
+          });
+          el.addEventListener('mouseleave', function() {
+            cursorOuter.classList.remove('hover-link');
+            cursorInner.classList.remove('hover-link');
+          });
+        });
+
+        /* Animate outer ring with lerp */
+        function animateCursor() {
+          /* Lerp: cursor catches up to mouse with easing */
+          cursor.x += (mouse.x - cursor.x) * 0.12;
+          cursor.y += (mouse.y - cursor.y) * 0.12;
+          cursorOuter.style.left = cursor.x + 'px';
+          cursorOuter.style.top = cursor.y + 'px';
+          requestAnimationFrame(animateCursor);
+        }
+        requestAnimationFrame(animateCursor);
+      }
+
+      /* ================================================================
+         MAGNETIC BUTTONS — buttons attracted to cursor within radius
+         ================================================================ */
+      var magneticEls = document.querySelectorAll('.btn, .nav-cta, .project-link');
+      var MAGNET_RADIUS = 100;
+      var MAGNET_STRENGTH = 0.35;
+
+      magneticEls.forEach(function(el) {
+        el.addEventListener('mousemove', function(e) {
+          var rect = el.getBoundingClientRect();
+          var centerX = rect.left + rect.width / 2;
+          var centerY = rect.top + rect.height / 2;
+          var distX = e.clientX - centerX;
+          var distY = e.clientY - centerY;
+          var dist = Math.sqrt(distX * distX + distY * distY);
+          if (dist < MAGNET_RADIUS) {
+            var moveX = distX * MAGNET_STRENGTH;
+            var moveY = distY * MAGNET_STRENGTH;
+            el.style.transform = 'translate(' + moveX + 'px, ' + moveY + 'px)';
+            el.style.transition = 'transform 0.18s ease-out';
+          }
+        });
+        el.addEventListener('mouseleave', function() {
+          el.style.transform = 'translate(0, 0)';
+          el.style.transition = 'transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)';
+        });
+      });
+
+      /* ================================================================
+         3D PERSPECTIVE TILT — cards tilt toward cursor
+         ================================================================ */
+      var tiltEls = document.querySelectorAll(
+        '.hero-card, .hero-mini-card, .cap-card, .archive-card, ' +
+        '.project-main, .detail-card, .blueprint-node, .cta-split'
+      );
+      var TILT_MAX = 8; /* degrees */
+
+      tiltEls.forEach(function(el) {
+        el.addEventListener('mousemove', function(e) {
+          var rect = el.getBoundingClientRect();
+          var relX = (e.clientX - rect.left) / rect.width;
+          var relY = (e.clientY - rect.top) / rect.height;
+          var rotateY = (relX - 0.5) * TILT_MAX;
+          var rotateX = (0.5 - relY) * TILT_MAX;
+          el.style.transform = 'perspective(800px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+          el.style.transition = 'transform 0.1s ease-out, box-shadow 0.3s ease';
+          el.style.boxShadow = '0 18px 50px rgba(0,57,67,0.08)';
+        });
+        el.addEventListener('mouseleave', function() {
+          el.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
+          el.style.transition = 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease';
+          el.style.boxShadow = '';
+        });
+      });
+
+      /* ================================================================
+         HERO TEXT CHARACTER STAGGER REVEAL
+         ================================================================ */
+      var heroH1 = document.querySelector('.hero h1');
+      if (heroH1) {
+        var frag = document.createDocumentFragment();
+        var globalCharIdx = 0;
+        var walk = heroH1.firstChild;
+        while (walk) {
+          var next = walk.nextSibling;
+          if (walk.nodeType === 3 /* Text node */) {
+            var text = walk.textContent;
+            for (var i = 0; i < text.length; i++) {
+              var span = document.createElement('span');
+              span.className = 'char';
+              span.textContent = text[i];
+              span.style.animationDelay = (globalCharIdx * 0.025) + 's';
+              globalCharIdx++;
+              frag.appendChild(span);
+            }
+          } else if (walk.nodeType === 1 /* Element */) {
+            if (walk.tagName === 'BR') {
+              frag.appendChild(document.createElement('br'));
+            } else {
+              /* Handle <span class="italic"> etc. — split its text children */
+              var clone = walk.cloneNode(false);
+              var child = walk.firstChild;
+              while (child) {
+                var childNext = child.nextSibling;
+                if (child.nodeType === 3) {
+                  var childText = child.textContent;
+                  for (var j = 0; j < childText.length; j++) {
+                    var cspan = document.createElement('span');
+                    cspan.className = 'char';
+                    cspan.textContent = childText[j];
+                    cspan.style.animationDelay = (globalCharIdx * 0.025) + 's';
+                    globalCharIdx++;
+                    clone.appendChild(cspan);
+                  }
+                } else {
+                  clone.appendChild(child.cloneNode(true));
+                }
+                child = childNext;
+              }
+              frag.appendChild(clone);
+            }
+          }
+          walk = next;
+        }
+        heroH1.textContent = '';
+        heroH1.appendChild(frag);
+
+        /* Restart animation when hero is in view */
+        var heroObserver = new IntersectionObserver(function(entries) {
+          if (entries[0].isIntersecting) {
+            var chars = heroH1.querySelectorAll('.char');
+            chars.forEach(function(c) {
+              c.style.animation = 'none';
+              c.offsetHeight; /* force reflow */
+              c.style.animation = '';
+            });
+            heroObserver.unobserve(heroH1);
+          }
+        }, { threshold: 0.5 });
+        heroObserver.observe(heroH1);
+      }
+
       /* ---- Scroll reveal with computed stagger delays ---- */
       var revealEls = document.querySelectorAll('[data-reveal]');
       if ('IntersectionObserver' in window) {
-        /* Compute stagger: sibling-index-based delay within each parent group */
         var groups = {};
         revealEls.forEach(function(el) {
           var key = el.parentElement;
