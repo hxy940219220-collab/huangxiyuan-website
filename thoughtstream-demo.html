@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>黄锡源 | AI 产品经理</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;700&family=Source+Code+Pro&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================
+       ThoughtStream Design System — Demo
+       暖灰文学感 / Literary Warmth
+       ============================================ */
+
+    :root {
+      --bg:             #FAFAF9;
+      --surface-1:      #F5F5F4;
+      --surface-2:      #EFEDEB;
+      --text-primary:   #1C1917;
+      --text-secondary: #57534E;
+      --text-tertiary:  #A8A29E;
+      --accent:         #78716C;
+      --accent-strong:  #5C5652;
+      --border:         #E7E5E4;
+      --border-strong:  #D6D3D1;
+      --measure:        680px;
+      --rhythm:         12px;
+      --body-leading:   1.8;
+      --body-size:      17px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      font-size: var(--body-size);
+      line-height: var(--body-leading);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+    }
+
+    /* ---- Navigation ---- */
+
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(250, 250, 249, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 calc(var(--rhythm) * 2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .brand {
+      text-decoration: none;
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-name {
+      font-family: 'Libre Baskerville', 'Noto Serif SC', 'Georgia', serif;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .brand-role {
+      font-family: 'Inter', 'PingFang SC', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 400;
+      transition: color 200ms ease;
+      padding: 4px 0;
+      border-bottom: 1px solid transparent;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+      border-bottom-color: var(--accent);
+    }
+
+    /* ---- Main Container ---- */
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 calc(var(--rhythm) * 2);
+    }
+
+    /* ---- Hero ---- */
+
+    .hero {
+      padding: 120px 0 96px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-inner {
+      max-width: var(--measure);
+    }
+
+    .hero-label {
+      font-family: 'Source Code Pro', 'Fira Code', 'Consolas', monospace;
+      font-size: 13px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: calc(var(--rhythm) * 3);
+    }
+
+    .hero h1 {
+      font-family: 'Libre Baskerville', 'Noto Serif SC', 'Georgia', serif;
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: calc(var(--rhythm) * 3);
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-lead {
+      font-size: 20px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: calc(var(--rhythm) * 3);
+      max-width: 620px;
+    }
+
+    .hero-terminal {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      background: var(--surface-2);
+      border-left: 2px solid var(--accent);
+      margin-bottom: calc(var(--rhythm) * 3);
+      font-family: 'Source Code Pro', 'Fira Code', 'Consolas', monospace;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .hero-terminal::before {
+      content: "▸";
+      color: var(--accent);
+      font-size: 11px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: calc(var(--rhythm) * 6);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 14px 28px;
+      font-family: 'Inter', 'PingFang SC', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid var(--border-strong);
+      transition: background 200ms ease, border-color 200ms ease, color 200ms ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--text-primary);
+      color: var(--bg);
+      border-color: var(--text-primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-strong);
+      border-color: var(--accent-strong);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-1);
+      border-color: var(--accent);
+    }
+
+    /* ---- Side cards ---- */
+
+    .hero-side-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: calc(var(--rhythm) * 2);
+      max-width: var(--measure);
+    }
+
+    .side-card {
+      padding: calc(var(--rhythm) * 3);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      transition: border-color 200ms ease;
+    }
+
+    .side-card:hover {
+      border-color: var(--accent);
+    }
+
+    .side-card-highlight {
+      grid-column: 1 / -1;
+      padding: calc(var(--rhythm) * 4);
+      background: var(--surface-1);
+      border-color: var(--border-strong);
+    }
+
+    .card-kicker {
+      font-family: 'Source Code Pro', 'Fira Code', 'Consolas', monospace;
+      font-size: 11px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: calc(var(--rhythm) * 2);
+    }
+
+    .side-card h2 {
+      font-family: 'Libre Baskerville', 'Noto Serif SC', 'Georgia', serif;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.36;
+      margin-bottom: calc(var(--rhythm) * 2);
+    }
+
+    .side-card p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .tag-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: calc(var(--rhythm) * 2);
+    }
+
+    .tag-list li {
+      padding: 6px 14px;
+      border: 1px solid var(--border-strong);
+      font-family: 'Inter', 'PingFang SC', sans-serif;
+      font-size: 13px;
+      color: var(--text-secondary);
+      transition: border-color 200ms ease, color 200ms ease;
+    }
+
+    .tag-list li:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+    }
+
+    /* ---- Scroll indicator ---- */
+
+    .scroll-note {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: calc(var(--rhythm) * 6);
+      font-family: 'Source Code Pro', monospace;
+      font-size: 11px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .scroll-note::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      max-width: 120px;
+    }
+
+    /* ---- Section shared ---- */
+
+    .section {
+      padding: 96px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-head {
+      margin-bottom: calc(var(--rhythm) * 5);
+    }
+
+    .section-label {
+      font-family: 'Source Code Pro', 'Fira Code', 'Consolas', monospace;
+      font-size: 13px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: calc(var(--rhythm) * 2);
+    }
+
+    .section-head h2 {
+      font-family: 'Libre Baskerville', 'Noto Serif SC', 'Georgia', serif;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      line-height: 1.28;
+      max-width: var(--measure);
+    }
+
+    .section-head p {
+      margin-top: calc(var(--rhythm) * 2);
+      color: var(--text-secondary);
+      font-size: 18px;
+      line-height: 1.8;
+      max-width: 560px;
+    }
+
+    /* ---- Project Spotlight ---- */
+
+    .project-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: calc(var(--rhythm) * 4);
+    }
+
+    .project-main {
+      padding: calc(var(--rhythm) * 4);
+      border: 1px solid var(--border-strong);
+      background: var(--surface-1);
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: calc(var(--rhythm) * 3);
+    }
+
+    .project-tag {
+      padding: 4px 12px;
+      border: 1px solid var(--border-strong);
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-family: 'Inter', 'PingFang SC', sans-serif;
+    }
+
+    .project-brand {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: calc(var(--rhythm) * 3);
+    }
+
+    .project-icon {
+      width: 80px;
+      height: 80px;
+      border: 1px solid var(--border-strong);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .project-brand h3 {
+      font-family: 'Libre Baskerville', 'Noto Serif SC', 'Georgia', serif;
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .project-brand-copy p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      line-height: 1.8;
+      margin-top: 8px;
+    }
+
+    .project-dl {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 14px;
+      padding: 10px 20px;
+      background: var(--text-primary);
+      color: var(--bg);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 200ms ease;
+    }
+
+    .project-dl:hover {
+      background: var(--accent-strong);
+    }
+
+    .project-inline {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: calc(var(--rhythm) * 2);
+      margin-bottom: calc(var(--rhythm) * 3);
+    }
+
+    .mini-card {
+      padding: calc(var(--rhythm) * 2);
+      border: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .mini-card .card-kicker {
+      margin-bottom: calc(var(--rhythm));
+    }
+
+    .mini-card p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .project-steps {
+      display: grid;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .project-step {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 16px;
+      padding: calc(var(--rhythm) * 2);
+      background: var(--bg);
+      align-items: center;
+      transition: background 200ms ease;
+    }
+
+    .project-step:hover {
+      background: var(--surface-1);
+    }
+
+    .step-num {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border-strong);
+      font-family: 'Source Code Pro', monospace;
+      font-size: 14px;
+      color: var(--accent);
+    }
+
+    .project-step p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ---- Project detail sidebar ---- */
+
+    .project-detail-stack {
+      display: grid;
+      gap: calc(var(--rhythm) * 2);
+    }
+
+    .detail-card {
+      padding: calc(var(--rhythm) * 3);
+      border: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .detail-card h4 {
+      font-family: 'Libre Baskerville', 'Noto Serif SC', 'Georgia', serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: calc(var(--rhythm));
+    }
+
+    .detail-card ul {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .detail-card li {
+      position: relative;
+      padding-left: 16px;
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .detail-card li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--text-tertiary);
+    }
+
+    .detail-card p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    /* ---- Footer ---- */
+
+    .demo-footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-tertiary);
+      font-size: 13px;
+    }
+
+    .demo-footer strong {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* ---- Responsive ---- */
+
+    @media (max-width: 860px) {
+      .hero { padding: 80px 0 64px; }
+      .hero h1 { font-size: clamp(36px, 10vw, 56px); }
+      .hero-side-grid { grid-template-columns: 1fr; }
+      .project-block { grid-template-columns: 1fr; }
+      .project-inline { grid-template-columns: 1fr; }
+      .nav-links { gap: 20px; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .nav-inner { height: 52px; }
+      .project-brand { flex-direction: column; align-items: flex-start; }
+      .section { padding: 64px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a class="brand" href="#">
+        <span class="brand-name">黄锡源</span>
+        <span class="brand-role">AI Product Manager</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#hero">首页</a></li>
+        <li><a href="#projects">代表项目</a></li>
+        <li><a href="#">核心能力</a></li>
+        <li><a href="#">研究归档</a></li>
+        <li><a href="#">工作流</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+      <div class="hero-inner">
+        <p class="hero-label">个人定位 / HX-01</p>
+
+        <h1>
+          Huang <em>Xiyuan</em><br />
+          黄锡源
+        </h1>
+
+        <div class="hero-terminal">
+          AI 产品经理 &nbsp;//&nbsp; 聚焦模型、Agent 与 Workflow 的产品化设计
+        </div>
+
+        <p class="hero-lead">
+          我是黄锡源，一名专注于 AI 产品落地与体验设计的产品经理。
+          我熟练利用大模型、agent、workflow 与 vibe coding 进行产品设计与快速验证，
+          也持续关注前沿资讯、Harness Engineering 以及 Claude Code 客户端源码中的设计逻辑。
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#projects">查看代表项目</a>
+          <a class="btn btn-secondary" href="#">查看能力结构</a>
+        </div>
+      </div>
+
+      <!-- Side cards -->
+      <div class="hero-side-grid">
+        <div class="side-card side-card-highlight">
+          <p class="card-kicker">当前定位</p>
+          <h2>把前沿能力转化为真实可用的产品体验</h2>
+          <p>
+            更关注问题定义、交互路径、工作流设计与验证效率之间是否形成闭环，
+            而不是只停留在概念层面。
+          </p>
+        </div>
+
+        <div class="side-card">
+          <p class="card-kicker">核心工具栈</p>
+          <ul class="tag-list">
+            <li>大模型能力</li>
+            <li>Agent 系统</li>
+            <li>Workflow 设计</li>
+            <li>Vibe Coding</li>
+          </ul>
+        </div>
+
+        <div class="side-card">
+          <p class="card-kicker">当前关注</p>
+          <ul class="tag-list">
+            <li>真实产品问题</li>
+            <li>Agent 产品化落地</li>
+            <li>前沿方法论研究</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="scroll-note">向下浏览</div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section" id="projects">
+      <div class="section-head">
+        <p class="section-label">代表项目</p>
+        <h2>从灵感捕捉到情绪化专注，把真实问题转成可用的 AI 产品</h2>
+        <p>
+          我会从具体使用场景出发，先定义用户真正卡住的瞬间，
+          再用 AI、交互结构和快速工程实现把它落到可体验的产品里。
+        </p>
+      </div>
+
+      <!-- IdeaFlash -->
+      <article class="project-block">
+        <!-- Main card -->
+        <div class="project-main">
+          <div class="project-tags">
+            <span class="project-tag">AI Capture App</span>
+            <span class="project-tag">Android APK</span>
+          </div>
+
+          <div class="project-brand">
+            <img class="project-icon" src="assets/ideaflash-app-icon.png" alt="灵感胶囊 app icon" />
+            <div class="project-brand-copy">
+              <h3>灵感胶囊<br />IdeaFlash</h3>
+              <p>一款用最快路径捕捉转瞬即逝灵感，并交给 AI 自动转写、提炼、生成卡片的轻量记录 app。</p>
+              <a class="project-dl" href="assets/ideaflash.apk" download>点击即刻下载</a>
+            </div>
+          </div>
+
+          <div class="project-inline">
+            <div class="mini-card">
+              <p class="card-kicker">设计目标</p>
+              <p>把"想到"到"记下"的路径压到最短，让用户不用先整理，只需要把灵感说出来。</p>
+            </div>
+            <div class="mini-card">
+              <p class="card-kicker">产品关键词</p>
+              <p>语音速记、桌面直达、息屏无感、AI 提炼、卡片化回看</p>
+            </div>
+          </div>
+
+          <div class="project-steps">
+            <div class="project-step">
+              <span class="step-num">01</span>
+              <p>灵感出现时，通过 App、桌面组件或快捷入口立即录音</p>
+            </div>
+            <div class="project-step">
+              <span class="step-num">02</span>
+              <p>AI 将口语化内容转写、提炼，保留原文用于回查</p>
+            </div>
+            <div class="project-step">
+              <span class="step-num">03</span>
+              <p>生成可滑动浏览的灵感卡片，降低后续整理成本</p>
+            </div>
+            <div class="project-step">
+              <span class="step-num">04</span>
+              <p>通过完成、丢弃与回收站管理每一个想法的生命周期</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Side detail cards -->
+        <div class="project-detail-stack">
+          <div class="detail-card">
+            <p class="card-kicker">设计逻辑</p>
+            <h4>不做复杂笔记，而做灵感捕捉器</h4>
+            <p>
+              灵感胶囊的核心不是让用户写得更完整，而是在想法最脆弱的一瞬间把它接住；
+              整理、提炼和结构化交给 AI 在后面完成。
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <p class="card-kicker">核心模块</p>
+            <ul>
+              <li>快速录音：打开后直接进入捕捉状态，减少操作犹豫</li>
+              <li>手动记录：补足不适合语音的输入场景</li>
+              <li>AI 提炼：把零散表达整理成清晰灵感卡片</li>
+              <li>卡片浏览：左右滑动回看，上滑完成、下滑丢弃</li>
+              <li>外部入口：桌面组件与快捷触发减少打开 App 的成本</li>
+            </ul>
+          </div>
+
+          <div class="detail-card">
+            <p class="card-kicker">产品价值</p>
+            <ul>
+              <li>解决"刚刚想到但下一秒忘了"的真实痛点</li>
+              <li>让用户先捕捉，再整理，保护灵感出现时的流动性</li>
+              <li>把 AI 放在后处理环节，降低用户维护灵感库的负担</li>
+              <li>用极短入口和轻量反馈建立持续记录习惯</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Footer / Demo note -->
+    <footer class="demo-footer">
+      <p>
+        <strong>ThoughtStream 风格 Demo</strong> &nbsp;—&nbsp;
+        基于 DesignMD 设计系统的半成品演示 &nbsp;|&nbsp;
+        暖灰底色 · 衬线标题 · 发丝线分隔 · 零装饰
+      </p>
+    </footer>
+
+  </div>
+
+</body>
+</html>
