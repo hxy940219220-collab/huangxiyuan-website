@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HUANG XIYUAN — AI Product Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Work+Sans:wght@400;600&family=Space+Mono&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================
+       RawBlock — Brutalist Anti-Design
+       只有黑与白。没有圆角。没有阴影。没有渐变。
+       ============================================ */
+
+    :root {
+      --black:  #000000;
+      --white:  #FFFFFF;
+      --blue:   #0000FF;   /* links only */
+      --green:  #008000;
+      --orange: #FFA500;
+      --red:    #FF0000;
+      --border: 4px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'Work Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      font-size: 17px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+    }
+
+    /* ---- Type defaults ---- */
+
+    h1, h2, h3, h4 {
+      font-family: 'Archivo Black', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 0.96;
+      text-transform: uppercase;
+    }
+
+    a { color: var(--blue); }
+
+    /* ==========================================
+       NAV — Heavy top bar, no glass, no blur
+       ========================================== */
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--white);
+      border-bottom: var(--border) solid var(--black);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-brand {
+      text-decoration: none;
+      color: var(--black);
+      font-family: 'Archivo Black', 'PingFang SC', sans-serif;
+      font-size: 18px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-brand span {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--black);
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 0;
+    }
+
+    .nav-links a {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--black);
+      font-family: 'Work Sans', 'PingFang SC', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 8px 16px;
+      border: var(--border) solid transparent;
+      transition: border-color 100ms ease;
+    }
+
+    .nav-links a:hover {
+      border-color: var(--black);
+    }
+
+    .nav-cta {
+      text-decoration: none;
+      padding: 12px 20px;
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Work Sans', 'PingFang SC', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: background 100ms ease, color 100ms ease;
+      border: var(--border) solid var(--black);
+    }
+
+    .nav-cta:hover {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    /* ==========================================
+       DIVIDER — Heavy black rule
+       ========================================== */
+
+    hr {
+      border: none;
+      border-top: var(--border) solid var(--black);
+      margin: 0;
+    }
+
+    /* ==========================================
+       MAIN CONTAINER
+       ========================================== */
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ==========================================
+       HERO
+       ========================================== */
+
+    .hero {
+      padding: 80px 0 64px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: var(--border);
+      background: var(--black);
+    }
+
+    .hero-left {
+      padding-right: 48px;
+      padding-bottom: 40px;
+      border-right: var(--border) solid var(--black);
+    }
+
+    .hero-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 32px;
+      padding: 8px 14px;
+      display: inline-block;
+      border: var(--border) solid var(--black);
+    }
+
+    .hero h1 {
+      font-size: clamp(58px, 8vw, 100px);
+      margin-bottom: 28px;
+    }
+
+    .hero h1 .strike {
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero h1 .strike::after {
+      content: "";
+      position: absolute;
+      left: -4px;
+      right: -4px;
+      bottom: 8px;
+      height: var(--border);
+      background: var(--black);
+    }
+
+    .hero-terminal {
+      border: var(--border) solid var(--black);
+      padding: 16px 20px;
+      margin-bottom: 32px;
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      background: var(--black);
+      color: var(--white);
+      position: relative;
+    }
+
+    .hero-terminal::before {
+      content: ">_";
+      margin-right: 10px;
+      color: var(--white);
+      opacity: 0.6;
+    }
+
+    .hero-lead {
+      font-size: 17px;
+      line-height: 1.65;
+      max-width: 520px;
+      margin-bottom: 36px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 16px 28px;
+      font-family: 'Work Sans', 'PingFang SC', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      border: var(--border) solid var(--black);
+      transition: background 100ms ease, color 100ms ease;
+    }
+
+    .btn-black {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .btn-black:hover {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .btn-white {
+      background: var(--white);
+      color: var(--black);
+      border-left: none;
+    }
+
+    .btn-white:hover {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    /* Hero right — offset asymmetrically */
+
+    .hero-right {
+      padding-left: 48px;
+      padding-bottom: 40px;
+      display: grid;
+      gap: 24px;
+      align-content: start;
+      padding-top: 20px;
+    }
+
+    .hero-card {
+      border: var(--border) solid var(--black);
+      padding: 28px;
+      transition: background 100ms ease, color 100ms ease;
+    }
+
+    .hero-card:hover {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .hero-card-highlight {
+      background: var(--black);
+      color: var(--white);
+      transform: translateX(-24px);
+    }
+
+    .hero-card-highlight:hover {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .card-kicker {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 16px;
+      opacity: 0.7;
+    }
+
+    .hero-card h2 {
+      font-family: 'Archivo Black', 'PingFang SC', sans-serif;
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 12px;
+      text-transform: none;
+    }
+
+    .hero-card p {
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin-top: 16px;
+    }
+
+    .tag {
+      padding: 8px 14px;
+      border: var(--border) solid var(--black);
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: var(--white);
+      color: var(--black);
+      transition: background 100ms ease, color 100ms ease;
+    }
+
+    .hero-card:hover .tag {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--white);
+    }
+
+    .hero-card-highlight .tag {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--white);
+    }
+
+    .hero-card-highlight:hover .tag {
+      background: var(--white);
+      color: var(--black);
+      border-color: var(--black);
+    }
+
+    /* ==========================================
+       SECTION
+       ========================================== */
+
+    .section {
+      padding: 72px 0;
+    }
+
+    .section-head {
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: var(--border) solid var(--black);
+    }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 20px;
+      display: inline-block;
+      padding: 6px 12px;
+      border: var(--border) solid var(--black);
+    }
+
+    .section-head h2 {
+      font-size: clamp(30px, 4vw, 44px);
+      max-width: 720px;
+      text-transform: none;
+    }
+
+    .section-head p {
+      margin-top: 16px;
+      font-size: 17px;
+      line-height: 1.6;
+      max-width: 540px;
+    }
+
+    /* ==========================================
+       PROJECT — IdeaFlash
+       ========================================== */
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: 5fr 4fr;
+      gap: 0;
+    }
+
+    .project-main {
+      border: var(--border) solid var(--black);
+      padding: 36px;
+      border-right: none;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin-bottom: 28px;
+    }
+
+    .badge {
+      padding: 6px 14px;
+      border: var(--border) solid var(--black);
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .badge-fill {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .badge-outline {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .project-brand {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .project-icon {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border: var(--border) solid var(--black);
+      flex-shrink: 0;
+    }
+
+    .project-brand h3 {
+      font-size: 32px;
+      margin-bottom: 8px;
+      text-transform: none;
+    }
+
+    .project-brand p {
+      font-size: 15px;
+      line-height: 1.55;
+      max-width: 420px;
+    }
+
+    .project-dl {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 12px;
+      padding: 14px 22px;
+      background: var(--black);
+      color: var(--white);
+      text-decoration: none;
+      font-family: 'Work Sans', 'PingFang SC', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border: var(--border) solid var(--black);
+      transition: background 100ms ease, color 100ms ease;
+    }
+
+    .project-dl:hover {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .project-inline {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      margin-bottom: 24px;
+    }
+
+    .mini-card {
+      padding: 20px;
+      border: var(--border) solid var(--black);
+    }
+
+    .mini-card:first-child {
+      border-right: none;
+    }
+
+    .mini-card .card-kicker {
+      margin-bottom: 10px;
+    }
+
+    .mini-card p {
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .steps-list {
+      display: grid;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 16px;
+      padding: 18px;
+      border: var(--border) solid var(--black);
+      align-items: center;
+      transition: background 100ms ease, color 100ms ease;
+      margin-top: -4px;
+    }
+
+    .step:first-child {
+      margin-top: 0;
+    }
+
+    .step:hover {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .step-num {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border: var(--border) solid var(--black);
+      font-family: 'Space Mono', monospace;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    .step:hover .step-num {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .step p {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* Project sidebar */
+
+    .project-side {
+      display: grid;
+    }
+
+    .detail-card {
+      padding: 28px;
+      border: var(--border) solid var(--black);
+      border-left: none;
+      transition: background 100ms ease, color 100ms ease;
+    }
+
+    .detail-card:first-child {
+      border-bottom: none;
+    }
+
+    .detail-card:hover {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .detail-card h4 {
+      font-family: 'Archivo Black', 'PingFang SC', sans-serif;
+      font-size: 18px;
+      margin-bottom: 10px;
+      text-transform: none;
+    }
+
+    .detail-card ul {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .detail-card li {
+      position: relative;
+      padding-left: 20px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .detail-card li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+    }
+
+    .detail-card p {
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    /* ==========================================
+       FLAG — "DEMO" stamp
+       ========================================== */
+
+    .demo-stamp {
+      display: inline-block;
+      padding: 12px 24px;
+      border: var(--border) solid var(--black);
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      transform: rotate(-1deg);
+      margin-top: 64px;
+    }
+
+    .demo-stamp:hover {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    /* ==========================================
+       RESPONSIVE
+       ========================================== */
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .hero-left {
+        border-right: none;
+        padding-right: 0;
+        border-bottom: var(--border) solid var(--black);
+      }
+      .hero-right {
+        padding-left: 0;
+        padding-top: 32px;
+      }
+      .hero-card-highlight {
+        transform: none;
+      }
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+      .project-main {
+        border-right: var(--border) solid var(--black);
+        border-bottom: none;
+      }
+      .project-side .detail-card {
+        border-left: var(--border) solid var(--black);
+      }
+      .project-side .detail-card:first-child {
+        border-top: none;
+      }
+      .nav-links { gap: 0; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .nav-inner { height: 56px; }
+      .hero { padding: 48px 0 40px; }
+      .hero h1 { font-size: clamp(42px, 12vw, 64px); }
+      .hero-actions { flex-direction: column; }
+      .btn-white { border-left: var(--border) solid var(--black); }
+      .project-inline { grid-template-columns: 1fr; }
+      .project-inline .mini-card:first-child { border-right: var(--border) solid var(--black); }
+      .project-brand { flex-direction: column; }
+      .section { padding: 48px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==============================================
+       NAV
+       ============================================== -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="#">
+        HUANG XIYUAN
+        <span>AI Product Manager</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#hero">首页</a></li>
+        <li><a href="#project">代表项目</a></li>
+        <li><a href="#">核心能力</a></li>
+        <li><a href="#">研究归档</a></li>
+        <li><a href="#">工作流</a></li>
+      </ul>
+      <a class="nav-cta" href="#project">查看项目 ↓</a>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- ==========================================
+         HERO
+         ========================================== -->
+    <section class="hero" id="hero">
+      <div class="hero-left">
+        <p class="hero-label">HX-01 /// POSITION</p>
+
+        <h1>
+          HUANG<br />
+          <span class="strike">XIYUAN</span>
+        </h1>
+
+        <div class="hero-terminal">
+          黄锡源 / AI 产品经理 / 聚焦模型、Agent 与 Workflow 的产品化设计
+        </div>
+
+        <p class="hero-lead">
+          我是黄锡源，一名专注于 AI 产品落地与体验设计的产品经理。
+          我熟练利用大模型、agent、workflow 与 vibe coding
+          进行产品设计与快速验证，也持续关注前沿资讯、
+          Harness Engineering 以及
+          <a href="#">Claude Code 客户端源码</a>中的设计逻辑。
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-black" href="#project">查看代表项目</a>
+          <a class="btn btn-white" href="#">查看能力结构</a>
+        </div>
+      </div>
+
+      <aside class="hero-right">
+        <article class="hero-card hero-card-highlight">
+          <p class="card-kicker">/// 当前定位</p>
+          <h2>把前沿能力转化为真实可用的产品体验</h2>
+          <p>
+            更关注问题定义、交互路径、工作流设计与验证效率之间是否形成闭环，
+            而不是只停留在概念层面。
+          </p>
+        </article>
+
+        <article class="hero-card">
+          <p class="card-kicker">/// 核心工具栈</p>
+          <div class="tag-row">
+            <span class="tag">大模型能力</span>
+            <span class="tag">Agent 系统</span>
+            <span class="tag">Workflow 设计</span>
+            <span class="tag">Vibe Coding</span>
+          </div>
+        </article>
+
+        <article class="hero-card">
+          <p class="card-kicker">/// 当前关注</p>
+          <div class="tag-row">
+            <span class="tag">真实产品问题</span>
+            <span class="tag">Agent 产品化落地</span>
+            <span class="tag">前沿方法论研究</span>
+          </div>
+        </article>
+      </aside>
+    </section>
+
+    <!-- ==========================================
+         PROJECT
+         ========================================== -->
+    <section class="section" id="project">
+      <div class="section-head">
+        <p class="section-label">/// 代表项目</p>
+        <h2>从灵感捕捉到情绪化专注<br />把真实问题转成可用的 AI 产品</h2>
+        <p>
+          我会从具体使用场景出发，先定义用户真正卡住的瞬间，
+          再用 AI、交互结构和快速工程实现把它落到可体验的产品里。
+        </p>
+      </div>
+
+      <article class="project-grid">
+        <!-- Main card -->
+        <div class="project-main">
+          <div class="badge-row">
+            <span class="badge badge-fill">PRODUCTION</span>
+            <span class="badge badge-outline">Android APK</span>
+          </div>
+
+          <div class="project-brand">
+            <img class="project-icon" src="assets/ideaflash-app-icon.png" alt="icon" />
+            <div>
+              <h3>灵感胶囊<br />IdeaFlash</h3>
+              <p>一款用最快路径捕捉转瞬即逝灵感，并交给 AI 自动转写、提炼、生成卡片的轻量记录 app。</p>
+              <a class="project-dl" href="assets/ideaflash.apk" download>点击即刻下载 ↓</a>
+            </div>
+          </div>
+
+          <div class="project-inline">
+            <div class="mini-card">
+              <p class="card-kicker">/// 设计目标</p>
+              <p>把"想到"到"记下"的路径压到最短，让用户不用先整理，只需要把灵感说出来。</p>
+            </div>
+            <div class="mini-card">
+              <p class="card-kicker">/// 产品关键词</p>
+              <p>语音速记、桌面直达、息屏无感、AI 提炼、卡片化回看</p>
+            </div>
+          </div>
+
+          <div class="steps-list">
+            <div class="step">
+              <span class="step-num">01</span>
+              <p>灵感出现时，通过 App、桌面组件或快捷入口立即录音</p>
+            </div>
+            <div class="step">
+              <span class="step-num">02</span>
+              <p>AI 将口语化内容转写、提炼，保留原文用于回查</p>
+            </div>
+            <div class="step">
+              <span class="step-num">03</span>
+              <p>生成可滑动浏览的灵感卡片，降低后续整理成本</p>
+            </div>
+            <div class="step">
+              <span class="step-num">04</span>
+              <p>通过完成、丢弃与回收站管理每一个想法的生命周期</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Side detail cards -->
+        <div class="project-side">
+          <div class="detail-card">
+            <p class="card-kicker">/// 设计逻辑</p>
+            <h4>不做复杂笔记，而做灵感捕捉器</h4>
+            <p>
+              灵感胶囊的核心不是让用户写得更完整，而是在想法最脆弱的一瞬间把它接住；
+              整理、提炼和结构化交给 AI 在后面完成。
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <p class="card-kicker">/// 核心模块</p>
+            <ul>
+              <li>快速录音：打开后直接进入捕捉状态，减少操作犹豫</li>
+              <li>手动记录：补足不适合语音的输入场景</li>
+              <li>AI 提炼：把零散表达整理成清晰灵感卡片</li>
+              <li>卡片浏览：左右滑动回看，上滑完成、下滑丢弃</li>
+              <li>外部入口：桌面组件与快捷触发减少打开 App 的成本</li>
+            </ul>
+          </div>
+
+          <div class="detail-card">
+            <p class="card-kicker">/// 产品价值</p>
+            <ul>
+              <li>解决"刚刚想到但下一秒忘了"的真实痛点</li>
+              <li>让用户先捕捉，再整理，保护灵感出现时的流动性</li>
+              <li>把 AI 放在后处理环节，降低用户维护灵感库的负担</li>
+              <li>用极短入口和轻量反馈建立持续记录习惯</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <p class="demo-stamp">RAWBLOCK DEMO · BRUTALIST ANTI-DESIGN · NO AI AESTHETIC</p>
+    </section>
+
+  </div>
+
+</body>
+</html>
