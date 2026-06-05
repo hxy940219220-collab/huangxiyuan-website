@@ -99,8 +99,8 @@
     .page { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
 
     /* === SECTION HEADINGS === */
-    .section { padding: 100px 0; }
-    .section-head { margin-bottom: 56px; }
+    .section { padding: 60px 0; }
+    .section-head { margin-bottom: 38px; }
     .section-label {
       font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
       color: var(--accent); margin-bottom: 16px;
@@ -115,16 +115,16 @@
 
     /* === DIVIDER MOTIF (repeating logo mark, like Complex Law) === */
     .section-divider {
-      display: flex; justify-content: center; padding: 24px 0;
+      display: flex; justify-content: center; padding: 8px 0;
     }
     .section-divider svg { width: 32px; height: 32px; opacity: 0.25; }
 
     /* === HERO (2-col split, ref: Complex Law hero) === */
     .hero {
-      padding: 160px 0 100px;
+      padding: 150px 0 60px;
       display: grid;
       grid-template-columns: 1fr 420px;
-      gap: 80px;
+      gap: 64px;
       align-items: center;
       position: relative;
     }
@@ -197,9 +197,10 @@
 
     /* === MARQUEE (ref: Complex Law logo strip) === */
     .marquee-wrap {
-      padding: 40px 0; border-top: 1px solid var(--border);
+      padding: 26px 0; border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border); overflow: hidden;
     }
+    .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
     .marquee-track {
       display: flex; gap: 56px; animation: marquee 30s linear infinite; width: max-content;
     }
@@ -389,7 +390,7 @@
     /* === CTA SPLIT PANEL (ref: Complex Law "Ready to move..." section) === */
     .cta-split {
       display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
-      background: var(--deep); border-radius: var(--radius); padding: 72px 56px;
+      background: var(--deep); border-radius: var(--radius); padding: 56px 48px;
       color: #fff; position: relative; overflow: hidden;
     }
     .cta-split h2 {
@@ -407,11 +408,12 @@
       display: flex; justify-content: center; align-items: center;
       opacity: 0.12;
     }
-    .cta-decor svg { width: 180px; height: 180px; }
+    .cta-decor svg { width: 180px; height: 180px; animation: cta-rotate 20s linear infinite; }
+    @keyframes cta-rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
     /* === FOOTER (ref: Complex Law multi-column footer) === */
     .footer {
-      padding: 56px 0 36px; border-top: 1px solid var(--border);
+      padding: 48px 0 28px; border-top: 1px solid var(--border);
       display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr;
       gap: 40px; font-size: 13px; color: var(--faint);
     }
@@ -429,18 +431,19 @@
 
     /* === SCROLL REVEAL === */
     [data-reveal] {
-      opacity: 0; transform: translateY(28px);
-      transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
+      opacity: 0; transform: translateY(32px);
+      transition: opacity 650ms cubic-bezier(0.22, 1, 0.36, 1), transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
     }
     [data-reveal].visible { opacity: 1; transform: translateY(0); }
-    .d1 { transition-delay: 0ms; }
-    .d2 { transition-delay: 100ms; }
-    .d3 { transition-delay: 200ms; }
-    .d4 { transition-delay: 300ms; }
+
+    /* Stagger classes applied by JS */
+    [data-reveal][style*="--d"] {
+      transition-delay: var(--d);
+    }
 
     /* === RESPONSIVE === */
     @media (max-width: 960px) {
-      .hero { grid-template-columns: 1fr; gap: 48px; padding: 140px 0 72px; }
+      .hero { grid-template-columns: 1fr; gap: 40px; padding: 130px 0 48px; }
       .hero h1 { font-size: clamp(34px, 7vw, 48px); }
       .hero-stars { display: none; }
       .project-spotlight { grid-template-columns: 1fr; }
@@ -449,7 +452,7 @@
       .archive-card-wide { grid-column: span 1; }
       .blueprint-row { grid-template-columns: 1fr; }
       .blueprint-connector { display: none; }
-      .cta-split { grid-template-columns: 1fr; gap: 40px; padding: 48px 32px; }
+      .cta-split { grid-template-columns: 1fr; gap: 32px; padding: 40px 32px; }
       .cta-decor { display: none; }
       .footer { grid-template-columns: 1fr 1fr; }
       .nav-links { gap: 22px; }
@@ -457,13 +460,13 @@
     @media (max-width: 640px) {
       .nav-links { display: none; }
       .nav-inner { height: 60px; }
-      .hero { padding: 120px 0 56px; }
-      .section { padding: 60px 0; }
+      .hero { padding: 110px 0 40px; }
+      .section { padding: 44px 0; }
       .hero-actions, .cta-actions { flex-direction: column; }
       .btn { width: 100%; justify-content: center; }
       .hero-mini-grid { grid-template-columns: 1fr; }
       .project-inline-grid { grid-template-columns: 1fr; }
-      .cta-split { padding: 40px 24px; }
+      .cta-split { padding: 32px 22px; }
       .footer { grid-template-columns: 1fr; }
       .marquee-track { gap: 36px; animation-duration: 18s; }
     }
@@ -581,7 +584,7 @@
       </div>
 
       <!-- Project 1: IdeaFlash -->
-      <div class="project-spotlight" style="margin-bottom: 48px;">
+      <div class="project-spotlight" style="margin-bottom: 28px;">
         <div class="project-main" data-reveal>
           <div class="project-topline">
             <span class="badge badge-live">Production</span>
@@ -916,34 +919,74 @@
 
   </div>
 
-  <!-- SCRIPTS -->
   <script>
     (function() {
+      /* ---- Nav shadow on scroll ---- */
       var nav = document.getElementById('navbar');
       var ticking = false;
       window.addEventListener('scroll', function() {
         if (!ticking) {
           requestAnimationFrame(function() {
-            if (window.scrollY > 10) nav.classList.add('scrolled');
-            else nav.classList.remove('scrolled');
+            nav.classList.toggle('scrolled', window.scrollY > 10);
             ticking = false;
           });
           ticking = true;
         }
       }, { passive: true });
 
+      /* ---- Mouse-tracking parallax on hero stars ---- */
+      var star1 = document.querySelector('.hero-stars-1');
+      var star2 = document.querySelector('.hero-stars-2');
+      if (star1 && star2 && window.matchMedia('(min-width: 961px)').matches) {
+        document.addEventListener('mousemove', function(e) {
+          var x = (e.clientX / window.innerWidth - 0.5) * 16;
+          var y = (e.clientY / window.innerHeight - 0.5) * 16;
+          star1.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+          star2.style.transform = 'translate(' + (-x * 0.6) + 'px, ' + (-y * 0.6) + 'px)';
+        }, { passive: true });
+      }
+
+      /* ---- Scroll reveal with computed stagger delays ---- */
       var revealEls = document.querySelectorAll('[data-reveal]');
       if ('IntersectionObserver' in window) {
+        /* Compute stagger: sibling-index-based delay within each parent group */
+        var groups = {};
+        revealEls.forEach(function(el) {
+          var key = el.parentElement;
+          if (!groups[key]) groups[key] = [];
+          groups[key].push(el);
+        });
+        Object.keys(groups).forEach(function(k) {
+          groups[k].forEach(function(el, i) {
+            el.style.setProperty('--d', (i * 0.07) + 's');
+          });
+        });
+
         var observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
             if (!entry.isIntersecting) return;
             entry.target.classList.add('visible');
             observer.unobserve(entry.target);
           });
-        }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+        }, { threshold: 0.10, rootMargin: '0px 0px -24px 0px' });
         revealEls.forEach(function(el) { observer.observe(el); });
       } else {
         revealEls.forEach(function(el) { el.classList.add('visible'); });
+      }
+
+      /* ---- Blueprint connector draw-in ---- */
+      var connector = document.querySelector('.blueprint-connector');
+      if (connector) {
+        var connObserver = new IntersectionObserver(function(entries) {
+          if (entries[0].isIntersecting) {
+            connector.style.transition = 'transform 1s cubic-bezier(0.16, 1, 0.3, 1)';
+            connector.style.transform = 'scaleX(1)';
+            connObserver.unobserve(connector);
+          }
+        }, { threshold: 0.3 });
+        connector.style.transform = 'scaleX(0)';
+        connector.style.transformOrigin = 'left center';
+        connObserver.observe(connector);
       }
     })();
   </script>
