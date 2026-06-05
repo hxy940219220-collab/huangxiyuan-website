@@ -15,18 +15,18 @@
        ============================================ */
 
     :root {
-      --bg:          #FCFBF8;
-      --text:        #1D1B18;
-      --muted:       #6B6660;
-      --faint:       #A8A39B;
-      --gold:        #C4933C;
-      --gold-hover:  #A87A2E;
-      --gold-light:  #FBF6EC;
-      --gold-border: #EDE3CF;
-      --navy:        #1E2746;
-      --navy-light:  #2D3860;
-      --border:      #E9E5DD;
-      --border-strong: #D4CFC5;
+      --bg:          #FDF9F6;
+      --text:        #004754;
+      --muted:       #5B7B84;
+      --faint:       #8DA4AB;
+      --accent:      #00959c;
+      --accent-hover:#02b7bf;
+      --accent-light:#ECF7F8;
+      --accent-border:#C5E3E5;
+      --deep:        #003943;
+      --beige:       #F1E8E2;
+      --border:      #E8E2DB;
+      --border-strong:#D6CFC7;
       --radius:      6px;
       --measure:     560px;
       --ease:        cubic-bezier(0.22, 1, 0.36, 1);
@@ -55,10 +55,10 @@
     .italic {
       font-family: 'Playfair Display', 'Noto Serif SC', 'Georgia', serif;
       font-style: italic;
-      color: var(--gold);
+      color: var(--accent);
     }
 
-    .gold { color: var(--gold); }
+    .accent { color: var(--accent); }
 
     /* ---- NAV ---- */
 
@@ -94,7 +94,7 @@
 
     .nav-brand-icon {
       width: 36px; height: 36px;
-      background: var(--gold);
+      background: var(--accent);
       border-radius: var(--radius);
       display: grid;
       place-items: center;
@@ -135,7 +135,7 @@
       left: 0;
       right: 0;
       height: 2px;
-      background: var(--gold);
+      background: var(--accent);
       transform: scaleX(0);
       transition: transform 250ms var(--ease);
     }
@@ -146,7 +146,7 @@
     .nav-cta {
       text-decoration: none;
       padding: 10px 22px;
-      background: var(--gold);
+      background: var(--accent);
       color: #fff;
       font-size: 13px;
       font-weight: 600;
@@ -154,7 +154,7 @@
       transition: background 200ms ease;
     }
 
-    .nav-cta:hover { background: var(--gold-hover); }
+    .nav-cta:hover { background: var(--accent-hover); }
 
     /* ---- PAGE ---- */
 
@@ -190,7 +190,7 @@
     }
 
     .star {
-      fill: var(--gold);
+      fill: var(--accent);
     }
 
     .hero-label {
@@ -198,7 +198,7 @@
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--accent);
       margin-bottom: 20px;
     }
 
@@ -236,36 +236,36 @@
       transition: all 250ms var(--ease);
     }
 
-    .btn-gold {
-      background: var(--gold);
+    .btn-teal {
+      background: var(--accent);
       color: #fff;
     }
 
-    .btn-gold:hover {
-      background: var(--gold-hover);
+    .btn-teal:hover {
+      background: var(--accent-hover);
       transform: translateY(-1px);
-      box-shadow: 0 6px 24px rgba(196, 147, 60, 0.28);
+      box-shadow: 0 6px 24px rgba(0, 149, 156, 0.28);
     }
 
-    .btn-navy {
-      background: var(--navy);
+    .btn-deep {
+      background: var(--deep);
       color: #fff;
     }
 
-    .btn-navy:hover {
-      background: var(--navy-light);
+    .btn-deep:hover {
+      background: #004B57;
       transform: translateY(-1px);
-      box-shadow: 0 6px 24px rgba(30, 39, 70, 0.25);
+      box-shadow: 0 6px 24px rgba(0,57,67,0.25);
     }
 
     .btn-outline {
       background: transparent;
-      color: var(--navy);
-      border: 2px solid var(--navy);
+      color: var(--deep);
+      border: 2px solid var(--deep);
     }
 
     .btn-outline:hover {
-      background: var(--navy);
+      background: var(--deep);
       color: #fff;
     }
 
@@ -280,9 +280,9 @@
       position: relative;
     }
 
-    .hero-card-gold {
-      background: var(--gold-light);
-      border-color: var(--gold-border);
+    .hero-card-teal {
+      background: var(--accent-light);
+      border-color: var(--accent-border);
     }
 
     .hero-card .card-kicker {
@@ -290,7 +290,7 @@
       font-weight: 600;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--accent);
       margin-bottom: 14px;
     }
 
@@ -333,7 +333,7 @@
       transition: color 200ms ease;
     }
 
-    .marquee-item:hover { color: var(--gold); }
+    .marquee-item:hover { color: var(--accent); }
 
     @keyframes marquee {
       0% { transform: translateX(0); }
@@ -356,7 +356,7 @@
       font-weight: 600;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--accent);
       margin-bottom: 16px;
     }
 
@@ -401,7 +401,7 @@
 
     .project-hero-card:hover {
       box-shadow: 0 8px 40px rgba(0,0,0,0.06);
-      border-color: var(--gold-border);
+      border-color: var(--accent-border);
     }
 
     .project-icon-lg {
@@ -435,9 +435,9 @@
     }
 
     .badge-platform {
-      background: var(--gold-light);
-      color: var(--gold);
-      border: 1px solid var(--gold-border);
+      background: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid var(--accent-border);
     }
 
     .project-hero-card h3 {
@@ -468,7 +468,7 @@
       display: inline-flex;
       align-items: center;
       padding: 11px 22px;
-      background: var(--gold);
+      background: var(--accent);
       color: #fff;
       text-decoration: none;
       border-radius: var(--radius);
@@ -477,7 +477,7 @@
       transition: background 200ms ease;
     }
 
-    .project-dl:hover { background: var(--gold-hover); }
+    .project-dl:hover { background: var(--accent-hover); }
 
     .project-steps-side {
       padding: 28px;
@@ -499,12 +499,12 @@
       width: 40px; height: 40px;
       display: grid;
       place-items: center;
-      background: var(--gold-light);
+      background: var(--accent-light);
       border-radius: 999px;
       font-family: 'Playfair Display', serif;
       font-size: 16px;
       font-weight: 700;
-      color: var(--gold);
+      color: var(--accent);
     }
 
     .step-item p { font-size: 14px; color: var(--muted); line-height: 1.5; }
@@ -521,9 +521,9 @@
       border-radius: var(--radius);
     }
 
-    .detail-card-gold {
-      background: var(--gold-light);
-      border-color: var(--gold-border);
+    .detail-card-teal {
+      background: var(--accent-light);
+      border-color: var(--accent-border);
     }
 
     .detail-card h4 {
@@ -553,7 +553,7 @@
       left: 0; top: 8px;
       width: 5px; height: 5px;
       border-radius: 999px;
-      background: var(--gold);
+      background: var(--accent);
     }
 
     .detail-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
@@ -576,21 +576,21 @@
     }
 
     .cap-card:hover {
-      border-color: var(--gold-border);
+      border-color: var(--accent-border);
       box-shadow: 0 4px 28px rgba(0,0,0,0.04);
     }
 
     .cap-icon {
       width: 56px; height: 56px;
       margin: 0 auto 18px;
-      background: var(--gold-light);
+      background: var(--accent-light);
       border-radius: 999px;
       display: grid;
       place-items: center;
       font-family: 'Playfair Display', serif;
       font-size: 22px;
       font-weight: 700;
-      color: var(--gold);
+      color: var(--accent);
     }
 
     .cap-card .card-kicker {
@@ -598,7 +598,7 @@
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--accent);
       margin-bottom: 10px;
     }
 
@@ -634,7 +634,7 @@
     /* ---- CTA SECTION ---- */
 
     .cta-section {
-      background: var(--navy);
+      background: var(--deep);
       border-radius: var(--radius);
       padding: 64px 48px;
       text-align: center;
@@ -667,11 +667,11 @@
 
     .btn-white {
       background: #fff;
-      color: var(--navy);
+      color: var(--deep);
     }
 
     .btn-white:hover {
-      background: var(--gold-light);
+      background: var(--accent-light);
     }
 
     .btn-white-outline {
@@ -769,21 +769,21 @@
         </h1>
 
         <p class="hero-lead">
-          我是<span class="gold"><strong>黄锡源</strong></span>，一名专注于 AI 产品落地与体验设计的产品经理。
+          我是<span class="accent"><strong>黄锡源</strong></span>，一名专注于 AI 产品落地与体验设计的产品经理。
           熟练利用大模型、agent、workflow 与 vibe coding 进行产品设计与快速验证，
           持续关注前沿资讯、Harness Engineering 以及 Claude Code 源码中的设计逻辑。
         </p>
 
         <div class="hero-actions">
-          <a class="btn btn-gold" href="#projects">查看代表项目</a>
+          <a class="btn btn-teal" href="#projects">查看代表项目</a>
           <a class="btn btn-outline" href="#capabilities">查看能力结构</a>
         </div>
       </div>
 
       <aside>
-        <div class="hero-card hero-card-gold">
+        <div class="hero-card hero-card-teal">
           <p class="card-kicker">当前定位</p>
-          <h2>把前沿能力转化为<span class="gold">真实可用</span>的产品体验</h2>
+          <h2>把前沿能力转化为<span class="accent">真实可用</span>的产品体验</h2>
           <p>更关注问题定义、交互路径、工作流设计与验证效率之间的闭环，而不是停留在概念层面。</p>
         </div>
       </aside>
@@ -874,14 +874,14 @@
 
         <!-- Detail cards -->
         <div class="detail-cards">
-          <div class="detail-card detail-card-gold">
-            <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">设计逻辑</p>
-            <h4>不做复杂笔记，而做<span class="gold">灵感捕捉器</span></h4>
+          <div class="detail-card detail-card-teal">
+            <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;">设计逻辑</p>
+            <h4>不做复杂笔记，而做<span class="accent">灵感捕捉器</span></h4>
             <p>灵感胶囊的核心不是让用户写得更完整，而是在想法最脆弱的一瞬间把它接住；整理、提炼和结构化交给 AI 在后面完成。</p>
           </div>
 
           <div class="detail-card">
-            <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">核心模块</p>
+            <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;">核心模块</p>
             <ul>
               <li>快速录音：打开后直接进入捕捉状态</li>
               <li>手动记录：补足不适合语音的输入场景</li>
@@ -892,7 +892,7 @@
           </div>
 
           <div class="detail-card">
-            <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">产品价值</p>
+            <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;">产品价值</p>
             <ul>
               <li>解决"刚刚想到但下一秒忘了"的真实痛点</li>
               <li>让用户先捕捉再整理，保护灵感的流动性</li>
@@ -958,7 +958,7 @@
          ========================================== -->
     <section class="section">
       <div class="cta-section">
-        <h2>Let&rsquo;s build <span style="font-style:italic;color:var(--gold)">something real</span></h2>
+        <h2>Let&rsquo;s build <span style="font-style:italic;color:var(--accent)">something real</span></h2>
         <p>如果你也在思考 AI 产品如何从概念走向真实体验，欢迎交流。</p>
         <div class="cta-actions">
           <a class="btn btn-white" href="#">查看完整项目</a>
