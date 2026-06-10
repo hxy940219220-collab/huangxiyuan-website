@@ -105,20 +105,25 @@ export function Method() {
 
         {STEPS.map((step, i) => (
           <ScrollReveal key={step.letter} delay={0.08 * (i + 1)}>
-            <div className="relative z-[1] mx-auto w-full max-w-[300px] text-left lg:mx-0 lg:max-w-none lg:flex lg:gap-5 lg:items-start">
-              <div className="mb-5 lg:mb-0 lg:mt-1.5 lg:flex-shrink-0">
+            <div className="relative z-[1] mx-auto w-full max-w-[360px] text-left flex gap-5 items-start lg:mx-0 lg:max-w-none">
+              {/* 左列：圆点 + 字母（移动端）；电脑端只显示圆点 */}
+              <div className="flex flex-col items-center gap-3 flex-shrink-0 pt-1.5 w-10 lg:w-auto lg:block">
                 <div className={`relative z-[2] w-3 h-3 rounded-full ${step.color}`}>
                   <div className="absolute -inset-1.5 rounded-full border border-white/[0.15] animate-[dotPulse_3s_ease-in-out_infinite]" />
                 </div>
+                <p className="font-display italic text-[44px] leading-none text-white lg:hidden">
+                  {step.letter}
+                </p>
               </div>
-              <div>
-                <p className="font-display italic text-5xl leading-none text-white mb-3">
+              {/* 右列：内容；电脑端字母仍显示在内容顶部 */}
+              <div className="min-w-0 flex-1">
+                <p className="hidden lg:block font-display italic text-5xl leading-none text-white mb-3">
                   {step.letter}
                 </p>
                 <h3 className="font-body text-sm font-semibold tracking-[0.06em] text-text-secondary uppercase mb-1">
                   {step.title}
                 </h3>
-                <p className="font-body text-[10.5px] tracking-[0.1em] text-text-muted mb-2 uppercase">{step.label}</p>
+                <p className="font-body text-[10.5px] tracking-[0.1em] text-text-muted mb-2.5 uppercase">{step.label}</p>
                 <p className="text-[13px] text-text-tertiary leading-relaxed">
                   {step.desc}
                 </p>
