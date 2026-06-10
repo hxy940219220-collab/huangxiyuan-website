@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import SplitText from "../reactbits/TextAnimations/SplitText/SplitText";
 export function Hero() {
@@ -8,6 +8,15 @@ export function Hero() {
   const reduced = useReducedMotion();
 
   const fgVideoRef = useRef<HTMLVideoElement>(null);
+  // 夸克 / UC / 百度等浏览器会强行劫持 <video> 进自家播放器，
+  // 检测到这类浏览器时改用静态封面图，保证页面布局完整
+  const [videoHijacked, setVideoHijacked] = useState(false);
+
+  useEffect(() => {
+    if (/Quark|UCBrowser|UCWEB|baiduboxapp|BaiduHD/i.test(navigator.userAgent)) {
+      setVideoHijacked(true);
+    }
+  }, []);
 
   useEffect(() => {
     const videos = [videoRef.current, fgVideoRef.current].filter(
@@ -59,34 +68,52 @@ export function Hero() {
     >
       {/* Background blurred layer */}
       <div className="absolute inset-0 z-0 pointer-events-none hidden md:block" aria-hidden="true">
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster="/HXY-AIPM-poster.jpg"
-          className="w-full h-full object-cover blur-[40px] brightness-[0.3] scale-110"
-        >
-          <source src="/HXY-AIPM-video.mp4" type="video/mp4" />
-        </video>
+        {videoHijacked ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src="/HXY-AIPM-poster.jpg"
+            alt=""
+            className="w-full h-full object-cover blur-[40px] brightness-[0.3] scale-110"
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster="/HXY-AIPM-poster.jpg"
+            className="w-full h-full object-cover blur-[40px] brightness-[0.3] scale-110"
+          >
+            <source src="/HXY-AIPM-video.mp4" type="video/mp4" />
+          </video>
+        )}
       </div>
 
-      {/* Foreground video */}
+      {/* Foreground video（劫持型浏览器降级为静态封面图） */}
       <div className="absolute inset-0 z-[1] pointer-events-none" aria-hidden="true">
-        <video
-          ref={fgVideoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster="/HXY-AIPM-poster.jpg"
-          className="w-full h-full object-cover"
-        >
-          <source src="/HXY-AIPM-video.mp4" type="video/mp4" />
-        </video>
+        {videoHijacked ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src="/HXY-AIPM-poster.jpg"
+            alt=""
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <video
+            ref={fgVideoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster="/HXY-AIPM-poster.jpg"
+            className="w-full h-full object-cover"
+          >
+            <source src="/HXY-AIPM-video.mp4" type="video/mp4" />
+          </video>
+        )}
       </div>
 
       {/* Subtle vignette */}
