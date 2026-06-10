@@ -26,10 +26,27 @@ export function Hero() {
 
     const play = () => videos.forEach((v) => v.play().catch(() => {}));
     play();
-    // 移动端首次触摸也要尝试播放（click 在部分移动浏览器不触发）
+    // 微信内置浏览器：等 JSBridge 就绪后才允许自动播放
+    interface WeixinWindow extends Window {
+      WeixinJSBridge?: { invoke: (api: string, opts: object, cb: () => void) => void };
+    }
+    const w = window as WeixinWindow;
+    const wxPlay = () => {
+      if (w.WeixinJSBridge) {
+        w.WeixinJSBridge.invoke("getNetworkType", {}, play);
+      } else {
+        play();
+      }
+    };
+    wxPlay();
+    document.addEventListener("WeixinJSBridgeReady", wxPlay, { once: true });
+    // 视频数据就绪后再试一次（首帧加载完成的时机）
+    videos.forEach((v) => v.addEventListener("loadeddata", play, { once: true }));
+    // 移动端首次触摸兜底（click 在部分移动浏览器不触发）
     document.addEventListener("click", play, { once: true });
     document.addEventListener("touchstart", play, { once: true });
     return () => {
+      document.removeEventListener("WeixinJSBridgeReady", wxPlay);
       document.removeEventListener("click", play);
       document.removeEventListener("touchstart", play);
     };
@@ -48,7 +65,8 @@ export function Hero() {
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
+          poster="/HXY-AIPM-poster.jpg"
           className="w-full h-full object-cover blur-[40px] brightness-[0.3] scale-110"
         >
           <source src="/HXY-AIPM-video.mp4" type="video/mp4" />
@@ -63,7 +81,8 @@ export function Hero() {
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
+          poster="/HXY-AIPM-poster.jpg"
           className="w-full h-full object-cover"
         >
           <source src="/HXY-AIPM-video.mp4" type="video/mp4" />
