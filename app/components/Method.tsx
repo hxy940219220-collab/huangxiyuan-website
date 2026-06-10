@@ -77,14 +77,14 @@ export function Method() {
         <div className="flex flex-col items-center gap-0">
           <BlurText
             text="AI 产品的关键，不止是模型接入"
-            className="font-display italic text-[clamp(36px,5vw,56px)] leading-[1.1] text-white"
+            className="font-display italic justify-center text-center text-[clamp(24px,6.5vw,56px)] leading-[1.25] md:leading-[1.1] text-white"
             delay={40}
             animateBy="words"
             direction="top"
           />
           <BlurText
             text="更在于流程如何被设计"
-            className="font-display italic text-[clamp(36px,5vw,56px)] leading-[1.1] text-text-tertiary"
+            className="font-display italic justify-center text-center text-[clamp(24px,6.5vw,56px)] leading-[1.25] md:leading-[1.1] text-text-tertiary"
             delay={40}
             animateBy="words"
             direction="top"
@@ -105,8 +105,8 @@ export function Method() {
 
         {STEPS.map((step, i) => (
           <ScrollReveal key={step.letter} delay={0.08 * (i + 1)}>
-            <div className="relative z-[1] text-center lg:text-left lg:flex lg:gap-5 lg:items-start">
-              <div className="flex justify-center lg:block lg:mt-1.5 lg:flex-shrink-0 mb-7 lg:mb-0">
+            <div className="relative z-[1] mx-auto w-full max-w-[300px] text-left lg:mx-0 lg:max-w-none lg:flex lg:gap-5 lg:items-start">
+              <div className="mb-5 lg:mb-0 lg:mt-1.5 lg:flex-shrink-0">
                 <div className={`relative z-[2] w-3 h-3 rounded-full ${step.color}`}>
                   <div className="absolute -inset-1.5 rounded-full border border-white/[0.15] animate-[dotPulse_3s_ease-in-out_infinite]" />
                 </div>
@@ -119,7 +119,7 @@ export function Method() {
                   {step.title}
                 </h3>
                 <p className="font-body text-[10.5px] tracking-[0.1em] text-text-muted mb-2 uppercase">{step.label}</p>
-                <p className="text-[13px] text-text-tertiary leading-relaxed max-w-[220px] lg:max-w-none">
+                <p className="text-[13px] text-text-tertiary leading-relaxed">
                   {step.desc}
                 </p>
               </div>
