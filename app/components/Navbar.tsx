@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { List, X } from "@phosphor-icons/react";
 
@@ -64,11 +64,6 @@ export function Navbar() {
   const navBorderOpacity = useTransform(scrollY, [0, 200], [0, 1]);
   const navShadowOpacity = useTransform(scrollY, [0, 200], [0, 0.35]);
 
-  // Lock body scroll when menu open
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [menuOpen]);
 
   const scrollTo = useCallback((href: string) => {
     setMenuOpen(false);
@@ -171,37 +166,38 @@ export function Navbar() {
         </div>
       </motion.nav>
 
-      {/* Mobile fullscreen menu */}
+      {/* Mobile dropdown menu */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-[99] bg-[rgba(5,5,9,0.92)] backdrop-blur-[30px] flex flex-col items-center justify-center gap-10"
-          >
-            {[...NAV_ITEMS, { label: "聊聊", href: "#contact", subs: [] as {label:string; href?:string}[] }].map(
-              (item, i) => (
-                <motion.a
-                  key={item.href}
-                  href={item.href}
-                  onClick={(e) => { e.preventDefault(); scrollTo(item.href); }}
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 24 }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 0.08 * i,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                  className="font-display italic text-[36px] text-white no-underline"
-                >
-                  {item.label}
-                </motion.a>
-              )
-            )}
-          </motion.div>
+          <>
+            {/* 点击空白处关闭 */}
+            <div
+              className="fixed inset-0 z-[98] md:hidden"
+              onClick={() => setMenuOpen(false)}
+              aria-hidden="true"
+            />
+            <motion.div
+              initial={{ opacity: 0, y: -8, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.96 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              style={{ transformOrigin: "top right" }}
+              className="fixed top-[68px] right-4 z-[99] md:hidden w-[200px] p-1.5 rounded-2xl bg-[rgba(13,13,28,0.96)] border border-white/[0.12] backdrop-blur-xl shadow-[0_16px_48px_rgba(0,0,0,0.55)] flex flex-col"
+            >
+              {[...NAV_ITEMS, { label: "聊聊", href: "#contact", subs: [] as {label:string; href?:string}[] }].map(
+                (item) => (
+                  <a
+                    key={item.label + item.href}
+                    href={item.href}
+                    onClick={(e) => { e.preventDefault(); scrollTo(item.href); }}
+                    className="block px-4 py-3 rounded-xl font-body text-[14px] font-medium tracking-[0.04em] text-text-secondary no-underline transition-colors duration-200 active:bg-white/[0.08] active:text-white"
+                  >
+                    {item.label}
+                  </a>
+                )
+              )}
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
