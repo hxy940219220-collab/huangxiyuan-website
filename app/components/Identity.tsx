@@ -35,7 +35,7 @@ export function Identity() {
             text="把前沿能力转化为真实可用的产品体验"
             className="font-display italic text-[clamp(36px,5vw,56px)] leading-[1.08] tracking-[-0.02em] text-white"
             delay={40}
-            animateBy="words"
+            animateBy="letters"
             direction="top"
           />
           <ScrollReveal delay={0.3}>
