@@ -79,14 +79,14 @@ export function Method() {
             text="AI 产品的关键，不止是模型接入"
             className="font-display italic justify-center text-center text-[clamp(24px,6.5vw,56px)] leading-[1.25] md:leading-[1.1] text-white"
             delay={40}
-            animateBy="words"
+            animateBy="letters"
             direction="top"
           />
           <BlurText
             text="更在于流程如何被设计"
             className="font-display italic justify-center text-center text-[clamp(24px,6.5vw,56px)] leading-[1.25] md:leading-[1.1] text-text-tertiary"
             delay={40}
-            animateBy="words"
+            animateBy="letters"
             direction="top"
           />
         </div>
