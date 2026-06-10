@@ -8,14 +8,16 @@ export function Hero() {
   const reduced = useReducedMotion();
 
   const fgVideoRef = useRef<HTMLVideoElement>(null);
-  // 夸克 / UC / 百度等浏览器会强行劫持 <video> 进自家播放器，
-  // 检测到这类浏览器时改用静态封面图，保证页面布局完整
-  const [videoHijacked, setVideoHijacked] = useState(false);
+  // 所有浏览器首屏先渲染静态封面图（SSR HTML 里不含 <video>），
+  // 挂载后确认不是夸克 / UC / 百度等劫持型浏览器，才换入真正的视频。
+  // 这样劫持型浏览器从头到尾只见到图片，没有可接管的视频元素。
+  const [showVideo, setShowVideo] = useState(false);
 
   useEffect(() => {
-    if (/Quark|UCBrowser|UCWEB|baiduboxapp|BaiduHD/i.test(navigator.userAgent)) {
-      setVideoHijacked(true);
-    }
+    const hijacker = /Quark|UCBrowser|UCWEB|baiduboxapp|BaiduHD/i.test(
+      navigator.userAgent
+    );
+    if (!hijacker) setShowVideo(true);
   }, []);
 
   useEffect(() => {
@@ -59,7 +61,7 @@ export function Hero() {
       document.removeEventListener("click", play);
       document.removeEventListener("touchstart", play);
     };
-  }, []);
+  }, [showVideo]);
 
   return (
     <section
@@ -68,7 +70,7 @@ export function Hero() {
     >
       {/* Background blurred layer */}
       <div className="absolute inset-0 z-0 pointer-events-none hidden md:block" aria-hidden="true">
-        {videoHijacked ? (
+        {!showVideo ? (
           /* eslint-disable-next-line @next/next/no-img-element */
           <img
             src="/HXY-AIPM-poster.jpg"
@@ -93,7 +95,7 @@ export function Hero() {
 
       {/* Foreground video（劫持型浏览器降级为静态封面图） */}
       <div className="absolute inset-0 z-[1] pointer-events-none" aria-hidden="true">
-        {videoHijacked ? (
+        {!showVideo ? (
           /* eslint-disable-next-line @next/next/no-img-element */
           <img
             src="/HXY-AIPM-poster.jpg"
