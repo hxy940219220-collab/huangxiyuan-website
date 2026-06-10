@@ -33,6 +33,7 @@
 }
 
 html {
+  overflow-x: clip;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -44,7 +45,8 @@ body {
   font-family: var(--font-body);
   font-weight: 400;
   line-height: 1.6;
-  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100vw;
   cursor: default;
 }
 
@@ -144,7 +146,7 @@ body {
 }
 
 /* ============================================================
-   CURSOR TARGET — expanded hit area for TargetCursor lock-on
+   CURSOR TARGET 鈥� expanded hit area for TargetCursor lock-on
    ============================================================ */
 .cursor-target {
   position: relative;
