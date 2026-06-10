@@ -7,13 +7,32 @@ export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const reduced = useReducedMotion();
 
+  const fgVideoRef = useRef<HTMLVideoElement>(null);
+
   useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    const play = () => v.play().catch(() => {});
+    const videos = [videoRef.current, fgVideoRef.current].filter(
+      Boolean
+    ) as HTMLVideoElement[];
+    if (videos.length === 0) return;
+
+    // X5 内核（微信/QQ/部分国产浏览器）私有属性：
+    // 防止 video 被提权为原生全屏播放器，盖住整个页面
+    videos.forEach((v) => {
+      v.setAttribute("webkit-playsinline", "true");
+      v.setAttribute("x5-playsinline", "true");
+      v.setAttribute("x5-video-player-type", "h5-page");
+      v.setAttribute("x5-video-player-fullscreen", "false");
+    });
+
+    const play = () => videos.forEach((v) => v.play().catch(() => {}));
     play();
+    // 移动端首次触摸也要尝试播放（click 在部分移动浏览器不触发）
     document.addEventListener("click", play, { once: true });
-    return () => document.removeEventListener("click", play);
+    document.addEventListener("touchstart", play, { once: true });
+    return () => {
+      document.removeEventListener("click", play);
+      document.removeEventListener("touchstart", play);
+    };
   }, []);
 
   return (
@@ -22,7 +41,7 @@ export function Hero() {
       className="relative z-[10] min-h-[100dvh] flex items-center justify-center overflow-hidden bg-bg-deepest"
     >
       {/* Background blurred layer */}
-      <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
+      <div className="absolute inset-0 z-0 pointer-events-none hidden md:block" aria-hidden="true">
         <video
           ref={videoRef}
           autoPlay
@@ -39,6 +58,7 @@ export function Hero() {
       {/* Foreground video */}
       <div className="absolute inset-0 z-[1] pointer-events-none" aria-hidden="true">
         <video
+          ref={fgVideoRef}
           autoPlay
           muted
           loop
