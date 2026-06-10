@@ -21,8 +21,8 @@ export function Hero() {
       id="hero"
       className="relative z-[10] min-h-[100dvh] flex items-center justify-center overflow-hidden bg-bg-deepest"
     >
-      {/* Video background - desktop only */}
-      <div className="absolute inset-0 z-0 pointer-events-none hidden md:block" aria-hidden="true">
+      {/* Background blurred layer */}
+      <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
         <video
           ref={videoRef}
           autoPlay
@@ -36,8 +36,8 @@ export function Hero() {
         </video>
       </div>
 
-      {/* Foreground video - desktop only */}
-      <div className="absolute inset-0 z-[1] hidden md:block pointer-events-none" aria-hidden="true">
+      {/* Foreground video */}
+      <div className="absolute inset-0 z-[1] pointer-events-none" aria-hidden="true">
         <video
           autoPlay
           muted
@@ -49,15 +49,6 @@ export function Hero() {
           <source src="/HXY-AIPM-video.mp4" type="video/mp4" />
         </video>
       </div>
-
-      {/* Mobile background - gradient instead of video */}
-      <div
-        className="absolute inset-0 z-0 md:hidden pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse at 50% 40%, rgba(0,200,255,0.08) 0%, rgba(216,76,255,0.04) 40%, #050509 70%)",
-        }}
-        aria-hidden="true"
-      />
 
       {/* Subtle vignette */}
       <div
