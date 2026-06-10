@@ -109,7 +109,11 @@ const BlurText: React.FC<BlurTextProps> = ({
             onAnimationComplete={index === elements.length - 1 ? onAnimationComplete : undefined}
             style={{
               display: 'inline-block',
-              willChange: 'transform, filter, opacity'
+              willChange: 'transform, filter, opacity',
+              // iOS WebKit 会把带 filter 的元素裁剪到盒子边界，
+              // 斜体字的笔画会被切掉；用 padding 扩大渲染区域、负 margin 抵消布局影响
+              padding: '0.2em',
+              margin: '-0.2em'
             }}
           >
             {segment === ' ' ? '\u00A0' : segment}
