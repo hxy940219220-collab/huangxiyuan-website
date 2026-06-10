@@ -21,8 +21,8 @@ export function Hero() {
       id="hero"
       className="relative z-[10] min-h-[100dvh] flex items-center justify-center overflow-hidden bg-bg-deepest"
     >
-      {/* Background blurred layer - full cover, no interaction */}
-      <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
+      {/* Video background - desktop only */}
+      <div className="absolute inset-0 z-0 pointer-events-none hidden md:block" aria-hidden="true">
         <video
           ref={videoRef}
           autoPlay
@@ -36,7 +36,7 @@ export function Hero() {
         </video>
       </div>
 
-      {/* Foreground video - desktop only, no interaction */}
+      {/* Foreground video - desktop only */}
       <div className="absolute inset-0 z-[1] hidden md:block pointer-events-none" aria-hidden="true">
         <video
           autoPlay
@@ -50,12 +50,18 @@ export function Hero() {
         </video>
       </div>
 
-      {/* Dark overlay for text readability on mobile */}
-      <div className="absolute inset-0 z-[2] pointer-events-none bg-black/30 md:bg-transparent" aria-hidden="true" />
+      {/* Mobile background - gradient instead of video */}
+      <div
+        className="absolute inset-0 z-0 md:hidden pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse at 50% 40%, rgba(0,200,255,0.08) 0%, rgba(216,76,255,0.04) 40%, #050509 70%)",
+        }}
+        aria-hidden="true"
+      />
 
       {/* Subtle vignette */}
       <div
-        className="absolute inset-0 z-[3] pointer-events-none"
+        className="absolute inset-0 z-[2] pointer-events-none"
         style={{
           background:
             "radial-gradient(ellipse at center, transparent 50%, rgba(5,5,9,0.4) 80%, rgba(5,5,9,0.8) 100%)",
@@ -65,7 +71,7 @@ export function Hero() {
 
       {/* Bottom fade to black */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-[4] pointer-events-none h-[40%]"
+        className="absolute bottom-0 left-0 right-0 z-[3] pointer-events-none h-[40%]"
         style={{
           background: "linear-gradient(to top, #050509 0%, transparent 100%)",
         }}
@@ -73,7 +79,7 @@ export function Hero() {
       />
 
       {/* Content overlay - bottom left */}
-      <div className="absolute inset-0 z-[5] pointer-events-none flex flex-col justify-end pl-4 md:pl-8 pr-6 md:pr-10 pt-6 md:pt-10 pb-6 md:pb-14 w-full">
+      <div className="absolute inset-0 z-[4] pointer-events-none flex flex-col justify-end pl-4 md:pl-8 pr-6 md:pr-10 pt-6 md:pt-10 pb-6 md:pb-14 w-full">
         <div className="pointer-events-auto space-y-1.5 md:space-y-2 max-w-[640px]">
           {/* Main title */}
           <motion.div
