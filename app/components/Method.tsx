@@ -75,20 +75,47 @@ export function Method() {
           </p>
         </ScrollReveal>
         <div className="flex flex-col items-center gap-0">
-          <BlurText
-            text="AI 产品的关键，不止是模型接入"
-            className="font-display italic justify-center text-center text-[clamp(24px,6.5vw,56px)] leading-[1.25] md:leading-[1.1] text-white"
-            delay={40}
-            animateBy="letters"
-            direction="top"
-          />
-          <BlurText
-            text="更在于流程如何被设计"
-            className="font-display italic justify-center text-center text-[clamp(24px,6.5vw,56px)] leading-[1.25] md:leading-[1.1] text-text-tertiary"
-            delay={40}
-            animateBy="letters"
-            direction="top"
-          />
+          {/* 手机端：手动断成两行，避免 "AI" 孤行 */}
+          <div className="flex flex-col items-center gap-0 md:hidden">
+            <BlurText
+              text="AI 产品的关键"
+              className="font-display italic justify-center text-center text-[clamp(26px,7.5vw,40px)] leading-[1.3] text-white"
+              delay={40}
+              animateBy="letters"
+              direction="top"
+            />
+            <BlurText
+              text="不止是模型接入"
+              className="font-display italic justify-center text-center text-[clamp(26px,7.5vw,40px)] leading-[1.3] text-white"
+              delay={40}
+              animateBy="letters"
+              direction="top"
+            />
+            <BlurText
+              text="更在于流程如何被设计"
+              className="font-display italic justify-center text-center text-[clamp(26px,7.5vw,40px)] leading-[1.3] text-text-tertiary"
+              delay={40}
+              animateBy="letters"
+              direction="top"
+            />
+          </div>
+          {/* 电脑端：保持原排版 */}
+          <div className="hidden md:flex flex-col items-center gap-0">
+            <BlurText
+              text="AI 产品的关键，不止是模型接入"
+              className="font-display italic justify-center text-center text-[clamp(24px,6.5vw,56px)] leading-[1.1] text-white"
+              delay={40}
+              animateBy="letters"
+              direction="top"
+            />
+            <BlurText
+              text="更在于流程如何被设计"
+              className="font-display italic justify-center text-center text-[clamp(24px,6.5vw,56px)] leading-[1.1] text-text-tertiary"
+              delay={40}
+              animateBy="letters"
+              direction="top"
+            />
+          </div>
         </div>
       </div>
 
