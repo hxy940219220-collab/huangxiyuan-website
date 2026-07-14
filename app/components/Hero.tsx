@@ -3,27 +3,71 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import SplitText from "../reactbits/TextAnimations/SplitText/SplitText";
+import Image from "next/image";
+
+type VideoMode = "poster" | "desktop" | "mobile";
+
+const MOBILE_VIDEO_DELAY_MS = 5000;
+
 export function Hero() {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const reduced = useReducedMotion();
 
   const fgVideoRef = useRef<HTMLVideoElement>(null);
   // 所有浏览器首屏先渲染静态封面图（SSR HTML 里不含 <video>），
   // 挂载后确认不是夸克 / UC / 百度等劫持型浏览器，才换入真正的视频。
   // 这样劫持型浏览器从头到尾只见到图片，没有可接管的视频元素。
-  const [showVideo, setShowVideo] = useState(false);
+  const [videoMode, setVideoMode] = useState<VideoMode>("poster");
+  const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
     const hijacker = /Quark|UCBrowser|UCWEB|baiduboxapp|BaiduHD/i.test(
       navigator.userAgent
     );
-    if (!hijacker) setShowVideo(true);
-  }, []);
+    const mobile = window.matchMedia(
+      "(max-width: 767px), (hover: none) and (pointer: coarse)"
+    ).matches;
+    const connection = navigator as Navigator & {
+      connection?: { saveData?: boolean };
+    };
+
+    if (reduced === null || hijacker || reduced || connection.connection?.saveData) return;
+
+    if (!mobile) {
+      const frame = window.requestAnimationFrame(() => setVideoMode("desktop"));
+      return () => window.cancelAnimationFrame(frame);
+    }
+
+    let delayId: number | undefined;
+    let idleId: number | undefined;
+
+    const mountMobileVideo = () => {
+      delayId = window.setTimeout(() => {
+        if ("requestIdleCallback" in window) {
+          idleId = window.requestIdleCallback(
+            () => setVideoMode("mobile"),
+            { timeout: 4000 }
+          );
+        } else {
+          setVideoMode("mobile");
+        }
+      }, MOBILE_VIDEO_DELAY_MS);
+    };
+
+    if (document.readyState === "complete") {
+      mountMobileVideo();
+    } else {
+      window.addEventListener("load", mountMobileVideo, { once: true });
+    }
+
+    return () => {
+      window.removeEventListener("load", mountMobileVideo);
+      if (delayId !== undefined) window.clearTimeout(delayId);
+      if (idleId !== undefined) window.cancelIdleCallback(idleId);
+    };
+  }, [reduced]);
 
   useEffect(() => {
-    const videos = [videoRef.current, fgVideoRef.current].filter(
-      Boolean
-    ) as HTMLVideoElement[];
+    const videos = [fgVideoRef.current].filter(Boolean) as HTMLVideoElement[];
     if (videos.length === 0) return;
 
     // X5 内核（微信/QQ/部分国产浏览器）私有属性：
@@ -61,7 +105,7 @@ export function Hero() {
       document.removeEventListener("click", play);
       document.removeEventListener("touchstart", play);
     };
-  }, [showVideo]);
+  }, [videoMode]);
 
   return (
     <section
@@ -70,39 +114,26 @@ export function Hero() {
     >
       {/* Background blurred layer */}
       <div className="absolute inset-0 z-0 pointer-events-none hidden md:block" aria-hidden="true">
-        {!showVideo ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            src="/HXY-AIPM-poster.jpg"
-            alt=""
-            className="w-full h-full object-cover blur-[40px] brightness-[0.3] scale-110"
-          />
-        ) : (
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            poster="/HXY-AIPM-poster.jpg"
-            className="w-full h-full object-cover blur-[40px] brightness-[0.3] scale-110"
-          >
-            <source src="/HXY-AIPM-video.mp4" type="video/mp4" />
-          </video>
-        )}
+        <Image
+          src="/HXY-AIPM-poster.jpg"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover blur-[40px] brightness-[0.3] scale-110"
+        />
       </div>
 
       {/* Foreground video（劫持型浏览器降级为静态封面图） */}
       <div className="absolute inset-0 z-[1] pointer-events-none" aria-hidden="true">
-        {!showVideo ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            src="/HXY-AIPM-poster.jpg"
-            alt=""
-            className="w-full h-full object-cover"
-          />
-        ) : (
+        <Image
+          src="/HXY-AIPM-poster.jpg"
+          alt=""
+          fill
+          sizes="100vw"
+          preload
+          className="object-cover"
+        />
+        {videoMode !== "poster" && (
           <video
             ref={fgVideoRef}
             autoPlay
@@ -110,8 +141,8 @@ export function Hero() {
             loop
             playsInline
             preload="auto"
-            poster="/HXY-AIPM-poster.jpg"
-            className="w-full h-full object-cover"
+            onCanPlay={() => setVideoReady(true)}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${videoReady ? "opacity-100" : "opacity-0"}`}
           >
             <source src="/HXY-AIPM-video.mp4" type="video/mp4" />
           </video>
