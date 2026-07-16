@@ -5,6 +5,7 @@ import { motion, useMotionValue, useSpring } from "motion/react";
 import { useRef, type ReactNode } from "react";
 import BlurText from "../reactbits/TextAnimations/BlurText/BlurText";
 import { GooglePlayLogo, GithubLogo } from "@phosphor-icons/react";
+import Image from "next/image";
 
 /* 3D Tilt card wrapper */
 function TiltWrap({ children, className = "" }: { children: ReactNode; className?: string }) {
@@ -68,10 +69,13 @@ export function Work() {
               className="relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-cyan/30 hover:shadow-[0_0_60px_rgba(0,200,255,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] flex flex-col h-full"
             >
               <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
-                <img
+                <Image
                   src="/ideaflash.png"
                   alt="IdeaFlash 灵感胶囊"
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 767px) calc(100vw - 3rem), 50vw"
+                  loading="lazy"
+                  className="object-cover"
                 />
               </div>
               <div className="p-6 md:p-7 flex flex-col flex-1">
@@ -112,10 +116,13 @@ export function Work() {
               className="relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-pink/30 hover:shadow-[0_0_60px_rgba(216,76,255,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] flex flex-col h-full"
             >
               <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
-                <img
+                <Image
                   src="/focusmeow.png"
                   alt="FocusMeow 专注喵"
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 767px) calc(100vw - 3rem), 50vw"
+                  loading="lazy"
+                  className="object-cover"
                 />
               </div>
               <div className="p-6 md:p-7 flex flex-col flex-1">
@@ -130,7 +137,7 @@ export function Work() {
                 <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
                   用猫咪陪伴、成长奖励与 AI 反馈，驱动长期专注习惯形成的情感化 app。
                 </p>
-                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">不把它做成"又一个番茄钟"</p>
+                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">不把它做成&quot;又一个番茄钟&quot;</p>
                 <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
                   四层叠加的产品骨架——专注工具层、游戏养成层、情感陪伴层、智能解释层，让效率与情绪同时成立。
                 </p>
