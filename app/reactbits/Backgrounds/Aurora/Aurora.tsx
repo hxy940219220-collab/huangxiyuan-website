@@ -127,11 +127,19 @@ export default function Aurora(props: AuroraProps) {
     const ctn = ctnDom.current;
     if (!ctn) return;
 
-    const renderer = new Renderer({
-      alpha: true,
-      premultipliedAlpha: true,
-      antialias: true
-    });
+    let renderer: Renderer;
+    try {
+      renderer = new Renderer({
+        alpha: true,
+        premultipliedAlpha: true,
+        antialias: true
+      });
+      // 某些环境（旧驱动 / 无 GPU）能构造但拿不到上下文
+      if (!renderer.gl) return;
+    } catch {
+      // WebGL 不可用：静默降级为背景色，绝不让整个页面崩溃
+      return;
+    }
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
     gl.enable(gl.BLEND);

@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-19T00:00:00+08:00",
+  "title": "Design System: HXY AI Product Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "void-ink": { "role": "neutral", "displayName": "Void Ink", "canonical": "#050509", "tonalRamp": ["oklch(15% 0.01 285)", "oklch(25% 0.01 285)", "oklch(35% 0.01 285)", "oklch(47% 0.01 285)", "oklch(60% 0.009 285)", "oklch(72% 0.008 285)", "oklch(84% 0.006 285)", "oklch(95% 0.004 285)"] },
+      "signal-cyan": { "role": "primary", "displayName": "Signal Cyan", "canonical": "#00c8ff", "tonalRamp": ["oklch(18% 0.08 220)", "oklch(28% 0.12 220)", "oklch(40% 0.16 220)", "oklch(52% 0.18 220)", "oklch(64% 0.17 220)", "oklch(75% 0.14 220)", "oklch(86% 0.08 220)", "oklch(95% 0.03 220)"] },
+      "systems-violet": { "role": "secondary", "displayName": "Systems Violet", "canonical": "#d84cff", "tonalRamp": ["oklch(18% 0.09 310)", "oklch(28% 0.14 310)", "oklch(40% 0.19 310)", "oklch(52% 0.22 310)", "oklch(64% 0.2 310)", "oklch(75% 0.16 310)", "oklch(86% 0.09 310)", "oklch(95% 0.03 310)"] },
+      "frontier-gold": { "role": "tertiary", "displayName": "Frontier Gold", "canonical": "#ffd84a", "tonalRamp": ["oklch(18% 0.06 90)", "oklch(28% 0.09 90)", "oklch(40% 0.12 90)", "oklch(52% 0.14 90)", "oklch(64% 0.14 90)", "oklch(75% 0.12 90)", "oklch(86% 0.07 90)", "oklch(95% 0.025 90)"] },
+      "delivery-orange": { "role": "tertiary", "displayName": "Delivery Orange", "canonical": "#ff6a1a", "tonalRamp": ["oklch(18% 0.07 45)", "oklch(28% 0.11 45)", "oklch(40% 0.15 45)", "oklch(52% 0.18 45)", "oklch(64% 0.17 45)", "oklch(75% 0.13 45)", "oklch(86% 0.07 45)", "oklch(95% 0.025 45)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Author Display", "purpose": "Hero and chapter judgments only." },
+      "body": { "displayName": "Technical Body", "purpose": "Readable product and systems explanation." },
+      "label": { "displayName": "Signal Label", "purpose": "Dates, indices and compact metadata." }
+    },
+    "shadows": [
+      { "name": "ambient-panel", "value": "0 12px 48px rgba(0,0,0,0.45)", "purpose": "Low-contrast separation for dark panels." },
+      { "name": "signal-hover", "value": "0 0 40px rgba(0,200,255,0.15)", "purpose": "Interactive hover and focus feedback." }
+    ],
+    "motion": [
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Short reveals and menu transitions." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The main action signal on a dark surface.",
+      "html": "<button class=\"ds-btn-primary\">查看项目 ↗</button>",
+      "css": ".ds-btn-primary{background:#00c8ff;color:#050509;border:0;border-radius:9999px;padding:10px 20px;min-height:44px;font:600 12px Inter,sans-serif;letter-spacing:.04em;transition:transform .28s cubic-bezier(.16,1,.3,1),box-shadow .28s}.ds-btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 28px rgba(0,200,255,.2)}.ds-btn-primary:focus-visible{outline:2px solid #f5f7ff;outline-offset:3px}"
+    },
+    {
+      "name": "Research Link",
+      "kind": "card",
+      "refersTo": "project-panel",
+      "description": "A compact evidence panel linking to a research artifact.",
+      "html": "<a class=\"ds-research\" href=\"#\"><span>01 · 2026</span><strong>AI 前沿时间线</strong><small>模型更新如何改变产品判断</small></a>",
+      "css": ".ds-research{display:grid;gap:8px;background:#0b0b14;color:#f5f7ff;border:1px solid rgba(245,247,255,.12);border-radius:20px;padding:24px;text-decoration:none;transition:transform .28s cubic-bezier(.16,1,.3,1),border-color .28s}.ds-research span{color:#ffd84a;font:500 11px Inter,sans-serif;letter-spacing:.12em}.ds-research strong{font:400 24px 'Instrument Serif',serif}.ds-research small{color:#8b8e9f;font:400 13px Inter,sans-serif}.ds-research:hover,.ds-research:focus-visible{transform:translateY(-3px);border-color:#00c8ff;outline:none}"
+    },
+    {
+      "name": "Navigation Item",
+      "kind": "nav",
+      "description": "Keyboard-visible top navigation with a restrained signal state.",
+      "html": "<a class=\"ds-nav\" href=\"#\">思考</a>",
+      "css": ".ds-nav{display:inline-flex;align-items:center;min-height:44px;color:#c9ccda;text-decoration:none;font:500 13px Inter,sans-serif;letter-spacing:.08em}.ds-nav:hover{color:#f5f7ff}.ds-nav:focus-visible{outline:2px solid #00c8ff;outline-offset:4px;border-radius:4px}"
+    },
+    {
+      "name": "System Chip",
+      "kind": "chip",
+      "description": "A compact mechanism or capability label.",
+      "html": "<span class=\"ds-chip\">Agent Runtime</span>",
+      "css": ".ds-chip{display:inline-flex;align-items:center;min-height:28px;padding:4px 12px;border-radius:9999px;border:1px solid rgba(216,76,255,.28);background:rgba(216,76,255,.06);color:#dca8ef;font:500 11px Inter,sans-serif;letter-spacing:.04em}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Frontier Systems Observatory",
+    "overview": "A dark, evidence-led portfolio for scanning active product experiments and systems research. The visual system stays futuristic but restrained so project proof, Agent mechanisms and product judgment remain primary.",
+    "keyCharacteristics": ["Evidence-led dark environment", "Semantic accent roles", "One judgment per screen", "Reduced-motion compatible", "Linear mobile reading"],
+    "rules": [
+      { "name": "The Signal Rarity Rule", "body": "Signal Cyan is reserved for clickable, current or important elements.", "section": "colors" },
+      { "name": "The Evidence First Rule", "body": "Every judgment must be followed by a mechanism, boundary or artifact.", "section": "typography" },
+      { "name": "The Flat At Rest Rule", "body": "Strong shadows and glow only appear as state feedback.", "section": "elevation" }
+    ],
+    "dos": ["Do use project screenshots and primary sources as evidence.", "Do explain Agent mechanisms and product impact.", "Do provide real anchors and visible keyboard focus."],
+    "donts": ["Don't ship generic AI SaaS landing-page clichés.", "Don't stack technical terms without mechanisms and boundaries.", "Don't use decorative neon, default glassmorphism or complex motion performance."]
+  }
+}

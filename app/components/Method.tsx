@@ -2,6 +2,7 @@
 
 import BlurText from "../reactbits/TextAnimations/BlurText/BlurText";
 import { ScrollReveal } from "./ScrollReveal";
+import { MethodGraph } from "./MethodGraph";
 
 const STEPS = [
   {
@@ -37,27 +38,27 @@ const STEPS = [
 const RESEARCH_TOPICS = [
   {
     num: "01",
-    title: "Harness Engineering",
-    desc: "关注 AI 协作流程中的约束设计、反馈闭环与执行稳定性，思考如何持续提升人机协同质量。",
-    href: "https://www.huangxiyuan.net/harness-engineering.html",
+    title: "AI 前沿模型与 Agent 时间线",
+    desc: "从 Kimi K3、GPT-5.6、GLM-5.2 到 Work Buddy 与 Hermes，按官方发布时间梳理能力变化、Agent runtime 演进与产品机会。",
+    href: "/ai-frontier-timeline.html",
   },
   {
     num: "02",
+    title: "Harness Engineering",
+    desc: "从提示词之外的上下文、工具、验证器、反馈与恢复机制出发，研究如何让 Agent 在长周期任务中稳定交付。",
+    href: "/harness-engineering.html",
+  },
+  {
+    num: "03",
     title: "Claude Code 源码设计逻辑",
     desc: "关注客户端中的任务组织、工具协作与交互设计，理解工程实现如何映射产品判断。",
     href: "https://learn-claude-code-visual.vercel.app/index.html",
   },
   {
-    num: "03",
+    num: "04",
     title: "Hermes × OpenClaw 对比研究",
     desc: "对比两者在产品定位、交互路径、能力边界与落地场景上的差异，理解 AI 工具如何形成不同的使用范式。",
-    href: "https://www.huangxiyuan.net/hermes-vs-openclaw.html",
-  },
-  {
-    num: "04",
-    title: "前沿资讯追踪与落地方法",
-    desc: "通过 OpenAI Research、Anthropic RSP、Google DeepMind 等一手信息拆解能力变化、产品机会与验证方法。",
-    href: undefined,
+    href: "/hermes-vs-openclaw.html",
   },
 ];
 
@@ -65,10 +66,13 @@ export function Method() {
   return (
     <section
       id="method"
-      className="relative z-10 w-full px-6 md:px-12 py-16 md:py-24"
+      className="relative z-10 w-full px-6 md:px-12 py-16 md:py-24 overflow-hidden"
     >
+      {/* three.js 工作流节点图（背景层，DOM 内容保持在上层） */}
+      <MethodGraph />
+
       {/* Header */}
-      <div className="text-center mb-14">
+      <div className="relative z-10 text-center mb-14">
         <ScrollReveal>
           <p className="font-body text-[10.5px] font-medium tracking-[0.20em] text-text-tertiary uppercase mb-6">
             工作流蓝图
@@ -179,16 +183,20 @@ export function Method() {
                 className={`group block p-6 rounded-2xl bg-[#0c0c1a] border transition-all duration-500
                   ${isClickable
                     ? 'border-white/[0.12] cursor-pointer cursor-target no-underline hover:border-neon-cyan/50 hover:bg-[#0e0e1e] hover:-translate-y-1 hover:shadow-[0_0_48px_rgba(0,200,255,0.10),0_20px_56px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.04)]'
-                    : 'border-white/[0.08] shadow-[0_4px_24px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.02)]'
+                    : 'border-dashed border-white/[0.1] bg-transparent opacity-70 shadow-none'
                   }`}
               >
                 <div className="flex items-center justify-between mb-3">
-                  <p className="font-body text-[11px] font-medium tracking-[0.12em] text-neon-cyan">
+                  <p className={`font-body text-[11px] font-medium tracking-[0.12em] ${isClickable ? 'text-neon-cyan' : 'text-text-muted'}`}>
                     {topic.num}
                   </p>
-                  {isClickable && (
+                  {isClickable ? (
                     <span className="inline-flex items-center gap-1.5 text-neon-cyan/70 text-[11px] font-medium tracking-[0.06em] transition-all duration-400 group-hover:text-neon-cyan group-hover:gap-2">
                       查看 <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-neon-cyan/10 border border-neon-cyan/20 text-[10px] transition-all duration-400 group-hover:bg-neon-cyan/20 group-hover:border-neon-cyan/40 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">&rarr;</span>
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-full border border-white/[0.1] text-text-muted text-[10px] font-medium tracking-[0.1em] uppercase">
+                      整理中
                     </span>
                   )}
                 </div>

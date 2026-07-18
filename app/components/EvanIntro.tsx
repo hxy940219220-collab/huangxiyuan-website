@@ -89,6 +89,7 @@ export function EvanIntro({ onComplete }: { onComplete: () => void }) {
 
   return (
     <motion.div
+      data-evan-intro
       className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden"
       style={{ background: "#050509" }}
       animate={isDissolving ? { opacity: 0 } : { opacity: 1 }}

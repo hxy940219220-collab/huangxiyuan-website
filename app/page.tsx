@@ -7,7 +7,7 @@ import { EvanIntro } from "./components/EvanIntro";
 import { Identity } from "./components/Identity";
 import { Work } from "./components/Work";
 import { Method } from "./components/Method";
-import { RotatingCards3D } from "./components/RotatingCards3D";
+import { ToolStack } from "./components/ToolStack";
 import { ScrollReveal } from "./components/ScrollReveal";
 import { About } from "./components/About";
 import { Contact } from "./components/Contact";
@@ -18,6 +18,13 @@ export default function Home() {
 
   return (
     <>
+      {/* 无 JS 兜底：关掉开场遮罩、强制 Hero 文案可见 */}
+      <noscript>
+        <style>{`
+          [data-evan-intro] { display: none !important; }
+          #hero [style] { opacity: 1 !important; transform: none !important; filter: none !important; }
+        `}</style>
+      </noscript>
       {!introDone && <EvanIntro onComplete={() => setIntroDone(true)} />}
       <Navbar />
       <main>
@@ -25,10 +32,10 @@ export default function Home() {
         <Identity />
         <Work />
         <Method />
-        {/* 3D 旋转卡片 · 能力展示 */}
+        {/* AI 工具栈 · 能力展示 */}
         <section
           id="capabilities"
-          className="relative z-10 w-full px-6 md:px-12 py-20 md:py-32 overflow-hidden"
+          className="relative z-10 w-full px-6 md:px-12 py-20 md:py-32 overflow-hidden lg:overflow-visible"
         >
           <div
             aria-hidden="true"
@@ -49,7 +56,7 @@ export default function Home() {
                 </p>
               </ScrollReveal>
             </div>
-            <RotatingCards3D />
+            <ToolStack />
           </div>
         </section>
         <About />
