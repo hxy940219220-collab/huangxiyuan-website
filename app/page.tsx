@@ -7,7 +7,7 @@ import { EvanIntro } from "./components/EvanIntro";
 import { Identity } from "./components/Identity";
 import { Work } from "./components/Work";
 import { Method } from "./components/Method";
-import { ToolStack } from "./components/ToolStack";
+import { RotatingCards3D } from "./components/RotatingCards3D";
 import { ScrollReveal } from "./components/ScrollReveal";
 import { About } from "./components/About";
 import { Contact } from "./components/Contact";
@@ -32,10 +32,10 @@ export default function Home() {
         <Identity />
         <Work />
         <Method />
-        {/* AI 工具栈 · 能力展示 */}
+        {/* 3D 旋转卡片 · 能力展示 */}
         <section
           id="capabilities"
-          className="relative z-10 w-full px-6 md:px-12 py-20 md:py-32 overflow-hidden lg:overflow-visible"
+          className="relative z-10 w-full px-6 md:px-12 py-20 md:py-32 overflow-hidden"
         >
           <div
             aria-hidden="true"
@@ -56,7 +56,7 @@ export default function Home() {
                 </p>
               </ScrollReveal>
             </div>
-            <ToolStack />
+            <RotatingCards3D />
           </div>
         </section>
         <About />
