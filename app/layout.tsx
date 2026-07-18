@@ -20,15 +20,39 @@ const inter = Inter({
   variable: "--font-body",
 });
 
+const SITE_URL = "https://www.huangxiyuan.net";
+const SITE_TITLE = "黄锡源 HXY / AIPM - AI 产品经理";
+const SITE_DESCRIPTION =
+  "黄锡源 (HXY)，AI 产品经理。聚焦模型、Agent 与 Workflow 的产品化设计，把前沿能力转化为真实可用的产品体验。";
+
 export const metadata: Metadata = {
-  title: "黄锡源 HXY / AIPM - AI 产品经理",
-  description:
-    "黄锡源 (HXY)，AI 产品经理。聚焦模型、Agent 与 Workflow 的产品化设计，把前沿能力转化为真实可用的产品体验。",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "黄锡源 HXY / AIPM - AI 产品经理",
-    description:
-      "黄锡源 (HXY)，AI 产品经理。聚焦模型、Agent 与 Workflow 的产品化设计，把前沿能力转化为真实可用的产品体验。",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     type: "website",
+    url: SITE_URL,
+    siteName: "HXY / EVAN",
+    locale: "zh_CN",
+    images: [
+      {
+        url: "/HXY-AIPM-poster.jpg",
+        width: 3184,
+        height: 1792,
+        alt: "黄锡源 HXY - AI 产品经理",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ["/HXY-AIPM-poster.jpg"],
   },
 };
 
