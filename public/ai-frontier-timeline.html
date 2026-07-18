@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="黄锡源整理的 2025—2026 AI 模型与 Agent 产品发展时间线，覆盖 GPT-5.6、Kimi K3、GLM-5.2、Claude Opus 4.8、Hermes Agent 与 Work Buddy。" />
+  <title>AI 模型与 Agent 发展时间线 · HXY</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080812;
+      --panel: #0d0d1c;
+      --panel-2: #111120;
+      --line: rgba(255,255,255,.11);
+      --line-strong: rgba(255,255,255,.19);
+      --text: #f0f1f5;
+      --secondary: #b6bac7;
+      --muted: #757b8f;
+      --cyan: #45d8ff;
+      --violet: #c782ff;
+      --gold: #f6d96f;
+      --green: #4bdab3;
+      --orange: #ff9d62;
+      --radius: 22px;
+      --sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --serif: Iowan Old Style, "Songti SC", STSong, Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 3px;
+    }
+
+    .shell {
+      width: min(1220px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(8,8,18,.9);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-inner {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .11em;
+    }
+
+    .brand span { color: var(--muted); font-weight: 500; }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--secondary);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: .06em;
+    }
+
+    .back:hover { color: var(--cyan); }
+
+    .hero { padding: 92px 0 58px; }
+
+    .eyebrow {
+      margin: 0 0 20px;
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .19em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 950px;
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(46px, 7.8vw, 96px);
+      font-style: italic;
+      font-weight: 500;
+      line-height: .98;
+      letter-spacing: -.055em;
+    }
+
+    .lead {
+      max-width: 780px;
+      margin: 30px 0 0;
+      color: var(--secondary);
+      font-size: clamp(15px, 2vw, 18px);
+      line-height: 1.9;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .meta-item {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 11px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .08em;
+    }
+
+    .signals {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-bottom: 64px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .signal {
+      position: relative;
+      padding: 28px 30px 30px 0;
+    }
+
+    .signal + .signal {
+      border-left: 1px solid var(--line);
+      padding-left: 30px;
+    }
+
+    .signal-num {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .16em;
+    }
+
+    .signal h2 {
+      margin: 14px 0 8px;
+      font-family: var(--serif);
+      font-size: 24px;
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    .signal p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.75;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 28px;
+      margin-bottom: 24px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(30px, 5vw, 52px);
+      font-style: italic;
+      font-weight: 500;
+      letter-spacing: -.035em;
+    }
+
+    .section-head p {
+      max-width: 460px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+      text-align: right;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .filter {
+      appearance: none;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      padding: 8px 13px;
+      font: 600 11px/1 var(--sans);
+      cursor: pointer;
+      transition: border-color .2s ease, color .2s ease, background .2s ease;
+    }
+
+    .filter:hover { border-color: var(--line-strong); color: var(--text); }
+
+    .filter[aria-pressed="true"] {
+      border-color: rgba(69,216,255,.52);
+      background: rgba(69,216,255,.08);
+      color: var(--cyan);
+    }
+
+    .count {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .08em;
+      white-space: nowrap;
+    }
+
+    .table-shell {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: 0 24px 80px rgba(0,0,0,.35);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    col.c-date { width: 11%; }
+    col.c-kind { width: 11%; }
+    col.c-event { width: 21%; }
+    col.c-shift { width: 28%; }
+    col.c-impact { width: 23%; }
+    col.c-source { width: 6%; }
+
+    th {
+      padding: 15px 17px;
+      border-bottom: 1px solid var(--line-strong);
+      background: var(--panel-2);
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-align: left;
+      text-transform: uppercase;
+    }
+
+    td {
+      padding: 20px 17px;
+      border-bottom: 1px solid var(--line);
+      color: var(--secondary);
+      font-size: 12px;
+      line-height: 1.72;
+      vertical-align: top;
+      overflow-wrap: anywhere;
+    }
+
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr:hover td { background: rgba(255,255,255,.018); }
+
+    .date {
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+      font-weight: 650;
+    }
+
+    .event-title {
+      display: block;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 650;
+      line-height: 1.45;
+    }
+
+    .event-sub {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .kind {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .07em;
+      white-space: nowrap;
+    }
+
+    .kind.model { color: var(--violet); }
+    .kind.agent { color: var(--green); }
+    .kind.product { color: var(--gold); }
+
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    .source-link:hover { border-color: var(--cyan); color: var(--cyan); }
+    tr.is-hidden { display: none; }
+
+    .notes {
+      display: grid;
+      grid-template-columns: .72fr 1.28fr;
+      gap: 32px;
+      padding: 64px 0 84px;
+    }
+
+    .notes h2 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 36px;
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    .notes-copy {
+      border-top: 1px solid var(--line);
+      padding-top: 20px;
+    }
+
+    .notes-copy p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .notes-copy strong { color: var(--secondary); }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 0 42px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .08em;
+    }
+
+    @media (max-width: 860px) {
+      .signals { grid-template-columns: 1fr; }
+      .signal { padding: 24px 0; }
+      .signal + .signal { border-top: 1px solid var(--line); border-left: 0; padding-left: 0; }
+      .section-head { align-items: start; flex-direction: column; }
+      .section-head p { text-align: left; }
+      .toolbar { align-items: flex-start; flex-direction: column; }
+      .notes { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .shell { width: min(100% - 28px, 1220px); }
+      .hero { padding: 68px 0 48px; }
+      .lead { line-height: 1.75; }
+      .table-shell { border-radius: 18px; background: transparent; border: 0; box-shadow: none; overflow: visible; }
+      table, tbody { display: block; }
+      thead, colgroup { display: none; }
+      tbody { display: grid; gap: 12px; }
+      tr {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--panel);
+      }
+      td {
+        display: block;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--line);
+        font-size: 12px;
+      }
+      td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 7px;
+        color: var(--muted);
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+      }
+      td:nth-child(1) { border-right: 1px solid var(--line); }
+      td:nth-child(n+3) { grid-column: 1 / -1; }
+      td:last-child { border-bottom: 0; }
+      .source-link { width: auto; height: auto; border: 0; border-radius: 0; justify-content: flex-start; color: var(--cyan); }
+      .source-link::after { content: " 官方来源"; margin-left: 5px; font-size: 10px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="研究页面导航">
+    <div class="shell nav-inner">
+      <a class="brand" href="/">HXY <span>/ EVAN</span></a>
+      <a class="back" href="/#method"><span aria-hidden="true">←</span> 返回思考归档</a>
+    </div>
+  </nav>
+
+  <main>
+    <header class="shell hero">
+      <p class="eyebrow">Research archive · 01</p>
+      <h1>AI 模型与 Agent<br />发展时间线</h1>
+      <p class="lead">不把更新日志当新闻列表，而是观察能力边界如何迁移：模型从单轮回答走向长周期执行，Agent 产品则开始围绕 runtime、状态、记忆、工具与恢复机制建立真正的系统差异。</p>
+      <div class="hero-meta" aria-label="文档信息">
+        <span class="meta-item">2025.09—2026.07</span>
+        <span class="meta-item">17 个官方节点</span>
+        <span class="meta-item">更新于 2026.07.19</span>
+        <span class="meta-item">仅采用一手来源</span>
+      </div>
+    </header>
+
+    <section class="shell signals" aria-label="三个核心判断">
+      <article class="signal">
+        <span class="signal-num">SIGNAL 01</span>
+        <h2>能力进入长周期</h2>
+        <p>竞争焦点从回答质量继续向任务持续时间、上下文保持、并行协作和完成判断迁移。</p>
+      </article>
+      <article class="signal">
+        <span class="signal-num">SIGNAL 02</span>
+        <h2>Runtime 成为产品层</h2>
+        <p>Agent loop、状态恢复、记忆检索和工具权限不再只是工程实现，而直接决定用户信任。</p>
+      </article>
+      <article class="signal">
+        <span class="signal-num">SIGNAL 03</span>
+        <h2>Harness 决定可交付性</h2>
+        <p>更强模型仍需要目标、约束、验证器、反馈与人工确认，才能把能力稳定转成产品结果。</p>
+      </article>
+    </section>
+
+    <section class="shell" aria-labelledby="timeline-heading">
+      <div class="section-head">
+        <h2 id="timeline-heading">Release timeline</h2>
+        <p>按官方发布时间倒序整理。能力变化描述来自发布页；“产品判断”是基于这些事实给出的产品侧推论。</p>
+      </div>
+
+      <div class="toolbar">
+        <div class="filters" role="group" aria-label="筛选时间线">
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">全部</button>
+          <button class="filter" type="button" data-filter="model" aria-pressed="false">基础模型</button>
+          <button class="filter" type="button" data-filter="agent" aria-pressed="false">Agent Runtime</button>
+          <button class="filter" type="button" data-filter="product" aria-pressed="false">产品能力</button>
+        </div>
+        <span class="count" aria-live="polite"><span id="visible-count">17</span> / 17 节点</span>
+      </div>
+
+      <div class="table-shell">
+        <table>
+          <colgroup>
+            <col class="c-date" /><col class="c-kind" /><col class="c-event" />
+            <col class="c-shift" /><col class="c-impact" /><col class="c-source" />
+          </colgroup>
+          <thead>
+            <tr><th>时间</th><th>层级</th><th>事件</th><th>能力变化</th><th>产品判断</th><th>来源</th></tr>
+          </thead>
+          <tbody>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.07.16</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">Kimi K3</span><span class="event-sub">Moonshot AI</span></td>
+              <td data-label="能力变化">2.8T 参数、原生视觉、1M 上下文，同时提供 Agent、Chat 与 Agent Swarm 三种形态。</td>
+              <td data-label="产品判断">模型、交互模式和多 Agent 编排开始作为同一产品栈发布，产品设计需要同时考虑单体能力与协作拓扑。</td>
+              <td data-label="来源"><a class="source-link" href="https://www.kimi.com/code/docs/kimi-code/whats-new.html" target="_blank" rel="noopener noreferrer" aria-label="查看 Kimi K3 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.07.09</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">GPT-5.6 正式发布</span><span class="event-sub">OpenAI</span></td>
+              <td data-label="能力变化">GPT-5.6 以 Sol、Terra、Luna 家族进入通用可用阶段，并提供从低到 ultra 的推理强度控制。</td>
+              <td data-label="产品判断">模型选择从“固定版本”变成能力、成本、时延与计算强度的动态路由问题。</td>
+              <td data-label="来源"><a class="source-link" href="https://openai.com/index/gpt-5-6/" target="_blank" rel="noopener noreferrer" aria-label="查看 GPT-5.6 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="agent">
+              <td data-label="时间"><span class="date">2026.07.01</span></td>
+              <td data-label="层级"><span class="kind agent">Agent Runtime</span></td>
+              <td data-label="事件"><span class="event-title">Hermes Agent v0.18</span><span class="event-sub">Judgment Release</span></td>
+              <td data-label="能力变化">Mixture-of-Agents 成为一等能力，版本主题转向“知道什么时候工作已经完成”的判断与验收。</td>
+              <td data-label="产品判断">Agent 的竞争点开始从会不会调用工具，转向能否判断完成、组织专家并控制执行质量。</td>
+              <td data-label="来源"><a class="source-link" href="https://github.com/NousResearch/hermes-agent/releases/tag/v0.18.0" target="_blank" rel="noopener noreferrer" aria-label="查看 Hermes v0.18 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.06.30</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">Gemini Omni Flash</span><span class="event-sub">Google</span></td>
+              <td data-label="能力变化">统一多模态输入输出继续覆盖图像与可对话视频编辑；Nano Banana 2 Lite 面向高吞吐视觉任务。</td>
+              <td data-label="产品判断">多模态能力逐步从独立工具变成同一会话内可组合的输入、生成和编辑动作。</td>
+              <td data-label="来源"><a class="source-link" href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni-flash-nano-banana-2-lite/" target="_blank" rel="noopener noreferrer" aria-label="查看 Gemini Omni Flash 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.06.26</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">GPT-5.6 Sol 预览</span><span class="event-sub">OpenAI</span></td>
+              <td data-label="能力变化">面向长周期编码与研究的有限预览；ultra 推理模式可使用 subagents 扩展执行。</td>
+              <td data-label="产品判断">推理强度不再只意味着“想得更久”，还可能改变执行组织方式与所需的可观测性。</td>
+              <td data-label="来源"><a class="source-link" href="https://openai.com/index/previewing-gpt-5-6-sol/" target="_blank" rel="noopener noreferrer" aria-label="查看 GPT-5.6 Sol 预览官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="product">
+              <td data-label="时间"><span class="date">2026.06.24</span></td>
+              <td data-label="层级"><span class="kind product">产品能力</span></td>
+              <td data-label="事件"><span class="event-title">Gemini 3.5 Flash Computer Use</span><span class="event-sub">Google</span></td>
+              <td data-label="能力变化">计算机操作能力进入 Gemini 3.5 Flash，覆盖浏览器、移动端与桌面动作，并加入敏感动作确认和提示注入检测。</td>
+              <td data-label="产品判断">Computer Use 的产品化关键不只是操作成功率，而是权限边界、风险识别与确认流程。</td>
+              <td data-label="来源"><a class="source-link" href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-computer-use-gemini-3-5-flash/" target="_blank" rel="noopener noreferrer" aria-label="查看 Gemini Computer Use 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.06.16</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">GLM-5.2</span><span class="event-sub">Z.ai</span></td>
+              <td data-label="能力变化">1M 上下文、长周期任务与推理强度控制，面向 agentic coding，并以 MIT 许可开放权重。</td>
+              <td data-label="产品判断">长上下文的价值取决于状态组织与轨迹稳定性，不能把窗口长度直接等同于任务可靠性。</td>
+              <td data-label="来源"><a class="source-link" href="https://z.ai/blog/glm-5.2" target="_blank" rel="noopener noreferrer" aria-label="查看 GLM-5.2 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.05.28</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">Claude Opus 4.8</span><span class="event-sub">Anthropic</span></td>
+              <td data-label="能力变化">强化长周期 Agent 的可靠性与判断力，支持动态工作流、大规模并行 subagents 和 effort control。</td>
+              <td data-label="产品判断">长任务产品需要呈现计划、分支、成本与中途干预，不能只展示最终答案。</td>
+              <td data-label="来源"><a class="source-link" href="https://www.anthropic.com/news/claude-opus-4-8" target="_blank" rel="noopener noreferrer" aria-label="查看 Claude Opus 4.8 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="agent">
+              <td data-label="时间"><span class="date">2026.05.20</span></td>
+              <td data-label="层级"><span class="kind agent">Agent Runtime</span></td>
+              <td data-label="事件"><span class="event-title">Work Buddy v0.2</span><span class="event-sub">Local-first personal agent</span></td>
+              <td data-label="能力变化">加入 GTD 任务管线、本地推理、file-per-unit 知识库、事件面板，以及更清晰的 consent 与数据安全机制。</td>
+              <td data-label="产品判断">个人 Agent 的长期价值来自本地上下文、持续记忆和可撤回的权限，而不只是聊天入口。</td>
+              <td data-label="来源"><a class="source-link" href="https://github.com/KadenMc/work-buddy/releases/tag/v0.2.0" target="_blank" rel="noopener noreferrer" aria-label="查看 Work Buddy v0.2 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="agent">
+              <td data-label="时间"><span class="date">2026.05.07</span></td>
+              <td data-label="层级"><span class="kind agent">Agent Runtime</span></td>
+              <td data-label="事件"><span class="event-title">Hermes Agent v0.13</span><span class="event-sub">Tenacity Release</span></td>
+              <td data-label="能力变化">引入持久化多 Agent board、目标循环、checkpoint 与状态机制，支持中断后的任务继续。</td>
+              <td data-label="产品判断">“可恢复”是长周期 Agent 的核心体验指标，状态与 checkpoint 应作为产品能力被设计。</td>
+              <td data-label="来源"><a class="source-link" href="https://github.com/NousResearch/hermes-agent/releases/tag/v0.13.0" target="_blank" rel="noopener noreferrer" aria-label="查看 Hermes v0.13 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.04.20</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">Kimi K2.6</span><span class="event-sub">Moonshot AI</span></td>
+              <td data-label="能力变化">开放权重版本强化 Agent 能力，并将 Agent Swarm 作为复杂任务的并行执行路径。</td>
+              <td data-label="产品判断">并行 Agent 能缩短墙钟时间，但也放大任务拆分、共享状态与结果合并的设计成本。</td>
+              <td data-label="来源"><a class="source-link" href="https://www.kimi.com/code/docs/kimi-code/whats-new.html" target="_blank" rel="noopener noreferrer" aria-label="查看 Kimi K2.6 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="agent">
+              <td data-label="时间"><span class="date">2026.04.14</span></td>
+              <td data-label="层级"><span class="kind agent">Agent Runtime</span></td>
+              <td data-label="事件"><span class="event-title">Work Buddy v0.1</span><span class="event-sub">Initial pre-release</span></td>
+              <td data-label="能力变化">以 Claude Code 与 Obsidian 为基础，组合本地 gateway、conductor、持久工作流、知识存储与 sidecar。</td>
+              <td data-label="产品判断">个人 Agent 开始从单应用走向本地运行层，重点是连接既有工具和用户长期知识。</td>
+              <td data-label="来源"><a class="source-link" href="https://github.com/KadenMc/work-buddy/releases/tag/v0.1.0" target="_blank" rel="noopener noreferrer" aria-label="查看 Work Buddy v0.1 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="agent">
+              <td data-label="时间"><span class="date">2026.03.30</span></td>
+              <td data-label="层级"><span class="kind agent">Agent Runtime</span></td>
+              <td data-label="事件"><span class="event-title">Hermes Agent v0.6</span><span class="event-sub">Profiles & multi-instance</span></td>
+              <td data-label="能力变化">加入 profiles 与多实例能力，让同一 runtime 可以维护不同身份、环境和任务上下文。</td>
+              <td data-label="产品判断">Agent 的身份隔离与环境配置会逐渐接近传统软件里的账号、工作区和权限系统。</td>
+              <td data-label="来源"><a class="source-link" href="https://github.com/NousResearch/hermes-agent/releases/tag/v0.6.0" target="_blank" rel="noopener noreferrer" aria-label="查看 Hermes v0.6 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="product">
+              <td data-label="时间"><span class="date">2026.02</span></td>
+              <td data-label="层级"><span class="kind product">产品能力</span></td>
+              <td data-label="事件"><span class="event-title">Kimi Claw 公测</span><span class="event-sub">Moonshot AI</span></td>
+              <td data-label="能力变化">将 Agent 能力包装为更直接的任务入口，降低用户组织复杂提示词与执行步骤的成本。</td>
+              <td data-label="产品判断">Agent 产品的入口正在从“输入问题”转向“委托任务”，界面需要表达进度、控制与结果状态。</td>
+              <td data-label="来源"><a class="source-link" href="https://www.kimi.com/code/docs/kimi-code/whats-new.html" target="_blank" rel="noopener noreferrer" aria-label="查看 Kimi Claw 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.01.27</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">Kimi K2.5</span><span class="event-sub">Moonshot AI</span></td>
+              <td data-label="能力变化">继续强化复杂任务与 Agent 场景，为后续 K2.6 的开放能力和 K3 的原生多模态路线铺垫。</td>
+              <td data-label="产品判断">模型迭代的连续性比单次榜单更重要：应跟踪工具使用、视觉理解和任务持续性的组合变化。</td>
+              <td data-label="来源"><a class="source-link" href="https://www.kimi.com/code/docs/kimi-code/whats-new.html" target="_blank" rel="noopener noreferrer" aria-label="查看 Kimi K2.5 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="product">
+              <td data-label="时间"><span class="date">2025.09.26</span></td>
+              <td data-label="层级"><span class="kind product">产品能力</span></td>
+              <td data-label="事件"><span class="event-title">OK Computer Agent</span><span class="event-sub">Moonshot AI</span></td>
+              <td data-label="能力变化">Kimi 将模型能力进一步产品化为面向电脑任务的 Agent 体验，连接信息理解与具体操作。</td>
+              <td data-label="产品判断">当模型开始操作环境，产品责任会扩展到权限、可逆性、审计记录和失败恢复。</td>
+              <td data-label="来源"><a class="source-link" href="https://www.kimi.com/code/docs/kimi-code/whats-new.html" target="_blank" rel="noopener noreferrer" aria-label="查看 OK Computer Agent 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2025.09.05</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">Kimi K2</span><span class="event-sub">Moonshot AI</span></td>
+              <td data-label="能力变化">K2 成为后续 Kimi Agent 与 K3 路线的重要模型基座，更新序列开始明显围绕工具和任务执行展开。</td>
+              <td data-label="产品判断">观察模型时需要从“单次生成质量”扩展到工具使用、状态保持与环境行动的完整能力栈。</td>
+              <td data-label="来源"><a class="source-link" href="https://www.kimi.com/code/docs/kimi-code/whats-new.html" target="_blank" rel="noopener noreferrer" aria-label="查看 Kimi K2 官方来源">↗</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="shell notes" aria-labelledby="notes-heading">
+      <h2 id="notes-heading">Reading notes</h2>
+      <div class="notes-copy">
+        <p><strong>关于时间：</strong>日期优先使用官方发布页或 GitHub Release 的发布日期；只有月份的节点保留月级精度，不推测具体日期。</p>
+        <p><strong>关于判断：</strong>“产品判断”不是官方结论，而是我基于发布事实做的产品侧推论，用来连接模型能力、Agent 机制与实际体验设计。</p>
+        <p><strong>关于更新：</strong>这不是追求全量的新闻数据库，而是一份持续维护的能力迁移记录。新节点只有在存在一手来源、且对产品设计有实质影响时才会加入。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell">HXY / EVAN · AI PRODUCT & AGENT SYSTEMS · 2026</div>
+  </footer>
+
+  <script>
+    const buttons = Array.from(document.querySelectorAll('[data-filter]'));
+    const rows = Array.from(document.querySelectorAll('tbody tr[data-kind]'));
+    const count = document.getElementById('visible-count');
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const filter = button.dataset.filter;
+        buttons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+        let visible = 0;
+        rows.forEach((row) => {
+          const matches = filter === 'all' || row.dataset.kind === filter;
+          row.classList.toggle('is-hidden', !matches);
+          if (matches) visible += 1;
+        });
+        count.textContent = String(visible);
+      });
+    });
+  </script>
+</body>
+</html>

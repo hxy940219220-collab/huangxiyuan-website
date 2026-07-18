@@ -1,12 +1,33 @@
 "use client";
 
+import { useState } from "react";
 import BlurText from "../reactbits/TextAnimations/BlurText/BlurText";
 import ShinyText from "../reactbits/TextAnimations/ShinyText/ShinyText";
 import { motion } from "motion/react";
 import { ScrollReveal } from "./ScrollReveal";
-import { GithubLogo, Envelope } from "@phosphor-icons/react";
+import { GithubLogo, Envelope, Copy, Check } from "@phosphor-icons/react";
+
+const EMAIL = "hxy940219220@gmail.com";
 
 export function Contact() {
+  const [copied, setCopied] = useState(false);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+    } catch {
+      // 剪贴板 API 不可用时降级为选中文本
+      const ta = document.createElement("textarea");
+      ta.value = EMAIL;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <section
       id="contact"
@@ -53,8 +74,9 @@ export function Contact() {
                   邮件联系
               </motion.a>
               <motion.a
-                  href="#"
-                  onClick={(e) => e.preventDefault()}
+                  href="https://github.com/hxy940219220-collab"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97, y: 1 }}
                   className="cursor-target inline-flex items-center gap-2 px-4 md:px-7 py-3 md:py-3.5 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-white no-underline bg-white/[0.05] border border-white/[0.16] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-pink hover:bg-white/[0.1] hover:shadow-[0_0_32px_rgba(216,76,255,0.15)]"
@@ -62,16 +84,20 @@ export function Contact() {
                   <GithubLogo size={16} weight="bold" />
                   GitHub
               </motion.a>
-              <motion.a
-                  href="https://huangxiyuan.net"
-                  target="_blank"
-                  rel="noopener noreferrer"
+              <motion.button
+                  type="button"
+                  onClick={copyEmail}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97, y: 1 }}
-                  className="cursor-target inline-flex items-center gap-2 px-4 md:px-7 py-3 md:py-3.5 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-white no-underline bg-white/[0.05] border border-white/[0.16] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-pink hover:bg-white/[0.1] hover:shadow-[0_0_32px_rgba(216,76,255,0.15)]"
+                  className="cursor-target inline-flex items-center gap-2 px-4 md:px-7 py-3 md:py-3.5 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-white bg-white/[0.05] border border-white/[0.16] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-cyan hover:bg-white/[0.1] hover:shadow-[0_0_32px_rgba(0,200,255,0.15)] cursor-pointer"
                 >
-                  huangxiyuan.net
-              </motion.a>
+                  {copied ? (
+                    <Check size={16} weight="bold" className="text-neon-cyan" />
+                  ) : (
+                    <Copy size={16} weight="bold" />
+                  )}
+                  {copied ? "已复制邮箱" : "复制邮箱"}
+              </motion.button>
             </div>
           </div>
         </ScrollReveal>

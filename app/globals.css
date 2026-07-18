@@ -56,6 +56,20 @@ body {
 }
 
 /* ============================================================
+   HERO POSTER MASK — 海报边缘渐隐，融入 Aurora/底色
+   ============================================================ */
+.hero-poster-mask {
+  mask-image: radial-gradient(ellipse 88% 86% at 60% 44%, black 55%, transparent 98%);
+  -webkit-mask-image: radial-gradient(ellipse 88% 86% at 60% 44%, black 55%, transparent 98%);
+}
+@media (max-width: 767px) {
+  .hero-poster-mask {
+    mask-image: linear-gradient(to bottom, black 62%, transparent 98%);
+    -webkit-mask-image: linear-gradient(to bottom, black 62%, transparent 98%);
+  }
+}
+
+/* ============================================================
    LIQUID GLASS UTILITY
    ============================================================ */
 .liquid-glass {
@@ -90,6 +104,17 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.22);
+}
+
+/* ============================================================
+   NO SCROLLBAR — 横向滚动区隐藏滚动条
+   ============================================================ */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 /* ============================================================
@@ -146,7 +171,7 @@ body {
 }
 
 /* ============================================================
-   CURSOR TARGET 鈥� expanded hit area for TargetCursor lock-on
+   CURSOR TARGET — expanded hit area for TargetCursor lock-on
    ============================================================ */
 .cursor-target {
   position: relative;

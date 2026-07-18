@@ -4,43 +4,57 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { List, X } from "@phosphor-icons/react";
 
-const NAV_ITEMS = [
+type NavSub = {
+  label: string;
+  href: string;
+};
+
+type NavItem = {
+  label: string;
+  href: string;
+  subs: NavSub[];
+};
+
+const NAV_ITEMS: NavItem[] = [
   {
     label: "作品",
     href: "#work",
     subs: [
-      { label: "IdeaFlash · 灵感胶囊" },
-      { label: "FocusMeow · 专注喵" },
+      { label: "Flick · 划词 AI", href: "#project-flick" },
+      { label: "研报笔记 Agent", href: "#project-report-note" },
+      { label: "IdeaFlash · 灵感胶囊", href: "#project-ideaflash" },
+      { label: "FocusMeow · 专注喵", href: "#project-focusmeow" },
     ],
   },
   {
     label: "思考",
     href: "#method",
     subs: [
-      { label: "AIPM 工作流蓝图" },
-      { label: "Harness Engineering" },
-      { label: "Claude Code 设计逻辑" },
-      { label: "Hermes × OpenClaw" },
+      { label: "AI 前沿模型与 Agent 时间线", href: "/ai-frontier-timeline.html" },
+      { label: "Harness Engineering", href: "/harness-engineering.html" },
+      { label: "Claude Code 设计逻辑", href: "https://learn-claude-code-visual.vercel.app/index.html" },
+      { label: "Hermes × OpenClaw", href: "/hermes-vs-openclaw.html" },
     ],
   },
   {
     label: "工具栈",
     href: "#capabilities",
     subs: [
-      { label: "Claude" },
-      { label: "GPT" },
-      { label: "Gemini" },
-      { label: "VS Code" },
-      { label: "Typeless" },
+      { label: "Claude", href: "#tool-claude" },
+      { label: "GPT", href: "#tool-gpt" },
+      { label: "Gemini", href: "#tool-gemini" },
+      { label: "VS Code", href: "#tool-vscode" },
+      { label: "Typeless", href: "#tool-typeless" },
+      { label: "Hermes Agent", href: "#tool-hermes" },
     ],
   },
   {
     label: "关于",
     href: "#about",
     subs: [
-      { label: "产品化能力" },
-      { label: "Agent 系统" },
-      { label: "快速验证" },
+      { label: "产品化能力", href: "#about-product" },
+      { label: "Agent 系统", href: "#about-agent" },
+      { label: "快速验证", href: "#about-validation" },
     ],
   },
   {
@@ -109,28 +123,22 @@ export function Navbar() {
                   {item.label}
                 </a>
                 {/* 下拉子项 */}
-                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:pointer-events-auto transition-all duration-300 z-50">
                   <div className="flex flex-col gap-0.5 py-2 px-1 rounded-xl bg-[rgba(13,13,28,0.94)] border border-white/[0.10] backdrop-blur-xl shadow-[0_16px_48px_rgba(0,0,0,0.55)] min-w-[180px]">
-                    {item.subs.map((sub) =>
-                      "href" in sub && sub.href ? (
+                    {item.subs.map((sub) => {
+                      const isSectionLink = sub.href.startsWith("#");
+                      return (
                         <a
                           key={sub.label}
                           href={sub.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block px-3 py-2 rounded-lg font-body text-[12px] text-text-secondary whitespace-nowrap no-underline transition-colors duration-200 hover:text-white hover:bg-white/[0.06]"
+                          {...(!isSectionLink ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                          onClick={isSectionLink ? (e) => { e.preventDefault(); scrollTo(sub.href); } : undefined}
+                          className="block px-3 py-2 rounded-lg font-body text-[12px] text-text-secondary whitespace-nowrap no-underline transition-colors duration-200 hover:text-white hover:bg-white/[0.06] focus-visible:text-white focus-visible:bg-white/[0.06] focus-visible:outline focus-visible:outline-1 focus-visible:outline-neon-cyan"
                         >
                           {sub.label}
                         </a>
-                      ) : (
-                        <span
-                          key={sub.label}
-                          className="block px-3 py-2 rounded-lg font-body text-[12px] text-text-secondary whitespace-nowrap transition-colors duration-200 hover:text-white hover:bg-white/[0.06]"
-                        >
-                          {sub.label}
-                        </span>
-                      )
-                    )}
+                      );
+                    })}
                   </div>
                 </div>
               </li>
@@ -184,7 +192,7 @@ export function Navbar() {
               style={{ transformOrigin: "top right" }}
               className="fixed top-[68px] right-4 z-[99] md:hidden w-[200px] p-1.5 rounded-2xl bg-[rgba(13,13,28,0.96)] border border-white/[0.12] backdrop-blur-xl shadow-[0_16px_48px_rgba(0,0,0,0.55)] flex flex-col"
             >
-              {[...NAV_ITEMS, { label: "聊聊", href: "#contact", subs: [] as {label:string; href?:string}[] }].map(
+              {[...NAV_ITEMS, { label: "聊聊", href: "#contact", subs: [] as NavSub[] }].map(
                 (item) => (
                   <a
                     key={item.label + item.href}

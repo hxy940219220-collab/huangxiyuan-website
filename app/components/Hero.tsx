@@ -1,122 +1,89 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useState } from "react";
+import {
+  motion,
+  useReducedMotion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "motion/react";
 import SplitText from "../reactbits/TextAnimations/SplitText/SplitText";
+import Aurora from "../reactbits/Backgrounds/Aurora/Aurora";
+
 export function Hero() {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const reduced = useReducedMotion();
 
-  const fgVideoRef = useRef<HTMLVideoElement>(null);
-  // 所有浏览器首屏先渲染静态封面图（SSR HTML 里不含 <video>），
-  // 挂载后确认不是夸克 / UC / 百度等劫持型浏览器，才换入真正的视频。
-  // 这样劫持型浏览器从头到尾只见到图片，没有可接管的视频元素。
-  const [showVideo, setShowVideo] = useState(false);
-
+  // 只在桌面端挂载 WebGL 背景（移动端用静态海报，省流量省性能）
+  const [isDesktop, setIsDesktop] = useState(false);
   useEffect(() => {
-    const hijacker = /Quark|UCBrowser|UCWEB|baiduboxapp|BaiduHD/i.test(
-      navigator.userAgent
-    );
-    if (!hijacker) setShowVideo(true);
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
   }, []);
 
+  // 鼠标视差：海报与 Aurora 反向微移，形成纵深
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const sx = useSpring(mx, { damping: 42, stiffness: 55, mass: 1 });
+  const sy = useSpring(my, { damping: 42, stiffness: 55, mass: 1 });
+  const posterX = useTransform(sx, (v) => v * 10);
+  const posterY = useTransform(sy, (v) => v * 7);
+  const auroraX = useTransform(sx, (v) => v * -20);
+  const auroraY = useTransform(sy, (v) => v * -12);
+
   useEffect(() => {
-    const videos = [videoRef.current, fgVideoRef.current].filter(
-      Boolean
-    ) as HTMLVideoElement[];
-    if (videos.length === 0) return;
-
-    // X5 内核（微信/QQ/部分国产浏览器）私有属性：
-    // 防止 video 被提权为原生全屏播放器，盖住整个页面
-    videos.forEach((v) => {
-      v.setAttribute("webkit-playsinline", "true");
-      v.setAttribute("x5-playsinline", "true");
-      v.setAttribute("x5-video-player-type", "h5-page");
-      v.setAttribute("x5-video-player-fullscreen", "false");
-    });
-
-    const play = () => videos.forEach((v) => v.play().catch(() => {}));
-    play();
-    // 微信内置浏览器：等 JSBridge 就绪后才允许自动播放
-    interface WeixinWindow extends Window {
-      WeixinJSBridge?: { invoke: (api: string, opts: object, cb: () => void) => void };
-    }
-    const w = window as WeixinWindow;
-    const wxPlay = () => {
-      if (w.WeixinJSBridge) {
-        w.WeixinJSBridge.invoke("getNetworkType", {}, play);
-      } else {
-        play();
-      }
+    if (reduced || !window.matchMedia("(pointer: fine)").matches) return;
+    const onMove = (e: MouseEvent) => {
+      mx.set((e.clientX / window.innerWidth) * 2 - 1);
+      my.set((e.clientY / window.innerHeight) * 2 - 1);
     };
-    wxPlay();
-    document.addEventListener("WeixinJSBridgeReady", wxPlay, { once: true });
-    // 视频数据就绪后再试一次（首帧加载完成的时机）
-    videos.forEach((v) => v.addEventListener("loadeddata", play, { once: true }));
-    // 移动端首次触摸兜底（click 在部分移动浏览器不触发）
-    document.addEventListener("click", play, { once: true });
-    document.addEventListener("touchstart", play, { once: true });
-    return () => {
-      document.removeEventListener("WeixinJSBridgeReady", wxPlay);
-      document.removeEventListener("click", play);
-      document.removeEventListener("touchstart", play);
-    };
-  }, [showVideo]);
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onMove);
+  }, [mx, my, reduced]);
 
   return (
     <section
       id="hero"
       className="relative z-[10] min-h-[100dvh] flex items-center justify-center overflow-hidden bg-bg-deepest"
     >
-      {/* Background blurred layer */}
-      <div className="absolute inset-0 z-0 pointer-events-none hidden md:block" aria-hidden="true">
-        {!showVideo ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            src="/HXY-AIPM-poster.jpg"
-            alt=""
-            className="w-full h-full object-cover blur-[40px] brightness-[0.3] scale-110"
+      {/* WebGL Aurora 背景（桌面端，替代原 3.3MB 视频层） */}
+      {isDesktop && !reduced && (
+        <motion.div
+          className="absolute inset-[-5%] z-0 pointer-events-none"
+          aria-hidden="true"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.6, ease: "easeOut" }}
+          style={{ x: auroraX, y: auroraY }}
+        >
+          <Aurora
+            colorStops={["#ff6a1a", "#d84cff", "#00c8ff"]}
+            amplitude={1.15}
+            blend={0.55}
+            speed={0.5}
           />
-        ) : (
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            poster="/HXY-AIPM-poster.jpg"
-            className="w-full h-full object-cover blur-[40px] brightness-[0.3] scale-110"
-          >
-            <source src="/HXY-AIPM-video.mp4" type="video/mp4" />
-          </video>
-        )}
-      </div>
+          {/* 压暗背景，让前景照片与文字突出 */}
+          <div className="absolute inset-0 bg-[#050509]/40" />
+        </motion.div>
+      )}
 
-      {/* Foreground video（劫持型浏览器降级为静态封面图） */}
-      <div className="absolute inset-0 z-[1] pointer-events-none" aria-hidden="true">
-        {!showVideo ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            src="/HXY-AIPM-poster.jpg"
-            alt=""
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <video
-            ref={fgVideoRef}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            poster="/HXY-AIPM-poster.jpg"
-            className="w-full h-full object-cover"
-          >
-            <source src="/HXY-AIPM-video.mp4" type="video/mp4" />
-          </video>
-        )}
-      </div>
+      {/* 前景海报照片（静态图，边缘渐隐融入背景） */}
+      <motion.div
+        className="absolute inset-0 z-[1] pointer-events-none"
+        aria-hidden="true"
+        style={reduced ? undefined : { x: posterX, y: posterY, scale: 1.04 }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/HXY-AIPM-poster.jpg"
+          alt=""
+          fetchPriority="high"
+          className="hero-poster-mask w-full h-full object-cover"
+        />
+      </motion.div>
 
       {/* Subtle vignette */}
       <div
