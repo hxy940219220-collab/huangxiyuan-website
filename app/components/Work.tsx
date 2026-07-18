@@ -60,7 +60,7 @@ export function Work() {
 
       {/* Project cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-        {/* IdeaFlash */}
+        {/* Flick */}
         <ScrollReveal delay={0.08}>
           <TiltWrap className="h-full">
             <motion.div
@@ -69,8 +69,121 @@ export function Work() {
             >
               <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
                 <img
-                  src="/ideaflash.png"
+                  src="/flick-project-card.webp"
+                  alt="Flick macOS 划词 AI 工具"
+                  width={1672}
+                  height={941}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-6 md:p-7 flex flex-col flex-1">
+                <div className="flex gap-2 flex-wrap mb-3.5">
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-cyan text-neon-cyan">AI</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">macOS</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">SwiftUI</span>
+                </div>
+                <h3 className="font-display italic text-[26px] text-white mb-1.5">
+                  Flick · 划词 AI
+                </h3>
+                <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
+                  在支持文本复制的 macOS 应用中选中文字，按 ⌘E 唤起解释、总结、翻译与润色。
+                </p>
+                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">不做另一个聊天窗口，而把 AI 变成文本动作</p>
+                <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
+                  全局快捷键唤起光标附近的极简浮层，数字键选择预设动作，结果原地流式返回，让阅读和学习不必离开当前应用。
+                </p>
+                <div className="flex flex-wrap gap-3 mt-auto">
+                  <a
+                    href="/projects/flick"
+                    className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-cyan text-[#050509] font-body text-[12px] font-semibold tracking-[0.04em] no-underline transition-all duration-400 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(0,200,255,0.2)]"
+                  >
+                    查看演示 ↗
+                  </a>
+                  <a
+                    href="https://github.com/think2do/Flick"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-neon-cyan/20"
+                  >
+                    <GithubLogo size={14} weight="fill" />
+                    GitHub
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </TiltWrap>
+        </ScrollReveal>
+
+        {/* Report Note Agent */}
+        <ScrollReveal delay={0.16}>
+          <TiltWrap className="h-full">
+            <motion.div
+              whileHover={{ y: -6 }}
+              className="relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-orange/30 hover:shadow-[0_0_60px_rgba(255,106,26,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] flex flex-col h-full"
+            >
+              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
+                <img
+                  src="/report-note-agent-project-card.webp"
+                  alt="研报笔记 Agent 桌面应用"
+                  width={1672}
+                  height={941}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-6 md:p-7 flex flex-col flex-1">
+                <div className="flex gap-2 flex-wrap mb-3.5">
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-orange text-neon-orange">AI Agent</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Electron</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">macOS</span>
+                </div>
+                <h3 className="font-display italic text-[26px] text-white mb-1.5">
+                  研报笔记 Agent
+                </h3>
+                <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
+                  把 PDF / DOCX 行业报告拆成可审核、可编辑、可导出的文案、封面与报告图片。
+                </p>
+                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">不止生成摘要，而把内容生产串成可控工作流</p>
+                <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
+                  本机解析文档，生成可编辑草稿与封面，选择报告页面，经人工审核后导出或同步到发布编辑页。
+                </p>
+                <div className="flex flex-wrap gap-3 mt-auto">
+                  <a
+                    href="/projects/report-note-agent"
+                    className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-orange text-[#050509] font-body text-[12px] font-semibold tracking-[0.04em] no-underline transition-all duration-400 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(255,106,26,0.2)]"
+                  >
+                    查看演示 ↗
+                  </a>
+                  <a
+                    href="https://github.com/hxy940219220-collab/xhs-report-agent"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-orange/10 border border-neon-orange/30 text-neon-orange font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-neon-orange/20"
+                  >
+                    <GithubLogo size={14} weight="fill" />
+                    GitHub
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </TiltWrap>
+        </ScrollReveal>
+
+        {/* IdeaFlash */}
+        <ScrollReveal delay={0.24}>
+          <TiltWrap className="h-full">
+            <motion.div
+              whileHover={{ y: -6 }}
+              className="relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-cyan/30 hover:shadow-[0_0_60px_rgba(0,200,255,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] flex flex-col h-full"
+            >
+              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
+                <img
+                  src="/ideaflash.webp"
                   alt="IdeaFlash 灵感胶囊"
+                  width={1672}
+                  height={941}
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -90,22 +203,42 @@ export function Work() {
                 <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
                   核心不是让用户写得更完整，而是在想法最脆弱的一瞬间把它接住，整理与结构化交给 AI 在后面完成。
                 </p>
-                <a
-                  href="https://raw.githubusercontent.com/think2do/FlashMind/main/APK/%E7%81%B5%E6%84%9F%E8%83%B6%E5%9B%8A1.03.apk"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-orange/10 border border-neon-orange/30 text-neon-orange font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-neon-orange/20 hover:shadow-[0_0_24px_rgba(255,106,26,0.2)] mt-auto self-start"
-                >
-                  <GooglePlayLogo size={14} weight="fill" />
-                  点击即刻下载
-                </a>
+                <div className="flex items-end justify-between gap-4 mt-auto">
+                  <div>
+                    <a
+                      href="https://raw.githubusercontent.com/think2do/FlashMind/main/APK/%E7%81%B5%E6%84%9F%E8%83%B6%E5%9B%8A1.03.apk"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-orange/10 border border-neon-orange/30 text-neon-orange font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-neon-orange/20 hover:shadow-[0_0_24px_rgba(255,106,26,0.2)] self-start"
+                    >
+                      <GooglePlayLogo size={14} weight="fill" />
+                      点击即刻下载
+                    </a>
+                    <p className="mt-2.5 text-[10.5px] tracking-[0.06em] text-text-muted">
+                      v1.03 · Android APK · 约 6.7 MB
+                    </p>
+                  </div>
+                  {/* 桌面端展示二维码，手机扫码即装（移动端隐藏，直接点按钮即可） */}
+                  <div className="hidden md:flex flex-col items-center gap-1.5 shrink-0">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/ideaflash-qr.svg"
+                      alt="IdeaFlash 下载二维码"
+                      width={72}
+                      height={72}
+                      loading="lazy"
+                      className="rounded-lg border border-white/[0.1] bg-white p-1.5"
+                    />
+                    <span className="text-[9.5px] tracking-[0.08em] text-text-muted">扫码下载</span>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </TiltWrap>
         </ScrollReveal>
 
         {/* FocusMeow */}
-        <ScrollReveal delay={0.16}>
+        <ScrollReveal delay={0.32}>
           <TiltWrap className="h-full">
             <motion.div
               whileHover={{ y: -6 }}
@@ -113,8 +246,11 @@ export function Work() {
             >
               <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
                 <img
-                  src="/focusmeow.png"
+                  src="/focusmeow.webp"
                   alt="FocusMeow 专注喵"
+                  width={1672}
+                  height={941}
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -130,7 +266,7 @@ export function Work() {
                 <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
                   用猫咪陪伴、成长奖励与 AI 反馈，驱动长期专注习惯形成的情感化 app。
                 </p>
-                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">不把它做成"又一个番茄钟"</p>
+                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">不把它做成「又一个番茄钟」</p>
                 <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
                   四层叠加的产品骨架——专注工具层、游戏养成层、情感陪伴层、智能解释层，让效率与情绪同时成立。
                 </p>
