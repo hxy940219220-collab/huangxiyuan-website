@@ -14,7 +14,6 @@ interface CardData {
   title: string;
   desc: string;
   tags: string[];
-  href?: string;
   gradient: string;
   accentBorder: string;
   glowColor: string;
@@ -23,17 +22,6 @@ interface CardData {
 const CARDS: CardData[] = [
   {
     num: "01",
-    id: "tool-claude",
-    title: "Claude",
-    desc: "主力 AI 编程助手。日常用 Claude Code 做产品原型、代码生成与架构设计，是最高频使用的 AI 工具。",
-    tags: ["Claude Code", "Agent", "Prototype"],
-    gradient:
-      "radial-gradient(circle at 24% 28%, rgba(216,76,255,0.22), transparent 26%), radial-gradient(circle at 72% 72%, rgba(180,50,230,0.16), transparent 24%)",
-    accentBorder: "rgba(216,76,255,0.35)",
-    glowColor: "rgba(216,76,255,0.45)",
-  },
-  {
-    num: "02",
     id: "tool-gpt",
     title: "GPT",
     desc: "OpenAI 旗舰模型。重点使用 Image2 与 Codex CLI，覆盖视觉创作与自动化编码两大高频场景。",
@@ -44,7 +32,29 @@ const CARDS: CardData[] = [
     glowColor: "rgba(0,200,255,0.45)",
   },
   {
+    num: "02",
+    id: "tool-claude",
+    title: "Claude",
+    desc: "主力 AI 编程助手。日常用 Claude Code 做产品原型、代码生成与架构设计，是最高频使用的 AI 工具。",
+    tags: ["Claude Code", "Agent", "Prototype"],
+    gradient:
+      "radial-gradient(circle at 24% 28%, rgba(216,76,255,0.22), transparent 26%), radial-gradient(circle at 72% 72%, rgba(180,50,230,0.16), transparent 24%)",
+    accentBorder: "rgba(216,76,255,0.35)",
+    glowColor: "rgba(216,76,255,0.45)",
+  },
+  {
     num: "03",
+    id: "tool-hermes",
+    title: "Hermes Agent",
+    desc: "可自托管的个人 Agent runtime。重点研究 agent loop、skills、记忆、状态恢复与多渠道 gateway 如何组成可长期运行的系统。",
+    tags: ["Agent Runtime", "Skills", "Memory"],
+    gradient:
+      "radial-gradient(circle at 24% 28%, rgba(40,220,178,0.20), transparent 28%), radial-gradient(circle at 74% 68%, rgba(0,200,255,0.14), transparent 26%)",
+    accentBorder: "rgba(40,220,178,0.38)",
+    glowColor: "rgba(40,220,178,0.45)",
+  },
+  {
+    num: "04",
     id: "tool-gemini",
     title: "Gemini",
     desc: "Google 多模态模型。擅长长文本理解、视觉分析与跨模态推理，用于研究对比与产品探索。",
@@ -55,7 +65,7 @@ const CARDS: CardData[] = [
     glowColor: "rgba(255,216,74,0.45)",
   },
   {
-    num: "04",
+    num: "05",
     id: "tool-vscode",
     title: "VS Code",
     desc: "主要代码编辑器。结合 AI 插件进行 Vibe Coding，快速将产品想法转化为可运行的原型与验证产物。",
@@ -66,7 +76,7 @@ const CARDS: CardData[] = [
     glowColor: "rgba(0,100,255,0.45)",
   },
   {
-    num: "05",
+    num: "06",
     id: "tool-typeless",
     title: "Typeless",
     desc: "语音转结构化文字工具。将会议录音、口述想法快速转为可编辑、可检索的结构化文档。",
@@ -75,18 +85,6 @@ const CARDS: CardData[] = [
       "radial-gradient(circle at 28% 30%, rgba(255,106,26,0.22), transparent 28%), radial-gradient(circle at 68% 64%, rgba(230,90,20,0.16), transparent 26%)",
     accentBorder: "rgba(255,106,26,0.35)",
     glowColor: "rgba(255,106,26,0.45)",
-  },
-  {
-    num: "06",
-    id: "tool-hermes",
-    title: "Hermes Agent",
-    desc: "可自托管的个人 Agent runtime。重点研究 agent loop、skills、记忆、状态恢复与多渠道 gateway 如何组成可长期运行的系统。",
-    tags: ["Agent Runtime", "Skills", "Memory"],
-    href: "https://github.com/NousResearch/hermes-agent",
-    gradient:
-      "radial-gradient(circle at 24% 28%, rgba(40,220,178,0.20), transparent 28%), radial-gradient(circle at 74% 68%, rgba(0,200,255,0.14), transparent 26%)",
-    accentBorder: "rgba(40,220,178,0.38)",
-    glowColor: "rgba(40,220,178,0.45)",
   },
 ];
 
@@ -124,17 +122,6 @@ function CardFace({ card }: { card: CardData }) {
             </span>
           ))}
         </div>
-        {card.href && (
-          <a
-            href={card.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            onPointerDown={(event) => event.stopPropagation()}
-            className="cursor-target mt-3 inline-flex items-center gap-1.5 font-body text-[9.5px] font-medium tracking-[0.08em] text-[#28dcb2] no-underline transition-colors hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#28dcb2]"
-          >
-            查看开源项目 <span aria-hidden="true">↗</span>
-          </a>
-        )}
       </div>
     </div>
   );

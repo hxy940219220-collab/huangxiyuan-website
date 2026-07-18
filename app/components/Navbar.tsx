@@ -30,7 +30,7 @@ const NAV_ITEMS: NavItem[] = [
     label: "思考",
     href: "#method",
     subs: [
-      { label: "AI 前沿模型与 Agent 时间线", href: "/ai-frontier-timeline.html" },
+      { label: "AI 前沿时间线", href: "/ai-frontier-timeline.html" },
       { label: "Harness Engineering", href: "/harness-engineering.html" },
       { label: "Claude Code 设计逻辑", href: "https://learn-claude-code-visual.vercel.app/index.html" },
       { label: "Hermes × OpenClaw", href: "/hermes-vs-openclaw.html" },
@@ -40,12 +40,12 @@ const NAV_ITEMS: NavItem[] = [
     label: "工具栈",
     href: "#capabilities",
     subs: [
-      { label: "Claude", href: "#tool-claude" },
       { label: "GPT", href: "#tool-gpt" },
+      { label: "Claude", href: "#tool-claude" },
+      { label: "Hermes Agent", href: "#tool-hermes" },
       { label: "Gemini", href: "#tool-gemini" },
       { label: "VS Code", href: "#tool-vscode" },
       { label: "Typeless", href: "#tool-typeless" },
-      { label: "Hermes Agent", href: "#tool-hermes" },
     ],
   },
   {

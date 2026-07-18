@@ -2,7 +2,6 @@
 
 import BlurText from "../reactbits/TextAnimations/BlurText/BlurText";
 import { ScrollReveal } from "./ScrollReveal";
-import { MethodGraph } from "./MethodGraph";
 
 const STEPS = [
   {
@@ -38,8 +37,8 @@ const STEPS = [
 const RESEARCH_TOPICS = [
   {
     num: "01",
-    title: "AI 前沿模型与 Agent 时间线",
-    desc: "从 Kimi K3、GPT-5.6、GLM-5.2 到 Work Buddy 与 Hermes，按官方发布时间梳理能力变化、Agent runtime 演进与产品机会。",
+    title: "AI 前沿时间线",
+    desc: "聚焦 GPT-5.6、Claude Fable 5、DeepSeek V4 Pro、Kimi K3 等正式可用模型，以及 Hermes、Work Buddy 等代表性 Agent。",
     href: "/ai-frontier-timeline.html",
   },
   {
@@ -66,13 +65,10 @@ export function Method() {
   return (
     <section
       id="method"
-      className="relative z-10 w-full px-6 md:px-12 py-16 md:py-24 overflow-hidden"
+      className="relative z-10 w-full px-6 md:px-12 py-16 md:py-24"
     >
-      {/* three.js 工作流节点图（背景层，DOM 内容保持在上层） */}
-      <MethodGraph />
-
       {/* Header */}
-      <div className="relative z-10 text-center mb-14">
+      <div className="text-center mb-14">
         <ScrollReveal>
           <p className="font-body text-[10.5px] font-medium tracking-[0.20em] text-text-tertiary uppercase mb-6">
             工作流蓝图

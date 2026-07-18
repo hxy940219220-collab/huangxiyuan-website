@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="黄锡源整理的 2025—2026 AI 模型与 Agent 产品发展时间线，覆盖 GPT-5.6、Kimi K3、GLM-5.2、Claude Opus 4.8、Hermes Agent 与 Work Buddy。" />
-  <title>AI 模型与 Agent 发展时间线 · HXY</title>
+  <meta name="description" content="黄锡源整理的 2026 AI 前沿时间线，只收录正式发布且当前可用的主流模型与代表性 Agent，覆盖 GPT-5.6、Claude Fable 5、DeepSeek V4 Pro、Kimi K3、Hermes Agent 等。" />
+  <title>AI 前沿时间线 · HXY</title>
   <style>
     :root {
       color-scheme: dark;
@@ -441,11 +441,11 @@
   <main>
     <header class="shell hero">
       <p class="eyebrow">Research archive · 01</p>
-      <h1>AI 模型与 Agent<br />发展时间线</h1>
-      <p class="lead">不把更新日志当新闻列表，而是观察能力边界如何迁移：模型从单轮回答走向长周期执行，Agent 产品则开始围绕 runtime、状态、记忆、工具与恢复机制建立真正的系统差异。</p>
+      <h1>AI 前沿<br />发展时间线</h1>
+      <p class="lead">只记录正式发布、当前可用且真正进入主流视野的模型与 Agent。每个系列保留一个代表节点，观察模型能力如何走向长周期执行，以及 runtime、状态、记忆、工具与恢复机制如何形成产品差异。</p>
       <div class="hero-meta" aria-label="文档信息">
-        <span class="meta-item">2025.09—2026.07</span>
-        <span class="meta-item">17 个官方节点</span>
+        <span class="meta-item">2026.02—2026.07</span>
+        <span class="meta-item">11 个正式节点</span>
         <span class="meta-item">更新于 2026.07.19</span>
         <span class="meta-item">仅采用一手来源</span>
       </div>
@@ -472,7 +472,7 @@
     <section class="shell" aria-labelledby="timeline-heading">
       <div class="section-head">
         <h2 id="timeline-heading">Release timeline</h2>
-        <p>按官方发布时间倒序整理。能力变化描述来自发布页；“产品判断”是基于这些事实给出的产品侧推论。</p>
+        <p>按正式发布时间倒序；每个系列只保留当前代表模型。能力变化来自官方资料，“产品判断”为产品侧推论。</p>
       </div>
 
       <div class="toolbar">
@@ -480,9 +480,8 @@
           <button class="filter" type="button" data-filter="all" aria-pressed="true">全部</button>
           <button class="filter" type="button" data-filter="model" aria-pressed="false">基础模型</button>
           <button class="filter" type="button" data-filter="agent" aria-pressed="false">Agent Runtime</button>
-          <button class="filter" type="button" data-filter="product" aria-pressed="false">产品能力</button>
         </div>
-        <span class="count" aria-live="polite"><span id="visible-count">17</span> / 17 节点</span>
+        <span class="count" aria-live="polite"><span id="visible-count">11</span> / 11 节点</span>
       </div>
 
       <div class="table-shell">
@@ -504,9 +503,17 @@
               <td data-label="来源"><a class="source-link" href="https://www.kimi.com/code/docs/kimi-code/whats-new.html" target="_blank" rel="noopener noreferrer" aria-label="查看 Kimi K3 官方来源">↗</a></td>
             </tr>
             <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.07.16</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">Grok 4.5</span><span class="event-sub">xAI</span></td>
+              <td data-label="能力变化">正式上线 Grok Build、Cursor 与 API，重点强化编码、Agent 任务和知识工作，并提升实时推理吞吐。</td>
+              <td data-label="产品判断">模型进入 IDE 与 API 的同步发布，意味着编码能力需要同时接受交互体验、工具调用与真实任务完成率检验。</td>
+              <td data-label="来源"><a class="source-link" href="https://x.ai/news/grok-4-5" target="_blank" rel="noopener noreferrer" aria-label="查看 Grok 4.5 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="model">
               <td data-label="时间"><span class="date">2026.07.09</span></td>
               <td data-label="层级"><span class="kind model">基础模型</span></td>
-              <td data-label="事件"><span class="event-title">GPT-5.6 正式发布</span><span class="event-sub">OpenAI</span></td>
+              <td data-label="事件"><span class="event-title">GPT-5.6</span><span class="event-sub">OpenAI</span></td>
               <td data-label="能力变化">GPT-5.6 以 Sol、Terra、Luna 家族进入通用可用阶段，并提供从低到 ultra 的推理强度控制。</td>
               <td data-label="产品判断">模型选择从“固定版本”变成能力、成本、时延与计算强度的动态路由问题。</td>
               <td data-label="来源"><a class="source-link" href="https://openai.com/index/gpt-5-6/" target="_blank" rel="noopener noreferrer" aria-label="查看 GPT-5.6 官方来源">↗</a></td>
@@ -514,34 +521,10 @@
             <tr data-kind="agent">
               <td data-label="时间"><span class="date">2026.07.01</span></td>
               <td data-label="层级"><span class="kind agent">Agent Runtime</span></td>
-              <td data-label="事件"><span class="event-title">Hermes Agent v0.18</span><span class="event-sub">Judgment Release</span></td>
+              <td data-label="事件"><span class="event-title">Hermes Agent</span><span class="event-sub">Nous Research</span></td>
               <td data-label="能力变化">Mixture-of-Agents 成为一等能力，版本主题转向“知道什么时候工作已经完成”的判断与验收。</td>
               <td data-label="产品判断">Agent 的竞争点开始从会不会调用工具，转向能否判断完成、组织专家并控制执行质量。</td>
               <td data-label="来源"><a class="source-link" href="https://github.com/NousResearch/hermes-agent/releases/tag/v0.18.0" target="_blank" rel="noopener noreferrer" aria-label="查看 Hermes v0.18 官方来源">↗</a></td>
-            </tr>
-            <tr data-kind="model">
-              <td data-label="时间"><span class="date">2026.06.30</span></td>
-              <td data-label="层级"><span class="kind model">基础模型</span></td>
-              <td data-label="事件"><span class="event-title">Gemini Omni Flash</span><span class="event-sub">Google</span></td>
-              <td data-label="能力变化">统一多模态输入输出继续覆盖图像与可对话视频编辑；Nano Banana 2 Lite 面向高吞吐视觉任务。</td>
-              <td data-label="产品判断">多模态能力逐步从独立工具变成同一会话内可组合的输入、生成和编辑动作。</td>
-              <td data-label="来源"><a class="source-link" href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni-flash-nano-banana-2-lite/" target="_blank" rel="noopener noreferrer" aria-label="查看 Gemini Omni Flash 官方来源">↗</a></td>
-            </tr>
-            <tr data-kind="model">
-              <td data-label="时间"><span class="date">2026.06.26</span></td>
-              <td data-label="层级"><span class="kind model">基础模型</span></td>
-              <td data-label="事件"><span class="event-title">GPT-5.6 Sol 预览</span><span class="event-sub">OpenAI</span></td>
-              <td data-label="能力变化">面向长周期编码与研究的有限预览；ultra 推理模式可使用 subagents 扩展执行。</td>
-              <td data-label="产品判断">推理强度不再只意味着“想得更久”，还可能改变执行组织方式与所需的可观测性。</td>
-              <td data-label="来源"><a class="source-link" href="https://openai.com/index/previewing-gpt-5-6-sol/" target="_blank" rel="noopener noreferrer" aria-label="查看 GPT-5.6 Sol 预览官方来源">↗</a></td>
-            </tr>
-            <tr data-kind="product">
-              <td data-label="时间"><span class="date">2026.06.24</span></td>
-              <td data-label="层级"><span class="kind product">产品能力</span></td>
-              <td data-label="事件"><span class="event-title">Gemini 3.5 Flash Computer Use</span><span class="event-sub">Google</span></td>
-              <td data-label="能力变化">计算机操作能力进入 Gemini 3.5 Flash，覆盖浏览器、移动端与桌面动作，并加入敏感动作确认和提示注入检测。</td>
-              <td data-label="产品判断">Computer Use 的产品化关键不只是操作成功率，而是权限边界、风险识别与确认流程。</td>
-              <td data-label="来源"><a class="source-link" href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-computer-use-gemini-3-5-flash/" target="_blank" rel="noopener noreferrer" aria-label="查看 Gemini Computer Use 官方来源">↗</a></td>
             </tr>
             <tr data-kind="model">
               <td data-label="时间"><span class="date">2026.06.16</span></td>
@@ -552,84 +535,52 @@
               <td data-label="来源"><a class="source-link" href="https://z.ai/blog/glm-5.2" target="_blank" rel="noopener noreferrer" aria-label="查看 GLM-5.2 官方来源">↗</a></td>
             </tr>
             <tr data-kind="model">
-              <td data-label="时间"><span class="date">2026.05.28</span></td>
+              <td data-label="时间"><span class="date">2026.06.09</span></td>
               <td data-label="层级"><span class="kind model">基础模型</span></td>
-              <td data-label="事件"><span class="event-title">Claude Opus 4.8</span><span class="event-sub">Anthropic</span></td>
-              <td data-label="能力变化">强化长周期 Agent 的可靠性与判断力，支持动态工作流、大规模并行 subagents 和 effort control。</td>
-              <td data-label="产品判断">长任务产品需要呈现计划、分支、成本与中途干预，不能只展示最终答案。</td>
-              <td data-label="来源"><a class="source-link" href="https://www.anthropic.com/news/claude-opus-4-8" target="_blank" rel="noopener noreferrer" aria-label="查看 Claude Opus 4.8 官方来源">↗</a></td>
+              <td data-label="事件"><span class="event-title">Claude Fable 5</span><span class="event-sub">Anthropic · 当前全球可用</span></td>
+              <td data-label="能力变化">面向通用与长周期 Agent 工作，强化编码、知识、视觉、记忆与长任务执行；7 月 1 日恢复全球可用。</td>
+              <td data-label="产品判断">旗舰模型的价值不只在单项能力，更在复杂任务中保持目标、调用工具并持续交付的综合稳定性。</td>
+              <td data-label="来源"><a class="source-link" href="https://www.anthropic.com/news/redeploying-fable-5" target="_blank" rel="noopener noreferrer" aria-label="查看 Claude Fable 5 官方来源">↗</a></td>
             </tr>
             <tr data-kind="agent">
               <td data-label="时间"><span class="date">2026.05.20</span></td>
               <td data-label="层级"><span class="kind agent">Agent Runtime</span></td>
-              <td data-label="事件"><span class="event-title">Work Buddy v0.2</span><span class="event-sub">Local-first personal agent</span></td>
+              <td data-label="事件"><span class="event-title">Work Buddy</span><span class="event-sub">Local-first personal agent</span></td>
               <td data-label="能力变化">加入 GTD 任务管线、本地推理、file-per-unit 知识库、事件面板，以及更清晰的 consent 与数据安全机制。</td>
               <td data-label="产品判断">个人 Agent 的长期价值来自本地上下文、持续记忆和可撤回的权限，而不只是聊天入口。</td>
               <td data-label="来源"><a class="source-link" href="https://github.com/KadenMc/work-buddy/releases/tag/v0.2.0" target="_blank" rel="noopener noreferrer" aria-label="查看 Work Buddy v0.2 官方来源">↗</a></td>
             </tr>
-            <tr data-kind="agent">
-              <td data-label="时间"><span class="date">2026.05.07</span></td>
-              <td data-label="层级"><span class="kind agent">Agent Runtime</span></td>
-              <td data-label="事件"><span class="event-title">Hermes Agent v0.13</span><span class="event-sub">Tenacity Release</span></td>
-              <td data-label="能力变化">引入持久化多 Agent board、目标循环、checkpoint 与状态机制，支持中断后的任务继续。</td>
-              <td data-label="产品判断">“可恢复”是长周期 Agent 的核心体验指标，状态与 checkpoint 应作为产品能力被设计。</td>
-              <td data-label="来源"><a class="source-link" href="https://github.com/NousResearch/hermes-agent/releases/tag/v0.13.0" target="_blank" rel="noopener noreferrer" aria-label="查看 Hermes v0.13 官方来源">↗</a></td>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.05.19</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">Gemini 3.5 Flash</span><span class="event-sub">Google · Stable</span></td>
+              <td data-label="能力变化">作为稳定版进入 Gemini API，面向高频、低时延与多模态任务，且当前未公布停用时间。</td>
+              <td data-label="产品判断">成熟模型的产品价值来自可持续调用与稳定成本，而不是追逐尚未稳定的短期峰值能力。</td>
+              <td data-label="来源"><a class="source-link" href="https://ai.google.dev/gemini-api/docs/deprecations" target="_blank" rel="noopener noreferrer" aria-label="查看 Gemini 3.5 Flash 官方来源">↗</a></td>
             </tr>
             <tr data-kind="model">
-              <td data-label="时间"><span class="date">2026.04.20</span></td>
+              <td data-label="时间"><span class="date">2026.04.24</span></td>
               <td data-label="层级"><span class="kind model">基础模型</span></td>
-              <td data-label="事件"><span class="event-title">Kimi K2.6</span><span class="event-sub">Moonshot AI</span></td>
-              <td data-label="能力变化">开放权重版本强化 Agent 能力，并将 Agent Swarm 作为复杂任务的并行执行路径。</td>
-              <td data-label="产品判断">并行 Agent 能缩短墙钟时间，但也放大任务拆分、共享状态与结果合并的设计成本。</td>
-              <td data-label="来源"><a class="source-link" href="https://www.kimi.com/code/docs/kimi-code/whats-new.html" target="_blank" rel="noopener noreferrer" aria-label="查看 Kimi K2.6 官方来源">↗</a></td>
-            </tr>
-            <tr data-kind="agent">
-              <td data-label="时间"><span class="date">2026.04.14</span></td>
-              <td data-label="层级"><span class="kind agent">Agent Runtime</span></td>
-              <td data-label="事件"><span class="event-title">Work Buddy v0.1</span><span class="event-sub">Initial pre-release</span></td>
-              <td data-label="能力变化">以 Claude Code 与 Obsidian 为基础，组合本地 gateway、conductor、持久工作流、知识存储与 sidecar。</td>
-              <td data-label="产品判断">个人 Agent 开始从单应用走向本地运行层，重点是连接既有工具和用户长期知识。</td>
-              <td data-label="来源"><a class="source-link" href="https://github.com/KadenMc/work-buddy/releases/tag/v0.1.0" target="_blank" rel="noopener noreferrer" aria-label="查看 Work Buddy v0.1 官方来源">↗</a></td>
-            </tr>
-            <tr data-kind="agent">
-              <td data-label="时间"><span class="date">2026.03.30</span></td>
-              <td data-label="层级"><span class="kind agent">Agent Runtime</span></td>
-              <td data-label="事件"><span class="event-title">Hermes Agent v0.6</span><span class="event-sub">Profiles & multi-instance</span></td>
-              <td data-label="能力变化">加入 profiles 与多实例能力，让同一 runtime 可以维护不同身份、环境和任务上下文。</td>
-              <td data-label="产品判断">Agent 的身份隔离与环境配置会逐渐接近传统软件里的账号、工作区和权限系统。</td>
-              <td data-label="来源"><a class="source-link" href="https://github.com/NousResearch/hermes-agent/releases/tag/v0.6.0" target="_blank" rel="noopener noreferrer" aria-label="查看 Hermes v0.6 官方来源">↗</a></td>
-            </tr>
-            <tr data-kind="product">
-              <td data-label="时间"><span class="date">2026.02</span></td>
-              <td data-label="层级"><span class="kind product">产品能力</span></td>
-              <td data-label="事件"><span class="event-title">Kimi Claw 公测</span><span class="event-sub">Moonshot AI</span></td>
-              <td data-label="能力变化">将 Agent 能力包装为更直接的任务入口，降低用户组织复杂提示词与执行步骤的成本。</td>
-              <td data-label="产品判断">Agent 产品的入口正在从“输入问题”转向“委托任务”，界面需要表达进度、控制与结果状态。</td>
-              <td data-label="来源"><a class="source-link" href="https://www.kimi.com/code/docs/kimi-code/whats-new.html" target="_blank" rel="noopener noreferrer" aria-label="查看 Kimi Claw 官方来源">↗</a></td>
+              <td data-label="事件"><span class="event-title">DeepSeek V4 Pro</span><span class="event-sub">DeepSeek · 当前 API 可用</span></td>
+              <td data-label="能力变化">当前 API 提供 deepseek-v4-pro，面向 Agent 编码与复杂推理，具备 1M 上下文并支持开放权重生态。</td>
+              <td data-label="产品判断">高性价比开放模型进入长上下文和 Agent 编码竞争后，产品需要重新评估私有部署、路由与成本结构。</td>
+              <td data-label="来源"><a class="source-link" href="https://api-docs.deepseek.com/updates" target="_blank" rel="noopener noreferrer" aria-label="查看 DeepSeek V4 Pro 官方来源">↗</a></td>
             </tr>
             <tr data-kind="model">
-              <td data-label="时间"><span class="date">2026.01.27</span></td>
+              <td data-label="时间"><span class="date">2026.04.22</span></td>
               <td data-label="层级"><span class="kind model">基础模型</span></td>
-              <td data-label="事件"><span class="event-title">Kimi K2.5</span><span class="event-sub">Moonshot AI</span></td>
-              <td data-label="能力变化">继续强化复杂任务与 Agent 场景，为后续 K2.6 的开放能力和 K3 的原生多模态路线铺垫。</td>
-              <td data-label="产品判断">模型迭代的连续性比单次榜单更重要：应跟踪工具使用、视觉理解和任务持续性的组合变化。</td>
-              <td data-label="来源"><a class="source-link" href="https://www.kimi.com/code/docs/kimi-code/whats-new.html" target="_blank" rel="noopener noreferrer" aria-label="查看 Kimi K2.5 官方来源">↗</a></td>
-            </tr>
-            <tr data-kind="product">
-              <td data-label="时间"><span class="date">2025.09.26</span></td>
-              <td data-label="层级"><span class="kind product">产品能力</span></td>
-              <td data-label="事件"><span class="event-title">OK Computer Agent</span><span class="event-sub">Moonshot AI</span></td>
-              <td data-label="能力变化">Kimi 将模型能力进一步产品化为面向电脑任务的 Agent 体验，连接信息理解与具体操作。</td>
-              <td data-label="产品判断">当模型开始操作环境，产品责任会扩展到权限、可逆性、审计记录和失败恢复。</td>
-              <td data-label="来源"><a class="source-link" href="https://www.kimi.com/code/docs/kimi-code/whats-new.html" target="_blank" rel="noopener noreferrer" aria-label="查看 OK Computer Agent 官方来源">↗</a></td>
+              <td data-label="事件"><span class="event-title">Qwen3.6-27B</span><span class="event-sub">Alibaba Qwen</span></td>
+              <td data-label="能力变化">正式开放 27B 权重，延续 Qwen 在多语言、推理、工具调用与开放部署场景中的广泛覆盖。</td>
+              <td data-label="产品判断">高普及度开放模型让端侧、私有化与行业微调更容易进入真实产品，而不是只作为研究对照。</td>
+              <td data-label="来源"><a class="source-link" href="https://github.com/QwenLM/Qwen3.6" target="_blank" rel="noopener noreferrer" aria-label="查看 Qwen3.6 官方来源">↗</a></td>
             </tr>
             <tr data-kind="model">
-              <td data-label="时间"><span class="date">2025.09.05</span></td>
+              <td data-label="时间"><span class="date">2026.02.14</span></td>
               <td data-label="层级"><span class="kind model">基础模型</span></td>
-              <td data-label="事件"><span class="event-title">Kimi K2</span><span class="event-sub">Moonshot AI</span></td>
-              <td data-label="能力变化">K2 成为后续 Kimi Agent 与 K3 路线的重要模型基座，更新序列开始明显围绕工具和任务执行展开。</td>
-              <td data-label="产品判断">观察模型时需要从“单次生成质量”扩展到工具使用、状态保持与环境行动的完整能力栈。</td>
-              <td data-label="来源"><a class="source-link" href="https://www.kimi.com/code/docs/kimi-code/whats-new.html" target="_blank" rel="noopener noreferrer" aria-label="查看 Kimi K2 官方来源">↗</a></td>
+              <td data-label="事件"><span class="event-title">Doubao Seed 2.0</span><span class="event-sub">ByteDance Seed</span></td>
+              <td data-label="能力变化">Seed2.0 Pro、Code 与完整系列正式进入豆包、TRAE 和火山引擎 API，覆盖大规模消费端与开发者场景。</td>
+              <td data-label="产品判断">拥有庞大用户入口的模型能更快完成真实反馈闭环，普及度本身会成为能力迭代和产品分发优势。</td>
+              <td data-label="来源"><a class="source-link" href="https://seed.bytedance.com/en/blog/seed2-0-%E6%AD%A3%E5%BC%8F%E5%8F%91%E5%B8%83" target="_blank" rel="noopener noreferrer" aria-label="查看 Doubao Seed 2.0 官方来源">↗</a></td>
             </tr>
           </tbody>
         </table>
@@ -639,9 +590,9 @@
     <section class="shell notes" aria-labelledby="notes-heading">
       <h2 id="notes-heading">Reading notes</h2>
       <div class="notes-copy">
-        <p><strong>关于时间：</strong>日期优先使用官方发布页或 GitHub Release 的发布日期；只有月份的节点保留月级精度，不推测具体日期。</p>
+        <p><strong>关于收录：</strong>只保留正式发布且当前可用的主流模型与代表性 Agent；排除预览版、实验版、单项能力更新和同系列旧版本。</p>
+        <p><strong>关于时间：</strong>日期使用官方发布页或 GitHub Release 的发布日期；同一系列只保留一个当前代表节点。</p>
         <p><strong>关于判断：</strong>“产品判断”不是官方结论，而是我基于发布事实做的产品侧推论，用来连接模型能力、Agent 机制与实际体验设计。</p>
-        <p><strong>关于更新：</strong>这不是追求全量的新闻数据库，而是一份持续维护的能力迁移记录。新节点只有在存在一手来源、且对产品设计有实质影响时才会加入。</p>
       </div>
     </section>
   </main>
