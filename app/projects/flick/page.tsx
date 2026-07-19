@@ -40,7 +40,7 @@ const project: ProjectDemoData = {
   heroAlt: "Flick 划词 AI 产品主流程展示",
   accent: "#00c8ff",
   accentSoft: "rgba(0, 200, 255, 0.12)",
-  github: "https://github.com/think2do/Flick",
+  github: "https://github.com/hxy940219220-collab/Flick",
   stats: [
     { value: "⌘E", label: "Global trigger" },
     { value: "1–9", label: "Keyboard actions" },
