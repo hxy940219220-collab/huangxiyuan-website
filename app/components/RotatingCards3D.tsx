@@ -24,8 +24,8 @@ const CARDS: CardData[] = [
     num: "01",
     id: "tool-gpt",
     title: "GPT",
-    desc: "主力 AI 模型。日常以 GPT-5.6 Sol 完成复杂推理、产品研究、内容生成与高强度任务，是最核心的工作入口。",
-    tags: ["GPT-5.6 Sol", "主力模型", "Reasoning"],
+    desc: "主力 AI 模型。日常以 GPT-5.6 Sol 完成复杂推理、产品研究、Coding 与高强度任务，并用 Image2 进行图像创作。",
+    tags: ["GPT-5.6 Sol", "Coding", "Image2"],
     gradient:
       "radial-gradient(circle at 28% 24%, rgba(0,200,255,0.24), transparent 24%), radial-gradient(circle at 76% 60%, rgba(0,180,230,0.16), transparent 28%)",
     accentBorder: "rgba(0,200,255,0.35)",
@@ -69,7 +69,7 @@ const CARDS: CardData[] = [
     id: "tool-vscode",
     title: "VS Code",
     desc: "用于嵌入式开发与 Markdown 文档审阅修改，并行使用 Codex、Claude 插件完成编码、调试与内容协作。",
-    tags: ["Embedded", "Codex", "Claude"],
+    tags: ["嵌入式", "Codex", "Claude"],
     gradient:
       "radial-gradient(circle at 24% 24%, rgba(0,60,255,0.22), transparent 28%), radial-gradient(circle at 66% 36%, rgba(30,80,255,0.16), transparent 26%)",
     accentBorder: "rgba(0,100,255,0.35)",
