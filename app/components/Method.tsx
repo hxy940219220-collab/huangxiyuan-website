@@ -38,7 +38,7 @@ const RESEARCH_TOPICS = [
   {
     num: "01",
     title: "AI 前沿时间线",
-    desc: "聚焦 GPT-5.6、Claude Fable 5、DeepSeek V4 Pro、Kimi K3 等正式可用模型，以及 Hermes、Work Buddy 等代表性 Agent。",
+    desc: "聚焦 GPT-5.6、Claude Fable 5、豆包 Seed 2.1 Pro、Qwen3.7 Plus 等重磅模型，以及 OpenClaw、Hermes 爆红带来的 Agent 生态变化。",
     href: "/ai-frontier-timeline.html",
   },
   {
