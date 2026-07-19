@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="黄锡源整理的 2026 AI 前沿时间线，只收录正式发布且当前可用的主流模型与代表性 Agent，覆盖 GPT-5.6、Claude Fable 5、DeepSeek V4 Pro、Kimi K3、Hermes Agent 等。" />
+  <meta name="description" content="黄锡源整理的 2026 AI 前沿时间线，聚焦 GPT-5.6、Claude Fable 5、豆包 Seed 2.1 Pro、Qwen3.7 Plus、Seedance 2.0，以及 OpenClaw 与 Hermes 的行业爆红节点。" />
   <title>AI 前沿时间线 · HXY</title>
   <style>
     :root {
@@ -246,6 +246,8 @@
       box-shadow: 0 24px 80px rgba(0,0,0,.35);
     }
 
+    .timeline-section { padding-bottom: 84px; }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -320,7 +322,6 @@
 
     .kind.model { color: var(--violet); }
     .kind.agent { color: var(--green); }
-    .kind.product { color: var(--gold); }
 
     .source-link {
       display: inline-flex;
@@ -338,35 +339,6 @@
     .source-link:hover { border-color: var(--cyan); color: var(--cyan); }
     tr.is-hidden { display: none; }
 
-    .notes {
-      display: grid;
-      grid-template-columns: .72fr 1.28fr;
-      gap: 32px;
-      padding: 64px 0 84px;
-    }
-
-    .notes h2 {
-      margin: 0;
-      font-family: var(--serif);
-      font-size: 36px;
-      font-style: italic;
-      font-weight: 500;
-    }
-
-    .notes-copy {
-      border-top: 1px solid var(--line);
-      padding-top: 20px;
-    }
-
-    .notes-copy p {
-      margin: 0 0 14px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.8;
-    }
-
-    .notes-copy strong { color: var(--secondary); }
-
     footer {
       border-top: 1px solid var(--line);
       padding: 28px 0 42px;
@@ -382,7 +354,6 @@
       .section-head { align-items: start; flex-direction: column; }
       .section-head p { text-align: left; }
       .toolbar { align-items: flex-start; flex-direction: column; }
-      .notes { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 720px) {
@@ -442,10 +413,10 @@
     <header class="shell hero">
       <p class="eyebrow">Research archive · 01</p>
       <h1>AI 前沿<br />发展时间线</h1>
-      <p class="lead">只记录正式发布、当前可用且真正进入主流视野的模型与 Agent。每个系列保留一个代表节点，观察模型能力如何走向长周期执行，以及 runtime、状态、记忆、工具与恢复机制如何形成产品差异。</p>
+      <p class="lead">只记录真正形成行业影响的重磅模型发布与 Agent 爆红事件。观察模型如何走向长周期执行、多模态创作与生产级交付，以及 OpenClaw、Hermes 如何把 Agent runtime、记忆、工具和技能生态推向大众视野。</p>
       <div class="hero-meta" aria-label="文档信息">
-        <span class="meta-item">2026.02—2026.07</span>
-        <span class="meta-item">11 个正式节点</span>
+        <span class="meta-item">2026.01—2026.07</span>
+        <span class="meta-item">12 个关键节点</span>
         <span class="meta-item">更新于 2026.07.19</span>
         <span class="meta-item">仅采用一手来源</span>
       </div>
@@ -469,19 +440,19 @@
       </article>
     </section>
 
-    <section class="shell" aria-labelledby="timeline-heading">
+    <section class="shell timeline-section" aria-labelledby="timeline-heading">
       <div class="section-head">
         <h2 id="timeline-heading">Release timeline</h2>
-        <p>按正式发布时间倒序；每个系列只保留当前代表模型。能力变化来自官方资料，“产品判断”为产品侧推论。</p>
+        <p>按事件发生时间倒序；模型只保留重磅正式发布，Agent 只保留形成行业级关注的爆红节点。</p>
       </div>
 
       <div class="toolbar">
         <div class="filters" role="group" aria-label="筛选时间线">
           <button class="filter" type="button" data-filter="all" aria-pressed="true">全部</button>
           <button class="filter" type="button" data-filter="model" aria-pressed="false">基础模型</button>
-          <button class="filter" type="button" data-filter="agent" aria-pressed="false">Agent Runtime</button>
+          <button class="filter" type="button" data-filter="agent" aria-pressed="false">Agent 生态</button>
         </div>
-        <span class="count" aria-live="polite"><span id="visible-count">11</span> / 11 节点</span>
+        <span class="count" aria-live="polite"><span id="visible-count">12</span> / 12 节点</span>
       </div>
 
       <div class="table-shell">
@@ -518,13 +489,13 @@
               <td data-label="产品判断">模型选择从“固定版本”变成能力、成本、时延与计算强度的动态路由问题。</td>
               <td data-label="来源"><a class="source-link" href="https://openai.com/index/gpt-5-6/" target="_blank" rel="noopener noreferrer" aria-label="查看 GPT-5.6 官方来源">↗</a></td>
             </tr>
-            <tr data-kind="agent">
-              <td data-label="时间"><span class="date">2026.07.01</span></td>
-              <td data-label="层级"><span class="kind agent">Agent Runtime</span></td>
-              <td data-label="事件"><span class="event-title">Hermes Agent</span><span class="event-sub">Nous Research</span></td>
-              <td data-label="能力变化">Mixture-of-Agents 成为一等能力，版本主题转向“知道什么时候工作已经完成”的判断与验收。</td>
-              <td data-label="产品判断">Agent 的竞争点开始从会不会调用工具，转向能否判断完成、组织专家并控制执行质量。</td>
-              <td data-label="来源"><a class="source-link" href="https://github.com/NousResearch/hermes-agent/releases/tag/v0.18.0" target="_blank" rel="noopener noreferrer" aria-label="查看 Hermes v0.18 官方来源">↗</a></td>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.06.23</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">Doubao Seed 2.1 Pro</span><span class="event-sub">ByteDance · 生产级 Agent 模型</span></td>
+              <td data-label="能力变化">围绕 Coding、长链路 Agent 与多模态理解全面升级，正式进入火山方舟 API，并接入豆包、TRAE 与扣子。</td>
+              <td data-label="产品判断">国产旗舰模型的竞争开始从跑分转向长期规划、动态修复和真实工程交付，企业 Agent 进入生产可用性阶段。</td>
+              <td data-label="来源"><a class="source-link" href="https://www.volcengine.com/product/doubao" target="_blank" rel="noopener noreferrer" aria-label="查看 Doubao Seed 2.1 Pro 官方来源">↗</a></td>
             </tr>
             <tr data-kind="model">
               <td data-label="时间"><span class="date">2026.06.16</span></td>
@@ -542,13 +513,13 @@
               <td data-label="产品判断">旗舰模型的价值不只在单项能力，更在复杂任务中保持目标、调用工具并持续交付的综合稳定性。</td>
               <td data-label="来源"><a class="source-link" href="https://www.anthropic.com/news/redeploying-fable-5" target="_blank" rel="noopener noreferrer" aria-label="查看 Claude Fable 5 官方来源">↗</a></td>
             </tr>
-            <tr data-kind="agent">
-              <td data-label="时间"><span class="date">2026.05.20</span></td>
-              <td data-label="层级"><span class="kind agent">Agent Runtime</span></td>
-              <td data-label="事件"><span class="event-title">Work Buddy</span><span class="event-sub">Local-first personal agent</span></td>
-              <td data-label="能力变化">加入 GTD 任务管线、本地推理、file-per-unit 知识库、事件面板，以及更清晰的 consent 与数据安全机制。</td>
-              <td data-label="产品判断">个人 Agent 的长期价值来自本地上下文、持续记忆和可撤回的权限，而不只是聊天入口。</td>
-              <td data-label="来源"><a class="source-link" href="https://github.com/KadenMc/work-buddy/releases/tag/v0.2.0" target="_blank" rel="noopener noreferrer" aria-label="查看 Work Buddy v0.2 官方来源">↗</a></td>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.06.01</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">Qwen3.7 Plus</span><span class="event-sub">Alibaba Qwen · 多模态 Agent</span></td>
+              <td data-label="能力变化">统一视觉与语言能力，保留编码、工具调用与生产力工作流能力，并支持读屏、GUI 操作和移动应用端到端导航。</td>
+              <td data-label="产品判断">多模态不再只是看懂图片，而开始直接参与界面操作与任务执行，模型逐渐成为通用交互 Agent 的基础层。</td>
+              <td data-label="来源"><a class="source-link" href="https://docs.qwencloud.com/changelog/models" target="_blank" rel="noopener noreferrer" aria-label="查看 Qwen3.7 Plus 官方来源">↗</a></td>
             </tr>
             <tr data-kind="model">
               <td data-label="时间"><span class="date">2026.05.19</span></td>
@@ -557,6 +528,14 @@
               <td data-label="能力变化">作为稳定版进入 Gemini API，面向高频、低时延与多模态任务，且当前未公布停用时间。</td>
               <td data-label="产品判断">成熟模型的产品价值来自可持续调用与稳定成本，而不是追逐尚未稳定的短期峰值能力。</td>
               <td data-label="来源"><a class="source-link" href="https://ai.google.dev/gemini-api/docs/deprecations" target="_blank" rel="noopener noreferrer" aria-label="查看 Gemini 3.5 Flash 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="agent">
+              <td data-label="时间"><span class="date">2026.04.28</span></td>
+              <td data-label="层级"><span class="kind agent">Agent 生态</span></td>
+              <td data-label="事件"><span class="event-title">Hermes 突破 10 万 Star</span><span class="event-sub">Nous Research · 开源 Agent 爆红</span></td>
+              <td data-label="能力变化">发布约两个月后突破 10 万 GitHub Star，自改进学习循环、持久记忆、skills 与远程执行成为社区关注焦点。</td>
+              <td data-label="产品判断">Hermes 的爆红说明用户开始重视 Agent 是否能积累经验、生成技能并长期运行，而不只是拥有更多工具。</td>
+              <td data-label="来源"><a class="source-link" href="https://agentscout.live/tech/ai-agents/data/github-agent-stars-tracker-20260427/" target="_blank" rel="noopener noreferrer" aria-label="查看 Hermes 爆红数据来源">↗</a></td>
             </tr>
             <tr data-kind="model">
               <td data-label="时间"><span class="date">2026.04.24</span></td>
@@ -567,34 +546,26 @@
               <td data-label="来源"><a class="source-link" href="https://api-docs.deepseek.com/updates" target="_blank" rel="noopener noreferrer" aria-label="查看 DeepSeek V4 Pro 官方来源">↗</a></td>
             </tr>
             <tr data-kind="model">
-              <td data-label="时间"><span class="date">2026.04.22</span></td>
+              <td data-label="时间"><span class="date">2026.02.12</span></td>
               <td data-label="层级"><span class="kind model">基础模型</span></td>
-              <td data-label="事件"><span class="event-title">Qwen3.6-27B</span><span class="event-sub">Alibaba Qwen</span></td>
-              <td data-label="能力变化">正式开放 27B 权重，延续 Qwen 在多语言、推理、工具调用与开放部署场景中的广泛覆盖。</td>
-              <td data-label="产品判断">高普及度开放模型让端侧、私有化与行业微调更容易进入真实产品，而不是只作为研究对照。</td>
-              <td data-label="来源"><a class="source-link" href="https://github.com/QwenLM/Qwen3.6" target="_blank" rel="noopener noreferrer" aria-label="查看 Qwen3.6 官方来源">↗</a></td>
+              <td data-label="事件"><span class="event-title">Seedance 2.0</span><span class="event-sub">ByteDance Seed · 视频生成</span></td>
+              <td data-label="能力变化">以统一音视频架构同时支持文本、图片、音频和视频参考，强化复杂运动、物理准确性、编辑与多镜头生成。</td>
+              <td data-label="产品判断">视频模型从单次生成工具升级为可参考、可编辑、可延展的创作系统，开始真正进入广告、影视与电商工作流。</td>
+              <td data-label="来源"><a class="source-link" href="https://seed.bytedance.com/zh/blog/official-launch-of-seedance-2-0" target="_blank" rel="noopener noreferrer" aria-label="查看 Seedance 2.0 官方来源">↗</a></td>
             </tr>
-            <tr data-kind="model">
-              <td data-label="时间"><span class="date">2026.02.14</span></td>
-              <td data-label="层级"><span class="kind model">基础模型</span></td>
-              <td data-label="事件"><span class="event-title">Doubao Seed 2.0</span><span class="event-sub">ByteDance Seed</span></td>
-              <td data-label="能力变化">Seed2.0 Pro、Code 与完整系列正式进入豆包、TRAE 和火山引擎 API，覆盖大规模消费端与开发者场景。</td>
-              <td data-label="产品判断">拥有庞大用户入口的模型能更快完成真实反馈闭环，普及度本身会成为能力迭代和产品分发优势。</td>
-              <td data-label="来源"><a class="source-link" href="https://seed.bytedance.com/en/blog/seed2-0-%E6%AD%A3%E5%BC%8F%E5%8F%91%E5%B8%83" target="_blank" rel="noopener noreferrer" aria-label="查看 Doubao Seed 2.0 官方来源">↗</a></td>
+            <tr data-kind="agent">
+              <td data-label="时间"><span class="date">2026.01.29</span></td>
+              <td data-label="层级"><span class="kind agent">Agent 生态</span></td>
+              <td data-label="事件"><span class="event-title">OpenClaw 爆红</span><span class="event-sub">100K Stars · 单周 200 万访问</span></td>
+              <td data-label="能力变化">个人开源项目在两个月内突破 10 万 GitHub Star，并以消息入口、本地执行、skills 和跨应用自动化快速扩散。</td>
+              <td data-label="产品判断">OpenClaw 把“能行动的个人 Agent”推向大众，也把权限、安全、可观测性与本地部署成本变成行业共同议题。</td>
+              <td data-label="来源"><a class="source-link" href="https://open-claw.blog/introducing-openclaw.html" target="_blank" rel="noopener noreferrer" aria-label="查看 OpenClaw 爆红官方来源">↗</a></td>
             </tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <section class="shell notes" aria-labelledby="notes-heading">
-      <h2 id="notes-heading">Reading notes</h2>
-      <div class="notes-copy">
-        <p><strong>关于收录：</strong>只保留正式发布且当前可用的主流模型与代表性 Agent；排除预览版、实验版、单项能力更新和同系列旧版本。</p>
-        <p><strong>关于时间：</strong>日期使用官方发布页或 GitHub Release 的发布日期；同一系列只保留一个当前代表节点。</p>
-        <p><strong>关于判断：</strong>“产品判断”不是官方结论，而是我基于发布事实做的产品侧推论，用来连接模型能力、Agent 机制与实际体验设计。</p>
-      </div>
-    </section>
   </main>
 
   <footer>
