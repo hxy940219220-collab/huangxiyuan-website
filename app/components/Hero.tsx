@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useReducedMotion,
@@ -13,6 +13,8 @@ import Aurora from "../reactbits/Backgrounds/Aurora/Aurora";
 
 export function Hero() {
   const reduced = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [showVideo, setShowVideo] = useState(true);
 
   // 只在桌面端挂载 WebGL 背景（移动端用静态海报，省流量省性能）
   const [isDesktop, setIsDesktop] = useState(false);
@@ -23,6 +25,60 @@ export function Hero() {
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
   }, []);
+
+  // 默认开放首屏视频；劫持型浏览器、节省流量与减少动态效果用户保留海报兜底。
+  useEffect(() => {
+    const hijacker = /Quark|UCBrowser|UCWEB|baiduboxapp|BaiduHD/i.test(
+      navigator.userAgent
+    );
+    const connection = navigator as Navigator & {
+      connection?: { saveData?: boolean };
+    };
+
+    const shouldShow = !reduced && !hijacker && !connection.connection?.saveData;
+    const frame = window.requestAnimationFrame(() => setShowVideo(shouldShow));
+    return () => window.cancelAnimationFrame(frame);
+  }, [reduced]);
+
+  // 兼容微信 / QQ 的 X5 内核，并在数据就绪或首次交互时补发播放请求。
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!showVideo || !video) return;
+
+    video.setAttribute("webkit-playsinline", "true");
+    video.setAttribute("x5-playsinline", "true");
+    video.setAttribute("x5-video-player-type", "h5-page");
+    video.setAttribute("x5-video-player-fullscreen", "false");
+
+    const play = () => video.play().catch(() => undefined);
+    interface WeixinWindow extends Window {
+      WeixinJSBridge?: {
+        invoke: (api: string, options: object, callback: () => void) => void;
+      };
+    }
+    const wxWindow = window as WeixinWindow;
+    const playInWeixin = () => {
+      if (wxWindow.WeixinJSBridge) {
+        wxWindow.WeixinJSBridge.invoke("getNetworkType", {}, play);
+      } else {
+        void play();
+      }
+    };
+
+    void play();
+    playInWeixin();
+    video.addEventListener("loadeddata", play, { once: true });
+    document.addEventListener("WeixinJSBridgeReady", playInWeixin, { once: true });
+    document.addEventListener("click", play, { once: true });
+    document.addEventListener("touchstart", play, { once: true });
+
+    return () => {
+      video.removeEventListener("loadeddata", play);
+      document.removeEventListener("WeixinJSBridgeReady", playInWeixin);
+      document.removeEventListener("click", play);
+      document.removeEventListener("touchstart", play);
+    };
+  }, [showVideo]);
 
   // 鼠标视差：海报与 Aurora 反向微移，形成纵深
   const mx = useMotionValue(0);
@@ -49,7 +105,7 @@ export function Hero() {
       id="hero"
       className="relative z-[10] min-h-[100dvh] flex items-center justify-center overflow-hidden bg-bg-deepest"
     >
-      {/* WebGL Aurora 背景（桌面端，替代原 3.3MB 视频层） */}
+      {/* WebGL Aurora 背景（视频边缘渐隐后的氛围底色） */}
       {isDesktop && !reduced && (
         <motion.div
           className="absolute inset-[-5%] z-0 pointer-events-none"
@@ -70,7 +126,7 @@ export function Hero() {
         </motion.div>
       )}
 
-      {/* 前景海报照片（静态图，边缘渐隐融入背景） */}
+      {/* 前景海报 + 自动播放视频（海报始终作为首帧与兼容性兜底） */}
       <motion.div
         className="absolute inset-0 z-[1] pointer-events-none"
         aria-hidden="true"
@@ -83,6 +139,21 @@ export function Hero() {
           fetchPriority="high"
           className="hero-poster-mask w-full h-full object-cover"
         />
+        {showVideo && !reduced && (
+          <video
+            ref={videoRef}
+            data-hero-video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster="/HXY-AIPM-poster.jpg"
+            className="hero-poster-mask absolute inset-0 h-full w-full object-cover"
+          >
+            <source src="/HXY-AIPM-video.mp4" type="video/mp4" />
+          </video>
+        )}
       </motion.div>
 
       {/* Subtle vignette */}
