@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { List, X } from "@phosphor-icons/react";
+import { BackgroundMusic } from "./BackgroundMusic";
 
 type NavSub = {
   label: string;
@@ -101,7 +102,7 @@ export function Navbar() {
           boxShadow: useTransform(navShadowOpacity, (v) => `0 8px 48px rgba(0,0,0,${v})`),
         }}
       >
-        <div className="w-full flex items-center justify-between">
+        <div className="relative w-full flex items-center justify-between">
           {/* Brand */}
           <a
             href="#"
@@ -112,7 +113,7 @@ export function Navbar() {
           </a>
 
           {/* Desktop nav */}
-          <ul className="hidden md:flex items-center gap-9 list-none">
+          <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-9 list-none md:flex">
             {NAV_ITEMS.map((item) => (
               <li key={item.href} className="relative group">
                 <a
@@ -147,32 +148,22 @@ export function Navbar() {
             ))}
           </ul>
 
-          {/* Desktop CTA */}
-          <motion.a
-              href="#contact"
-              onClick={(e) => { e.preventDefault(); scrollTo("#contact"); }}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97, y: 1 }}
-              className="cursor-target hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.06] border border-white/[0.18] text-white font-body text-[12.5px] font-medium tracking-[0.06em] uppercase no-underline cursor-pointer transition-all duration-300 backdrop-blur-[10px] hover:bg-white/[0.12] hover:border-neon-cyan hover:shadow-[0_0_28px_rgba(0,200,255,0.18)]"
-            >
-              聊聊
-              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/[0.1] text-[11px] transition-all duration-300 group-hover:bg-neon-cyan group-hover:text-black">
-                &#x2197;
-              </span>
-          </motion.a>
+          <div className="ml-auto flex items-center gap-2">
+            <BackgroundMusic />
 
-          {/* Hamburger */}
-          <button
-            onClick={() => setMenuOpen((v) => !v)}
-            className="md:hidden flex flex-col items-center justify-center w-10 h-10 rounded-full bg-white/[0.06] border border-white/[0.15] cursor-pointer gap-[5px] transition-all duration-400"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-          >
-            {menuOpen ? (
-              <X size={18} weight="light" color="#fff" />
-            ) : (
-              <List size={18} weight="light" color="#fff" />
-            )}
-          </button>
+            {/* Hamburger */}
+            <button
+              onClick={() => setMenuOpen((v) => !v)}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.15] bg-white/[0.06] transition-all duration-400 md:hidden"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+            >
+              {menuOpen ? (
+                <X size={18} weight="light" color="#fff" />
+              ) : (
+                <List size={18} weight="light" color="#fff" />
+              )}
+            </button>
+          </div>
         </div>
       </motion.nav>
 
@@ -194,7 +185,7 @@ export function Navbar() {
               style={{ transformOrigin: "top right" }}
               className="fixed top-[68px] right-4 z-[99] md:hidden w-[200px] p-1.5 rounded-2xl bg-[rgba(13,13,28,0.96)] border border-white/[0.12] backdrop-blur-xl shadow-[0_16px_48px_rgba(0,0,0,0.55)] flex flex-col"
             >
-              {[...NAV_ITEMS, { label: "聊聊", href: "#contact", subs: [] as NavSub[] }].map(
+              {NAV_ITEMS.map(
                 (item) => (
                   <a
                     key={item.label + item.href}

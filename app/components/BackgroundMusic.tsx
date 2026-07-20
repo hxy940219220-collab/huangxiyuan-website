@@ -1,15 +1,17 @@
 "use client";
 
-import { MusicNoteSimple, SpeakerLow, SpeakerSlash } from "@phosphor-icons/react";
+import { SpeakerLow, SpeakerSlash } from "@phosphor-icons/react";
 import {
   useCallback,
   useEffect,
   useRef,
   useState,
   type CSSProperties,
+  type FocusEvent,
 } from "react";
 
 const DEFAULT_VOLUME = 0.12;
+const COLLAPSE_DELAY = 2600;
 const VOLUME_KEY = "hxy-bgm-volume";
 const ENABLED_KEY = "hxy-bgm-enabled";
 
@@ -18,16 +20,37 @@ function clampVolume(value: number) {
 }
 
 export function BackgroundMusic() {
-  const controlRef = useRef<HTMLElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const volumeRef = useRef(DEFAULT_VOLUME);
   const enabledRef = useRef(true);
   const resumeAfterVisibilityRef = useRef(false);
+  const collapseTimerRef = useRef<number | null>(null);
+  const focusWithinRef = useRef(false);
 
   const [volume, setVolume] = useState(DEFAULT_VOLUME);
   const [enabled, setEnabled] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+
+  const cancelCollapse = useCallback(() => {
+    if (collapseTimerRef.current !== null) {
+      window.clearTimeout(collapseTimerRef.current);
+      collapseTimerRef.current = null;
+    }
+  }, []);
+
+  const scheduleCollapse = useCallback(() => {
+    cancelCollapse();
+    collapseTimerRef.current = window.setTimeout(() => {
+      if (!focusWithinRef.current) setExpanded(false);
+      collapseTimerRef.current = null;
+    }, COLLAPSE_DELAY);
+  }, [cancelCollapse]);
+
+  const revealControl = useCallback(() => {
+    setExpanded(true);
+    scheduleCollapse();
+  }, [scheduleCollapse]);
 
   const persistEnabled = useCallback((nextEnabled: boolean) => {
     try {
@@ -125,7 +148,6 @@ export function BackgroundMusic() {
     };
 
     document.addEventListener("visibilitychange", handleVisibility);
-
     return () => {
       removeUnlockListeners();
       document.removeEventListener("visibilitychange", handleVisibility);
@@ -133,27 +155,10 @@ export function BackgroundMusic() {
     };
   }, [pauseAudio, playAudio]);
 
-  useEffect(() => {
-    if (!mobileOpen) return;
-
-    const closeOutside = (event: PointerEvent) => {
-      if (event.target instanceof Node && !controlRef.current?.contains(event.target)) {
-        setMobileOpen(false);
-      }
-    };
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMobileOpen(false);
-    };
-
-    document.addEventListener("pointerdown", closeOutside);
-    document.addEventListener("keydown", closeOnEscape);
-    return () => {
-      document.removeEventListener("pointerdown", closeOutside);
-      document.removeEventListener("keydown", closeOnEscape);
-    };
-  }, [mobileOpen]);
+  useEffect(() => () => cancelCollapse(), [cancelCollapse]);
 
   const togglePlayback = () => {
+    revealControl();
     const audio = audioRef.current;
     if (!audio) return;
 
@@ -184,6 +189,7 @@ export function BackgroundMusic() {
   };
 
   const changeVolume = (nextPercent: number) => {
+    revealControl();
     const audio = audioRef.current;
     const nextVolume = clampVolume(nextPercent / 100);
 
@@ -211,17 +217,23 @@ export function BackgroundMusic() {
     if (audio?.paused) void playAudio();
   };
 
+  const handleFocus = () => {
+    focusWithinRef.current = true;
+    cancelCollapse();
+    setExpanded(true);
+  };
+
+  const handleBlur = (event: FocusEvent<HTMLDivElement>) => {
+    if (event.relatedTarget instanceof Node && event.currentTarget.contains(event.relatedTarget)) return;
+    focusWithinRef.current = false;
+    scheduleCollapse();
+  };
+
   const level = `${Math.round(volume * 100)}%`;
   const rangeStyle = { "--bgm-level": level } as CSSProperties;
 
   return (
-    <aside
-      ref={controlRef}
-      data-bgm-control
-      aria-label="背景音乐控制"
-      title="KNSRK · Crystal Obsidian"
-      className="fixed bottom-4 right-4 z-[90] md:bottom-6 md:right-6"
-    >
+    <aside className="relative z-10 h-9 w-9 shrink-0" aria-label="背景音乐控制">
       <audio
         ref={audioRef}
         src="/crystal-obsidian.mp3"
@@ -231,48 +243,57 @@ export function BackgroundMusic() {
         onPause={() => setIsPlaying(false)}
       />
 
-      <button
-        type="button"
-        aria-label={mobileOpen ? "收起背景音乐控制" : "打开背景音乐控制"}
-        aria-expanded={mobileOpen}
-        aria-controls="background-music-panel"
-        onClick={() => setMobileOpen((open) => !open)}
-        className={`cursor-target flex h-11 w-11 items-center justify-center rounded-full border bg-[oklch(0.12_0.018_285/0.97)] shadow-[0_12px_36px_oklch(0.02_0.01_285/0.48)] transition-[color,border-color,box-shadow] duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon-cyan sm:hidden ${
-          isPlaying
-            ? "border-[oklch(0.76_0.15_220/0.48)] text-neon-cyan shadow-[0_0_20px_oklch(0.76_0.15_220/0.12)]"
-            : "border-[oklch(0.34_0.025_285/0.7)] text-text-tertiary"
-        }`}
-      >
-        <MusicNoteSimple size={18} weight={isPlaying ? "fill" : "regular"} />
-      </button>
-
       <div
-        id="background-music-panel"
+        data-bgm-control
         role="group"
         aria-label="背景音乐播放与音量"
-        className={`absolute bottom-14 right-0 flex items-center gap-2.5 rounded-full border border-[oklch(0.34_0.025_285/0.7)] bg-[oklch(0.12_0.018_285/0.97)] p-1.5 pr-3.5 shadow-[0_12px_36px_oklch(0.02_0.01_285/0.48)] transition-[opacity,transform,visibility] duration-200 ease-out sm:static sm:visible sm:translate-y-0 sm:opacity-100 sm:pointer-events-auto ${
-          mobileOpen
-            ? "visible translate-y-0 opacity-100 pointer-events-auto"
-            : "invisible translate-y-2 opacity-0 pointer-events-none"
-        }`}
+        title="KNSRK · Crystal Obsidian"
+        onMouseEnter={revealControl}
+        onMouseMove={revealControl}
+        onMouseLeave={scheduleCollapse}
+        onFocusCapture={handleFocus}
+        onBlurCapture={handleBlur}
+        className="absolute right-0 top-0 h-9 w-[150px]"
       >
+        <div
+          aria-hidden="true"
+          className={`absolute inset-0 origin-right rounded-full border border-[oklch(0.34_0.025_285/0.7)] bg-[oklch(0.12_0.018_285/0.97)] shadow-[0_8px_26px_oklch(0.02_0.01_285/0.42)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
+            expanded ? "scale-x-100" : "scale-x-[0.24]"
+          }`}
+        />
+
         <button
           type="button"
           onClick={togglePlayback}
+          onPointerUp={(event) => {
+            event.currentTarget.blur();
+            focusWithinRef.current = false;
+            scheduleCollapse();
+          }}
           aria-label={isPlaying ? "关闭背景音乐" : "播放背景音乐"}
           aria-pressed={isPlaying}
-          className={`cursor-target flex h-11 w-11 shrink-0 items-center justify-center rounded-full border transition-[color,background-color,border-color,box-shadow] duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon-cyan ${
+          className={`cursor-target absolute left-0.5 top-0.5 z-10 flex h-8 w-8 items-center justify-center rounded-full border transition-[transform,color,background-color,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon-cyan ${
+            expanded ? "translate-x-0" : "translate-x-[114px]"
+          } ${
             isPlaying
-              ? "border-[oklch(0.76_0.15_220/0.48)] bg-[oklch(0.76_0.15_220/0.12)] text-neon-cyan shadow-[0_0_20px_oklch(0.76_0.15_220/0.12)]"
-              : "border-[oklch(0.48_0.02_285/0.42)] bg-[oklch(0.2_0.018_285/0.72)] text-text-tertiary"
+              ? "border-[oklch(0.76_0.15_220/0.5)] bg-[oklch(0.76_0.15_220/0.12)] text-neon-cyan shadow-[0_0_16px_oklch(0.76_0.15_220/0.12)]"
+              : "border-[oklch(0.48_0.02_285/0.4)] bg-[oklch(0.2_0.018_285/0.76)] text-text-tertiary"
           }`}
         >
-          {isPlaying ? <SpeakerLow size={19} weight="fill" /> : <SpeakerSlash size={19} weight="regular" />}
+          {isPlaying ? <SpeakerLow size={16} weight="fill" /> : <SpeakerSlash size={16} weight="regular" />}
         </button>
 
-        <div className="w-[94px] sm:w-[116px]">
-          <div className="mb-0.5 flex items-center justify-between gap-2 font-body text-[9.5px] leading-none tracking-[0.06em]">
-            <span className="text-text-secondary">背景音乐</span>
+        <div
+          id="background-music-volume"
+          aria-hidden={!expanded}
+          className={`absolute left-[40px] right-2 top-1/2 -translate-y-1/2 transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            expanded
+              ? "translate-x-0 opacity-100 pointer-events-auto delay-100"
+              : "translate-x-3 opacity-0 pointer-events-none delay-0"
+          }`}
+        >
+          <div className="flex items-center justify-between gap-2 font-body text-[8.5px] leading-none tracking-[0.05em]">
+            <span className="text-text-secondary">音乐</span>
             <output className={isPlaying ? "text-neon-cyan" : "text-text-muted"} aria-live="polite">
               {isPlaying ? level : enabled ? "待播放" : "已关闭"}
             </output>
@@ -284,6 +305,14 @@ export function BackgroundMusic() {
             step="1"
             value={Math.round(volume * 100)}
             onChange={(event) => changeVolume(event.currentTarget.valueAsNumber)}
+            onPointerDown={revealControl}
+            onPointerUp={(event) => {
+              event.currentTarget.blur();
+              focusWithinRef.current = false;
+              scheduleCollapse();
+            }}
+            onKeyDown={revealControl}
+            tabIndex={expanded ? 0 : -1}
             aria-label="背景音乐音量"
             aria-valuetext={`${Math.round(volume * 100)}%`}
             className="bgm-range"
