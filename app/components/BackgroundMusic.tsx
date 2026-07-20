@@ -6,12 +6,11 @@ import {
   useEffect,
   useRef,
   useState,
-  type CSSProperties,
   type FocusEvent,
 } from "react";
 
 const DEFAULT_VOLUME = 0.12;
-const COLLAPSE_DELAY = 2600;
+const COLLAPSE_DELAY = 1000;
 const VOLUME_KEY = "hxy-bgm-volume";
 const ENABLED_KEY = "hxy-bgm-enabled";
 
@@ -230,7 +229,6 @@ export function BackgroundMusic() {
   };
 
   const level = `${Math.round(volume * 100)}%`;
-  const rangeStyle = { "--bgm-level": level } as CSSProperties;
 
   return (
     <aside className="relative z-10 h-9 w-9 shrink-0" aria-label="背景音乐控制">
@@ -257,8 +255,8 @@ export function BackgroundMusic() {
       >
         <div
           aria-hidden="true"
-          className={`absolute inset-0 origin-right rounded-full border border-[oklch(0.34_0.025_285/0.7)] bg-[oklch(0.12_0.018_285/0.97)] shadow-[0_8px_26px_oklch(0.02_0.01_285/0.42)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
-            expanded ? "scale-x-100" : "scale-x-[0.24]"
+          className={`absolute inset-0 origin-right rounded-full border border-[oklch(0.34_0.025_285/0.7)] bg-[oklch(0.12_0.018_285/0.97)] shadow-[0_8px_26px_oklch(0.02_0.01_285/0.42)] transition-[scale,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[scale,opacity] ${
+            expanded ? "scale-x-100 opacity-100" : "scale-x-[0.24] opacity-0"
           }`}
         />
 
@@ -272,7 +270,7 @@ export function BackgroundMusic() {
           }}
           aria-label={isPlaying ? "关闭背景音乐" : "播放背景音乐"}
           aria-pressed={isPlaying}
-          className={`cursor-target absolute left-0.5 top-0.5 z-10 flex h-8 w-8 items-center justify-center rounded-full border transition-[transform,color,background-color,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon-cyan ${
+          className={`cursor-target absolute left-0.5 top-0.5 z-10 flex h-8 w-8 items-center justify-center rounded-full border transition-[translate,color,background-color,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[translate] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon-cyan ${
             expanded ? "translate-x-0" : "translate-x-[114px]"
           } ${
             isPlaying
@@ -286,7 +284,7 @@ export function BackgroundMusic() {
         <div
           id="background-music-volume"
           aria-hidden={!expanded}
-          className={`absolute left-[40px] right-2 top-1/2 -translate-y-1/2 transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          className={`absolute left-[40px] right-2 top-1/2 -translate-y-1/2 transition-[opacity,translate] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             expanded
               ? "translate-x-0 opacity-100 pointer-events-auto delay-100"
               : "translate-x-3 opacity-0 pointer-events-none delay-0"
@@ -298,26 +296,38 @@ export function BackgroundMusic() {
               {isPlaying ? level : enabled ? "待播放" : "已关闭"}
             </output>
           </div>
-          <input
-            type="range"
-            min="0"
-            max="30"
-            step="1"
-            value={Math.round(volume * 100)}
-            onChange={(event) => changeVolume(event.currentTarget.valueAsNumber)}
-            onPointerDown={revealControl}
-            onPointerUp={(event) => {
-              event.currentTarget.blur();
-              focusWithinRef.current = false;
-              scheduleCollapse();
-            }}
-            onKeyDown={revealControl}
-            tabIndex={expanded ? 0 : -1}
-            aria-label="背景音乐音量"
-            aria-valuetext={`${Math.round(volume * 100)}%`}
-            className="bgm-range"
-            style={rangeStyle}
-          />
+          <div className="relative h-[13px]">
+            <div
+              data-bgm-track
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-[5px] top-1/2 h-[2px] -translate-y-1/2 overflow-hidden rounded-full bg-[oklch(0.48_0.02_285/0.28)]"
+            >
+              <div
+                data-bgm-fill
+                className="h-full rounded-full bg-[oklch(0.79_0.15_220)]"
+                style={{ width: level }}
+              />
+            </div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              value={Math.round(volume * 100)}
+              onChange={(event) => changeVolume(event.currentTarget.valueAsNumber)}
+              onPointerDown={revealControl}
+              onPointerUp={(event) => {
+                event.currentTarget.blur();
+                focusWithinRef.current = false;
+                scheduleCollapse();
+              }}
+              onKeyDown={revealControl}
+              tabIndex={expanded ? 0 : -1}
+              aria-label="背景音乐音量"
+              aria-valuetext={`${Math.round(volume * 100)}%`}
+              className="bgm-range absolute inset-0 z-10"
+            />
+          </div>
         </div>
       </div>
     </aside>

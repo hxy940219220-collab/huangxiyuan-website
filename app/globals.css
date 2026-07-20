@@ -197,7 +197,6 @@ body {
    BACKGROUND MUSIC — compact native range, branded without glass
    ============================================================ */
 .bgm-range {
-  --bgm-level: 12%;
   appearance: none;
   -webkit-appearance: none;
   display: block;
@@ -205,14 +204,14 @@ body {
   height: 13px;
   margin: 0;
   border-radius: 9999px;
-  background:
-    linear-gradient(
-      to right,
-      oklch(0.79 0.15 220) 0 var(--bgm-level),
-      oklch(0.48 0.02 285 / 0.28) var(--bgm-level) 100%
-    )
-    center / 100% 2px no-repeat;
+  background: transparent;
   cursor: pointer;
+}
+
+.bgm-range::-webkit-slider-runnable-track {
+  height: 13px;
+  border: 0;
+  background: transparent;
 }
 
 .bgm-range::-webkit-slider-thumb {
@@ -233,6 +232,12 @@ body {
   border-radius: 50%;
   background: oklch(0.95 0.01 285);
   box-shadow: 0 0 0 1px oklch(0.79 0.15 220 / 0.42);
+}
+
+.bgm-range::-moz-range-track {
+  height: 13px;
+  border: 0;
+  background: transparent;
 }
 
 .bgm-range:focus-visible {
