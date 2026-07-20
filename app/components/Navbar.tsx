@@ -22,6 +22,8 @@ const NAV_ITEMS: NavItem[] = [
     subs: [
       { label: "Flick · 划词 AI", href: "#project-flick" },
       { label: "研报笔记 Agent", href: "#project-report-note" },
+      { label: "Call Home · 互动装置", href: "#project-call-home" },
+      { label: "Claude Signal · 实体控制台", href: "#project-claude-signal" },
       { label: "IdeaFlash · 灵感胶囊", href: "#project-ideaflash" },
       { label: "FocusMeow · 专注喵", href: "#project-focusmeow" },
     ],
