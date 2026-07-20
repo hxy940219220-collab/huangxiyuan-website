@@ -192,7 +192,7 @@ export function Work() {
               </div>
               <div className="p-6 md:p-7 flex flex-col flex-1">
                 <div className="flex gap-2 flex-wrap mb-3.5">
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-pink text-neon-pink">硬件交互</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-pink text-neon-pink">嵌入式开发</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Raspberry Pi 5</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">STM32</span>
                 </div>
@@ -227,7 +227,7 @@ export function Work() {
               <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
                 <img
                   src="/claude-signal-project-card.webp"
-                  alt="Claude Signal 多会话 Agent 实体控制台"
+                  alt="Claude Signal 多会话 Agent 实体审批台"
                   width={1672}
                   height={941}
                   loading="lazy"
@@ -236,12 +236,12 @@ export function Work() {
               </div>
               <div className="p-6 md:p-7 flex flex-col flex-1">
                 <div className="flex gap-2 flex-wrap mb-3.5">
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-[#4ade80] text-[#4ade80]">Agent Hardware</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-[#4ade80] text-[#4ade80]">嵌入式开发</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">ESP32-S3</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Claude Code</span>
                 </div>
                 <h3 className="font-display italic text-[26px] text-white mb-1.5">
-                  Claude Signal · 实体控制台
+                  Claude Signal · 实体审批台
                 </h3>
                 <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
                   把多个 Claude Code 会话的运行状态，映射成看得见、按得下的硬件信号。
@@ -294,34 +294,19 @@ export function Work() {
                 <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
                   核心不是让用户写得更完整，而是在想法最脆弱的一瞬间把它接住，整理与结构化交给 AI 在后面完成。
                 </p>
-                <div className="flex items-end justify-between gap-4 mt-auto">
-                  <div>
-                    <a
-                      href="https://raw.githubusercontent.com/think2do/FlashMind/main/APK/%E7%81%B5%E6%84%9F%E8%83%B6%E5%9B%8A1.03.apk"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-orange/10 border border-neon-orange/30 text-neon-orange font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-neon-orange/20 hover:shadow-[0_0_24px_rgba(255,106,26,0.2)] self-start"
-                    >
-                      <GooglePlayLogo size={14} weight="fill" />
-                      点击即刻下载
-                    </a>
-                    <p className="mt-2.5 text-[10.5px] tracking-[0.06em] text-text-muted">
-                      v1.03 · Android APK · 约 6.7 MB
-                    </p>
-                  </div>
-                  {/* 桌面端展示二维码，手机扫码即装（移动端隐藏，直接点按钮即可） */}
-                  <div className="hidden md:flex flex-col items-center gap-1.5 shrink-0">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src="/ideaflash-qr.svg"
-                      alt="IdeaFlash 下载二维码"
-                      width={72}
-                      height={72}
-                      loading="lazy"
-                      className="rounded-lg border border-white/[0.1] bg-white p-1.5"
-                    />
-                    <span className="text-[9.5px] tracking-[0.08em] text-text-muted">扫码下载</span>
-                  </div>
+                <div className="mt-auto">
+                  <a
+                    href="https://raw.githubusercontent.com/think2do/FlashMind/main/APK/%E7%81%B5%E6%84%9F%E8%83%B6%E5%9B%8A1.03.apk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-orange/10 border border-neon-orange/30 text-neon-orange font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-neon-orange/20 hover:shadow-[0_0_24px_rgba(255,106,26,0.2)] self-start"
+                  >
+                    <GooglePlayLogo size={14} weight="fill" />
+                    点击即刻下载
+                  </a>
+                  <p className="mt-2.5 text-[10.5px] tracking-[0.06em] text-text-muted">
+                    v1.03 · Android APK · 约 6.7 MB
+                  </p>
                 </div>
               </div>
             </motion.div>
