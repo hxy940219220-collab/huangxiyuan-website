@@ -53,7 +53,7 @@ export function Work() {
         />
         <ScrollReveal delay={0.2}>
           <p className="text-[15px] text-text-tertiary leading-relaxed self-end pb-2">
-            把真实问题转成可用的 AI 产品。我会从具体使用场景出发，先定义用户真正卡住的瞬间，再用 AI、交互结构和快速工程实现把它落到可体验的产品里。
+            把真实问题转成可体验、可验证的产品。我会从具体使用场景出发，先定义用户真正卡住的瞬间，再把 AI、Agent、交互结构与软硬件工程组合成能够运行的完整体验。
           </p>
         </ScrollReveal>
       </div>
@@ -172,8 +172,96 @@ export function Work() {
           </TiltWrap>
         </ScrollReveal>
 
-        {/* IdeaFlash */}
+        {/* Call Home */}
         <ScrollReveal delay={0.24}>
+          <TiltWrap className="h-full">
+            <motion.div
+              id="project-call-home"
+              whileHover={{ y: -6 }}
+              className="scroll-mt-24 relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-pink/30 hover:shadow-[0_0_60px_rgba(216,76,255,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] flex flex-col h-full"
+            >
+              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
+                <img
+                  src="/call-home-project-card.webp"
+                  alt="Call Home 给父母的一通电话互动装置"
+                  width={1672}
+                  height={941}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-6 md:p-7 flex flex-col flex-1">
+                <div className="flex gap-2 flex-wrap mb-3.5">
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-pink text-neon-pink">硬件交互</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Raspberry Pi 5</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">STM32</span>
+                </div>
+                <h3 className="font-display italic text-[26px] text-white mb-1.5">
+                  Call Home · 给父母的一通电话
+                </h3>
+                <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
+                  用距离感知与电话听筒，把“想起父母”变成一次真实的联系。
+                </p>
+                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">不是播放一段公益动画，而是设计从靠近到行动的体验路径</p>
+                <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
+                  以树莓派 5 为主控，联动超声波测距、STM32 与听筒微动开关，完成三态画面切换，并通过二维码唤起预填短信。
+                </p>
+                <div className="flex flex-wrap gap-3 mt-auto">
+                  <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-pink/10 border border-neon-pink/30 text-neon-pink font-body text-[12px] font-medium tracking-[0.04em]">
+                    实物原型 · 三态联动
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          </TiltWrap>
+        </ScrollReveal>
+
+        {/* Claude Signal */}
+        <ScrollReveal delay={0.32}>
+          <TiltWrap className="h-full">
+            <motion.div
+              id="project-claude-signal"
+              whileHover={{ y: -6 }}
+              className="scroll-mt-24 relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-[#4ade80]/35 hover:shadow-[0_0_60px_rgba(74,222,128,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] flex flex-col h-full"
+            >
+              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
+                <img
+                  src="/claude-signal-project-card.webp"
+                  alt="Claude Signal 多会话 Agent 实体控制台"
+                  width={1672}
+                  height={941}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-6 md:p-7 flex flex-col flex-1">
+                <div className="flex gap-2 flex-wrap mb-3.5">
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-[#4ade80] text-[#4ade80]">Agent Hardware</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">ESP32-S3</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Claude Code</span>
+                </div>
+                <h3 className="font-display italic text-[26px] text-white mb-1.5">
+                  Claude Signal · 实体控制台
+                </h3>
+                <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
+                  把多个 Claude Code 会话的运行状态，映射成看得见、按得下的硬件信号。
+                </p>
+                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">不是再开一个监控窗口，而是让 Agent 状态离开屏幕</p>
+                <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
+                  ESP32-S3 汇总后台会话，红黄绿灯与 OLED 提示执行、报错、待审批和完成；需要授权时，街机键可直接完成审批。
+                </p>
+                <div className="flex flex-wrap gap-3 mt-auto">
+                  <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#4ade80]/10 border border-[#4ade80]/30 text-[#4ade80] font-body text-[12px] font-medium tracking-[0.04em]">
+                    实物原型 · 多会话监控
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          </TiltWrap>
+        </ScrollReveal>
+
+        {/* IdeaFlash */}
+        <ScrollReveal delay={0.4}>
           <TiltWrap className="h-full">
             <motion.div
               id="project-ideaflash"
@@ -241,7 +329,7 @@ export function Work() {
         </ScrollReveal>
 
         {/* FocusMeow */}
-        <ScrollReveal delay={0.32}>
+        <ScrollReveal delay={0.48}>
           <TiltWrap className="h-full">
             <motion.div
               id="project-focusmeow"
