@@ -12,6 +12,7 @@ import { ScrollReveal } from "./components/ScrollReveal";
 import { About } from "./components/About";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
+import { BackgroundMusic } from "./components/BackgroundMusic";
 
 export default function Home() {
   const [introDone, setIntroDone] = useState(false);
@@ -27,6 +28,7 @@ export default function Home() {
       </noscript>
       {!introDone && <EvanIntro onComplete={() => setIntroDone(true)} />}
       <Navbar />
+      <BackgroundMusic />
       <main>
         <Hero />
         <Identity />

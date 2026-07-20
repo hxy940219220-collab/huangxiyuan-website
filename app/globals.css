@@ -192,3 +192,50 @@ body {
 .cursor-spin {
   animation: cursor-spin 8s linear infinite;
 }
+
+/* ============================================================
+   BACKGROUND MUSIC — compact native range, branded without glass
+   ============================================================ */
+.bgm-range {
+  --bgm-level: 12%;
+  appearance: none;
+  -webkit-appearance: none;
+  display: block;
+  width: 100%;
+  height: 18px;
+  margin: 0;
+  border-radius: 9999px;
+  background:
+    linear-gradient(
+      to right,
+      oklch(0.79 0.15 220) 0 var(--bgm-level),
+      oklch(0.48 0.02 285 / 0.28) var(--bgm-level) 100%
+    )
+    center / 100% 2px no-repeat;
+  cursor: pointer;
+}
+
+.bgm-range::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border: 2px solid oklch(0.12 0.018 285);
+  border-radius: 50%;
+  background: oklch(0.95 0.01 285);
+  box-shadow: 0 0 0 1px oklch(0.79 0.15 220 / 0.42);
+}
+
+.bgm-range::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border: 2px solid oklch(0.12 0.018 285);
+  border-radius: 50%;
+  background: oklch(0.95 0.01 285);
+  box-shadow: 0 0 0 1px oklch(0.79 0.15 220 / 0.42);
+}
+
+.bgm-range:focus-visible {
+  outline: 2px solid oklch(0.79 0.15 220);
+  outline-offset: 3px;
+}
