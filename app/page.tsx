@@ -16,6 +16,11 @@ import { Footer } from "./components/Footer";
 export default function Home() {
   const [introDone, setIntroDone] = useState(false);
 
+  const completeIntro = () => {
+    setIntroDone(true);
+    window.dispatchEvent(new Event("hxy:bgm-play"));
+  };
+
   return (
     <>
       {/* 无 JS 兜底：关掉开场遮罩、强制 Hero 文案可见 */}
@@ -25,7 +30,7 @@ export default function Home() {
           #hero [style] { opacity: 1 !important; transform: none !important; filter: none !important; }
         `}</style>
       </noscript>
-      {!introDone && <EvanIntro onComplete={() => setIntroDone(true)} />}
+      {!introDone && <EvanIntro onComplete={completeIntro} />}
       <Navbar />
       <main>
         <Hero active={introDone} />

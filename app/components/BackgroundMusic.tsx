@@ -13,8 +13,6 @@ const DEFAULT_VOLUME = 0.1;
 const COLLAPSE_DELAY = 1000;
 const VOLUME_KEY = "hxy-bgm-volume";
 const PLAY_EVENT = "hxy:bgm-play";
-const PAUSE_EVENT = "hxy:bgm-pause";
-const STATE_EVENT = "hxy:bgm-state";
 
 function clampVolume(value: number) {
   return Math.min(1, Math.max(0, value));
@@ -53,11 +51,6 @@ export function BackgroundMusic() {
     scheduleCollapse();
   }, [scheduleCollapse]);
 
-  const announceState = useCallback((state: "playing" | "blocked" | "paused") => {
-    document.documentElement.dataset.bgmState = state;
-    window.dispatchEvent(new CustomEvent(STATE_EVENT, { detail: { state } }));
-  }, []);
-
   const playAudio = useCallback(async () => {
     const audio = audioRef.current;
     if (!audio || document.hidden || !enabledRef.current) return false;
@@ -74,15 +67,13 @@ export function BackgroundMusic() {
     try {
       await audio.play();
       setIsPlaying(true);
-      announceState("playing");
       return true;
     } catch {
       audio.volume = targetVolume;
       setIsPlaying(false);
-      announceState("blocked");
       return false;
     }
-  }, [announceState]);
+  }, []);
 
   const pauseAudio = useCallback(() => {
     const audio = audioRef.current;
@@ -120,10 +111,7 @@ export function BackgroundMusic() {
     };
 
     const unlockPlayback = (event: Event) => {
-      if (
-        event.target instanceof Element &&
-        event.target.closest("[data-bgm-control], [data-bgm-silent]")
-      ) return;
+      if (event.target instanceof Element && event.target.closest("[data-bgm-control]")) return;
       if (!enabledRef.current) return;
 
       void playAudio().then((started) => {
@@ -145,15 +133,7 @@ export function BackgroundMusic() {
       void playAudio();
     };
 
-    const handlePauseRequest = () => {
-      enabledRef.current = false;
-      setEnabled(false);
-      pauseAudio();
-      announceState("paused");
-    };
-
     window.addEventListener(PLAY_EVENT, handlePlayRequest);
-    window.addEventListener(PAUSE_EVENT, handlePauseRequest);
 
     const handleVisibility = () => {
       if (document.hidden) {
@@ -170,10 +150,9 @@ export function BackgroundMusic() {
       removeUnlockListeners();
       document.removeEventListener("visibilitychange", handleVisibility);
       window.removeEventListener(PLAY_EVENT, handlePlayRequest);
-      window.removeEventListener(PAUSE_EVENT, handlePauseRequest);
       audio.pause();
     };
-  }, [announceState, pauseAudio, playAudio]);
+  }, [pauseAudio, playAudio]);
 
   useEffect(() => () => cancelCollapse(), [cancelCollapse]);
 
@@ -186,7 +165,6 @@ export function BackgroundMusic() {
       enabledRef.current = false;
       setEnabled(false);
       pauseAudio();
-      announceState("paused");
       return;
     }
 
@@ -226,7 +204,6 @@ export function BackgroundMusic() {
       enabledRef.current = false;
       setEnabled(false);
       pauseAudio();
-      announceState("paused");
       return;
     }
 
