@@ -160,12 +160,16 @@ export function RotatingCards3D() {
     const loop = () => {
       const displayed = displayRef.current;
       const target = targetRef.current;
+      let next = displayed;
       if (Math.abs(target - displayed) < 0.01) {
-        displayRef.current = target;
+        next = target;
       } else {
-        displayRef.current += (target - displayed) * 0.18;
+        next = displayed + (target - displayed) * 0.18;
       }
-      ring.style.transform = `rotateY(${-displayRef.current}deg)`;
+      if (next !== displayed) {
+        displayRef.current = next;
+        ring.style.transform = `rotateY(${-next}deg)`;
+      }
       rafRef.current = requestAnimationFrame(loop);
     };
     rafRef.current = requestAnimationFrame(loop);

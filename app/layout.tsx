@@ -23,7 +23,7 @@ const inter = Inter({
 const SITE_URL = "https://www.huangxiyuan.net";
 const SITE_TITLE = "黄锡源 HXY / AIPM - AI 产品经理";
 const SITE_DESCRIPTION =
-  "黄锡源 (HXY)，AI 产品经理。聚焦模型、Agent 与 Workflow 的产品化设计，把前沿能力转化为真实可用的产品体验。";
+  "黄锡源 (HXY)，AI 产品经理。聚焦模型应用、Agent 系统与软硬件原型，把前沿能力做成可运行、可验证、能迭代的产品。";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

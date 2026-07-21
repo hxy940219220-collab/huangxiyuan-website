@@ -9,22 +9,22 @@ import {
   useTransform,
 } from "motion/react";
 import SplitText from "../reactbits/TextAnimations/SplitText/SplitText";
-import Aurora from "../reactbits/Backgrounds/Aurora/Aurora";
 
-export function Hero() {
+export function Hero({ active = true }: { active?: boolean }) {
   const reduced = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showVideo, setShowVideo] = useState(true);
 
-  // 只在桌面端挂载 WebGL 背景（移动端用静态海报，省流量省性能）
+  // 只在桌面端挂载氛围背景，移动端使用静态海报以降低开销。
   const [isDesktop, setIsDesktop] = useState(false);
   useEffect(() => {
+    if (!active) return;
     const mq = window.matchMedia("(min-width: 768px)");
     const update = () => setIsDesktop(mq.matches);
     update();
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
-  }, []);
+  }, [active]);
 
   // 默认开放首屏视频；劫持型浏览器、节省流量与减少动态效果用户保留海报兜底。
   useEffect(() => {
@@ -35,10 +35,10 @@ export function Hero() {
       connection?: { saveData?: boolean };
     };
 
-    const shouldShow = !reduced && !hijacker && !connection.connection?.saveData;
+    const shouldShow = active && !reduced && !hijacker && !connection.connection?.saveData;
     const frame = window.requestAnimationFrame(() => setShowVideo(shouldShow));
     return () => window.cancelAnimationFrame(frame);
-  }, [reduced]);
+  }, [active, reduced]);
 
   // 兼容微信 / QQ 的 X5 内核，并在数据就绪或首次交互时补发播放请求。
   useEffect(() => {
@@ -105,22 +105,21 @@ export function Hero() {
       id="hero"
       className="relative z-[10] min-h-[100dvh] flex items-center justify-center overflow-hidden bg-bg-deepest"
     >
-      {/* WebGL Aurora 背景（视频边缘渐隐后的氛围底色） */}
-      {isDesktop && !reduced && (
+      {/* 静态氛围光替代持续运行的 WebGL，保留色彩纵深并降低 GPU 开销。 */}
+      {active && isDesktop && !reduced && (
         <motion.div
           className="absolute inset-[-5%] z-0 pointer-events-none"
           aria-hidden="true"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.6, ease: "easeOut" }}
-          style={{ x: auroraX, y: auroraY }}
+          style={{
+            x: auroraX,
+            y: auroraY,
+            background:
+              "radial-gradient(circle at 18% 32%, rgba(255,106,26,0.16), transparent 34%), radial-gradient(circle at 52% 18%, rgba(216,76,255,0.14), transparent 38%), radial-gradient(circle at 82% 44%, rgba(0,200,255,0.14), transparent 38%)",
+          }}
         >
-          <Aurora
-            colorStops={["#ff6a1a", "#d84cff", "#00c8ff"]}
-            amplitude={1.15}
-            blend={0.55}
-            speed={0.5}
-          />
           {/* 压暗背景，让前景照片与文字突出 */}
           <div className="absolute inset-0 bg-[#050509]/40" />
         </motion.div>
@@ -139,7 +138,7 @@ export function Hero() {
           fetchPriority="high"
           className="hero-poster-mask w-full h-full object-cover"
         />
-        {showVideo && !reduced && (
+        {active && showVideo && !reduced && (
           <video
             ref={videoRef}
             data-hero-video

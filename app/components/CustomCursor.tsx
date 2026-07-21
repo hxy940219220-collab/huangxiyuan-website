@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useReducedMotion } from "motion/react";
 
 /* Reticle cursor — 4 种状态：
@@ -31,25 +31,17 @@ const DOT_SIZE = 5;
 
 export function CustomCursor() {
   const reduced = useReducedMotion();
-  const [hidden, setHidden] = useState(false);
   const dotRef = useRef<HTMLDivElement>(null);
   const spinRef = useRef<HTMLDivElement>(null);
   const cornersRef = useRef<HTMLDivElement[]>([]);
   const rafRef = useRef(0);
   const posRef = useRef({ x: -100, y: -100 });
+  const dirtyRef = useRef(true);
   const selectingRef = useRef(false);
   const prevStateRef = useRef<"roam" | "link" | "button" | "select">("roam");
 
-  // 触屏隐藏
   useEffect(() => {
-    if (isTouchDevice()) {
-      setHidden(true);
-      document.body.style.cursor = "";
-    }
-  }, []);
-
-  useEffect(() => {
-    if (reduced || hidden) return;
+    if (reduced || isTouchDevice()) return;
 
     const dot = dotRef.current;
     const spin = spinRef.current;
@@ -60,6 +52,7 @@ export function CustomCursor() {
 
     const onMove = (e: MouseEvent) => {
       posRef.current = { x: e.clientX, y: e.clientY };
+      dirtyRef.current = true;
     };
 
     // 检测文字选择状态
@@ -67,9 +60,20 @@ export function CustomCursor() {
       const sel = window.getSelection();
       const hasSelection = !!(sel && sel.toString().length > 0 && sel.type === "Range");
       selectingRef.current = hasSelection;
+      dirtyRef.current = true;
+    };
+
+    const onScroll = () => {
+      dirtyRef.current = true;
     };
 
     const loop = () => {
+      if (!dirtyRef.current) {
+        rafRef.current = requestAnimationFrame(loop);
+        return;
+      }
+      dirtyRef.current = false;
+
       const { x, y } = posRef.current;
 
       dot.style.left = `${x}px`;
@@ -117,8 +121,6 @@ export function CustomCursor() {
           // 按钮磁吸 — corners 贴附按钮圆角边缘
           prevStateRef.current = "button";
           const rect = target.getBoundingClientRect();
-          const br = 24; // 按钮圆角半径 (匹配 rounded-full)
-
           corners.forEach((c) => {
             c.style.transition = "left 0.15s ease-out, top 0.15s ease-out";
           });
@@ -185,21 +187,23 @@ export function CustomCursor() {
     };
 
     window.addEventListener("mousemove", onMove, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     document.addEventListener("selectionchange", onSelectionChange);
     rafRef.current = requestAnimationFrame(loop);
 
     return () => {
       document.body.style.cursor = "";
       window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("scroll", onScroll);
       document.removeEventListener("selectionchange", onSelectionChange);
       cancelAnimationFrame(rafRef.current);
     };
-  }, [reduced, hidden]);
+  }, [reduced]);
 
-  if (reduced || hidden) return null;
+  if (reduced) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] pointer-events-none" aria-hidden="true">
+    <div className="fixed inset-0 z-[9999] pointer-events-none [@media(pointer:coarse)]:hidden" aria-hidden="true">
       {/* 中心点 */}
       <div
         ref={dotRef}

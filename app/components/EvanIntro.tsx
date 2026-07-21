@@ -2,12 +2,13 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "motion/react";
+import { SpeakerHigh, SpeakerSlash } from "@phosphor-icons/react";
 
 /* ------------------------------------------------------------------ */
 /* EVAN 开场动画                                                       */
 /* 入场 → CSS 故障定格 → 辉光消散 → 露出首页                             */
 /* 同一个 DOM 元素贯穿全部阶段，字母位置永远不变                            */
-/* 总时长 ~2.8s · 滚动或点击可提前跳过                                 */
+/* 浏览器拦截有声自动播放时先获取一次授权，动画本身约 2.8s                   */
 /* ------------------------------------------------------------------ */
 
 const LETTERS = [
@@ -20,19 +21,31 @@ const LETTERS = [
 const ENTRANCE_STAGGER = 120;
 const HOLD_DURATION = 600;
 const DISSOLVE_DURATION = 1200;
+const ENTRANCE_TOTAL = ENTRANCE_STAGGER * (LETTERS.length - 1) + 600;
+const PLAY_EVENT = "hxy:bgm-play";
+const PAUSE_EVENT = "hxy:bgm-pause";
+const STATE_EVENT = "hxy:bgm-state";
+
+type IntroPhase = "ready" | "entrance" | "hold" | "dissolve" | "done";
 
 export function EvanIntro({ onComplete }: { onComplete: () => void }) {
-  const [phase, setPhase] = useState<"entrance" | "hold" | "dissolve" | "done">("entrance");
+  const [phase, setPhase] = useState<IntroPhase>("ready");
   const [dismissed, setDismissed] = useState(false);
   const onCompleteRef = useRef(onComplete);
-  onCompleteRef.current = onComplete;
+  const phaseRef = useRef<IntroPhase>(phase);
 
-  const entranceTotal = ENTRANCE_STAGGER * (LETTERS.length - 1) + 600;
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+
+  useEffect(() => {
+    phaseRef.current = phase;
+  }, [phase]);
 
   useEffect(() => {
     if (dismissed) return;
-    const schedule: Record<string, { next: typeof phase; delay: number }> = {
-      entrance: { next: "hold", delay: entranceTotal },
+    const schedule: Partial<Record<IntroPhase, { next: IntroPhase; delay: number }>> = {
+      entrance: { next: "hold", delay: ENTRANCE_TOTAL },
       hold: { next: "dissolve", delay: HOLD_DURATION },
       dissolve: { next: "done", delay: DISSOLVE_DURATION },
     };
@@ -48,6 +61,37 @@ export function EvanIntro({ onComplete }: { onComplete: () => void }) {
     }, s.delay);
     return () => clearTimeout(t);
   }, [phase, dismissed]);
+
+  useEffect(() => {
+    const handleMusicState = (event: Event) => {
+      const state = (event as CustomEvent<{ state?: string }>).detail?.state;
+      if (state === "playing" && phaseRef.current === "ready") {
+        setPhase("entrance");
+      }
+    };
+
+    window.addEventListener(STATE_EVENT, handleMusicState);
+    const syncTimer = window.setTimeout(() => {
+      if (document.documentElement.dataset.bgmState === "playing") {
+        setPhase("entrance");
+      }
+    }, 0);
+
+    return () => {
+      window.clearTimeout(syncTimer);
+      window.removeEventListener(STATE_EVENT, handleMusicState);
+    };
+  }, []);
+
+  const enterWithMusic = useCallback(() => {
+    window.dispatchEvent(new Event(PLAY_EVENT));
+    setPhase("entrance");
+  }, []);
+
+  const enterMuted = useCallback(() => {
+    window.dispatchEvent(new Event(PAUSE_EVENT));
+    setPhase("entrance");
+  }, []);
 
   const skip = useCallback(() => {
     if (phase === "entrance" || phase === "hold") setPhase("dissolve");
@@ -66,6 +110,7 @@ export function EvanIntro({ onComplete }: { onComplete: () => void }) {
 
   if (dismissed) return null;
 
+  const isReady = phase === "ready";
   const isHold = phase === "hold";
   const isDissolving = phase === "dissolve";
 
@@ -111,70 +156,113 @@ export function EvanIntro({ onComplete }: { onComplete: () => void }) {
         }}
       />
 
-      {/* 跳过 */}
-      <button
-        onClick={skip}
-        className="absolute top-6 right-6 md:top-8 md:right-8 max-sm:top-auto max-sm:bottom-8 max-sm:left-1/2 max-sm:-translate-x-1/2 z-10 px-4 py-2 rounded-full font-body text-[11px] tracking-[0.1em] uppercase text-text-muted border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm transition-all duration-300 hover:text-white hover:border-white/[0.2] hover:bg-white/[0.06]"
-      >
-        跳过 Skip
-      </button>
+      {!isReady && (
+        <button
+          onClick={skip}
+          className="absolute top-6 right-6 md:top-8 md:right-8 max-sm:top-auto max-sm:bottom-8 max-sm:left-1/2 max-sm:-translate-x-1/2 z-10 px-4 py-2 rounded-full font-body text-[11px] tracking-[0.1em] uppercase text-text-muted border border-white/[0.08] bg-white/[0.03] transition-all duration-300 hover:text-white hover:border-white/[0.2] hover:bg-white/[0.06]"
+        >
+          跳过 Skip
+        </button>
+      )}
 
       {/* 四字母 — 同一个 span 始终存在，位置永不改变 */}
       <div className="flex items-center gap-4 md:gap-10 px-6">
-        {LETTERS.map((l, i) => (
-          <motion.span
-            key={l.letter}
-            className="font-display italic font-bold leading-none select-none inline-block"
-            style={{
-              color: l.color,
-              fontSize: "clamp(6rem, 15vw, 13rem)",
-              textShadow: isDissolving
-                ? dissolveShadow(l.glow)
-                : isHold
-                  ? glitchShadow(i, l.glow)
-                  : normalShadow(l.glow),
-            }}
-            // 入场
-            initial={{ opacity: 0, y: 60, filter: "blur(12px)" }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              // hold: 交替模糊 + 透明度闪烁
-              filter: isHold
-                ? ["blur(0px)", "blur(3px)", "blur(0px)", "blur(4px)", "blur(0px)", "blur(2px)", "blur(0px)", "blur(5px)", "blur(0px)", "blur(3px)", "blur(0px)"]
-                : isDissolving
-                  ? "blur(16px)"
-                  : "blur(0px)",
-              scale: isDissolving ? 1.08 : 1,
-            }}
-            transition={
-              isHold
-                ? {
-                    filter: {
-                      duration: 0.4,
-                      repeat: Infinity,
-                      repeatType: "loop",
-                      ease: "linear",
-                      delay: i * 0.015,
-                    },
-                  }
-                : isDissolving
-                  ? {
-                      opacity: { duration: 1.2, delay: i * 0.06, ease: "easeInOut" },
-                      filter: { duration: 1.2, delay: i * 0.06, ease: "easeInOut" },
-                      scale: { duration: 1.2, delay: i * 0.06, ease: "easeInOut" },
-                    }
-                  : {
-                      opacity: { duration: 0.5, delay: i * ENTRANCE_STAGGER / 1000, ease: [0.16, 1, 0.3, 1] },
-                      y: { duration: 0.7, delay: i * ENTRANCE_STAGGER / 1000, ease: [0.16, 1, 0.3, 1] },
-                      filter: { duration: 0.7, delay: i * ENTRANCE_STAGGER / 1000, ease: [0.16, 1, 0.3, 1] },
-                    }
-            }
-          >
-            {l.letter}
-          </motion.span>
-        ))}
+        {isReady
+          ? LETTERS.map((l) => (
+              <span
+                key={l.letter}
+                className="inline-block select-none font-display font-bold italic leading-none opacity-35"
+                style={{
+                  color: l.color,
+                  fontSize: "clamp(6rem, 15vw, 13rem)",
+                  textShadow: normalShadow(l.glow),
+                }}
+              >
+                {l.letter}
+              </span>
+            ))
+          : LETTERS.map((l, i) => (
+              <motion.span
+                key={`${l.letter}-animated`}
+                className="font-display italic font-bold leading-none select-none inline-block"
+                style={{
+                  color: l.color,
+                  fontSize: "clamp(6rem, 15vw, 13rem)",
+                  textShadow: isDissolving
+                    ? dissolveShadow(l.glow)
+                    : isHold
+                      ? glitchShadow(i, l.glow)
+                      : normalShadow(l.glow),
+                }}
+                initial={{ opacity: 0, y: 60, filter: "blur(12px)" }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  filter: isHold
+                    ? ["blur(0px)", "blur(3px)", "blur(0px)", "blur(4px)", "blur(0px)", "blur(2px)", "blur(0px)", "blur(5px)", "blur(0px)", "blur(3px)", "blur(0px)"]
+                    : isDissolving
+                      ? "blur(16px)"
+                      : "blur(0px)",
+                  scale: isDissolving ? 1.08 : 1,
+                }}
+                transition={
+                  isHold
+                    ? {
+                        filter: {
+                          duration: 0.4,
+                          repeat: Infinity,
+                          repeatType: "loop",
+                          ease: "linear",
+                          delay: i * 0.015,
+                        },
+                      }
+                    : isDissolving
+                      ? {
+                          opacity: { duration: 1.2, delay: i * 0.06, ease: "easeInOut" },
+                          filter: { duration: 1.2, delay: i * 0.06, ease: "easeInOut" },
+                          scale: { duration: 1.2, delay: i * 0.06, ease: "easeInOut" },
+                        }
+                      : {
+                          opacity: { duration: 0.5, delay: i * ENTRANCE_STAGGER / 1000, ease: [0.16, 1, 0.3, 1] },
+                          y: { duration: 0.7, delay: i * ENTRANCE_STAGGER / 1000, ease: [0.16, 1, 0.3, 1] },
+                          filter: { duration: 0.7, delay: i * ENTRANCE_STAGGER / 1000, ease: [0.16, 1, 0.3, 1] },
+                        }
+                }
+              >
+                {l.letter}
+              </motion.span>
+            ))}
       </div>
+
+      {isReady && (
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute bottom-[14vh] left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-3 text-center"
+        >
+          <p className="whitespace-nowrap font-body text-[10px] tracking-[0.16em] text-text-muted">
+            背景音乐将以 10% 音量播放
+          </p>
+          <button
+            type="button"
+            onClick={enterWithMusic}
+            className="cursor-target inline-flex h-11 items-center gap-2 rounded-full border border-neon-cyan/45 bg-neon-cyan/[0.09] px-5 font-body text-[12px] font-medium tracking-[0.08em] text-neon-cyan transition-[transform,background-color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-neon-cyan/70 hover:bg-neon-cyan/[0.14] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neon-cyan"
+          >
+            <SpeakerHigh size={16} weight="fill" />
+            开启音乐并进入
+          </button>
+          <button
+            type="button"
+            data-bgm-silent
+            onClick={enterMuted}
+            className="inline-flex items-center gap-1.5 font-body text-[10px] tracking-[0.08em] text-text-muted transition-colors duration-300 hover:text-text-secondary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/40"
+          >
+            <SpeakerSlash size={12} />
+            静音进入
+          </button>
+        </motion.div>
+      )}
     </motion.div>
   );
 }

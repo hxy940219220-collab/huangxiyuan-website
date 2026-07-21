@@ -28,7 +28,7 @@ export default function Home() {
       {!introDone && <EvanIntro onComplete={() => setIntroDone(true)} />}
       <Navbar />
       <main>
-        <Hero />
+        <Hero active={introDone} />
         <Identity />
         <Work />
         <Method />

@@ -5,7 +5,7 @@ import { useEffect, useRef, useCallback } from "react";
 
 /* ------------------------------------------------------------------ */
 /* 环境粒子系统 —— Canvas 2D                                              */
-/* · 200+ 个霓虹光点缓慢漂浮                                               */
+/* · 适量霓虹光点缓慢漂浮，以 30fps 保留氛围并控制持续开销                    */
 /* · 鼠标附近粒子微弱排斥 (150px 范围内最大偏移 ~8px) + 离开后 spring 回位    */
 /* · 粒子间近距离连线（星座网络）                                            */
 /* · 径向渐变 mask 让边缘自然淡出                                          */
@@ -32,14 +32,14 @@ const NEON_COLORS = [
   "rgba(255,255,255,@@@)",  // white (rare)
 ];
 
-const PARTICLE_COUNT_DESKTOP = 280;
-const PARTICLE_COUNT_MOBILE = 80;
+const PARTICLE_COUNT_DESKTOP = 160;
+const PARTICLE_COUNT_MOBILE = 48;
+const FRAME_INTERVAL = 1000 / 30;
 
 function getParticleCount(w: number): number {
   return w < 768 ? PARTICLE_COUNT_MOBILE : PARTICLE_COUNT_DESKTOP;
 }
 const MOUSE_RADIUS = 150;       // 光标排斥半径
-const MAX_REPEL = 8;            // 最大排斥位移 (px)
 const CONNECT_DISTANCE = 130;   // 连线最大距离
 const MAX_LINE_OPACITY = 0.22;  // 连线最大不透明度
 
@@ -66,9 +66,11 @@ export function Particles() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const reduced = useReducedMotion();
   const animRef = useRef<number>(0);
+  const animateFnRef = useRef<(now: number) => void>(() => undefined);
   const particlesRef = useRef<Particle[]>([]);
   const mouseRef = useRef({ x: -9999, y: -9999 });
   const timeRef = useRef(0);
+  const lastFrameRef = useRef(0);
   const dimsRef = useRef({ w: 0, h: 0 });
 
   /* ---- 鼠标追踪 ---- */
@@ -88,7 +90,16 @@ export function Particles() {
   }, []);
 
   /* ---- 动画循环 ---- */
-  const animate = useCallback(() => {
+  const animate = useCallback((now: number) => {
+    animRef.current = requestAnimationFrame((next) => animateFnRef.current(next));
+
+    // 开场期间只保留封面动画，避免 Canvas、视频和文字动效争抢主线程。
+    if (document.querySelector("[data-evan-intro]")) return;
+
+    const elapsed = now - lastFrameRef.current;
+    if (elapsed < FRAME_INTERVAL) return;
+    lastFrameRef.current = now - (elapsed % FRAME_INTERVAL);
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -187,7 +198,6 @@ export function Particles() {
     }
 
     ctx.globalCompositeOperation = "source-over";
-    animRef.current = requestAnimationFrame(animate);
   }, []);
 
   /* ---- 初始化 ---- */
@@ -218,7 +228,8 @@ export function Particles() {
     };
     resize();
 
-    animRef.current = requestAnimationFrame(animate);
+    animateFnRef.current = animate;
+    animRef.current = requestAnimationFrame((now) => animateFnRef.current(now));
     window.addEventListener("resize", resize);
 
     return () => {
