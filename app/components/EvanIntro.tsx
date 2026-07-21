@@ -30,6 +30,7 @@ type IntroPhase = "ready" | "entrance" | "hold" | "dissolve" | "done";
 
 export function EvanIntro({ onComplete }: { onComplete: () => void }) {
   const [phase, setPhase] = useState<IntroPhase>("ready");
+  const [musicReady, setMusicReady] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const onCompleteRef = useRef(onComplete);
   const phaseRef = useRef<IntroPhase>(phase);
@@ -67,13 +68,18 @@ export function EvanIntro({ onComplete }: { onComplete: () => void }) {
       const state = (event as CustomEvent<{ state?: string }>).detail?.state;
       if (state === "playing" && phaseRef.current === "ready") {
         setPhase("entrance");
+      } else if (state === "blocked" || state === "paused") {
+        setMusicReady(true);
       }
     };
 
     window.addEventListener(STATE_EVENT, handleMusicState);
     const syncTimer = window.setTimeout(() => {
-      if (document.documentElement.dataset.bgmState === "playing") {
+      const state = document.documentElement.dataset.bgmState;
+      if (state === "playing") {
         setPhase("entrance");
+      } else if (state === "blocked" || state === "paused") {
+        setMusicReady(true);
       }
     }, 0);
 
@@ -242,21 +248,23 @@ export function EvanIntro({ onComplete }: { onComplete: () => void }) {
           className="absolute bottom-[14vh] left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-3 text-center"
         >
           <p className="whitespace-nowrap font-body text-[10px] tracking-[0.16em] text-text-muted">
-            背景音乐将以 10% 音量播放
+            {musicReady ? "背景音乐将以 10% 音量播放" : "正在准备背景音乐"}
           </p>
           <button
             type="button"
             onClick={enterWithMusic}
-            className="cursor-target inline-flex h-11 items-center gap-2 rounded-full border border-neon-cyan/45 bg-neon-cyan/[0.09] px-5 font-body text-[12px] font-medium tracking-[0.08em] text-neon-cyan transition-[transform,background-color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-neon-cyan/70 hover:bg-neon-cyan/[0.14] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neon-cyan"
+            disabled={!musicReady}
+            className="cursor-target inline-flex h-11 items-center gap-2 rounded-full border border-neon-cyan/45 bg-neon-cyan/[0.09] px-5 font-body text-[12px] font-medium tracking-[0.08em] text-neon-cyan transition-[transform,background-color,border-color,opacity] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-neon-cyan/70 hover:bg-neon-cyan/[0.14] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neon-cyan disabled:cursor-wait disabled:opacity-45 disabled:hover:translate-y-0"
           >
             <SpeakerHigh size={16} weight="fill" />
-            开启音乐并进入
+            {musicReady ? "开启音乐并进入" : "准备中"}
           </button>
           <button
             type="button"
             data-bgm-silent
             onClick={enterMuted}
-            className="inline-flex items-center gap-1.5 font-body text-[10px] tracking-[0.08em] text-text-muted transition-colors duration-300 hover:text-text-secondary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/40"
+            disabled={!musicReady}
+            className="inline-flex items-center gap-1.5 font-body text-[10px] tracking-[0.08em] text-text-muted transition-colors duration-300 hover:text-text-secondary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/40 disabled:cursor-wait disabled:opacity-40"
           >
             <SpeakerSlash size={12} />
             静音进入
