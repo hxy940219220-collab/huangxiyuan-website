@@ -15,7 +15,7 @@ export function Footer() {
       <div>
         <ScrollReveal>
           <p className="text-[11px] text-text-muted">
-            AI 产品经理 · 聚焦模型、Agent 与 Workflow 的产品化设计
+            AI 产品经理 · 聚焦模型应用、Agent 系统与软硬件原型
           </p>
           <p className="mt-2 text-[11px] text-text-muted/70">
             © {year} 黄锡源 HXY · hxy940219220@gmail.com
@@ -25,7 +25,7 @@ export function Footer() {
       <div className="flex items-end gap-5">
         <ScrollReveal delay={0.12}>
           <p className="font-body text-xs text-text-tertiary tracking-[0.04em]">
-            Product &times; AI &times; Agent &times; Design
+            Product &times; Model &times; Agent &times; Hardware
           </p>
         </ScrollReveal>
         <button

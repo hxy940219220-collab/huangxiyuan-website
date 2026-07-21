@@ -9,7 +9,7 @@ import {
   type FocusEvent,
 } from "react";
 
-const DEFAULT_VOLUME = 0.12;
+const DEFAULT_VOLUME = 0.1;
 const COLLAPSE_DELAY = 1000;
 const VOLUME_KEY = "hxy-bgm-volume";
 const ENABLED_KEY = "hxy-bgm-enabled";
@@ -235,7 +235,7 @@ export function BackgroundMusic() {
       <audio
         ref={audioRef}
         src="/crystal-obsidian.mp3"
-        preload="metadata"
+        preload="auto"
         loop
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}

@@ -243,8 +243,8 @@ export function Hero() {
             transition={{ duration: 0.9, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="font-body text-sm md:text-[15px] text-text-tertiary leading-relaxed ml-1 md:ml-2"
           >
-            不止是理解 AI，而是把模型、Agent 与 Workflow<br />
-            做成好用、有价值、能迭代的产品。
+            从模型选型与 Agent 系统，到软硬件交互原型<br />
+            把前沿能力做成可运行、可验证、能迭代的产品。
           </motion.p>
 
           {/* CTAs */}

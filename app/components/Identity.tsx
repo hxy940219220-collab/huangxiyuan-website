@@ -4,16 +4,16 @@ import BlurText from "../reactbits/TextAnimations/BlurText/BlurText";
 import { ScrollReveal } from "./ScrollReveal";
 
 const TOOLS = [
-  { label: "大模型能力", desc: "熟练调用与编排 GPT、Claude、Gemini 等前沿模型" },
-  { label: "Agent 系统", desc: "关注任务拆解、流程编排与人机协作机制" },
-  { label: "Workflow 设计", desc: "把模型、规则与交互编织成可迭代的产品流程" },
-  { label: "Vibe Coding", desc: "利用 AI 辅助编程进行快速原型与产品验证" },
+  { label: "模型选型与边界", desc: "并行使用 GPT、Claude、Gemini，按推理、长文档、编码与成本选择模型" },
+  { label: "Agent 系统设计", desc: "理解 agent loop、runtime、memory、state 与 tool calling 的协作机制" },
+  { label: "Harness Engineering", desc: "用 skills、MCP、验证器、反馈与恢复机制提升长任务可靠性" },
+  { label: "软硬件原型", desc: "把 AI 工作流连接到 macOS、Raspberry Pi、STM32 与 ESP32-S3" },
 ];
 
 const FOCUS = [
-  { label: "真实产品问题", desc: "从用户真正卡住的瞬间出发，不追概念" },
-  { label: "Agent 产品化落地", desc: "把 Agent 能力稳定地组织到产品体验中" },
-  { label: "前沿方法论研究", desc: "持续追踪 Harness Engineering 与 Claude Code 设计逻辑" },
+  { label: "Agent 产品化", desc: "把记忆、工具与人机确认组织成稳定体验" },
+  { label: "AI × 嵌入式交互", desc: "让模型与 Agent 状态进入传感器、灯光、屏幕和实体按键" },
+  { label: "模型能力边界", desc: "理解不同模型能做什么、何时失败，以及如何设计兜底" },
 ];
 
 export function Identity() {
@@ -32,7 +32,7 @@ export function Identity() {
         {/* Left */}
         <div>
           <BlurText
-            text="把前沿能力转化为真实可用的产品体验"
+            text="把模型、Agent 与硬件做成真实可用的产品"
             className="font-display italic text-[clamp(36px,5vw,56px)] leading-[1.08] tracking-[-0.02em] text-white"
             delay={40}
             animateBy="letters"
@@ -40,7 +40,7 @@ export function Identity() {
           />
           <ScrollReveal delay={0.3}>
             <p className="font-body text-[15px] text-text-tertiary mt-5 leading-relaxed">
-              更关注问题定义、交互路径、工作流设计与验证效率之间是否形成闭环，而不是只停留在概念层面。
+              从模型选型和 Agent 运行机制，到 macOS 工具、文档工作流与嵌入式交互，我关注能力怎样进入用户路径、怎样被验证，以及失败时怎样恢复。
             </p>
           </ScrollReveal>
         </div>

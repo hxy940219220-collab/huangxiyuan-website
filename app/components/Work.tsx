@@ -53,7 +53,7 @@ export function Work() {
         />
         <ScrollReveal delay={0.2}>
           <p className="text-[15px] text-text-tertiary leading-relaxed self-end pb-2">
-            把真实问题转成可体验、可验证的产品。我会从具体使用场景出发，先定义用户真正卡住的瞬间，再把 AI、Agent、交互结构与软硬件工程组合成能够运行的完整体验。
+            项目从 macOS 划词工具、PDF 内容 Agent，延伸到树莓派距离感知装置与 ESP32 Agent 实体审批台。共同方法是先找到真实任务，再判断模型边界，把交互、工作流与硬件做成可运行的闭环。
           </p>
         </ScrollReveal>
       </div>
@@ -80,7 +80,7 @@ export function Work() {
               </div>
               <div className="p-6 md:p-7 flex flex-col flex-1">
                 <div className="flex gap-2 flex-wrap mb-3.5">
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-cyan text-neon-cyan">AI</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-cyan text-neon-cyan">AI 原生交互</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">macOS</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">SwiftUI</span>
                 </div>
@@ -136,9 +136,9 @@ export function Work() {
               </div>
               <div className="p-6 md:p-7 flex flex-col flex-1">
                 <div className="flex gap-2 flex-wrap mb-3.5">
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-orange text-neon-orange">AI Agent</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-orange text-neon-orange">文档 Agent</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Human-in-the-loop</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Electron</span>
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">macOS</span>
                 </div>
                 <h3 className="font-display italic text-[26px] text-white mb-1.5">
                   研报笔记 Agent
@@ -238,7 +238,7 @@ export function Work() {
                 <div className="flex gap-2 flex-wrap mb-3.5">
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-[#4ade80] text-[#4ade80]">嵌入式开发</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">ESP32-S3</span>
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Claude Code</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Agent 审批</span>
                 </div>
                 <h3 className="font-display italic text-[26px] text-white mb-1.5">
                   Claude Signal · 实体审批台
@@ -280,8 +280,8 @@ export function Work() {
               </div>
               <div className="p-6 md:p-7 flex flex-col flex-1">
                 <div className="flex gap-2 flex-wrap mb-3.5">
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-cyan text-neon-cyan">AI</span>
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">产品</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-cyan text-neon-cyan">语音 AI</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">灵感捕捉</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Android</span>
                 </div>
                 <h3 className="font-display italic text-[26px] text-white mb-1.5">
@@ -333,9 +333,9 @@ export function Work() {
               </div>
               <div className="p-6 md:p-7 flex flex-col flex-1">
                 <div className="flex gap-2 flex-wrap mb-3.5">
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-pink text-neon-pink">AI</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-pink text-neon-pink">AI 陪伴</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Habit Design</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">React Native</span>
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">iOS</span>
                 </div>
                 <h3 className="font-display italic text-[26px] text-white mb-1.5">
                   FocusMeow · 专注喵

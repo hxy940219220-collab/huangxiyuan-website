@@ -7,26 +7,26 @@ const CAPABILITIES = [
   {
     num: "01",
     id: "about-product",
-    title: "产品化能力",
-    subtitle: "模型边界与产品落地",
-    desc: "先判断模型能力边界、任务风险与真实需求，再决定交互、工作流和人工确认点，把实验能力收敛为可解释、可恢复、可衡量的产品路径。",
-    tags: ["模型边界", "人机分工", "评测闭环"],
+    title: "模型与产品判断",
+    subtitle: "选型、边界与人机分工",
+    desc: "基于 GPT、Claude、Gemini 的实际使用经验，先判断任务需要推理、长上下文、编码还是多模态，再设计交互、成本、人工确认点与失败兜底。",
+    tags: ["模型选型", "能力边界", "人机协同"],
   },
   {
     num: "02",
     id: "about-agent",
-    title: "Agent 系统",
-    subtitle: "Loop、Runtime 与状态",
-    desc: "从 agent loop 与 runtime 出发，理解状态如何跨轮次保存、短期与长期记忆如何检索、工具如何注册调用，以及失败后如何重试、回滚与恢复。",
+    title: "Agent 系统设计",
+    subtitle: "Loop、Runtime、Memory 与 Tools",
+    desc: "围绕 agent loop 与 runtime 组织任务推进，用记忆、状态和工具调用承接长周期执行，并把重试、回滚、人工审批与恢复机制落进真实工作流。",
     tags: ["Agent Loop", "Runtime", "Memory & State", "Tool Calling"],
   },
   {
     num: "03",
     id: "about-validation",
-    title: "快速验证",
-    subtitle: "Skills 与 Harness Engineering",
-    desc: "用 skills、MCP、subagents 与 Harness Engineering 组织目标、约束、上下文、验证器和反馈，再通过 Vibe Coding 快速做出可运行、可评测的原型。",
-    tags: ["Skills & MCP", "Harness Engineering", "Evals & Recovery"],
+    title: "软硬件快速验证",
+    subtitle: "从界面工作流到实体交互",
+    desc: "用 Vibe Coding、skills、MCP 与 Harness Engineering 快速构建软件原型，也能用 Raspberry Pi、STM32、ESP32-S3、传感器和实体按键验证真实交互闭环。",
+    tags: ["Vibe Coding", "Raspberry Pi / ESP32", "Harness & Evals"],
   },
 ];
 
@@ -46,7 +46,7 @@ export function About() {
           </ScrollReveal>
 
           <BlurText
-            text="在产品逻辑与创意直觉之间。"
+            text="在模型能力与真实世界之间。"
             className="font-display italic text-[clamp(32px,4.5vw,48px)] leading-[1.12] text-white mb-7"
             delay={40}
             animateBy="words"
@@ -55,16 +55,16 @@ export function About() {
 
           <ScrollReveal delay={0.3}>
             <p className="text-[15px] text-text-secondary leading-relaxed mb-4 max-w-[480px]">
-              我是黄锡源 (HXY)，一名聚焦模型、Agent 与 Workflow 的 AI 产品经理。我关心的不只是模型“能不能回答”，更关心 agent loop 如何推进任务、runtime 如何承载状态，以及记忆、工具调用与人工确认如何共同形成稳定体验。
+              我是黄锡源 (HXY)，一名聚焦模型应用、Agent 系统与软硬件原型的 AI 产品经理。我持续使用 GPT、Claude 与 Gemini 完成研究、规划、编码和长文档任务，也部署 Hermes Agent，理解 loop、runtime、记忆、状态与工具调用如何共同支撑长期运行。
             </p>
             <p className="text-sm text-text-tertiary leading-relaxed mb-9">
-              我会先判断模型能力边界和失败成本，再用基础 skills、MCP 与 Harness Engineering 组织上下文、约束、评测和恢复机制。目标不是堆砌技术名词，而是把复杂能力拆成可理解、可验证、能持续迭代的产品系统。
+              我的项目从 macOS 划词工具、PDF 内容 Agent 和移动端产品，延伸到树莓派距离感知装置与 ESP32-S3 Agent 实体审批台。目标不是堆砌技术名词，而是把模型能力、软件工作流和物理交互收敛成可理解、可验证、能持续迭代的产品系统。
             </p>
           </ScrollReveal>
 
           <ScrollReveal delay={0.4}>
             <div className="flex flex-wrap gap-2.5">
-              {["AI 产品规划", "用户体验设计", "原型搭建", "增长与商业分析", "多 Agent / 自动化系统", "个人品牌与创意表达"].map((tag) => (
+              {["模型选型与能力边界", "Agent Runtime & Loop", "Harness Engineering", "AI 产品化", "软硬件原型", "嵌入式交互"].map((tag) => (
                 <span
                   key={tag}
                   className="px-4 md:px-5 py-2 rounded-full font-body text-[12px] font-medium tracking-[0.04em] text-text-secondary bg-white/[0.04] border border-white/[0.1]"

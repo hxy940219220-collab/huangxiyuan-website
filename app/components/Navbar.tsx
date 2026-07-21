@@ -55,9 +55,9 @@ const NAV_ITEMS: NavItem[] = [
     label: "关于",
     href: "#about",
     subs: [
-      { label: "产品化能力", href: "#about-product" },
-      { label: "Agent 系统", href: "#about-agent" },
-      { label: "快速验证", href: "#about-validation" },
+      { label: "模型与产品判断", href: "#about-product" },
+      { label: "Agent 系统设计", href: "#about-agent" },
+      { label: "软硬件快速验证", href: "#about-validation" },
     ],
   },
   {
