@@ -53,13 +53,57 @@ export function Work() {
         />
         <ScrollReveal delay={0.2}>
           <p className="text-[15px] text-text-tertiary leading-relaxed self-end pb-2">
-            项目从 macOS 划词工具、PDF 内容 Agent，延伸到树莓派距离感知装置与 ESP32 Agent 实体审批台。共同方法是先找到真实任务，再判断模型边界，把交互、工作流与硬件做成可运行的闭环。
+            项目从个人 IP 内容创作、macOS 划词工具与 PDF 内容 Agent，延伸到树莓派距离感知装置和 ESP32 Agent 实体审批台。共同方法是先找到真实任务，再判断模型边界，把交互、工作流与硬件做成可运行的闭环。
           </p>
         </ScrollReveal>
       </div>
 
       {/* Project cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+        {/* Eureka */}
+        <ScrollReveal delay={0.04}>
+          <TiltWrap className="h-full">
+            <motion.div
+              id="project-eureka"
+              whileHover={{ y: -6 }}
+              className="scroll-mt-24 relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-[#F5B400]/35 hover:shadow-[0_0_60px_rgba(245,180,0,0.11),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] flex flex-col h-full"
+            >
+              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
+                <img
+                  src="/eureka-project-card.webp"
+                  alt="尤里卡 IP 内容创作 AI 工作台"
+                  width={1672}
+                  height={941}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-6 md:p-7 flex flex-col flex-1">
+                <div className="flex gap-2 flex-wrap mb-3.5">
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-[#F5B400] text-[#F5B400]">AI 内容创作</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Agent Workflow</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Electron</span>
+                </div>
+                <h3 className="font-display italic text-[26px] text-white mb-1.5">
+                  尤里卡 · IP 内容创作
+                </h3>
+                <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
+                  从联网热点与个人灵感出发，生成可直接执行的视频脚本和逐字口播稿。
+                </p>
+                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">不做空白聊天框，而把“今天讲什么”变成可持续的创作流程</p>
+                <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
+                  将选题搜索、来源核验、真人口播或双角色脚本、敏感词审查、发布包和数据复盘串成一个本地 AI 工作台。
+                </p>
+                <div className="flex flex-wrap gap-3 mt-auto">
+                  <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#F5B400]/10 border border-[#F5B400]/30 text-[#F5B400] font-body text-[12px] font-medium tracking-[0.04em]">
+                    本地桌面应用 · MVP
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          </TiltWrap>
+        </ScrollReveal>
+
         {/* Flick */}
         <ScrollReveal delay={0.08}>
           <TiltWrap className="h-full">
