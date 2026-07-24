@@ -95,9 +95,21 @@ export function Work() {
                   将选题搜索、来源核验、真人口播或双角色脚本、敏感词审查、发布包和数据复盘串成一个本地 AI 工作台。
                 </p>
                 <div className="flex flex-wrap gap-3 mt-auto">
-                  <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#F5B400]/10 border border-[#F5B400]/30 text-[#F5B400] font-body text-[12px] font-medium tracking-[0.04em]">
-                    本地桌面应用 · MVP
-                  </span>
+                  <a
+                    href="/projects/eureka"
+                    className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#F5B400] text-[#050509] font-body text-[12px] font-semibold tracking-[0.04em] no-underline transition-all duration-400 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(245,180,0,0.2)]"
+                  >
+                    查看演示 ↗
+                  </a>
+                  <a
+                    href="https://github.com/hxy940219220-collab/eureka-ai-creator"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#F5B400]/10 border border-[#F5B400]/30 text-[#F5B400] font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-[#F5B400]/20"
+                  >
+                    <GithubLogo size={14} weight="fill" />
+                    GitHub
+                  </a>
                 </div>
               </div>
             </motion.div>
