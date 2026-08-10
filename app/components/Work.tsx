@@ -53,13 +53,63 @@ export function Work() {
         />
         <ScrollReveal delay={0.2}>
           <p className="text-[15px] text-text-tertiary leading-relaxed self-end pb-2">
-            项目从个人 IP 内容创作、macOS 划词工具与 PDF 内容 Agent，延伸到树莓派距离感知装置和 ESP32 Agent 实体审批台。共同方法是先找到真实任务，再判断模型边界，把交互、工作流与硬件做成可运行的闭环。
+            项目从 macOS 本地便签、个人 IP 内容创作、划词工具与 PDF 内容 Agent，延伸到树莓派距离感知装置和 ESP32 Agent 实体审批台。共同方法是先找到真实任务，再判断模型边界，把交互、工作流与硬件做成可运行的闭环。
           </p>
         </ScrollReveal>
       </div>
 
       {/* Project cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+        {/* QuickNote */}
+        <ScrollReveal delay={0.02}>
+          <TiltWrap className="h-full">
+            <motion.div
+              id="project-quicknote"
+              whileHover={{ y: -6 }}
+              className="scroll-mt-24 relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-cyan/30 hover:shadow-[0_0_60px_rgba(0,200,255,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] flex flex-col h-full"
+            >
+              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
+                <img
+                  src="/quicknote-project-card.png"
+                  alt="QuickNote macOS 快速便签"
+                  width={1388}
+                  height={970}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-6 md:p-7 flex flex-col flex-1">
+                <div className="flex gap-2 flex-wrap mb-3.5">
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-cyan text-neon-cyan">Local-first</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">macOS</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">SwiftUI</span>
+                </div>
+                <h3 className="font-display italic text-[26px] text-white mb-1.5">
+                  QuickNote · 快速便签
+                </h3>
+                <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
+                  双击 Command 即刻唤起，用原生富文本、文件夹与划词 AI 捕捉和整理信息。
+                </p>
+                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">不做重型知识库，而让记录贴着当前任务发生</p>
+                <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
+                  便签以本地 RTFD 持久化，支持首行标题、格式撤销、主题与音频附件；选中文字按 Option + Space，可解释、分析、翻译并保留格式导入。
+                </p>
+                <div className="flex flex-wrap gap-3 mt-auto">
+                  <a
+                    href="https://github.com/hxy940219220-collab/QuickNote"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-neon-cyan/20"
+                  >
+                    <GithubLogo size={14} weight="fill" />
+                    GitHub
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </TiltWrap>
+        </ScrollReveal>
+
         {/* Eureka */}
         <ScrollReveal delay={0.04}>
           <TiltWrap className="h-full">

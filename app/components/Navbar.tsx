@@ -21,6 +21,7 @@ const NAV_ITEMS: NavItem[] = [
     label: "作品",
     href: "#work",
     subs: [
+      { label: "QuickNote · 快速便签", href: "#project-quicknote" },
       { label: "Flick · 划词 AI", href: "#project-flick" },
       { label: "研报笔记 Agent", href: "#project-report-note" },
       { label: "Call Home · 互动装置", href: "#project-call-home" },
