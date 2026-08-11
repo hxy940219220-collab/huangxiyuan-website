@@ -72,8 +72,8 @@ export function Work() {
                 <img
                   src="/quicknote-project-card.webp"
                   alt="QuickNote macOS 快速便签"
-                  width={1388}
-                  height={970}
+                  width={1672}
+                  height={941}
                   loading="lazy"
                   className="w-full h-full object-cover"
                 />
@@ -95,6 +95,12 @@ export function Work() {
                   便签以本地 RTFD 持久化，支持首行标题、格式撤销、主题与音频附件；选中文字按 Option + Space，可解释、分析、翻译并保留格式导入。
                 </p>
                 <div className="flex flex-wrap gap-3 mt-auto">
+                  <a
+                    href="/projects/quicknote"
+                    className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-cyan text-[#050509] font-body text-[12px] font-semibold tracking-[0.04em] no-underline transition-all duration-400 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(0,200,255,0.2)]"
+                  >
+                    查看演示 ↗
+                  </a>
                   <a
                     href="https://github.com/hxy940219220-collab/QuickNote"
                     target="_blank"
