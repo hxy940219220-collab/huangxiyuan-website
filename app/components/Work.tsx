@@ -158,7 +158,7 @@ export function Work() {
                     查看演示 ↗
                   </a>
                   <a
-                    href="https://github.com/hxy940219220-collab/eureka-ai-creator"
+                    href="https://github.com/hxy940219220-collab/huangxiyuan-website"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#F5B400]/10 border border-[#F5B400]/30 text-[#F5B400] font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-[#F5B400]/20"

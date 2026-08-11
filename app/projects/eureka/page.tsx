@@ -41,7 +41,7 @@ const project: ProjectDemoData = {
   heroAlt: "尤里卡创作台的视频脚本与逐字口播稿双栏界面",
   accent: "#F5B400",
   accentSoft: "rgba(245, 180, 0, 0.12)",
-  github: "https://github.com/hxy940219220-collab/eureka-ai-creator",
+  github: "https://github.com/hxy940219220-collab/huangxiyuan-website",
   stats: [
     { value: "2 种", label: "Shoot formats" },
     { value: "30 min", label: "Max duration" },
