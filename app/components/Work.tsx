@@ -70,7 +70,7 @@ export function Work() {
             >
               <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
                 <img
-                  src="/quicknote-project-card.png"
+                  src="/quicknote-project-card.webp"
                   alt="QuickNote macOS 快速便签"
                   width={1388}
                   height={970}
