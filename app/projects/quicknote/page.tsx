@@ -85,8 +85,8 @@ const project: ProjectDemoData = {
     },
     {
       number: "03",
-      title: "划词与截图调用 AI",
-      description: "按 Option + Space 分析选中文字，或按 Command + Shift 截取屏幕区域；结果保留结构，并可与原图一同导入便签。",
+      title: "选中文字后调用 AI",
+      description: "按 Option + Space 分析当前选中的文字，快速完成解释、分析、翻译与拓展；结果保留结构，可直接导入便签。",
       image: "/projects/quicknote/feature-ai.webp",
       imageAlt: "QuickNote 划词 AI 分析与导入便签",
       width: 1672,
@@ -94,6 +94,15 @@ const project: ProjectDemoData = {
     },
     {
       number: "04",
+      title: "截图后直接 AI 分析",
+      description: "按 Command + Shift 框选任意屏幕区域，调用图片模型总结要点、提取原文、翻译中文、整理表格、生成待办或排查问题；截图与分析结果都能导入便签。",
+      image: "/projects/quicknote/feature-screenshot-ai.webp",
+      imageAlt: "QuickNote 截图识图 AI 分析与导入便签",
+      width: 1672,
+      height: 941,
+    },
+    {
+      number: "05",
       title: "六种阅读环境",
       description: "系统默认之外，暖纸、鼠尾草、暮光紫、午夜墨与雾蓝覆盖不同光线和阅读偏好，不改变笔记本身。",
       image: "/projects/quicknote/feature-themes.webp",
