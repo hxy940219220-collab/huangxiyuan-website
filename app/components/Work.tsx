@@ -88,11 +88,11 @@ export function Work() {
                   QuickNote · 快速便签
                 </h3>
                 <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
-                  双击 Command 即刻唤起，用原生富文本、文件夹与划词 AI 捕捉和整理信息。
+                  双击 Command 即刻唤起，用原生富文本、划词 AI 与截图识图捕捉和整理信息。
                 </p>
                 <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">不做重型知识库，而让记录贴着当前任务发生</p>
                 <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
-                  便签以本地 RTFD 持久化，支持首行标题、格式撤销、主题与音频附件；选中文字按 Option + Space，可解释、分析、翻译并保留格式导入。
+                  便签以本地 RTFD 持久化；Option + Space 分析选中文字，Command + Shift 截图识图，文字与图片任务可自动路由到不同模型。
                 </p>
                 <div className="flex flex-wrap gap-3 mt-auto">
                   <a

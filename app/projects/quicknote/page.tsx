@@ -3,7 +3,7 @@ import { ProjectDemo, type ProjectDemoData } from "../ProjectDemo";
 
 export const metadata: Metadata = {
   title: "QuickNote · 快速便签 | HXY Projects",
-  description: "QuickNote 是一款本地优先的 macOS 便签工具，用全局快捷键、原生富文本与划词 AI 让记录贴着当前任务发生。",
+  description: "QuickNote 是一款本地优先的 macOS 便签工具，用全局快捷键、原生富文本、划词 AI 与截图识图让记录贴着当前任务发生。",
   alternates: { canonical: "/projects/quicknote" },
   openGraph: {
     title: "QuickNote · 快速便签",
@@ -35,7 +35,7 @@ const project: ProjectDemoData = {
   title: "QuickNote",
   subtitle: "随手记下，不离开当前任务。",
   description:
-    "双击 Command 即刻唤起，用原生富文本、文件夹与主题整理内容；在任何支持文字选择的 App 中按 Option + Space，可以直接解释、分析、翻译或拓展。",
+    "双击 Command 即刻唤起，用原生富文本、文件夹与主题整理内容；按 Option + Space 分析选中文字，或按 Command + Shift 截图识图，并将结果直接导入便签。",
   heroImage: "/quicknote-project-card.webp",
   heroAlt: "QuickNote 快速便签界面与划词 AI 操作展示",
   accent: "#8B7CFF",
@@ -44,7 +44,7 @@ const project: ProjectDemoData = {
   stats: [
     { value: "2× ⌘", label: "Global trigger" },
     { value: "⌥ Space", label: "Selection AI" },
-    { value: "RTFD", label: "Local storage" },
+    { value: "⌘ ⇧ · 6 APIs", label: "Screenshot AI · Routing" },
   ],
   thesis: "不做重型知识库，而让记录贴着当前任务发生。",
   principles: [
@@ -61,7 +61,7 @@ const project: ProjectDemoData = {
     {
       label: "03 / Assist",
       title: "AI 只在主动调用时出现",
-      description: "选中文字后才发送给用户配置的模型服务，结果可以保留结构并导入便签。",
+      description: "只有主动分析选中文字或截图时才调用模型；文字与图片任务自动路由到用户设置的不同模型。",
     },
   ],
   steps: [
@@ -85,8 +85,8 @@ const project: ProjectDemoData = {
     },
     {
       number: "03",
-      title: "选中内容后调用 AI",
-      description: "按 Option + Space 解释、分析、翻译或拓展当前选中文字，并将结构化结果保留格式导入便签。",
+      title: "划词与截图调用 AI",
+      description: "按 Option + Space 分析选中文字，或按 Command + Shift 截取屏幕区域；结果保留结构，并可与原图一同导入便签。",
       image: "/projects/quicknote/feature-ai.webp",
       imageAlt: "QuickNote 划词 AI 分析与导入便签",
       width: 1672,
@@ -102,9 +102,9 @@ const project: ProjectDemoData = {
       height: 941,
     },
   ],
-  stack: ["Swift 6", "SwiftUI", "AppKit", "RTFD", "Keychain", "OpenAI-compatible API"],
+  stack: ["Swift 6", "SwiftUI", "AppKit", "RTFD", "Keychain", "Multimodal model routing"],
   boundary:
-    "当前版本面向 macOS 14+。双击 Command 需要输入监控权限，读取选中文字需要辅助功能权限；只有用户主动调用 AI 时，所选内容才会发送到当前配置的模型服务。",
+    "当前版本面向 macOS 14+。双击 Command 与截图快捷键需要输入监控权限，读取选中文字需要辅助功能权限；只有用户主动调用 AI 时，所选文字或截图才会发送到对应的模型服务。",
 };
 
 export default function QuickNoteProjectPage() {
