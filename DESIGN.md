@@ -22,9 +22,9 @@ Full-height cover with absolute photographic layers. Keep the person near the ce
 
 ## Components
 
-Thin cream outlines, pill-shaped navigation and filter controls, circular play controls, and 16px corner radii on media frames form one component system. Keep the small cover teaser, underlined text links, one expandable work note per film, chronological experience rows, and mail and copy-WeChat controls.
+Thin cream outlines, pill-shaped navigation and filter controls, circular play controls, and 16px corner radii on media frames form one component system. Keep the small cover teaser, underlined text links, one expandable work note per film, chronological experience rows, and mail and copy-WeChat controls. Use HXY consistently for the cover and floating navigation marks. In the contact section, place email and WeChat below the left headline; use the right column for three concise capability rows with resume-confirmed tools. Stack these columns on mobile, with contact details before capabilities.
 
-Every film has a clear play affordance and a visible playing state. Preserve native video controls for seeking, sound and fullscreen, and keep single-film playback behavior. Use inline players rather than a video modal. Preserve film duration, sound and source aspect ratio. The upgraded soda TVC uses an optimized 1080p web edition, and UGC retains its source dimensions. All videos load on demand. Retain all factual resume content without adding unverified commercial results.
+Every film has a clear play affordance and a visible playing state. Preserve native video controls for seeking, sound and fullscreen, and keep single-film playback behavior. Use inline players rather than a video modal. Preserve film duration, sound and source aspect ratio. The upgraded soda TVC uses an optimized 1080p web edition, and UGC retains its source dimensions. All videos load on demand. Keep work experience and confirmed capabilities without adding unverified commercial results. Omit education from the webpage at the user’s request; the downloadable source resume stays intact.
 
 ## Motion
 
