@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 黄锡源 AIGC 编导作品集
 
-## Getting Started
+打开 `index.html` 即可浏览，CSS 和 JavaScript 均内联，无框架、无构建步骤。
 
-First, run the development server:
+请始终把 `index.html` 和 `assets` 文件夹放在一起。视频和封面均为本地素材，字体可联网加载，断网时自动使用系统字体。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 文件
+
+- `assets/hero-portrait.png`：用户提供的横版封面原图。
+- `assets/tvc-soda-hd.mp4`：新版葡萄汽水 TVC，网页播放版保留 1080p。
+- `assets/ugc-01.mp4`：第二条穿搭 UGC，保留 3:4 画幅。
+- `assets/ugc-02.mp4`：第三条帆布包 UGC，保留 9:16 画幅。
+- `assets/ugc-03.mp4`：新增白色系带上衣试穿 UGC，保留 720×1280 画幅与双语字幕。
+- `assets/poster-*.jpg`：从对应视频提取的封面。
+- `assets/resume.pdf`：用户提供的原始简历。
+- `PRODUCT.md`、`DESIGN.md`：后续修改网站时使用的内容和视觉约定。
+
+可把整个文件夹上传到静态网站托管服务，根目录入口为 `index.html`。
+
+本地预览也可在此目录执行：
+
+```sh
+python3 -m http.server 8765 --bind 127.0.0.1
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+然后访问 `http://127.0.0.1:8765`。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 视觉与交互
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+首页保留原图构图、奶油色文字、Orbitron 展示字体和光斑交互。下方作品、经历、联系延续照片里的深紫、靛蓝与橙色低亮度光场，使用透明分区、细奶油色轮廓、16px 圆角媒体框和胶囊控件。
 
-## Learn More
+- 离开首页后浮现页内导航，可直接访问作品、经历和联系。
+- 四条视频提供明确的圆形播放按钮与播放状态，同时保留原生进度、音量和全屏控制；同一时间播放一条影片。
+- 作品筛选以淡入淡出切换，影像笔记可展开查看。
+- 滚动入场统一使用 easeOutQuint、透明度和位移，配合适度错峰；悬停反馈为 180–280ms，入场为 650–800ms。
+- 提供简历下载、邮箱链接和复制微信。
+- 手机和触摸设备不依赖悬停操作；减少动态效果模式下关闭光斑跟随和入场位移，内容保持可访问。
 
-To learn more about Next.js, take a look at the following resources:
+页面将四条影片作为个人精选作品展示，没有将其归到特定任职公司或声称投放成绩。所有来源视频保持不变，网页版本采用 H.264 和 faststart，并通过适度压缩兼顾画质与加载速度。视频采用按需加载，首页不会一次下载全部影片。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 网页媒体版本
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- 汽水 TVC：1920×1080，15.53 MB，新高清原片为 97.84 MB。
+- 条纹裙 UGC：834×1112，4.48 MB，保留现有网页版本。
+- 帆布包 UGC：1080×1920，16.70 MB，原网页版本为 22.74 MB。
+- 白色系带上衣 UGC：720×1280，3.67 MB，原片为 5.83 MB。
 
-## Deploy on Vercel
+压缩保留原时长与声音，产品、气泡、字幕和图案已抽帧对照。原始文件保留在 Downloads，网站包只包含网页播放版。
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 正式发布
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+域名为 `https://www.huangxiyuan.net`，沿用现有 Vercel 项目 `huangxiyuan-website`。执行 `node scripts/build.mjs` 生成 `dist/`。GitHub 记录完整源文件，Vercel 只发布页面和 assets，不公开内部设计文档。旧站备份和恢复路径见 `DEPLOYMENT.md`。

@@ -6,38 +6,28 @@ brand
 
 ## Users
 
-第一受众是招聘 AI 产品经理、Agent 产品负责人或技术型产品人才的招聘方与技术负责人。他们通常在几分钟内判断候选人是否同时具备产品判断、模型认知、Agent 系统理解和可交付能力。
-
-第二受众是潜在合作方与 AI 产品同行。他们希望快速看懂黄锡源正在构建什么、研究什么，以及这些判断是否已经转化为真实项目、研究产物和可验证体验。
+Recruiters and creative leads hiring an AIGC director or AI video creator for product TVC, ecommerce advertising and UGC content. They need to watch four supplied videos, identify the creator's background and contact Huang Xiyuan. This audience and the resume content were established in the earlier website-planning conversation.
 
 ## Product Purpose
 
-这是黄锡源的个人作品集与公开研究档案。网站不只陈列项目结果，还要清楚证明从问题定义、模型边界判断、Agent 机制设计、快速工程验证到复盘迭代的完整能力链。
-
-成功意味着访问者能在三分钟内回答三个问题：他做过什么真实产品；他是否理解模型与 Agent 的工作原理；他能否把快速变化的 AI 能力稳定组织成产品体验。
+A personal portfolio with a full-viewport photographic cover and a working four-film collection. The user explicitly selected their supplied 16:9 portrait as the cover, the first supplied MP4 as a soda TVC, and three additional MP4s as UGC. The attached Cyber Ronin prompt provides the selected visual reference, single HTML architecture, spotlight interaction and entrance motion. Personal identity and the supplied footage replace fictional product copy and unrelated image URLs.
 
 ## Brand Personality
 
-前沿、克制、工程可信。
-
-语气直接而有判断，不用夸张口号替代证据。视觉可以有未来感和记忆点，但每个动效、颜色和信息层级都服务于阅读、理解和可信度。
+Chromatic, optical, cinematic. An image maker's calling card: confident image composition, precise film labels, concise Chinese copy with short English display titles. The primary action is to watch the work; the secondary actions are resume download and contact.
 
 ## Anti-references
 
-- 通用 AI SaaS 落地页：大段空泛口号、相同卡片网格和没有证据的能力宣称。
-- 浅层技术词堆砌：只罗列 Agent、Workflow、Memory 等术语，却不解释机制、边界和取舍。
-- 装饰性霓虹与玻璃拟态：视觉效果抢过内容，降低文本对比度或让界面像模板。
-- 资讯搬运站：只追发布时间与参数排名，不说明能力变化如何影响产品设计。
-- 复杂动效表演：影响首屏读取、键盘访问、移动端性能或减少动态效果偏好。
+Avoid unrelated eyewear commerce, invented hardware specifications, fictitious client credits, fabricated performance metrics, excessive decorative cards and changing the supplied portrait. Preserve the reference's full-screen atmosphere and framing while adapting its content to this creator.
 
 ## Design Principles
 
-1. 先给证据，再给结论。项目、研究和可运行产物承担主要说服力。
-2. 解释系统，不堆术语。Agent loop、runtime、记忆、状态和工具调用必须落到真实产品判断。
-3. 把前沿变化翻译成产品影响。模型更新要回答能力边界、交互模式和落地机会发生了什么变化。
-4. 一屏一个判断。控制信息密度，让招聘方快速扫读，让专业读者可以继续深入。
-5. 未来感必须可用。视觉识别、交互反馈与性能共同服务于可信和清晰。
+1. Real supplied films are the evidence. Keep the TVC and two UGC entries clearly labeled.
+2. The supplied portrait owns the cover. Text and overlays must support its subject placement.
+3. Preserve the reference's optical spotlight as one memorable interaction.
+4. Keep identity, work, experience and contact reachable with working controls.
+5. Use only confirmed resume facts and avoid assigning these films to an employer without evidence.
 
 ## Accessibility & Inclusion
 
-以 WCAG 2.2 AA 为基础目标。保证正文与交互元素的颜色对比度、完整键盘导航、清晰焦点状态、语义化结构和有意义的替代文本。移动端保持内容顺序与触控目标可用；尊重 `prefers-reduced-motion`，避免关键内容依赖动画才能出现。
+Use semantic navigation, keyboard focus, native video controls, readable contrast, reduced-motion support and a touch layout without cursor-dependent functions. The user has requested responsive behavior in the reference brief. No additional accommodation needs were specified.
