@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import { ProjectDemo, type ProjectDemoData } from "../ProjectDemo";
 
 const overviewImage = "/projects/quicknote/current-overview.webp";
-const projectDescription = "本地优先的 macOS 便签，支持富文本、离线语音转写和带出处的便签问答，并通过 Codex CLI 和 MCP 双向连接 Codex。";
+const projectDescription = "QuickNote 是一款 macOS AI 便签。选中文字或截图，让 AI 翻译、解释、分析或回答问题，再把结果直接存入便签。支持 ChatGPT 账号登录与模型 API，也可通过 MCP 连接本机 Codex。";
 
 export const metadata: Metadata = {
-  title: "QuickNote · 快速便签 | HXY Projects",
+  title: "QuickNote · macOS AI 便签 | HXY Projects",
   description: projectDescription,
   alternates: { canonical: "/projects/quicknote" },
   openGraph: {
-    title: "QuickNote · 快速便签",
+    title: "QuickNote · macOS AI 便签",
     description: projectDescription,
     type: "website",
     url: "/projects/quicknote",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "QuickNote · 快速便签",
+    title: "QuickNote · macOS AI 便签",
     description: projectDescription,
     images: [overviewImage],
   },
@@ -34,84 +34,84 @@ export const metadata: Metadata = {
 
 const project: ProjectDemoData = {
   index: "01",
-  eyebrow: "QuickNote / Local-first macOS Notes",
+  eyebrow: "macOS AI 便签",
   title: "QuickNote",
-  subtitle: "随手记下，不离开当前任务。",
+  subtitle: "选中文字或截图，让 AI 分析并存入便签。",
   description:
-    "双击 Command 打开便签，在本机写富文本、转写语音、搜索正文。选中文字或截取屏幕，就能用 ChatGPT 账号通过 Codex 分析并把结果存入便签。也可以从 Codex 搜索和读取自己授权的 QuickNote 内容。",
+    "读资料时遇到难懂的一段，可以划词让 AI 解释。看到一张图表，可以截图提取重点或直接提问。把有用的结果存进指定便签，读到新资料时再接着补充和整理，让笔记跟着自己的理解一起更新。",
   heroImage: overviewImage,
   heroAlt: "QuickNote 的文件夹、便签清单和富文本编辑器",
   accent: "#8B7CFF",
   accentSoft: "rgba(139, 124, 255, 0.14)",
   github: "https://github.com/hxy940219220-collab/QuickNote-IOS",
   stats: [
-    { value: "2× ⌘", label: "唤起便签" },
-    { value: "RTFD", label: "本机存储" },
-    { value: "Codex CLI + MCP", label: "双向连接" },
+    { value: "划词 / 截图", label: "选取资料" },
+    { value: "直接存入便签", label: "保留分析结果" },
+    { value: "ChatGPT 账号 / API", label: "选择 AI 接入方式" },
   ],
-  thesis: "记录留在本机，AI 读取由你授权。",
+  thesis: "把摘录、分析和后续整理留在同一条便签里。",
   principles: [
     {
-      label: "01 / Capture",
-      title: "在当前任务里就能记",
-      description: "双击 Command 打开或收起便签。用原生富文本、清单、表格、附件和文件夹整理内容，也可为便签设置标签或切换阅读主题。",
+      label: "01 / Record",
+      title: "把理解存回正在整理的笔记",
+      description: "从当前选区或截图发起分析，结果可以直接存入指定便签。下次学到相关内容，再补进同一条笔记。",
     },
     {
-      label: "02 / Local",
-      title: "编辑、搜索和转写在本机",
-      description: "便签和附件以 RTFD 存在这台 Mac。全文检索和离线语音转写可在设备上完成。自行配置的 API Key 存入 macOS 钥匙串。",
+      label: "02 / Connect",
+      title: "两种方式接入 AI",
+      description: "可以通过本机 Codex CLI 使用 ChatGPT 账号，无需填写 API Key。也可以配置模型服务的 API，按功能选择使用哪种方式。",
     },
     {
       label: "03 / Access",
-      title: "逐项授权 Codex 读取",
-      description: "通过 MCP 从 Codex 搜索和读取时，仅开放你勾选的便签集或文件夹，敏感便签始终排除。写入提议需单独开启，且每次由你在 QuickNote 预览并确认。",
+      title: "让本机 Codex 整理你授权的便签",
+      description: "通过 MCP，Codex 可以搜索和读取你勾选位置里的非敏感便签，再提出新建或追加建议。每次写入前，都在 QuickNote 里由你审核并确认。",
     },
   ],
   steps: [
     {
       number: "01",
-      title: "使用 ChatGPT 账号连接 Codex",
-      description: "安装 Codex CLI 后，在 AI 模型设置中用 ChatGPT 登录，无需另配 API Key。划词、识图、AI 排版、语音整理和便签问答可分别选用 Codex 或配置的 API。你可以切换模型和推理强度，也可以查看 Codex 返回的额度。",
+      title: "划词后翻译、解释、分析或提问",
+      description: "选中一段文字，按 Option + Space 打开划词面板。可以翻译外文、解释术语、分析一段论证，也可以就选中的内容提问。挑出有用的结果，直接存入你正在整理的便签。",
+      image: "/projects/quicknote/current-selection.webp",
+      imageAlt: "QuickNote 划词面板显示所选文字、AI 操作和提问输入框",
+      width: 832,
+      height: 728,
+    },
+    {
+      number: "02",
+      title: "截图后读图、分析或提问",
+      description: "按 Command + Shift 框选屏幕。对截图提取文字、翻译、总结重点、整理表格，或输入自己的问题。图片和分析结果都可以存入便签，方便之后对照原图继续补充。",
+      image: "/projects/quicknote/current-image-result.webp",
+      imageAlt: "QuickNote 分析社区菜园活动截图，并显示结果与存入便签入口",
+      width: 1440,
+      height: 828,
+    },
+    {
+      number: "03",
+      title: "用 ChatGPT 账号登录，或配置模型 API",
+      description: "安装 Codex CLI 后，可在 QuickNote 的 AI 模型设置里登录 ChatGPT 账号，无需另填 API Key。已有模型服务的话，也可以配置它的 API。划词、识图、排版、语音整理和便签问答可以分别选择接入方式。",
       image: "/projects/quicknote/current-codex-settings.webp",
       imageAlt: "QuickNote 的 AI 模型设置，显示演示用 ChatGPT 账号、用量和推理强度",
       width: 1440,
       height: 1164,
     },
     {
-      number: "02",
-      title: "从 Codex 读取授权便签",
-      description: "通过 MCP 在 Codex 搜索 QuickNote，打开获授权便签的标题与正文。可选开启新建或追加提议，每次都要在 QuickNote 中审核并确认。",
+      number: "04",
+      title: "让本机 Codex 读取、整理并提议写回",
+      description: "把本机 Codex 通过 MCP 接到 QuickNote，即可搜索和阅读获授权便签的标题与正文，归纳分散在多条便签中的内容。开启写入提议后，Codex 可以建议新建或追加。内容由你在 QuickNote 内确认后写入，敏感便签始终排除。",
       image: "/projects/quicknote/current-mcp-authorization.webp",
       imageAlt: "QuickNote 的 Codex 读取开关、写入提议开关和授权文件夹",
       width: 784,
       height: 834,
     },
     {
-      number: "03",
+      number: "05",
       title: "全文搜索与带出处的问答",
       description: "按 Command + Shift + F 搜索标题、正文和标签。在「问我的便签」中，本机先检索相关片段，再交给选定模型回答。点回答中的引用可定位原文，敏感便签不进入问答取材。",
       image: "/projects/quicknote/current-note-ask.webp",
       imageAlt: "QuickNote 根据两条合成便签回答问题，回答内标出可点击的原文引用",
       width: 1184,
       height: 594,
-    },
-    {
-      number: "04",
-      title: "选中文字，解释、翻译或继续问",
-      description: "按 Option + Space 在选区旁打开面板，选择解释、分析、翻译或拓展，也可直接输入问题。按住标题或空白处可移动面板，再次划词时会回到新选区附近。结果可存入指定便签。",
-      image: "/projects/quicknote/current-selection.webp",
-      imageAlt: "QuickNote 划词面板被拖动后仍显示所选文字和提问输入框",
-      width: 832,
-      height: 728,
-    },
-    {
-      number: "05",
-      title: "截图后提问、提取文字或整理表格",
-      description: "按 Command + Shift 框选屏幕区域。预览按比例显示，支持总结要点、提取原文、翻译中文、整理表格、生成待办和排查问题。结果出现时窗口向下展开，图片与分析结果都可存入便签。",
-      image: "/projects/quicknote/current-image-result.webp",
-      imageAlt: "QuickNote 对社区菜园活动截图进行识图并显示分析结果",
-      width: 1440,
-      height: 828,
     },
     {
       number: "06",
@@ -125,7 +125,7 @@ const project: ProjectDemoData = {
     {
       number: "07",
       title: "富文本编辑与可预览的 AI 排版",
-      description: "使用清单、表格、附件和文字样式处理笔记。AI 排版先生成标题层级和间距的预览，由你决定是否应用。系统默认之外另有暖纸、鼠尾草、暮光紫、午夜墨和雾蓝五套主题。",
+      description: "双击 Command 打开便签，用清单、表格、附件和文字样式整理积累下来的内容。AI 排版先生成标题层级和间距的预览，由你决定是否应用。",
       image: "/projects/quicknote/feature-editing.webp",
       imageAlt: "QuickNote 的文字格式、清单、表格与附件编辑入口",
       width: 1672,
@@ -134,7 +134,7 @@ const project: ProjectDemoData = {
   ],
   stack: ["Swift 6", "SwiftUI", "AppKit", "RTFD", "Codex CLI", "MCP", "SenseVoice"],
   boundary:
-    "支持 macOS 14 及以上。全局快捷键和划词需按系统提示授权，录音需要麦克风权限。Codex CLI 在本机启动，模型推理由 OpenAI 服务处理。使用在线模型时，当前任务需要的文字、图片或检索片段会发送给所选服务。",
+    "支持 macOS 14 及以上。便签与附件保存在这台 Mac。全文检索和离线语音转写可以在本机完成。使用在线模型时，本次任务需要的文字、图片或检索片段会发送给所选服务。Codex CLI 在本机启动，ChatGPT 请求仍由 OpenAI 服务处理。",
 };
 
 export default function QuickNoteProjectPage() {

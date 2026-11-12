@@ -54,7 +54,7 @@ export function Work() {
         />
         <ScrollReveal delay={0.2}>
           <p className="text-[15px] text-text-tertiary leading-relaxed self-end pb-2">
-            项目从 macOS 本地便签、个人 IP 内容创作、划词工具与 PDF 内容 Agent，延伸到树莓派距离感知装置和 ESP32 Agent 实体审批台。共同方法是先找到真实任务，再判断模型边界，把交互、工作流与硬件做成可运行的闭环。
+            项目从 macOS AI 便签、个人 IP 内容创作、划词工具与 PDF 内容 Agent，延伸到树莓派距离感知装置和 ESP32 Agent 实体审批台。共同方法是先找到真实任务，再判断模型边界，把交互、工作流与硬件做成可运行的闭环。
           </p>
         </ScrollReveal>
       </div>
@@ -82,19 +82,19 @@ export function Work() {
               </div>
               <div className="p-6 md:p-7 flex flex-col flex-1">
                 <div className="flex gap-2 flex-wrap mb-3.5">
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-cyan text-neon-cyan">Local-first</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-cyan text-neon-cyan">AI 便签</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">macOS</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Codex / MCP</span>
                 </div>
                 <h3 className="font-display italic text-[26px] text-white mb-1.5">
-                  QuickNote · 快速便签
+                  QuickNote · AI 便签
                 </h3>
                 <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
-                  双击 Command 打开本地富文本便签，支持离线语音转写、全文搜索和带出处的便签问答。
+                  选中文字或截一张图，让 AI 翻译、解释、分析或回答问题。把有用的结果直接存入便签，读到新资料时接着补充、整理。
                 </p>
-                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">用 ChatGPT 账号接入 Codex</p>
+                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">ChatGPT 账号 / 模型 API</p>
                 <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
-                  划词、识图、排版和语音整理可使用 Codex。Codex 也可通过 MCP 读取你授权的非敏感便签，写入前由你确认。
+                  可以用 ChatGPT 账号登录，也可以配置模型 API。本机 Codex 可通过 MCP 读取和整理获授权的便签，确认后写回。
                 </p>
                 <div className="flex flex-wrap gap-3 mt-auto">
                   <a
