@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { ScrollReveal } from "./ScrollReveal";
 import { motion, useMotionValue, useSpring } from "motion/react";
 import { useRef, type ReactNode } from "react";
@@ -69,12 +70,13 @@ export function Work() {
               className="scroll-mt-24 relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-cyan/30 hover:shadow-[0_0_60px_rgba(0,200,255,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] flex flex-col h-full"
             >
               <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
-                <img
-                  src="/quicknote-project-card.webp"
-                  alt="QuickNote macOS 快速便签"
+                <Image
+                  src="/projects/quicknote/current-overview.webp"
+                  alt="QuickNote 的文件夹、便签清单和富文本编辑器"
                   width={1672}
                   height={941}
                   loading="lazy"
+                  sizes="(min-width: 768px) 50vw, 100vw"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -82,17 +84,17 @@ export function Work() {
                 <div className="flex gap-2 flex-wrap mb-3.5">
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-cyan text-neon-cyan">Local-first</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">macOS</span>
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">SwiftUI</span>
+                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Codex / MCP</span>
                 </div>
                 <h3 className="font-display italic text-[26px] text-white mb-1.5">
                   QuickNote · 快速便签
                 </h3>
                 <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
-                  双击 Command 即刻唤起，用原生富文本、划词 AI 与截图识图捕捉和整理信息。
+                  双击 Command 打开本地富文本便签，支持离线语音转写、全文搜索和带出处的便签问答。
                 </p>
-                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">不做重型知识库，而让记录贴着当前任务发生</p>
+                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">用 ChatGPT 账号接入 Codex</p>
                 <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
-                  便签以本地 RTFD 持久化；Option + Space 分析选中文字，Command + Shift 截图识图，文字与图片任务可自动路由到不同模型。
+                  划词、识图、排版和语音整理可使用 Codex。Codex 也可通过 MCP 读取你授权的非敏感便签，写入前由你确认。
                 </p>
                 <div className="flex flex-wrap gap-3 mt-auto">
                   <a
@@ -102,7 +104,7 @@ export function Work() {
                     查看演示 ↗
                   </a>
                   <a
-                    href="https://github.com/hxy940219220-collab/QuickNote"
+                    href="https://github.com/hxy940219220-collab/QuickNote-IOS"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-neon-cyan/20"
