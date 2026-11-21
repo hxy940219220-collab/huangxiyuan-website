@@ -128,13 +128,13 @@ export function Work() {
             >
               <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
                 <Image
-                  src="/projects/quicknote/current-overview.webp"
-                  alt="QuickNote 的文件夹、便签清单和富文本编辑器"
-                  width={1672}
-                  height={941}
+                  src="/projects/quicknote/native-image-pin.webp"
+                  alt="QuickNote 在置顶窗口里分析截图，并提供存入便签的操作"
+                  width={1440}
+                  height={906}
                   loading="lazy"
                   sizes="(min-width: 768px) 50vw, 100vw"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
               <div className="p-6 md:p-7 flex flex-col flex-1">
@@ -143,15 +143,15 @@ export function Work() {
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">macOS</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Codex / MCP</span>
                 </div>
-                <h3 className="font-display italic text-[26px] text-white mb-1.5">
-                  QuickNote · AI 便签
+                <h3 className="mb-2 flex items-center gap-2.5 font-display text-[26px] italic text-white">
+                  <Image src="/projects/quicknote/app-icon-current.png" alt="" width={34} height={34} className="size-[34px] shrink-0 object-contain" />
+                  <span>QuickNote · AI 便签</span>
                 </h3>
-                <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
-                  选中文字或截一张图，让 AI 翻译、解释、分析或回答问题。把有用的结果直接存入便签，读到新资料时接着补充、整理。
+                <p className="mb-3 text-[14px] leading-relaxed text-text-secondary">
+                  读资料时，划词就能翻译或问 AI，截图就能提取文字和整理重点。原图与答案可直接存进指定便签，省下在阅读、聊天和笔记之间来回复制的时间。
                 </p>
-                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">ChatGPT 账号 / 模型 API</p>
-                <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
-                  可以用 ChatGPT 账号登录，也可以配置模型 API。本机 Codex 可通过 MCP 读取和整理获授权的便签，确认后写回。
+                <p className="mb-4 text-[13px] leading-relaxed text-text-tertiary">
+                  划词和识图窗口可置顶。存下来的笔记可全文搜索，也能向它们提问并查看答案引用的原文。
                 </p>
                 <div className="flex flex-wrap gap-3 mt-auto">
                   <a

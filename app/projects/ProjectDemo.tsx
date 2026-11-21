@@ -15,6 +15,7 @@ export type DemoStep = {
 export type ProjectDemoData = {
   index: string;
   eyebrow: string;
+  appIcon?: string;
   title: string;
   subtitle: string;
   description: string;
@@ -94,6 +95,9 @@ export function ProjectDemo({ project }: { project: ProjectDemoData }) {
         <div className="grid items-end gap-10 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="animate-[fadeUp_0.9s_cubic-bezier(0.16,1,0.3,1)_both]">
             <div className="mb-6 flex items-center gap-3 text-[10px] font-medium tracking-[0.2em] text-[var(--project-accent)] uppercase">
+              {project.appIcon && (
+                <Image src={project.appIcon} alt="" width={52} height={52} className="mr-1 size-[52px] object-contain" />
+              )}
               <span>{project.index}</span>
               <span className="h-px w-10 bg-[var(--project-accent)]" />
               <span>{project.eyebrow}</span>
