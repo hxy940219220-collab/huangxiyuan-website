@@ -7,26 +7,26 @@ const CAPABILITIES = [
   {
     num: "01",
     id: "about-product",
-    title: "模型与产品判断",
-    subtitle: "选型、边界与人机分工",
-    desc: "基于 GPT、Claude、Gemini 的实际使用经验，先判断任务需要推理、长上下文、编码还是多模态，再设计交互、成本、人工确认点与失败兜底。",
-    tags: ["模型选型", "能力边界", "人机协同"],
+    title: "个人智能体",
+    subtitle: "授权、记忆与持续执行",
+    desc: "设计智能体可以读取什么、哪些偏好值得长期记住，以及什么时候需要请用户确认。用 QuickNote 的便签授权与写入审核验证这些交互。",
+    tags: ["Personal Agent", "授权范围", "人工确认"],
   },
   {
     num: "02",
     id: "about-agent",
-    title: "Agent 系统设计",
-    subtitle: "Loop、Runtime、Memory 与 Tools",
-    desc: "围绕 agent loop 与 runtime 组织任务推进，用记忆、状态和工具调用承接长周期执行，并把重试、回滚、人工审批与恢复机制落进真实工作流。",
-    tags: ["Agent Loop", "Runtime", "Memory & State", "Tool Calling"],
+    title: "多 Agent 协作",
+    subtitle: "分工、交接与结果汇总",
+    desc: "在 Tango 里，让竞品研究、文案和设计专家共享同一个任务的阶段结果。面向跨系统协作时，我研究 A2A 如何传递任务、状态和产物，以及权限如何随交接收紧。",
+    tags: ["Multi-Agent", "Agent-to-Agent", "阶段交付"],
   },
   {
     num: "03",
     id: "about-validation",
-    title: "软硬件快速验证",
-    subtitle: "从界面工作流到实体交互",
-    desc: "用 Vibe Coding、skills、MCP 与 Harness Engineering 快速构建软件原型，也能用 Raspberry Pi、STM32、ESP32-S3、传感器和实体按键验证真实交互闭环。",
-    tags: ["Vibe Coding", "Raspberry Pi / ESP32", "Harness & Evals"],
+    title: "Harness 与评测",
+    subtitle: "工具调用、错误恢复与人工接管",
+    desc: "从失败案例反推运行规则，检查工具调用、重试和交付证据。软件上做写入和发布前的审批，硬件上用 Claude Signal 的实体按钮探索降低审批摩擦。",
+    tags: ["Harness Engineering", "任务评测", "软硬件验证"],
   },
 ];
 
@@ -46,7 +46,7 @@ export function About() {
           </ScrollReveal>
 
           <BlurText
-            text="在模型能力与真实世界之间。"
+            text="我做可以交付真实工作的 AI 产品。"
             className="font-display text-[clamp(2rem,4.5vw,3rem)] font-semibold leading-[1.2] text-white mb-7"
             delay={40}
             animateBy="words"
@@ -55,16 +55,16 @@ export function About() {
 
           <ScrollReveal delay={0.3}>
             <p className="text-[15px] text-text-secondary leading-relaxed mb-4 max-w-[480px]">
-              我是黄锡源 (HXY)，一名聚焦模型应用、Agent 系统与软硬件原型的 AI 产品经理。我持续使用 GPT、Claude 与 Gemini 完成研究、规划、编码和长文档任务，也部署 Hermes Agent，理解 loop、runtime、记忆、状态与工具调用如何共同支撑长期运行。
+              我是黄锡源（HXY），AI 产品经理。我用 GPT、Claude 和 Gemini 验证复杂任务，也用 Grok Bot 和开发 Harness 研究持续运行的 Agent 怎样承接工作、调用工具和交付成果。
             </p>
             <p className="text-sm text-text-tertiary leading-relaxed mb-9">
-              我的项目从 macOS 划词工具、PDF 内容 Agent 和移动端产品，延伸到树莓派距离感知装置与 ESP32-S3 Agent 实体审批台。目标不是堆砌技术名词，而是把模型能力、软件工作流和物理交互收敛成可理解、可验证、能持续迭代的产品系统。
+              我会先定义交付物和验收条件，再决定某个任务适合一个 Agent 完成，还是需要多位专家交接。我用工作台、macOS 工具和实体审批原型检验这些设计。
             </p>
           </ScrollReveal>
 
           <ScrollReveal delay={0.4}>
             <div className="flex flex-wrap gap-2.5">
-              {["模型选型与能力边界", "Agent Runtime & Loop", "Harness Engineering", "AI 产品化", "软硬件原型", "嵌入式交互"].map((tag) => (
+              {["个人智能体", "多 Agent 协作", "A2A / MCP", "Harness 与评测", "软硬件原型"].map((tag) => (
                 <span
                   key={tag}
                   className="px-4 md:px-5 py-2 rounded-full font-body text-[12px] font-medium tracking-[0.04em] text-text-secondary bg-white/[0.04] border border-white/[0.1]"

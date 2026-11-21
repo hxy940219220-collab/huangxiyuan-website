@@ -24,8 +24,8 @@ const CARDS: CardData[] = [
     num: "01",
     id: "tool-gpt",
     title: "GPT",
-    desc: "主力 AI 模型。日常以 GPT-5.6 Sol 完成复杂推理、产品研究、Coding 与高强度任务，并用 Image2 进行图像创作。",
-    tags: ["GPT-5.6 Sol", "Coding", "Image2"],
+    desc: "用 GPT-6.2 Astra 做复杂推理、产品研究和代码评审。日常迭代与批量任务可用 GPT-6.2 Sol。",
+    tags: ["GPT-6.2 Astra", "GPT-6.2 Sol"],
     gradient:
       "radial-gradient(circle at 28% 24%, rgba(0,200,255,0.24), transparent 24%), radial-gradient(circle at 76% 60%, rgba(0,180,230,0.16), transparent 28%)",
     accentBorder: "rgba(0,200,255,0.35)",
@@ -35,8 +35,8 @@ const CARDS: CardData[] = [
     num: "02",
     id: "tool-claude",
     title: "Claude",
-    desc: "使用 Fable 5 与 Opus 4.8 做框架设计、复杂任务规划与系统架构拆解，先搭建骨架，再细化执行。",
-    tags: ["Fable 5", "Opus 4.8", "Planning"],
+    desc: "用 Claude Fable 5.2 拆解复杂技术问题，用 Claude Opus 5.5 做架构评审和长任务规划。",
+    tags: ["Fable 5.2", "Opus 5.5"],
     gradient:
       "radial-gradient(circle at 24% 28%, rgba(216,76,255,0.22), transparent 26%), radial-gradient(circle at 72% 72%, rgba(180,50,230,0.16), transparent 24%)",
     accentBorder: "rgba(216,76,255,0.35)",
@@ -44,10 +44,10 @@ const CARDS: CardData[] = [
   },
   {
     num: "03",
-    id: "tool-hermes",
-    title: "Hermes Agent",
-    desc: "部署在服务器并连接飞书，接入 GPT-5.6 Terra，作为兼顾轻量生活与工作的自进化个人 Agent，持续积累记忆与技能。",
-    tags: ["GPT-5.6 Terra", "飞书", "Self-evolving"],
+    id: "tool-grok-bot",
+    title: "Grok Bot",
+    desc: "在云端电脑里按授权操作工具，完成定期的信息整理和跨应用任务。需要确认的动作由人审批。",
+    tags: ["Personal Agent", "任务授权"],
     gradient:
       "radial-gradient(circle at 24% 28%, rgba(40,220,178,0.20), transparent 28%), radial-gradient(circle at 74% 68%, rgba(0,200,255,0.14), transparent 26%)",
     accentBorder: "rgba(40,220,178,0.38)",
@@ -57,8 +57,8 @@ const CARDS: CardData[] = [
     num: "04",
     id: "tool-gemini",
     title: "Gemini",
-    desc: "辅助处理长文档与轻量任务，主用 Gemini 3.5 Flash 完成阅读、提炼、对比和快速验证。",
-    tags: ["Gemini 3.5 Flash", "Long Context", "Fast"],
+    desc: "用 Gemini 4 Carbon 对照文档、图表和截图，完成多步骤研究，并核对关键结论的依据。",
+    tags: ["Gemini 4 Carbon", "多模态研究"],
     gradient:
       "radial-gradient(circle at 26% 34%, rgba(255,216,74,0.22), transparent 28%), radial-gradient(circle at 70% 30%, rgba(220,180,50,0.16), transparent 26%)",
     accentBorder: "rgba(255,216,74,0.35)",
@@ -66,10 +66,10 @@ const CARDS: CardData[] = [
   },
   {
     num: "05",
-    id: "tool-vscode",
-    title: "VS Code",
-    desc: "用于嵌入式开发与 Markdown 文档审阅修改，并行使用 Codex、Claude 插件完成编码、调试与内容协作。",
-    tags: ["嵌入式", "Codex", "Claude"],
+    id: "tool-deepseek-harness",
+    title: "DeepSeek Harness",
+    desc: "用 DeepSeek V4.1 Flash 辅助读代码、定位改动和运行测试，通过工具执行轨迹核对结果。",
+    tags: ["DeepSeek V4.1 Flash", "执行轨迹"],
     gradient:
       "radial-gradient(circle at 24% 24%, rgba(0,60,255,0.22), transparent 28%), radial-gradient(circle at 66% 36%, rgba(30,80,255,0.16), transparent 26%)",
     accentBorder: "rgba(0,100,255,0.35)",
@@ -79,8 +79,8 @@ const CARDS: CardData[] = [
     num: "06",
     id: "tool-typeless",
     title: "Typeless",
-    desc: "极速语音转写为结构化文本，帮助快速梳理思路、提升提示词质量，是日常与 AI 沟通的核心提效工具。",
-    tags: ["Voice-to-Text", "Structured", "Prompting"],
+    desc: "把口述想法转成可编辑的需求、会议要点和给 Agent 的任务说明。",
+    tags: ["语音输入", "任务说明"],
     gradient:
       "radial-gradient(circle at 28% 30%, rgba(255,106,26,0.22), transparent 28%), radial-gradient(circle at 68% 64%, rgba(230,90,20,0.16), transparent 26%)",
     accentBorder: "rgba(255,106,26,0.35)",

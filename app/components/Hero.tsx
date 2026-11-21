@@ -242,8 +242,8 @@ export function Hero({ active = true }: { active?: boolean }) {
             transition={{ duration: 0.9, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="font-body text-sm md:text-[15px] text-text-tertiary leading-relaxed ml-1 md:ml-2"
           >
-            从模型选型与 Agent 系统，到软硬件交互原型<br />
-            把前沿能力做成可运行、可验证、能迭代的产品。
+            设计个人智能体与多 Agent 工作流。<br />
+            从任务交接到人工审批，让交付过程可查、结果可验。
           </motion.p>
 
           {/* CTAs */}

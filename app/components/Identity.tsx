@@ -4,16 +4,16 @@ import BlurText from "../reactbits/TextAnimations/BlurText/BlurText";
 import { ScrollReveal } from "./ScrollReveal";
 
 const TOOLS = [
-  { label: "模型选型与边界", desc: "并行使用 GPT、Claude、Gemini，按推理、长文档、编码与成本选择模型" },
-  { label: "Agent 系统设计", desc: "理解 agent loop、runtime、memory、state 与 tool calling 的协作机制" },
-  { label: "Harness Engineering", desc: "用 skills、MCP、验证器、反馈与恢复机制提升长任务可靠性" },
-  { label: "软硬件原型", desc: "把 AI 工作流连接到 macOS、Raspberry Pi、STM32 与 ESP32-S3" },
+  { label: "Personal Agent", desc: "让智能体记住经确认的偏好，并按工作区权限和执行频率处理任务" },
+  { label: "多 Agent 编排", desc: "给专家分配可验收的子任务，明确交接材料和最终汇总人" },
+  { label: "A2A / MCP", desc: "研究独立 Agent 如何交接任务，以及怎样接入工具和数据" },
+  { label: "Harness 与评测", desc: "为长任务设计状态记录、断点恢复、验证规则和人工接管" },
 ];
 
 const FOCUS = [
-  { label: "Agent 产品化", desc: "把记忆、工具与人机确认组织成稳定体验" },
-  { label: "AI × 嵌入式交互", desc: "让模型与 Agent 状态进入传感器、灯光、屏幕和实体按键" },
-  { label: "模型能力边界", desc: "理解不同模型能做什么、何时失败，以及如何设计兜底" },
+  { label: "记忆与权限", desc: "区分用户确认的长期记忆和一次任务的临时信息" },
+  { label: "交接与产物", desc: "在任务交接时同时传递要求、证据、当前状态与可检查的产物" },
+  { label: "人工接管", desc: "到达审批点时展示将执行的操作和影响，方便批准、修改或停止" },
 ];
 
 export function Identity() {
@@ -24,7 +24,7 @@ export function Identity() {
     >
       <ScrollReveal>
         <p className="font-body text-[10.5px] font-medium tracking-[0.20em] text-text-tertiary uppercase mb-6">
-          个人定位 // HX-01
+          产品方向
         </p>
       </ScrollReveal>
 
@@ -32,7 +32,7 @@ export function Identity() {
         {/* Left */}
         <div>
           <BlurText
-            text="把模型、Agent 与硬件做成真实可用的产品"
+            text="把 Agent 的任务进度和交付结果交给用户看"
             className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-semibold leading-[1.18] tracking-[-0.02em] text-white"
             delay={40}
             animateBy="letters"
@@ -40,7 +40,7 @@ export function Identity() {
           />
           <ScrollReveal delay={0.3}>
             <p className="font-body text-[15px] text-text-tertiary mt-5 leading-relaxed">
-              从模型选型和 Agent 运行机制，到 macOS 工具、文档工作流与嵌入式交互，我关注能力怎样进入用户路径、怎样被验证，以及失败时怎样恢复。
+              我关注用户把一件事交给 Agent 之后的体验。Tango 展示专家怎样接力完成同一项任务，QuickNote 让用户决定 Codex 能读哪些便签、何时能写入。
             </p>
           </ScrollReveal>
         </div>
@@ -50,7 +50,7 @@ export function Identity() {
           <ScrollReveal delay={0.2}>
             <div>
               <p className="font-body text-[11px] font-medium tracking-[0.12em] text-text-muted uppercase mb-4">
-                核心工具栈
+                产品设计
               </p>
               <div className="flex flex-wrap gap-2.5">
                 {TOOLS.map((t) => (

@@ -128,7 +128,7 @@
     max-width: 600px; font-size: 15px; color: rgba(240,240,255,0.75);
     margin-bottom: 60px;
   }
-  .hero-quote span { color: var(--cyan); font-weight: 600; }
+  .hero-quote a { color: var(--cyan); text-underline-offset: 3px; }
   .hero-scroll {
     display: flex; flex-direction: column; align-items: center; gap: 8px;
     color: var(--muted); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
@@ -498,33 +498,35 @@
 
 <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
 <section id="hero">
-  <div class="hero-badge">2026 · AI 工程新范式</div>
+  <div class="hero-badge">Agent 运行与交付</div>
   <h1 class="hero-title">Harness<br>Engineering</h1>
-  <div class="hero-subtitle-en">驾驭工程 · The Art of Controlling AI</div>
+  <div class="hero-subtitle-en">上下文、工具、运行状态与验收</div>
   <p class="hero-desc">
-    从单行 API 调用到万人使用的智能体系统——我们正站在 AI 工程范式的第三次跃迁关口。
-    <strong style="color:var(--white)">Harness Engineering</strong> 不是提示词技巧，而是为 AI 模型建造"驾驭环境"的完整工程学。
+    <strong style="color:var(--white)">Harness Engineering</strong> 为 Agent 提供执行环境。它管理任务状态、上下文和工具调用，也决定何时重试、请求人工确认以及怎样提交可检查的结果。
   </p>
   <div class="hero-quote">
-    "<span>Agents aren't hard; the Harness is hard.</span>"
-    <div style="margin-top:8px;font-size:12px;color:rgba(240,240,255,0.4)">— Ryan Lopopolo, OpenAI · 2026</div>
+    2026 年 11 月补记。托管 Harness 已能提供持久会话、上下文压缩、任务委派和故障恢复。应用仍要定义自己的权限与验收条件。
+    <div style="margin-top:8px">
+      <a href="https://openai.com/index/introducing-the-agents-api/">OpenAI Agents API</a> ·
+      <a href="/research/agent-product">个人智能体与多 Agent 产品设计</a>
+    </div>
   </div>
   <div class="hero-stats">
     <div class="stat">
-      <div class="stat-num">1M+</div>
-      <div class="stat-label">OpenAI 实验代码行数</div>
+      <div class="stat-num">会话</div>
+      <div class="stat-label">保留任务进度</div>
     </div>
     <div class="stat">
-      <div class="stat-num">1/10</div>
-      <div class="stat-label">传统开发时间</div>
+      <div class="stat-num">隔离</div>
+      <div class="stat-label">限制工具权限</div>
     </div>
     <div class="stat">
-      <div class="stat-num">+26%</div>
-      <div class="stat-label">LangChain 仅改 Harness 的得分提升</div>
+      <div class="stat-num">恢复</div>
+      <div class="stat-label">从检查点继续</div>
     </div>
     <div class="stat">
-      <div class="stat-num">1300+</div>
-      <div class="stat-label">Stripe 每周 AI 合并 PR 数</div>
+      <div class="stat-num">评测</div>
+      <div class="stat-label">按任务判断交付</div>
     </div>
   </div>
   <div class="hero-scroll">

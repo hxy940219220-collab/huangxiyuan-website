@@ -2,6 +2,14 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "motion/react";
+import { Instrument_Serif } from "next/font/google";
+
+const evanSerif = Instrument_Serif({
+  weight: "400",
+  style: "italic",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 /* ------------------------------------------------------------------ */
 /* EVAN 开场动画                                                       */
@@ -129,7 +137,7 @@ export function EvanIntro({ onComplete }: { onComplete: () => void }) {
         {LETTERS.map((letter, index) => (
           <motion.span
             key={letter.letter}
-            className="font-display font-bold leading-none select-none inline-block"
+            className={`${evanSerif.className} leading-none select-none inline-block`}
             style={{
               color: letter.color,
               fontSize: "clamp(3.75rem, 15vw, 13rem)",

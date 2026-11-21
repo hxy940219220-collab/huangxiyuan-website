@@ -57,7 +57,7 @@ export default function Home() {
               </ScrollReveal>
               <ScrollReveal delay={0.12}>
                 <p className="mt-5 text-base leading-relaxed text-text-tertiary md:text-lg max-w-2xl mx-auto">
-                  日常高频使用的 AI 工具，每款在工作和创作中承担不同角色。
+                  按任务选工具。用不同模型做复杂推理和交叉复核，用个人 Agent 跟进日常事项，再用开发 Harness 查轨迹、跑验证。
                 </p>
               </ScrollReveal>
             </div>

@@ -6,30 +6,30 @@ import { ScrollReveal } from "./ScrollReveal";
 const STEPS = [
   {
     letter: "A",
-    title: "发问",
-    label: "问题定义",
-    desc: "找到真正的问题，而不是追逐表面的 AI 热点。先明确用户任务与场景边界，再决定 AI 应该承担什么角色。",
+    title: "定义任务",
+    label: "交付物与权限",
+    desc: "先确定谁要用结果、什么样才算完成，以及 Agent 可以读取什么、哪些操作必须请人确认。",
     color: "bg-neon-cyan shadow-[0_0_20px_#00c8ff]",
   },
   {
     letter: "I",
-    title: "构想",
-    label: "工作流设计",
-    desc: "把模型能力转译为用户能理解的场景和体验。将模型、Agent 与规则机制编排成可理解、可迭代的中间流程。",
+    title: "编排协作",
+    label: "分工与交接",
+    desc: "能独立验收的子任务交给专家 Agent。交接时带上目标、证据和当前状态，并指定谁负责合并结果。",
     color: "bg-neon-gold shadow-[0_0_20px_#ffd84a]",
   },
   {
     letter: "P",
-    title: "原型",
-    label: "快速验证",
-    desc: "快速构建可感知、可测试、可传播的产品原型。结合 Vibe Coding 进行低成本试错与迭代。",
+    title: "验证运行",
+    label: "Harness 与恢复",
+    desc: "用沙箱隔离执行环境，记录工具调用与检查点。模拟超时、权限被拒和部分完成，验证任务能否恢复或转交人工。",
     color: "bg-neon-pink shadow-[0_0_20px_#d84cff]",
   },
   {
     letter: "M",
-    title: "度量",
-    label: "指标与迭代",
-    desc: "围绕核心指标做上线前的质量测试与上线后的数据追踪，基于反馈持续迭代优化产品体验。",
+    title: "度量交付",
+    label: "任务级评测",
+    desc: "用真实任务样本比较产物通过率、人工介入率和单次交付成本。模型或工具升级后，复跑曾经失败的案例。",
     color: "bg-neon-orange shadow-[0_0_20px_#ff6a1a]",
   },
 ];
@@ -37,26 +37,32 @@ const STEPS = [
 const RESEARCH_TOPICS = [
   {
     num: "01",
-    title: "AI 前沿时间线",
-    desc: "聚焦 GPT-5.6、Claude Fable 5、豆包 Seed 2.1 Pro、Qwen3.7 Plus 等重磅模型，以及 OpenClaw、Hermes 爆红带来的 Agent 生态变化。",
-    href: "/ai-frontier-timeline.html",
+    title: "个人智能体与多 Agent 产品设计",
+    desc: "从 Personal Agent 的记忆和权限，到多 Agent 分工、A2A 跨系统交接以及任务级评测。",
+    href: "/research/agent-product",
   },
   {
     num: "02",
+    title: "AI 前沿时间线",
+    desc: "追踪 GPT-6.2 Astra、Claude Fable 5.2、Gemini 4 Carbon 等模型，以及个人智能体与托管运行时的演进。",
+    href: "/ai-frontier-timeline.html",
+  },
+  {
+    num: "03",
     title: "Harness Engineering",
     desc: "从提示词之外的上下文、工具、验证器、反馈与恢复机制出发，研究如何让 Agent 在长周期任务中稳定交付。",
     href: "/harness-engineering.html",
   },
   {
-    num: "03",
+    num: "04",
     title: "Claude Code 源码设计逻辑",
     desc: "关注客户端中的任务组织、工具协作与交互设计，理解工程实现如何映射产品判断。",
     href: "https://learn-claude-code-visual.vercel.app/index.html",
   },
   {
-    num: "04",
-    title: "Hermes × OpenClaw 对比研究",
-    desc: "对比两者在产品定位、交互路径、能力边界与落地场景上的差异，理解 AI 工具如何形成不同的使用范式。",
+    num: "05",
+    title: "Hermes × OpenClaw 历史对比",
+    desc: "回看两种早期个人智能体如何处理消息入口、记忆与本地执行，保留当时的产品与技术背景。",
     href: "/hermes-vs-openclaw.html",
   },
 ];
@@ -71,46 +77,30 @@ export function Method() {
       <div className="text-center mb-14">
         <ScrollReveal>
           <p className="font-body text-[10.5px] font-medium tracking-[0.20em] text-text-tertiary uppercase mb-6">
-            工作流蓝图
+            Agent 产品方法
           </p>
         </ScrollReveal>
         <div className="flex flex-col items-center gap-0">
-          {/* 手机端：手动断成两行，避免 "AI" 孤行 */}
           <div className="flex flex-col items-center gap-0 md:hidden">
             <BlurText
-              text="AI 产品的关键"
+              text="从定义任务"
               className="font-display justify-center text-center text-[clamp(1.5rem,6.5vw,2.5rem)] font-semibold leading-[1.25] text-white"
               delay={40}
               animateBy="letters"
               direction="top"
             />
             <BlurText
-              text="不止是模型接入"
-              className="font-display justify-center text-center text-[clamp(1.5rem,6.5vw,2.5rem)] font-semibold leading-[1.25] text-white"
-              delay={40}
-              animateBy="letters"
-              direction="top"
-            />
-            <BlurText
-              text="更在于流程如何被设计"
+              text="到验收交付"
               className="font-display justify-center text-center text-[clamp(1.5rem,6.5vw,2.5rem)] font-semibold leading-[1.25] text-text-tertiary"
               delay={40}
               animateBy="letters"
               direction="top"
             />
           </div>
-          {/* 电脑端：保持原排版 */}
           <div className="hidden md:flex flex-col items-center gap-0">
             <BlurText
-              text="AI 产品的关键，不止是模型接入"
+              text="从定义任务，到验收交付"
               className="font-display justify-center text-center text-[clamp(1.5rem,4.8vw,3.5rem)] font-semibold leading-[1.18] text-white"
-              delay={40}
-              animateBy="letters"
-              direction="top"
-            />
-            <BlurText
-              text="更在于流程如何被设计"
-              className="font-display justify-center text-center text-[clamp(1.5rem,4.8vw,3.5rem)] font-semibold leading-[1.18] text-text-tertiary"
               delay={40}
               animateBy="letters"
               direction="top"

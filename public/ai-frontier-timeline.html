@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="黄锡源整理的 2026 AI 前沿时间线，聚焦 GPT-5.6、Claude Fable 5、豆包 Seed 2.1 Pro、Qwen3.7 Plus、Seedance 2.0，以及 OpenClaw 与 Hermes 的行业爆红节点。" />
+  <meta name="description" content="黄锡源整理的 2026 AI 前沿时间线，追踪 GPT-6.2 Astra、Claude Fable 5.2、Gemini 4 Carbon、DeepSeek V4.1 Flash，以及个人 Agent、A2A 和托管 Harness 的演进。" />
   <title>AI 前沿时间线 · HXY</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -411,37 +411,36 @@
     <header class="shell hero">
       <p class="eyebrow">Research archive · 01</p>
       <h1>AI 前沿<br />发展时间线</h1>
-      <p class="lead">只记录真正形成行业影响的重磅模型发布与 Agent 爆红事件。观察模型如何走向长周期执行、多模态创作与生产级交付，以及 OpenClaw、Hermes 如何把 Agent runtime、记忆、工具和技能生态推向大众视野。</p>
+      <p class="lead">跟踪 2026 年影响产品设计的模型发布和 Agent 产品进展。从 GPT-6.2 Astra、Claude Fable 5.2 到 Gemini 4 Carbon，关注模型能接住哪些复杂任务，以及个人 Agent 如何在多次交互中保有上下文、交接任务和提交可验收的结果。</p>
       <div class="hero-meta" aria-label="文档信息">
-        <span class="meta-item">2026.01—2026.07</span>
-        <span class="meta-item">12 个关键节点</span>
-        <span class="meta-item">更新于 2026.07.19</span>
-        <span class="meta-item">仅采用一手来源</span>
+        <span class="meta-item">2026.01—2026.11</span>
+        <span class="meta-item">22 个关键节点</span>
+        <span class="meta-item">更新于 2026.11.21</span>
       </div>
     </header>
 
     <section class="shell signals" aria-label="三个核心判断">
       <article class="signal">
         <span class="signal-num">SIGNAL 01</span>
-        <h2>能力进入长周期</h2>
-        <p>竞争焦点从回答质量继续向任务持续时间、上下文保持、并行协作和完成判断迁移。</p>
+        <h2>个人 Agent 持续推进任务</h2>
+        <p>Grok Bot 和 dots 把记忆、工具、定期任务带到个人工作流。使用者需要知道哪些事已经完成、哪些在等权限，以及何时能停止代办。</p>
       </article>
       <article class="signal">
         <span class="signal-num">SIGNAL 02</span>
-        <h2>Runtime 成为产品层</h2>
-        <p>Agent loop、状态恢复、记忆检索和工具权限不再只是工程实现，而直接决定用户信任。</p>
+        <h2>Agent 之间有明确的交接</h2>
+        <p>用 <a href="https://a2a-protocol.org/latest/topics/key-concepts/" target="_blank" rel="noopener noreferrer">A2A</a> 的能力声明、任务状态和产物约定跨系统交接。明确谁接单、交付什么，以及阻塞时由谁补充信息。</p>
       </article>
       <article class="signal">
         <span class="signal-num">SIGNAL 03</span>
-        <h2>Harness 决定可交付性</h2>
-        <p>更强模型仍需要目标、约束、验证器、反馈与人工确认，才能把能力稳定转成产品结果。</p>
+        <h2>用 Harness 管执行和验收</h2>
+        <p>工具权限、任务恢复和验收规则写进工作流。用实际任务的交付成功率、人工介入次数与每次成功交付的成本评估不同模型。</p>
       </article>
     </section>
 
     <section class="shell timeline-section" aria-labelledby="timeline-heading">
       <div class="section-head">
         <h2 id="timeline-heading">Release timeline</h2>
-        <p>按事件发生时间倒序；模型只保留重磅正式发布，Agent 只保留形成行业级关注的爆红节点。</p>
+        <p>按发生日期倒序，记录模型发布、API 更新、Agent 产品和运行平台。每条描述对应事件发生时的状态。</p>
       </div>
 
       <div class="toolbar">
@@ -450,7 +449,7 @@
           <button class="filter" type="button" data-filter="model" aria-pressed="false">基础模型</button>
           <button class="filter" type="button" data-filter="agent" aria-pressed="false">Agent 生态</button>
         </div>
-        <span class="count" aria-live="polite"><span id="visible-count">12</span> / 12 节点</span>
+        <span class="count" aria-live="polite"><span id="visible-count">22</span> / 22 节点</span>
       </div>
 
       <div class="table-shell">
@@ -463,6 +462,86 @@
             <tr><th>时间</th><th>层级</th><th>事件</th><th>能力变化</th><th>产品判断</th><th>来源</th></tr>
           </thead>
           <tbody>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.11.17</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">GPT-6.2 Astra 与 Sol</span><span class="event-sub">OpenAI · API 开放</span></td>
+              <td data-label="能力变化">两款模型进入 OpenAI API，均支持文字与图片输入。Astra 面向复杂推理和编码，Sol 在多步骤任务中平衡速度和成本。</td>
+              <td data-label="产品判断">在同一批真实任务上比较结果完整性、时延和成本，再决定哪些步骤需要旗舰推理。</td>
+              <td data-label="来源"><a class="source-link" href="https://help.openai.com/en/articles/9624314-model-release-notes" target="_blank" rel="noopener noreferrer" aria-label="查看 GPT-6.2 Astra 与 Sol 的 API 发布">↗</a></td>
+            </tr>
+            <tr data-kind="agent">
+              <td data-label="时间"><span class="date">2026.11.13</span></td>
+              <td data-label="层级"><span class="kind agent">Agent 生态</span></td>
+              <td data-label="事件"><span class="event-title">DeepSeek 应用能力开放 API</span><span class="event-sub">DeepSeek · 工具接口</span></td>
+              <td data-label="能力变化">V4.1 Flash 可经 API 使用内置搜索、链接读取和文件解析。OCR、语音识别和语音合成也提供单独接口。</td>
+              <td data-label="产品判断">研究和文档任务可复用现成工具，把产品工作集中在来源呈现、权限与交付验收上。</td>
+              <td data-label="来源"><a class="source-link" href="https://api-docs.deepseek.com/news/news261113/" target="_blank" rel="noopener noreferrer" aria-label="查看 DeepSeek 应用能力 API 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.11.10</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">Gemini 4 Carbon</span><span class="event-sub">Google DeepMind · 正式开放</span></td>
+              <td data-label="能力变化">面向开发者和符合条件的用户开放，适合复杂、多步骤的编码调试和科学推理。</td>
+              <td data-label="产品判断">给困难任务保留验证时间与预算，用可检查的中间产物评估长链路执行。</td>
+              <td data-label="来源"><a class="source-link" href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-carbon-now-available/" target="_blank" rel="noopener noreferrer" aria-label="查看 Gemini 4 Carbon 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.11.09</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">Claude Fable 5.2 与 Mythos 5.2</span><span class="event-sub">Anthropic · 可用范围不同</span></td>
+              <td data-label="能力变化">Fable 5.2 面向开发者上线，重点覆盖复杂编码、金融与科学任务。Mythos 5.2 提供给通过审核的组织。</td>
+              <td data-label="产品判断">评估模型时把能力、接入资格和数据条件放在一起，确保能从原型延伸到真实部署。</td>
+              <td data-label="来源"><a class="source-link" href="https://www.anthropic.com/claude-fable-and-mythos-5-2" target="_blank" rel="noopener noreferrer" aria-label="查看 Claude Fable 5.2 与 Mythos 5.2 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.10.17</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">DeepSeek V4.1 Flash 更新</span><span class="event-sub">DeepSeek · 1017 版本</span></td>
+              <td data-label="能力变化">1017 版本上线，API 继续使用 deepseek-flash，并针对 DeepSeek Harness 等开发工具优化。</td>
+              <td data-label="产品判断">模型标识可以保持稳定，实际行为仍会变化。用固定样本和历史执行记录做回归对照。</td>
+              <td data-label="来源"><a class="source-link" href="https://api-docs.deepseek.com/news/news261017/" target="_blank" rel="noopener noreferrer" aria-label="查看 DeepSeek V4.1 Flash 1017 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="agent">
+              <td data-label="时间"><span class="date">2026.09.29</span></td>
+              <td data-label="层级"><span class="kind agent">Agent 生态</span></td>
+              <td data-label="事件"><span class="event-title">OpenAI dots</span><span class="event-sub">OpenAI · 个人与组织 Agent</span></td>
+              <td data-label="能力变化">公布可在云端持续工作的个人 Agent。它能从用户反馈学习、调用已连接的应用，并为关键操作请求审批。</td>
+              <td data-label="产品判断">持续运行的 Agent 需要让人看懂权限、记忆来源和待审批事项，也要能随时接手。</td>
+              <td data-label="来源"><a class="source-link" href="https://openai.com/index/introducing-dots/" target="_blank" rel="noopener noreferrer" aria-label="查看 OpenAI dots 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.09.22</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">Claude Opus 5.5</span><span class="event-sub">Anthropic · Claude 5.5 系列</span></td>
+              <td data-label="能力变化">发布于 Claude 5.5 系列首批，强化 Agent 编码和知识工作，官方称典型任务的运行成本低于 Opus 5。</td>
+              <td data-label="产品判断">代码交付可用测试通过率、评审返工量和每次合格提交的成本一起衡量。</td>
+              <td data-label="来源"><a class="source-link" href="https://www.anthropic.com/claude-opus-5-5" target="_blank" rel="noopener noreferrer" aria-label="查看 Claude Opus 5.5 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="model">
+              <td data-label="时间"><span class="date">2026.09.10</span></td>
+              <td data-label="层级"><span class="kind model">基础模型</span></td>
+              <td data-label="事件"><span class="event-title">DeepSeek V4.1 Flash</span><span class="event-sub">DeepSeek · 模型发布</span></td>
+              <td data-label="能力变化">原生支持视觉理解，并通过 deepseek-flash 接入 API。</td>
+              <td data-label="产品判断">用轻量模型试跑高频多模态流程，按失败类型补验证和升级路由。</td>
+              <td data-label="来源"><a class="source-link" href="https://api-docs.deepseek.com/news/news260910/" target="_blank" rel="noopener noreferrer" aria-label="查看 DeepSeek V4.1 Flash 发布">↗</a></td>
+            </tr>
+            <tr data-kind="agent">
+              <td data-label="时间"><span class="date">2026.09.10</span></td>
+              <td data-label="层级"><span class="kind agent">Agent 生态</span></td>
+              <td data-label="事件"><span class="event-title">OpenAI Agents API</span><span class="event-sub">OpenAI · 公开测试</span></td>
+              <td data-label="能力变化">把 Codex Harness 作为托管服务提供，涵盖持续会话、上下文管理与子 Agent 并行委派。</td>
+              <td data-label="产品判断">比较托管与自建时，重点核对隔离边界、状态恢复和执行轨迹是否满足业务需要。</td>
+              <td data-label="来源"><a class="source-link" href="https://openai.com/index/introducing-the-agents-api/" target="_blank" rel="noopener noreferrer" aria-label="查看 OpenAI Agents API 官方来源">↗</a></td>
+            </tr>
+            <tr data-kind="agent">
+              <td data-label="时间"><span class="date">2026.08.11</span></td>
+              <td data-label="层级"><span class="kind agent">Agent 生态</span></td>
+              <td data-label="事件"><span class="event-title">Grok Bot</span><span class="event-sub">xAI · 早期测试</span></td>
+              <td data-label="能力变化">发布具备云端工作环境的 Agent，可跨应用执行委派任务，保留对话并在需要时请求用户确认。</td>
+              <td data-label="产品判断">从重复发生、产出清楚的任务开始，再逐步扩大权限。把执行中断和人工审批纳入常用路径。</td>
+              <td data-label="来源"><a class="source-link" href="https://x.ai/news/introducing-grok-bot" target="_blank" rel="noopener noreferrer" aria-label="查看 Grok Bot 发布公告">↗</a></td>
+            </tr>
             <tr data-kind="model">
               <td data-label="时间"><span class="date">2026.07.16</span></td>
               <td data-label="层级"><span class="kind model">基础模型</span></td>
@@ -506,7 +585,7 @@
             <tr data-kind="model">
               <td data-label="时间"><span class="date">2026.06.09</span></td>
               <td data-label="层级"><span class="kind model">基础模型</span></td>
-              <td data-label="事件"><span class="event-title">Claude Fable 5</span><span class="event-sub">Anthropic · 当前全球可用</span></td>
+              <td data-label="事件"><span class="event-title">Claude Fable 5</span><span class="event-sub">Anthropic · 初次发布</span></td>
               <td data-label="能力变化">面向通用与长周期 Agent 工作，强化编码、知识、视觉、记忆与长任务执行；7 月 1 日恢复全球可用。</td>
               <td data-label="产品判断">旗舰模型的价值不只在单项能力，更在复杂任务中保持目标、调用工具并持续交付的综合稳定性。</td>
               <td data-label="来源"><a class="source-link" href="https://www.anthropic.com/news/redeploying-fable-5" target="_blank" rel="noopener noreferrer" aria-label="查看 Claude Fable 5 官方来源">↗</a></td>
@@ -523,7 +602,7 @@
               <td data-label="时间"><span class="date">2026.05.19</span></td>
               <td data-label="层级"><span class="kind model">基础模型</span></td>
               <td data-label="事件"><span class="event-title">Gemini 3.5 Flash</span><span class="event-sub">Google · Stable</span></td>
-              <td data-label="能力变化">作为稳定版进入 Gemini API，面向高频、低时延与多模态任务，且当前未公布停用时间。</td>
+              <td data-label="能力变化">作为稳定版进入 Gemini API，面向高频、低时延与多模态任务。</td>
               <td data-label="产品判断">成熟模型的产品价值来自可持续调用与稳定成本，而不是追逐尚未稳定的短期峰值能力。</td>
               <td data-label="来源"><a class="source-link" href="https://ai.google.dev/gemini-api/docs/deprecations" target="_blank" rel="noopener noreferrer" aria-label="查看 Gemini 3.5 Flash 官方来源">↗</a></td>
             </tr>
@@ -538,8 +617,8 @@
             <tr data-kind="model">
               <td data-label="时间"><span class="date">2026.04.24</span></td>
               <td data-label="层级"><span class="kind model">基础模型</span></td>
-              <td data-label="事件"><span class="event-title">DeepSeek V4 Pro</span><span class="event-sub">DeepSeek · 当前 API 可用</span></td>
-              <td data-label="能力变化">当前 API 提供 deepseek-v4-pro，面向 Agent 编码与复杂推理，具备 1M 上下文并支持开放权重生态。</td>
+              <td data-label="事件"><span class="event-title">DeepSeek V4 Pro</span><span class="event-sub">DeepSeek · 预览发布</span></td>
+              <td data-label="能力变化">预览版通过 API 提供 deepseek-v4-pro，面向 Agent 编码与复杂推理，具备 1M 上下文并支持开放权重生态。</td>
               <td data-label="产品判断">高性价比开放模型进入长上下文和 Agent 编码竞争后，产品需要重新评估私有部署、路由与成本结构。</td>
               <td data-label="来源"><a class="source-link" href="https://api-docs.deepseek.com/updates" target="_blank" rel="noopener noreferrer" aria-label="查看 DeepSeek V4 Pro 官方来源">↗</a></td>
             </tr>

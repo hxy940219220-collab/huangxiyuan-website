@@ -55,7 +55,7 @@ export function Work() {
         />
         <ScrollReveal delay={0.2}>
           <p className="text-[15px] text-text-tertiary leading-relaxed self-end pb-2">
-            从跨境电商AI工作台、灵感设计工作台，到 macOS AI 便签和实体审批台，这些项目从具体任务出发，把模型能力、操作流程和人工判断落到可运行的产品里。
+            Tango 展示多位电商专家怎样接力交付，Framepop 把分镜、参考素材和生成模型放进同一张画布，QuickNote 让 Codex 在授权范围内读写便签。项目页可以看到每种设计怎样落到实际操作里。
           </p>
         </ScrollReveal>
       </div>
@@ -94,7 +94,7 @@ export function Work() {
                   Tango · 跨境电商AI工作台
                 </h3>
                 <p className="mb-5 max-w-prose text-[16px] leading-relaxed text-text-secondary">
-                  从商品运营、选品与竞品、短视频制作或达人合作开始。把任务交给相关专家，在同一次对话里看进度、查阅各阶段结果。
+                  一个商品上新任务可由最多四位专家接力。竞品分析、商品页文案和设计图留在同一条对话里，运营可以查看每个阶段的进度并复用产物。
                 </p>
                 <div className="mt-auto flex flex-wrap gap-3">
                   <Link

@@ -15,7 +15,7 @@ const notoSans = Noto_Sans_SC({
 const SITE_URL = "https://www.huangxiyuan.net";
 const SITE_TITLE = "黄锡源 HXY / AIPM - AI 产品经理";
 const SITE_DESCRIPTION =
-  "黄锡源 (HXY)，AI 产品经理。聚焦模型应用、Agent 系统与软硬件原型，把前沿能力做成可运行、可验证、能迭代的产品。";
+  "黄锡源 HXY，AI 产品经理。设计个人智能体与多 Agent 工作流，研究 Agent-to-Agent 交接、MCP 工具接入、Harness 和评测。项目包括 Tango、Framepop 与 QuickNote。";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
