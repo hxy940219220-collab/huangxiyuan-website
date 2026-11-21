@@ -103,15 +103,6 @@ export function Work() {
                   >
                     查看功能截图 ↗
                   </Link>
-                  <a
-                    href="https://github.com/hxy940219220-collab/tango-workbench"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="cursor-target inline-flex min-h-11 items-center gap-2 rounded-full border border-white/[0.18] px-5 py-2.5 font-body text-[12px] font-medium text-text-secondary no-underline transition-colors hover:border-white/45 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neon-cyan"
-                  >
-                    <GithubLogo size={14} weight="fill" aria-hidden="true" />
-                    GitHub 私有仓库
-                  </a>
                 </div>
               </div>
             </motion.article>

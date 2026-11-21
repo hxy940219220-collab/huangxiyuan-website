@@ -8,7 +8,6 @@ const description = "为跨境电商运营组织一支 AI 专家团队。带上�
 const homeImage = "/projects/tango/home.webp";
 const homeAlt = "Tango 工作台首页，显示常用专家和四类跨境运营任务";
 const screenshotSize = { width: 1800, height: 1125 };
-const repository = "https://github.com/hxy940219220-collab/tango-workbench";
 
 export const metadata: Metadata = {
   title: `${title} | HXY Projects`,
@@ -81,12 +80,7 @@ export default function TangoProjectPage() {
         <p className={styles.kicker}>跨境电商 Agent 工作台</p>
         <h1 id="tango-title">Tango</h1>
         <p className={styles.lead}>让竞品研究、商品页和内容制作在同一条任务里接力。</p>
-        <div className={styles.actions}>
-          <a href="#demo" className={styles.primary}>查看功能截图 ↓</a>
-          <a href={repository} target="_blank" rel="noreferrer" className={styles.secondary}>
-            GitHub 私有仓库 ↗
-          </a>
-        </div>
+        <a href="#demo" className={styles.demoLink}>查看功能截图 ↓</a>
         <Image
           src={homeImage}
           alt={homeAlt}
