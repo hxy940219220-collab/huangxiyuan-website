@@ -90,10 +90,10 @@ export function Work() {
                   <span className="rounded-full border border-white/[0.12] px-3 py-1.5 font-body text-[11px] text-text-tertiary">多专家协作</span>
                   <span className="rounded-full border border-white/[0.12] px-3 py-1.5 font-body text-[11px] text-text-tertiary">本机模型 / API</span>
                 </div>
-                <h3 className="mb-2 font-display text-[26px] italic text-[#f5f7ff]">
+                <h3 className="mb-2 font-body text-[26px] font-semibold leading-snug text-[#f5f7ff]">
                   Tango · 跨境电商工作台
                 </h3>
-                <p className="mb-5 max-w-prose text-[14px] leading-relaxed text-text-tertiary">
+                <p className="mb-5 max-w-prose text-[16px] leading-relaxed text-text-secondary">
                   从商品运营、选品与竞品、短视频制作或达人合作开始。把任务交给相关专家，在同一次对话里看进度、查阅各阶段结果。
                 </p>
                 <div className="mt-auto flex flex-wrap gap-3">

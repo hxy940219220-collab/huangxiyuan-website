@@ -1,0 +1,57 @@
+.page {
+  --paper: oklch(17% .018 281);
+  --surface: oklch(20% .022 281);
+  --text: oklch(96% .009 64);
+  --body: oklch(82% .02 63);
+  --line: oklch(34% .023 275);
+  --accent: oklch(83% .103 57);
+  background: var(--paper);
+  color: var(--text);
+  font-family: var(--font-body), "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+.wrap { width: min(1150px,calc(100% - 40px)); margin-inline: auto; }
+.page a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.header { border-bottom: 1px solid var(--line); background: var(--surface); }
+.header .wrap { min-height: 60px; display: flex; gap: 12px; align-items: center; justify-content: space-between; }
+.wordmark { font-size: .95rem; font-weight: 720; letter-spacing: .06em; }
+.back { color: var(--body); font-size: .94rem; }
+.hero { padding-top: clamp(40px,7vw,91px); }
+.kicker { color: var(--accent); font-size: 1rem; font-weight: 630; }
+.hero h1 {
+  margin: 9px 0 0;
+  font-size: clamp(3.4rem,7.4vw,6.3rem);
+  line-height: 1.04;
+  letter-spacing: -.055em;
+  font-weight: 750;
+}
+.lead { margin: 12px 0 0; max-width: 26em; font-size: clamp(1.23rem,2.4vw,1.75rem); line-height: 1.52; color: var(--body); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.actions a {
+  min-height: 44px; display: inline-flex; align-items: center;
+  padding: 8px 15px; border: 1px solid transparent; border-radius: 8px;
+  font-size: .95rem; font-weight: 630;
+}
+.actions .primary { color: var(--paper); background: var(--accent); }
+.actions .secondary { border-color: var(--line); color: var(--text); }
+.actions .secondary:hover { border-color: var(--accent); }
+.heroImage, .frame { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 13px; overflow: hidden; }
+.heroImage { margin-top: clamp(22px,4vw,41px); }
+.demo { margin-top: clamp(48px,8vw,98px); scroll-margin-top: 24px; }
+.demoHeading {
+  display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between;
+  gap: 9px 24px; padding-bottom: 12px; border-bottom: 1px solid var(--line);
+}
+.demoHeading h2 { font-size: clamp(1.85rem,4.6vw,2.75rem); line-height: 1.25; font-weight: 720; }
+.jump { display: flex; flex-wrap: wrap; gap: 2px 14px; }
+.jump a { color: var(--accent); font-size: .95rem; padding-block: 6px; }
+.jump a:hover, .back:hover, .footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.step { margin-top: clamp(27px,4vw,53px); scroll-margin-top: 22px; }
+.step h3 { margin: 0; font-size: clamp(1.45rem,3vw,2rem); font-weight: 700; line-height: 1.35; }
+.step p { margin: 8px 0 16px; max-width: 46em; font-size: clamp(1.063rem,1.5vw,1.17rem); line-height: 1.68; color: var(--body); }
+.frame img { display: block; width: 100%; height: auto; }
+.frame:hover { border-color: var(--accent); }
+.footer {
+  margin-top: clamp(34px,6vw,70px); padding: 18px 0 26px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 15px;
+  border-top: 1px solid var(--line); color: var(--body); font-size: .95rem;
+}
