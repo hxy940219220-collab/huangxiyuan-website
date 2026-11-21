@@ -6,8 +6,8 @@ import styles from "../showcase.module.css";
 const title = "Framepop 灵感设计AI工作台";
 const description = "从一句创作简报开始，在同一张画布上排分镜、看视频、切换模型。文案、素材和生成结果随项目保存在本机。";
 const cover = {
-  url: "/projects/framepop/workbench.webp",
-  alt: "水母短片的创作简报连到视频和分镜草稿，右侧打开了视频模型面板",
+  url: "/projects/framepop/video-models.webp",
+  alt: "水母短片的简报连到视频和分镜，右侧可选择 Kling 4.0、MiniMax H3 Max、Seedance 2.5 和 Vidu Q4 Preview",
   width: 2100, height: 1350,
 };
 
@@ -47,7 +47,7 @@ export default function FramepopPage() {
             <Image src={cover.url} alt={cover.alt} width={cover.width} height={cover.height} preload
               sizes="(min-width: 1190px) 1150px, calc(100vw - 40px)" className={styles.heroImage} />
           </a>
-          <figcaption className={styles.caption}>水母短片示例。简报分别连到视频片段和分镜草稿，右侧可以选择下一次生成使用的视频模型。</figcaption>
+          <figcaption className={styles.caption}>画布里是已有的水母示例片段。为下一条短片选择视频模型时，可以用可灵 Kling 4.0、海螺 MiniMax H3 Max、Seedance 2.5，或用首帧图片驱动 Vidu Q4 Preview。</figcaption>
         </figure>
       </section>
       <section className={`${styles.wrap} ${styles.demo}`} aria-labelledby="framepop-gallery">

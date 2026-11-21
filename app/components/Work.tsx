@@ -123,8 +123,8 @@ export function Work() {
                 className="cursor-target relative block aspect-[16/10] shrink-0 overflow-hidden border-b border-white/[0.12] bg-[#efeff3] focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-neon-cyan"
               >
                 <Image
-                  src="/projects/framepop/workbench.webp"
-                  alt="Framepop 水母视频画布，创作简报连到视频和分镜，右侧展开了模型选择面板"
+                  src="/projects/framepop/video-models.webp"
+                  alt="Framepop 水母画布，视频菜单列出 Kling 4.0、MiniMax H3 Max、Seedance 2.5 和 Vidu Q4 Preview"
                   fill
                   sizes="(min-width: 768px) 50vw, 100vw"
                   className="object-contain"

@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    return [{
+      source: "/projects/framepop/workbench.webp",
+      destination: "/projects/framepop/video-models.webp",
+      permanent: true,
+    }];
+  },
 };
 
 export default nextConfig;
