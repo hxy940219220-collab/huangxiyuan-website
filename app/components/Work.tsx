@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ScrollReveal } from "./ScrollReveal";
 import { motion, useMotionValue, useSpring } from "motion/react";
 import { useRef, type ReactNode } from "react";
+import Link from "next/link";
 import BlurText from "../reactbits/TextAnimations/BlurText/BlurText";
 import { GooglePlayLogo, GithubLogo } from "@phosphor-icons/react";
 
@@ -54,13 +55,69 @@ export function Work() {
         />
         <ScrollReveal delay={0.2}>
           <p className="text-[15px] text-text-tertiary leading-relaxed self-end pb-2">
-            项目从 macOS AI 便签、个人 IP 内容创作、划词工具与 PDF 内容 Agent，延伸到树莓派距离感知装置和 ESP32 Agent 实体审批台。共同方法是先找到真实任务，再判断模型边界，把交互、工作流与硬件做成可运行的闭环。
+            从跨境电商 Agent 工作台、macOS AI 便签到内容创作和实体审批台，这些项目从具体任务出发，把模型能力、操作流程和人工判断落到可运行的产品里。
           </p>
         </ScrollReveal>
       </div>
 
       {/* Project cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+        {/* Tango */}
+        <ScrollReveal delay={0.02}>
+          <TiltWrap className="h-full">
+            <motion.article
+              id="project-tango"
+              whileHover={{ y: -6 }}
+              className="relative flex h-full scroll-mt-24 flex-col overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#0c0c1a] transition-colors hover:border-[#ffb17d]/45"
+            >
+              <Link
+                href="/projects/tango"
+                aria-label="查看 Tango 项目"
+                className="cursor-target block aspect-[16/10] shrink-0 overflow-hidden border-b border-white/[0.12] focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-neon-cyan"
+              >
+                <Image
+                  src="/projects/tango/home.webp"
+                  alt="Tango 工作台首页，显示跨境运营任务和常用专家"
+                  width={1800}
+                  height={1125}
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="h-full w-full object-cover"
+                />
+              </Link>
+              <div className="flex flex-1 flex-col p-6 md:p-7">
+                <div className="mb-3.5 flex flex-wrap gap-2">
+                  <span className="rounded-full border border-[#ffb17d]/50 px-3 py-1.5 font-body text-[11px] font-medium text-[#ffb17d]">跨境电商 Agent</span>
+                  <span className="rounded-full border border-white/[0.12] px-3 py-1.5 font-body text-[11px] text-text-tertiary">多专家协作</span>
+                  <span className="rounded-full border border-white/[0.12] px-3 py-1.5 font-body text-[11px] text-text-tertiary">本机模型 / API</span>
+                </div>
+                <h3 className="mb-2 font-display text-[26px] italic text-[#f5f7ff]">
+                  Tango · 跨境电商工作台
+                </h3>
+                <p className="mb-5 max-w-prose text-[14px] leading-relaxed text-text-tertiary">
+                  从商品运营、选品与竞品、短视频制作或达人合作开始。把任务交给相关专家，在同一次对话里看进度、查阅各阶段结果。
+                </p>
+                <div className="mt-auto flex flex-wrap gap-3">
+                  <Link
+                    href="/projects/tango"
+                    className="cursor-target inline-flex min-h-11 items-center rounded-full bg-neon-cyan px-5 py-2.5 font-body text-[12px] font-semibold text-[#050509] no-underline transition-colors hover:bg-[#78e4ff] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neon-cyan"
+                  >
+                    查看功能截图 ↗
+                  </Link>
+                  <a
+                    href="https://github.com/hxy940219220-collab/tango-workbench"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cursor-target inline-flex min-h-11 items-center gap-2 rounded-full border border-white/[0.18] px-5 py-2.5 font-body text-[12px] font-medium text-text-secondary no-underline transition-colors hover:border-white/45 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neon-cyan"
+                  >
+                    <GithubLogo size={14} weight="fill" aria-hidden="true" />
+                    GitHub 私有仓库
+                  </a>
+                </div>
+              </div>
+            </motion.article>
+          </TiltWrap>
+        </ScrollReveal>
+
         {/* QuickNote */}
         <ScrollReveal delay={0.02}>
           <TiltWrap className="h-full">
@@ -164,62 +221,6 @@ export function Work() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#F5B400]/10 border border-[#F5B400]/30 text-[#F5B400] font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-[#F5B400]/20"
-                  >
-                    <GithubLogo size={14} weight="fill" />
-                    GitHub
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          </TiltWrap>
-        </ScrollReveal>
-
-        {/* Flick */}
-        <ScrollReveal delay={0.08}>
-          <TiltWrap className="h-full">
-            <motion.div
-              id="project-flick"
-              whileHover={{ y: -6 }}
-              className="scroll-mt-24 relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-cyan/30 hover:shadow-[0_0_60px_rgba(0,200,255,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] flex flex-col h-full"
-            >
-              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
-                <img
-                  src="/flick-project-card.webp"
-                  alt="Flick macOS 划词 AI 工具"
-                  width={1672}
-                  height={941}
-                  loading="lazy"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-6 md:p-7 flex flex-col flex-1">
-                <div className="flex gap-2 flex-wrap mb-3.5">
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-cyan text-neon-cyan">AI 原生交互</span>
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">macOS</span>
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">SwiftUI</span>
-                </div>
-                <h3 className="font-display italic text-[26px] text-white mb-1.5">
-                  Flick · 划词 AI
-                </h3>
-                <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
-                  在支持文本复制的 macOS 应用中选中文字，按 ⌘E 唤起解释、总结、翻译与润色。
-                </p>
-                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">不做另一个聊天窗口，而把 AI 变成文本动作</p>
-                <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
-                  全局快捷键唤起光标附近的极简浮层，数字键选择预设动作，结果原地流式返回，让阅读和学习不必离开当前应用。
-                </p>
-                <div className="flex flex-wrap gap-3 mt-auto">
-                  <a
-                    href="/projects/flick"
-                    className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-cyan text-[#050509] font-body text-[12px] font-semibold tracking-[0.04em] no-underline transition-all duration-400 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(0,200,255,0.2)]"
-                  >
-                    查看演示 ↗
-                  </a>
-                  <a
-                    href="https://github.com/hxy940219220-collab/Flick"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-neon-cyan/20"
                   >
                     <GithubLogo size={14} weight="fill" />
                     GitHub

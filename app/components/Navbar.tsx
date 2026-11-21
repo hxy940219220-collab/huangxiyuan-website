@@ -21,8 +21,8 @@ const NAV_ITEMS: NavItem[] = [
     label: "作品",
     href: "#work",
     subs: [
+      { label: "Tango · 跨境电商工作台", href: "#project-tango" },
       { label: "QuickNote · AI 便签", href: "#project-quicknote" },
-      { label: "Flick · 划词 AI", href: "#project-flick" },
       { label: "研报笔记 Agent", href: "#project-report-note" },
       { label: "Call Home · 互动装置", href: "#project-call-home" },
       { label: "Claude Signal · 实体审批台", href: "#project-claude-signal" },

@@ -20,9 +20,12 @@ export type ProjectDemoData = {
   description: string;
   heroImage: string;
   heroAlt: string;
+  heroSize?: { width: number; height: number };
   accent: string;
   accentSoft: string;
   github: string;
+  privateRepository?: boolean;
+  demoDescription?: string;
   stats: Array<{ value: string; label: string }>;
   thesis: string;
   principles: Array<{ label: string; title: string; description: string }>;
@@ -41,6 +44,24 @@ export function ProjectDemo({ project }: { project: ProjectDemoData }) {
     "--project-accent": project.accent,
     "--project-accent-soft": project.accentSoft,
   };
+
+  const primaryLink = "cursor-target rounded-full bg-[var(--project-accent)] px-5 py-2.5 text-[12px] font-semibold tracking-[0.04em] text-[#050509] no-underline transition-transform hover:-translate-y-0.5";
+  const secondaryLink = "cursor-target rounded-full border border-white/[0.16] bg-white/[0.04] px-5 py-2.5 text-[12px] font-medium tracking-[0.04em] text-white no-underline transition-colors hover:border-white/35 hover:bg-white/[0.08]";
+  const demoLink = (
+    <a href="#demo" className={project.privateRepository ? primaryLink : secondaryLink}>
+      {project.privateRepository ? "查看功能截图 ↓" : "查看产品流程 ↓"}
+    </a>
+  );
+  const repositoryLink = (
+    <a
+      href={project.github}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={project.privateRepository ? secondaryLink : primaryLink}
+    >
+      {project.privateRepository ? "GitHub 私有仓库 ↗" : "GitHub 源码 ↗"}
+    </a>
+  );
 
   return (
     <main
@@ -90,20 +111,7 @@ export function ProjectDemo({ project }: { project: ProjectDemoData }) {
               {project.description}
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="cursor-target rounded-full bg-[var(--project-accent)] px-5 py-2.5 text-[12px] font-semibold tracking-[0.04em] text-[#050509] no-underline transition-transform hover:-translate-y-0.5"
-              >
-                GitHub 源码 ↗
-              </a>
-              <a
-                href="#demo"
-                className="cursor-target rounded-full border border-white/[0.16] bg-white/[0.04] px-5 py-2.5 text-[12px] font-medium tracking-[0.04em] text-white no-underline transition-colors hover:border-white/35 hover:bg-white/[0.08]"
-              >
-                查看产品流程 ↓
-              </a>
+              {project.privateRepository ? <>{demoLink}{repositoryLink}</> : <>{repositoryLink}{demoLink}</>}
             </div>
           </div>
         </div>
@@ -112,8 +120,8 @@ export function ProjectDemo({ project }: { project: ProjectDemoData }) {
           <Image
             src={project.heroImage}
             alt={project.heroAlt}
-            width={1672}
-            height={941}
+            width={project.heroSize?.width ?? 1672}
+            height={project.heroSize?.height ?? 941}
             priority
             sizes="(min-width: 1320px) 1240px, calc(100vw - 40px)"
             className="h-auto w-full"
@@ -174,7 +182,7 @@ export function ProjectDemo({ project }: { project: ProjectDemoData }) {
             </h2>
           </div>
           <p className="max-w-md text-[12px] leading-6 text-text-tertiary">
-            这里展示的均为产品真实界面与完整主流程，不使用概念原型替代实际能力。
+            {project.demoDescription ?? "这里展示的均为产品真实界面与完整主流程，不使用概念原型替代实际能力。"}
           </p>
         </div>
 
@@ -255,7 +263,7 @@ export function ProjectDemo({ project }: { project: ProjectDemoData }) {
               rel="noopener noreferrer"
               className="cursor-target rounded-full bg-white px-5 py-2.5 text-[12px] font-semibold text-[#050509] no-underline"
             >
-              打开 GitHub ↗
+              {project.privateRepository ? "GitHub 私有仓库 ↗" : "打开 GitHub ↗"}
             </a>
             <Link
               href="/#work"
