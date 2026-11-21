@@ -78,9 +78,9 @@ const project: ProjectDemoData = {
     {
       number: "02",
       title: "在同一条对话中接力",
-      description: "以咖啡量勺的 Amazon 美国站上架为例。竞品顾问先给出差异点，标题顾问接着成稿，最后由设计师规划主图。每位专家的执行状态都可见。",
-      image: "/projects/tango/workflow.webp",
-      imageAlt: "三位专家处理咖啡量勺的上架任务，显示已完成、正在生成和等待执行状态",
+      description: "以咖啡量勺在 Amazon 美国站上架为例。竞品顾问先梳理差异，标题顾问接着拟好英文标题，设计师再给出主图和 A+ 建议。三份结果按交付顺序保留在同一条对话中。",
+      image: "/projects/tango/workflow-complete.webp",
+      imageAlt: "Tango 展示咖啡量勺的竞品对照、英文标题和主图建议，三位专家均已完成交付",
       ...screenshotSize,
     },
     {
