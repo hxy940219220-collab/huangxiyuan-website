@@ -51,7 +51,7 @@ export default function Home() {
           <div className="relative z-10 mx-auto max-w-[1200px]">
             <div className="mb-16 md:mb-24 text-center">
               <ScrollReveal>
-                <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] font-extrabold leading-none tracking-[-0.04em] text-white">
+                <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-semibold leading-[1.15] tracking-[-0.04em] text-white">
                   AI 工具栈
                 </h2>
               </ScrollReveal>

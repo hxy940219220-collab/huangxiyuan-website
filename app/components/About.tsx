@@ -47,7 +47,7 @@ export function About() {
 
           <BlurText
             text="在模型能力与真实世界之间。"
-            className="font-display italic text-[clamp(32px,4.5vw,48px)] leading-[1.12] text-white mb-7"
+            className="font-display text-[clamp(2rem,4.5vw,3rem)] font-semibold leading-[1.2] text-white mb-7"
             delay={40}
             animateBy="words"
             direction="top"
@@ -84,7 +84,7 @@ export function About() {
                 <p className="font-body text-[11px] font-medium tracking-[0.12em] text-text-muted mb-1">
                   {cap.num}
                 </p>
-                <h3 className="font-display italic text-[26px] text-white mb-1">
+                <h3 className="font-display text-[1.375rem] font-semibold leading-snug text-white mb-1">
                   {cap.title}
                 </h3>
                 <p className="font-body text-[12px] tracking-[0.08em] text-text-muted uppercase mb-2">{cap.subtitle}</p>

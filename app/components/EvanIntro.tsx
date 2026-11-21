@@ -125,14 +125,14 @@ export function EvanIntro({ onComplete }: { onComplete: () => void }) {
         跳过 Skip
       </button>
 
-      <div className="flex items-center gap-4 md:gap-10 px-6">
+      <div className="flex items-center gap-2 px-4 sm:gap-4 sm:px-6 md:gap-10">
         {LETTERS.map((letter, index) => (
           <motion.span
             key={letter.letter}
-            className="font-display italic font-bold leading-none select-none inline-block"
+            className="font-display font-bold leading-none select-none inline-block"
             style={{
               color: letter.color,
-              fontSize: "clamp(6rem, 15vw, 13rem)",
+              fontSize: "clamp(3.75rem, 15vw, 13rem)",
               textShadow: isDissolving
                 ? dissolveShadow(letter.glow)
                 : isHold

@@ -33,7 +33,7 @@ export function Identity() {
         <div>
           <BlurText
             text="把模型、Agent 与硬件做成真实可用的产品"
-            className="font-display italic text-[clamp(36px,5vw,56px)] leading-[1.08] tracking-[-0.02em] text-white"
+            className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-semibold leading-[1.18] tracking-[-0.02em] text-white"
             delay={40}
             animateBy="letters"
             direction="top"

@@ -19,8 +19,9 @@
   --color-glass-bg: rgba(255, 255, 255, 0.055);
   --color-glass-border: rgba(255, 255, 255, 0.14);
   --color-glass-highlight: rgba(255, 255, 255, 0.16);
-  --font-display: 'Instrument Serif', Georgia, serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: var(--font-noto-sans), "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-display: var(--font-sans);
+  --font-body: var(--font-sans);
 }
 
 /* ============================================================

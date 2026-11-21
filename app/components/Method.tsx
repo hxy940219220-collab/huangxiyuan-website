@@ -79,21 +79,21 @@ export function Method() {
           <div className="flex flex-col items-center gap-0 md:hidden">
             <BlurText
               text="AI 产品的关键"
-              className="font-display italic justify-center text-center text-[clamp(26px,7.5vw,40px)] leading-[1.3] text-white"
+              className="font-display justify-center text-center text-[clamp(1.5rem,6.5vw,2.5rem)] font-semibold leading-[1.25] text-white"
               delay={40}
               animateBy="letters"
               direction="top"
             />
             <BlurText
               text="不止是模型接入"
-              className="font-display italic justify-center text-center text-[clamp(26px,7.5vw,40px)] leading-[1.3] text-white"
+              className="font-display justify-center text-center text-[clamp(1.5rem,6.5vw,2.5rem)] font-semibold leading-[1.25] text-white"
               delay={40}
               animateBy="letters"
               direction="top"
             />
             <BlurText
               text="更在于流程如何被设计"
-              className="font-display italic justify-center text-center text-[clamp(26px,7.5vw,40px)] leading-[1.3] text-text-tertiary"
+              className="font-display justify-center text-center text-[clamp(1.5rem,6.5vw,2.5rem)] font-semibold leading-[1.25] text-text-tertiary"
               delay={40}
               animateBy="letters"
               direction="top"
@@ -103,14 +103,14 @@ export function Method() {
           <div className="hidden md:flex flex-col items-center gap-0">
             <BlurText
               text="AI 产品的关键，不止是模型接入"
-              className="font-display italic justify-center text-center text-[clamp(24px,6.5vw,56px)] leading-[1.1] text-white"
+              className="font-display justify-center text-center text-[clamp(1.5rem,4.8vw,3.5rem)] font-semibold leading-[1.18] text-white"
               delay={40}
               animateBy="letters"
               direction="top"
             />
             <BlurText
               text="更在于流程如何被设计"
-              className="font-display italic justify-center text-center text-[clamp(24px,6.5vw,56px)] leading-[1.1] text-text-tertiary"
+              className="font-display justify-center text-center text-[clamp(1.5rem,4.8vw,3.5rem)] font-semibold leading-[1.18] text-text-tertiary"
               delay={40}
               animateBy="letters"
               direction="top"
@@ -138,13 +138,13 @@ export function Method() {
                 <div className={`relative z-[2] w-3 h-3 rounded-full ${step.color}`}>
                   <div className="absolute -inset-1.5 rounded-full border border-white/[0.15] animate-[dotPulse_3s_ease-in-out_infinite]" />
                 </div>
-                <p className="font-display italic text-[44px] leading-none text-white lg:hidden">
+                <p className="font-display text-[2.5rem] font-semibold leading-none text-white lg:hidden">
                   {step.letter}
                 </p>
               </div>
               {/* 右列：内容；电脑端字母仍显示在内容顶部 */}
               <div className="min-w-0 flex-1">
-                <p className="hidden lg:block font-display italic text-5xl leading-none text-white mb-3">
+                <p className="hidden lg:block font-display text-[2.75rem] font-semibold leading-none text-white mb-3">
                   {step.letter}
                 </p>
                 <h3 className="font-body text-sm font-semibold tracking-[0.06em] text-text-secondary uppercase mb-1">
@@ -196,7 +196,7 @@ export function Method() {
                     </span>
                   )}
                 </div>
-                <h3 className="font-display italic text-[22px] text-white mb-2 transition-colors duration-400 group-hover:text-neon-cyan/90">
+                <h3 className="font-display text-[1.375rem] font-semibold leading-snug text-white mb-2 transition-colors duration-400 group-hover:text-neon-cyan/90">
                   {topic.title}
                 </h3>
                 <p className="text-[13px] text-text-tertiary leading-relaxed">

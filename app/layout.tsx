@@ -1,23 +1,15 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Inter } from "next/font/google";
+import { Noto_Sans_SC } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "./components/SmoothScroll";
 import { CustomCursor } from "./components/CustomCursor";
 import { Particles } from "./components/Particles";
 
-const instrumentSerif = Instrument_Serif({
-  weight: ["400"],
-  style: ["normal", "italic"],
+const notoSans = Noto_Sans_SC({
+  weight: "variable",
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-display",
-});
-
-const inter = Inter({
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-body",
+  variable: "--font-noto-sans",
 });
 
 const SITE_URL = "https://www.huangxiyuan.net";
@@ -64,7 +56,7 @@ export default function RootLayout({
   return (
     <html
       lang="zh-CN"
-      className={`${instrumentSerif.variable} ${inter.variable} h-full antialiased`}
+      className={`${notoSans.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-bg-deepest text-text-primary font-body">
         <SmoothScroll />

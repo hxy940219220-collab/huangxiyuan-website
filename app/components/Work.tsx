@@ -48,7 +48,7 @@ export function Work() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-14 mb-12">
         <BlurText
           text="代表项目"
-          className="font-display italic text-[clamp(40px,6vw,64px)] leading-[1.05] text-white"
+          className="font-display text-[clamp(2rem,5vw,3.5rem)] font-semibold leading-[1.15] text-white"
           delay={50}
           animateBy="words"
           direction="top"
@@ -90,7 +90,7 @@ export function Work() {
                   <span className="rounded-full border border-white/[0.12] px-3 py-1.5 font-body text-[11px] text-text-tertiary">多专家协作</span>
                   <span className="rounded-full border border-white/[0.12] px-3 py-1.5 font-body text-[11px] text-text-tertiary">本机模型 / API</span>
                 </div>
-                <h3 className="mb-2 font-body text-[26px] font-semibold leading-snug text-[#f5f7ff]">
+                <h3 className="mb-2 font-display text-[1.5rem] font-semibold leading-snug text-[#f5f7ff]">
                   Tango · 跨境电商AI工作台
                 </h3>
                 <p className="mb-5 max-w-prose text-[16px] leading-relaxed text-text-secondary">
@@ -136,7 +136,7 @@ export function Work() {
                   <span className="rounded-full border border-white/[0.12] px-3 py-1.5 font-body text-[11px] text-text-tertiary">图像与视频</span>
                   <span className="rounded-full border border-white/[0.12] px-3 py-1.5 font-body text-[11px] text-text-tertiary">多模型接入</span>
                 </div>
-                <h3 className="mb-2 font-body text-[26px] font-semibold leading-snug text-[#f5f7ff]">
+                <h3 className="mb-2 font-display text-[1.5rem] font-semibold leading-snug text-[#f5f7ff]">
                   Framepop 灵感设计AI工作台
                 </h3>
                 <p className="mb-5 max-w-prose text-[16px] leading-relaxed text-text-secondary">
@@ -180,7 +180,7 @@ export function Work() {
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">macOS</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Codex / MCP</span>
                 </div>
-                <h3 className="mb-2 flex items-center gap-2.5 font-display text-[26px] italic text-white">
+                <h3 className="mb-2 flex items-center gap-2.5 font-display text-[1.5rem] font-semibold leading-snug text-white">
                   <Image src="/projects/quicknote/app-icon-current.png" alt="" width={34} height={34} className="size-[34px] shrink-0 object-contain" />
                   <span>QuickNote · AI 便签</span>
                 </h3>
@@ -236,7 +236,7 @@ export function Work() {
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Agent Workflow</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Electron</span>
                 </div>
-                <h3 className="font-display italic text-[26px] text-white mb-1.5">
+                <h3 className="font-display text-[1.5rem] font-semibold leading-snug text-white mb-1.5">
                   尤里卡 · IP 内容创作
                 </h3>
                 <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
@@ -292,7 +292,7 @@ export function Work() {
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Human-in-the-loop</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Electron</span>
                 </div>
-                <h3 className="font-display italic text-[26px] text-white mb-1.5">
+                <h3 className="font-display text-[1.5rem] font-semibold leading-snug text-white mb-1.5">
                   研报笔记 Agent
                 </h3>
                 <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
@@ -348,7 +348,7 @@ export function Work() {
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Raspberry Pi 5</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">STM32</span>
                 </div>
-                <h3 className="font-display italic text-[26px] text-white mb-1.5">
+                <h3 className="font-display text-[1.5rem] font-semibold leading-snug text-white mb-1.5">
                   Call Home · 给父母的一通电话
                 </h3>
                 <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
@@ -392,7 +392,7 @@ export function Work() {
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">ESP32-S3</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Agent 审批</span>
                 </div>
-                <h3 className="font-display italic text-[26px] text-white mb-1.5">
+                <h3 className="font-display text-[1.5rem] font-semibold leading-snug text-white mb-1.5">
                   Claude Signal · 实体审批台
                 </h3>
                 <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
@@ -436,7 +436,7 @@ export function Work() {
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Habit Design</span>
                   <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">React Native</span>
                 </div>
-                <h3 className="font-display italic text-[26px] text-white mb-1.5">
+                <h3 className="font-display text-[1.5rem] font-semibold leading-snug text-white mb-1.5">
                   FocusMeow · 专注喵
                 </h3>
                 <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">

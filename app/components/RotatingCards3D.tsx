@@ -100,8 +100,6 @@ function CardFace({ card }: { card: CardData }) {
       <h3
         className="mt-4 md:mt-6 text-balance font-semibold leading-[1.02] text-white"
         style={{
-          fontFamily:
-            '"PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif',
           fontSize: "clamp(1.2rem, 1.4vw, 1.5rem)",
           letterSpacing: "0.02em",
         }}

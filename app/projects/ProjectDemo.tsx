@@ -92,7 +92,7 @@ export function ProjectDemo({ project }: { project: ProjectDemoData }) {
       </header>
 
       <section className="relative mx-auto max-w-[1320px] px-5 pb-16 pt-20 md:px-10 md:pb-24 md:pt-28">
-        <div className="grid items-end gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
           <div className="animate-[fadeUp_0.9s_cubic-bezier(0.16,1,0.3,1)_both]">
             <div className="mb-6 flex items-center gap-3 text-[10px] font-medium tracking-[0.2em] text-[var(--project-accent)] uppercase">
               {project.appIcon && (
@@ -102,7 +102,7 @@ export function ProjectDemo({ project }: { project: ProjectDemoData }) {
               <span className="h-px w-10 bg-[var(--project-accent)]" />
               <span>{project.eyebrow}</span>
             </div>
-            <h1 className="max-w-4xl font-display text-[clamp(4rem,10vw,8.8rem)] italic leading-[0.84] tracking-[-0.045em] text-white">
+            <h1 className="max-w-4xl font-display text-[clamp(2.65rem,7vw,6.5rem)] font-bold leading-[1.08] tracking-[-0.04em] text-white">
               {project.title}
             </h1>
             <p className="mt-7 max-w-xl text-[clamp(1.1rem,2.1vw,1.6rem)] font-light leading-snug text-text-secondary">
@@ -153,7 +153,7 @@ export function ProjectDemo({ project }: { project: ProjectDemoData }) {
             <p className="text-[10px] font-medium tracking-[0.18em] text-[var(--project-accent)] uppercase">
               Product thesis
             </p>
-            <h2 className="mt-4 max-w-md font-display text-[clamp(2.8rem,5vw,5rem)] italic leading-[0.94] tracking-[-0.03em]">
+            <h2 className="mt-4 max-w-md font-display text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.18] tracking-[-0.025em]">
               {project.thesis}
             </h2>
           </div>
@@ -181,7 +181,7 @@ export function ProjectDemo({ project }: { project: ProjectDemoData }) {
             <p className="text-[10px] font-medium tracking-[0.18em] text-[var(--project-accent)] uppercase">
               Product demo
             </p>
-            <h2 className="mt-3 font-display text-[clamp(3rem,6vw,5.8rem)] italic leading-none tracking-[-0.035em]">
+            <h2 className="mt-3 font-display text-[clamp(2.25rem,4.8vw,4.25rem)] font-semibold leading-[1.12] tracking-[-0.025em]">
               从输入到结果
             </h2>
           </div>
@@ -197,7 +197,7 @@ export function ProjectDemo({ project }: { project: ProjectDemoData }) {
               className="grid overflow-hidden rounded-[22px] border border-white/[0.1] bg-[#0a0a14] lg:grid-cols-[0.34fr_0.66fr]"
             >
               <div className="flex flex-col justify-between border-b border-white/[0.08] p-7 lg:border-b-0 lg:border-r lg:p-9">
-                <span className="font-display text-[3.25rem] italic leading-none text-[var(--project-accent)]">
+                <span className="font-display text-[2.5rem] font-medium leading-none tabular-nums text-[var(--project-accent)]">
                   {step.number}
                 </span>
                 <div className="mt-16 lg:mt-32">
@@ -256,7 +256,7 @@ export function ProjectDemo({ project }: { project: ProjectDemoData }) {
         <div className="mx-auto flex max-w-[1320px] flex-col items-start justify-between gap-10 rounded-[24px] border border-white/[0.1] bg-[linear-gradient(135deg,var(--project-accent-soft),rgba(255,255,255,0.02))] p-8 md:flex-row md:items-end md:p-12">
           <div>
             <p className="text-[10px] tracking-[0.17em] text-[var(--project-accent)] uppercase">Explore the build</p>
-            <h2 className="mt-4 max-w-2xl font-display text-[clamp(2.6rem,5vw,5.2rem)] italic leading-[0.96] tracking-[-0.03em]">
+            <h2 className="mt-4 max-w-2xl font-display text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.18] tracking-[-0.025em]">
               看见界面，也看见产品判断。
             </h2>
           </div>

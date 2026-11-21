@@ -184,7 +184,7 @@ export function Hero({ active = true }: { active?: boolean }) {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
             {reduced ? (
-              <h1 className="font-display text-[clamp(48px,9vw,104px)] leading-[1.15] tracking-[-0.02em] text-white overflow-visible">
+              <h1 className="font-display text-[clamp(3rem,8vw,6.5rem)] font-bold leading-[1.15] tracking-[-0.02em] text-white overflow-visible">
                 黄锡源
               </h1>
             ) : (
@@ -193,7 +193,7 @@ export function Hero({ active = true }: { active?: boolean }) {
                   text="黄锡源"
                   tag="h1"
                   textAlign="left"
-                  className="font-display text-[clamp(48px,9vw,104px)] leading-[1.15] tracking-[-0.02em] text-white"
+                  className="font-display text-[clamp(3rem,8vw,6.5rem)] font-bold leading-[1.15] tracking-[-0.02em] text-white"
                   delay={50}
                   duration={1.2}
                   from={{ opacity: 0, y: 80, filter: "blur(10px)" }}

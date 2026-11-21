@@ -14,18 +14,18 @@ colors:
   muted-text: "#8b8e9f"
 typography:
   display:
-    fontFamily: "Instrument Serif, Georgia, serif"
-    fontSize: "clamp(2.5rem, 6vw, 5rem)"
-    fontWeight: 400
-    lineHeight: 1.05
+    fontFamily: "Noto Sans SC, PingFang SC, Microsoft YaHei, system-ui, sans-serif"
+    fontSize: "clamp(2rem, 5vw, 3.5rem)"
+    fontWeight: 600
+    lineHeight: 1.15
     letterSpacing: "-0.02em"
   body:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif"
+    fontFamily: "Noto Sans SC, PingFang SC, Microsoft YaHei, system-ui, sans-serif"
     fontSize: "15px"
     fontWeight: 400
     lineHeight: 1.7
   label:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif"
+    fontFamily: "Noto Sans SC, PingFang SC, Microsoft YaHei, system-ui, sans-serif"
     fontSize: "11px"
     fontWeight: 500
     lineHeight: 1.4
@@ -105,16 +105,13 @@ components:
 
 ## 3. Typography
 
-**Display Font:** Instrument Serif（Georgia 后备）
-**Body Font:** Inter（系统无衬线后备）
-
-**Character:** 展示字体提供个人作品集的作者感，正文保持技术文档般的清晰。Instrument Serif 是现有品牌资产，本次延续而不是重新选择；新页面不再用渐变文字制造层级。
+**Typeface:** Noto Sans SC（思源黑体简体中文）。标题、正文和标签共用一套正体字，以字重、字号和行高区分层级。
 
 ### Hierarchy
 
-- **Display**（400，`clamp(2.5rem, 6vw, 5rem)`，1.05）: 主标题和少量章节判断。
-- **Headline**（400，`clamp(2rem, 4.5vw, 3.5rem)`，1.12）: 内容页章节标题。
-- **Title**（500，20 至 28px，1.25）: 项目、工具和时间线事件名称。
+- **Display** 使用 700 字重和较宽的行高，适用于首页姓名与项目名。
+- **Headline** 使用 600 字重，常用字号为 `clamp(2rem, 5vw, 3.5rem)`，适用于章节标题。
+- **Title** 使用 600 字重和 20 至 24px 字号，适用于项目、工具和时间线事件名称。
 - **Body**（400，14 至 16px，1.7）: 解释性内容，单行长度限制在 68ch 左右。
 - **Label**（500，10 至 12px，0.08 至 0.16em）: 编号、日期和短标签，禁止用于正文段落。
 

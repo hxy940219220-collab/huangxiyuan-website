@@ -37,7 +37,7 @@ export function Contact() {
         className="absolute inset-0 flex items-center justify-center pointer-events-none z-0"
         aria-hidden="true"
       >
-        <span className="font-display italic text-[clamp(120px,20vw,280px)] text-white/[0.015] leading-[0.8] select-none">
+        <span className="font-display text-[clamp(6rem,18vw,16rem)] font-semibold text-white/[0.015] leading-[0.8] select-none">
           HXY
         </span>
       </div>
@@ -55,7 +55,7 @@ export function Contact() {
 
         <BlurText
           text="一起构建智能、有用且令人难忘的产品。"
-          className="font-display italic text-[clamp(32px,5vw,52px)] leading-[1.12] text-white max-w-[700px] mx-auto mb-9"
+          className="font-display text-[clamp(2rem,4.5vw,3rem)] font-semibold leading-[1.2] text-white max-w-[700px] mx-auto mb-9"
           delay={40}
           animateBy="words"
           direction="top"
