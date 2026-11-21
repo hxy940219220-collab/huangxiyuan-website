@@ -42,7 +42,7 @@ const project: ProjectDemoData = {
   accentSoft: "rgba(255, 177, 125, 0.13)",
   github: "https://github.com/hxy940219220-collab/tango-workbench",
   privateRepository: true,
-  demoDescription: "截图来自运行中的 Tango。对话使用虚构商品和演示响应，模型设置使用示例地址。",
+  demoDescription: "截图来自运行中的 Tango。商品和竞品数据为演示样本，主图与 A+ 图用上传的示例商品照在工作台内生成。",
   stats: [
     { value: "商品运营、选品与竞品、短视频、达人合作", label: "任务入口" },
     { value: "最多四位专家顺序执行", label: "同一会话" },
@@ -78,13 +78,21 @@ const project: ProjectDemoData = {
     {
       number: "02",
       title: "在同一条对话中接力",
-      description: "以咖啡量勺在 Amazon 美国站上架为例。竞品顾问先梳理差异，标题顾问接着拟好英文标题，设计师再给出主图和 A+ 建议。三份结果按交付顺序保留在同一条对话中。",
-      image: "/projects/tango/workflow-complete.webp",
-      imageAlt: "Tango 展示咖啡量勺的竞品对照、英文标题和主图建议，三位专家均已完成交付",
+      description: "用一张咖啡量勺商品照演示 Amazon 美国站上架。竞品顾问交付研究报告，标题顾问给出可直接复制的英文标题，设计师制作白底主图和 A+ 图。两张 PNG 可分别预览和下载。",
+      image: "/projects/tango/workflow-deliverables.webp",
+      imageAlt: "Tango 对话显示竞品研究报告卡片、可复制的英文标题，以及可逐张下载的商品主图和 A+ 图片",
       ...screenshotSize,
     },
     {
       number: "03",
+      title: "打开完整的竞品研究报告",
+      description: "在对话中先看结论摘要。打开报告可查阅样本价格和功能差异、商品页机会，以及上架前要核实的事项。报告也可下载为 Markdown。",
+      image: "/projects/tango/competition-report.webp",
+      imageAlt: "Tango 的亚马逊竞品研究报告预览，显示结论、虚构样本对照、商品页机会和上架前验证",
+      ...screenshotSize,
+    },
+    {
+      number: "04",
       title: "添加并测试模型 API",
       description: "填入服务地址和模型 ID，按服务要求提供密钥。测试连接后保存配置，再在对话中选用。",
       image: "/projects/tango/models.webp",
