@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./tango.module.css";
+import styles from "../showcase.module.css";
 
-const title = "Tango · 跨境电商 Agent 工作台";
+const title = "Tango · 跨境电商AI工作台";
 const description = "为跨境电商运营组织一支 AI 专家团队。带上商品资料，在同一个工作台完成竞品分析、商品页策划与内容制作。";
 const homeImage = "/projects/tango/home.webp";
 const homeAlt = "Tango 工作台首页，显示常用专家和四类跨境运营任务";
@@ -77,7 +77,7 @@ export default function TangoProjectPage() {
       </header>
 
       <section className={`${styles.wrap} ${styles.hero}`} aria-labelledby="tango-title">
-        <p className={styles.kicker}>跨境电商 Agent 工作台</p>
+        <p className={styles.kicker}>跨境电商AI工作台</p>
         <h1 id="tango-title">Tango</h1>
         <p className={styles.lead}>让竞品研究、商品页和内容制作在同一条任务里接力。</p>
         <a href="#demo" className={styles.demoLink}>查看功能截图 ↓</a>

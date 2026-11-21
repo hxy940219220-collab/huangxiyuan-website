@@ -6,7 +6,7 @@ import { motion, useMotionValue, useSpring } from "motion/react";
 import { useRef, type ReactNode } from "react";
 import Link from "next/link";
 import BlurText from "../reactbits/TextAnimations/BlurText/BlurText";
-import { GooglePlayLogo, GithubLogo } from "@phosphor-icons/react";
+import { GithubLogo } from "@phosphor-icons/react";
 
 /* 3D Tilt card wrapper */
 function TiltWrap({ children, className = "" }: { children: ReactNode; className?: string }) {
@@ -55,7 +55,7 @@ export function Work() {
         />
         <ScrollReveal delay={0.2}>
           <p className="text-[15px] text-text-tertiary leading-relaxed self-end pb-2">
-            从跨境电商 Agent 工作台、macOS AI 便签到内容创作和实体审批台，这些项目从具体任务出发，把模型能力、操作流程和人工判断落到可运行的产品里。
+            从跨境电商AI工作台、灵感设计工作台，到 macOS AI 便签和实体审批台，这些项目从具体任务出发，把模型能力、操作流程和人工判断落到可运行的产品里。
           </p>
         </ScrollReveal>
       </div>
@@ -91,7 +91,7 @@ export function Work() {
                   <span className="rounded-full border border-white/[0.12] px-3 py-1.5 font-body text-[11px] text-text-tertiary">本机模型 / API</span>
                 </div>
                 <h3 className="mb-2 font-body text-[26px] font-semibold leading-snug text-[#f5f7ff]">
-                  Tango · 跨境电商工作台
+                  Tango · 跨境电商AI工作台
                 </h3>
                 <p className="mb-5 max-w-prose text-[16px] leading-relaxed text-text-secondary">
                   从商品运营、选品与竞品、短视频制作或达人合作开始。把任务交给相关专家，在同一次对话里看进度、查阅各阶段结果。
@@ -102,6 +102,52 @@ export function Work() {
                     className="cursor-target inline-flex min-h-11 items-center rounded-full bg-neon-cyan px-5 py-2.5 font-body text-[12px] font-semibold text-[#050509] no-underline transition-colors hover:bg-[#78e4ff] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neon-cyan"
                   >
                     查看功能截图 ↗
+                  </Link>
+                </div>
+              </div>
+            </motion.article>
+          </TiltWrap>
+        </ScrollReveal>
+
+        {/* Framepop */}
+        <ScrollReveal delay={0.06}>
+          <TiltWrap className="h-full">
+            <motion.article
+              id="project-framepop"
+              whileHover={{ y: -6 }}
+              className="relative flex h-full scroll-mt-24 flex-col overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#0c0c1a] transition-colors hover:border-neon-cyan/45"
+            >
+              <Link
+                href="/projects/framepop"
+                aria-label="查看 Framepop 灵感设计AI工作台界面演示"
+                className="cursor-target relative block aspect-[16/10] shrink-0 overflow-hidden border-b border-white/[0.12] bg-[#efeff3] focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-neon-cyan"
+              >
+                <Image
+                  src="/projects/framepop/workbench.webp"
+                  alt="Framepop 水母视频画布，创作简报连到视频和分镜，右侧展开了模型选择面板"
+                  fill
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-contain"
+                />
+              </Link>
+              <div className="flex flex-1 flex-col p-6 md:p-7">
+                <div className="mb-3.5 flex flex-wrap gap-2">
+                  <span className="rounded-full border border-neon-cyan/50 px-3 py-1.5 font-body text-[11px] font-medium text-neon-cyan">AI 创作画布</span>
+                  <span className="rounded-full border border-white/[0.12] px-3 py-1.5 font-body text-[11px] text-text-tertiary">图像与视频</span>
+                  <span className="rounded-full border border-white/[0.12] px-3 py-1.5 font-body text-[11px] text-text-tertiary">多模型接入</span>
+                </div>
+                <h3 className="mb-2 font-body text-[26px] font-semibold leading-snug text-[#f5f7ff]">
+                  Framepop 灵感设计AI工作台
+                </h3>
+                <p className="mb-5 max-w-prose text-[16px] leading-relaxed text-text-secondary">
+                  从一句想法开始，在画布上编排文案和分镜。连起参考图与视频节点，用自己的模型生成画面、短片或配音。
+                </p>
+                <div className="mt-auto flex flex-wrap gap-3">
+                  <Link
+                    href="/projects/framepop"
+                    className="cursor-target inline-flex min-h-11 items-center rounded-full bg-neon-cyan px-5 py-2.5 font-body text-[12px] font-semibold text-[#050509] no-underline transition-colors hover:bg-[#78e4ff] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neon-cyan"
+                  >
+                    查看界面演示 ↗
                   </Link>
                 </div>
               </div>
@@ -360,59 +406,6 @@ export function Work() {
                   <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#4ade80]/10 border border-[#4ade80]/30 text-[#4ade80] font-body text-[12px] font-medium tracking-[0.04em]">
                     实物原型 · 多会话监控
                   </span>
-                </div>
-              </div>
-            </motion.div>
-          </TiltWrap>
-        </ScrollReveal>
-
-        {/* IdeaFlash */}
-        <ScrollReveal delay={0.4}>
-          <TiltWrap className="h-full">
-            <motion.div
-              id="project-ideaflash"
-              whileHover={{ y: -6 }}
-              className="scroll-mt-24 relative rounded-[20px] overflow-hidden bg-[#0c0c1a] border border-white/[0.10] shadow-[0_4px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-[550ms] hover:border-neon-cyan/30 hover:shadow-[0_0_60px_rgba(0,200,255,0.10),0_32px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] flex flex-col h-full"
-            >
-              <div className="aspect-[16/9] relative overflow-hidden bg-[#0c0c1a] shrink-0 border-b border-white/[0.12]">
-                <img
-                  src="/ideaflash.webp"
-                  alt="IdeaFlash 灵感胶囊"
-                  width={1672}
-                  height={941}
-                  loading="lazy"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-6 md:p-7 flex flex-col flex-1">
-                <div className="flex gap-2 flex-wrap mb-3.5">
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-neon-cyan text-neon-cyan">语音 AI</span>
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">灵感捕捉</span>
-                  <span className="font-body text-[10.5px] font-medium tracking-[0.08em] uppercase px-3 py-1.5 rounded-full border border-white/[0.12] text-text-tertiary">Android</span>
-                </div>
-                <h3 className="font-display italic text-[26px] text-white mb-1.5">
-                  IdeaFlash · 灵感胶囊
-                </h3>
-                <p className="text-[13px] text-text-tertiary leading-relaxed mb-4">
-                  用最快路径捕捉转瞬即逝灵感，交给 AI 自动转写、提炼、生成卡片。
-                </p>
-                <p className="text-[11px] tracking-[0.12em] uppercase text-text-muted mb-1.5">不做复杂笔记，而做灵感捕捉器</p>
-                <p className="text-[12px] text-text-tertiary/60 leading-relaxed mb-4">
-                  核心不是让用户写得更完整，而是在想法最脆弱的一瞬间把它接住，整理与结构化交给 AI 在后面完成。
-                </p>
-                <div className="mt-auto">
-                  <a
-                    href="https://raw.githubusercontent.com/think2do/FlashMind/main/APK/%E7%81%B5%E6%84%9F%E8%83%B6%E5%9B%8A1.03.apk"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="cursor-target inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neon-orange/10 border border-neon-orange/30 text-neon-orange font-body text-[12px] font-medium tracking-[0.04em] no-underline transition-all duration-400 hover:bg-neon-orange/20 hover:shadow-[0_0_24px_rgba(255,106,26,0.2)] self-start"
-                  >
-                    <GooglePlayLogo size={14} weight="fill" />
-                    点击即刻下载
-                  </a>
-                  <p className="mt-2.5 text-[10.5px] tracking-[0.06em] text-text-muted">
-                    v1.03 · Android APK · 约 6.7 MB
-                  </p>
                 </div>
               </div>
             </motion.div>

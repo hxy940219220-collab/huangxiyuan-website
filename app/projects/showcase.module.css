@@ -25,6 +25,8 @@
   font-weight: 750;
 }
 .lead { margin: 12px 0 0; max-width: 26em; font-size: clamp(1.23rem,2.4vw,1.75rem); line-height: 1.52; color: var(--body); }
+.hero h1.longTitle { font-size: clamp(2.15rem,5.25vw,4.75rem); line-height: 1.16; }
+.caption { margin-top: 10px; font-size: .96rem; line-height: 1.65; color: var(--body); }
 .demoLink {
   margin-top: 20px; min-height: 44px; display: inline-flex; align-items: center;
   padding: 8px 15px; border: 1px solid transparent; border-radius: 8px;
