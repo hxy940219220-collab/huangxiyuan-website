@@ -40,34 +40,33 @@ export function About() {
         {/* Left */}
         <div>
           <ScrollReveal>
-            <p className="font-body text-[10.5px] font-medium tracking-[0.20em] text-text-tertiary uppercase mb-6">
+            <p className="font-body text-[11px] font-medium tracking-[0.20em] text-text-tertiary uppercase mb-6">
               关于
             </p>
           </ScrollReveal>
 
           <BlurText
-            text="我做可以交付真实工作的 AI 产品。"
-            className="font-display text-[clamp(2rem,4.5vw,3rem)] font-semibold leading-[1.2] text-white mb-7"
-            delay={40}
-            animateBy="words"
+            segments={["我做可以交付真实工作的\u00A0", "AI\u00A0产品。"]}
+            className="section-display-heading font-display text-[clamp(2rem,4.3vw,3rem)] leading-[1.24] text-[#f5f7ff] mb-7"
+            delay={70}
             direction="top"
           />
 
-          <ScrollReveal delay={0.3}>
-            <p className="text-[15px] text-text-secondary leading-relaxed mb-4 max-w-[480px]">
+          <ScrollReveal delay={0.18}>
+            <p className="text-[15px] text-text-secondary leading-[1.75] mb-4 max-w-[490px]">
               我是黄锡源（HXY），AI 产品经理。我用 GPT、Claude 和 Gemini 验证复杂任务，也用 Grok Bot 和开发 Harness 研究持续运行的 Agent 怎样承接工作、调用工具和交付成果。
             </p>
-            <p className="text-sm text-text-tertiary leading-relaxed mb-9">
+            <p className="text-[14px] text-text-tertiary leading-[1.75] mb-9 max-w-[490px]">
               我会先定义交付物和验收条件，再决定某个任务适合一个 Agent 完成，还是需要多位专家交接。我用工作台、macOS 工具和实体审批原型检验这些设计。
             </p>
           </ScrollReveal>
 
-          <ScrollReveal delay={0.4}>
+          <ScrollReveal delay={0.26}>
             <div className="flex flex-wrap gap-2.5">
               {["个人智能体", "多 Agent 协作", "A2A / MCP", "Harness 与评测", "软硬件原型"].map((tag) => (
                 <span
                   key={tag}
-                  className="px-4 md:px-5 py-2 rounded-full font-body text-[12px] font-medium tracking-[0.04em] text-text-secondary bg-white/[0.04] border border-white/[0.1]"
+                  className="px-4 py-2 rounded-full font-body text-[12px] font-medium tracking-[0.03em] text-text-secondary bg-white/[0.04] border border-white/[0.11]"
                 >
                   {tag}
                 </span>
@@ -79,21 +78,21 @@ export function About() {
         {/* Right: capabilities */}
         <div className="flex flex-col gap-8">
           {CAPABILITIES.map((cap, i) => (
-            <ScrollReveal key={cap.num} delay={0.12 * (i + 1)}>
-              <div id={cap.id} className="scroll-mt-28 border-l border-white/[0.1] pl-6 transition-colors duration-500 hover:border-neon-cyan">
-                <p className="font-body text-[11px] font-medium tracking-[0.12em] text-text-muted mb-1">
+            <ScrollReveal key={cap.num} delay={0.08 * (i + 1)}>
+              <div id={cap.id} className="scroll-mt-28 border-l border-white/[0.12] pl-6 transition-colors duration-300 hover:border-neon-cyan">
+                <p className="font-display text-[12.5px] tracking-[0.12em] text-text-muted mb-1">
                   {cap.num}
                 </p>
-                <h3 className="font-display text-[1.375rem] font-semibold leading-snug text-white mb-1">
+                <h3 className="card-display-title font-display text-[1.4rem] leading-snug text-[#f5f7ff] mb-1">
                   {cap.title}
                 </h3>
-                <p className="font-body text-[12px] tracking-[0.08em] text-text-muted uppercase mb-2">{cap.subtitle}</p>
-                <p className="text-sm text-text-tertiary leading-relaxed mb-3">
+                <p className="font-body text-[11.5px] tracking-[0.06em] text-text-tertiary uppercase mb-2.5">{cap.subtitle}</p>
+                <p className="text-[13.5px] text-text-tertiary leading-[1.72] mb-3.5">
                   {cap.desc}
                 </p>
                 <div className="flex gap-2 flex-wrap">
                   {cap.tags.map((t) => (
-                    <span key={t} className="px-3 py-1 rounded-full font-body text-[10.5px] text-text-muted bg-white/[0.03] border border-white/[0.06]">
+                    <span key={t} className="px-3 py-1 rounded-full font-body text-[10.5px] tracking-[0.03em] text-text-tertiary bg-white/[0.03] border border-white/[0.09]">
                       {t}
                     </span>
                   ))}

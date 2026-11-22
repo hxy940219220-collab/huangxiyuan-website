@@ -109,7 +109,7 @@ export function Navbar() {
           <a
             href="#"
             onClick={(e) => { e.preventDefault(); scrollTo("#hero"); }}
-            className="font-body text-[15px] font-semibold tracking-[0.06em] uppercase text-white no-underline"
+            className="font-display text-[15px] font-semibold tracking-[0.06em] uppercase text-[#f5f7ff] no-underline"
           >
             HXY <span className="text-text-tertiary font-normal">/ EVAN</span>
           </a>
@@ -121,7 +121,7 @@ export function Navbar() {
                 <a
                   href={item.href}
                   onClick={(e) => { e.preventDefault(); scrollTo(item.href); }}
-                  className="cursor-target relative font-body text-[13px] font-medium tracking-[0.08em] uppercase text-text-secondary no-underline transition-colors duration-300 hover:text-white
+                  className="cursor-target relative font-body text-[13px] font-medium tracking-[0.08em] uppercase text-text-secondary no-underline transition-colors duration-300 hover:text-[#f5f7ff]
                     after:content-[''] after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-px after:bg-neon-cyan after:scale-x-0 after:transition-transform after:duration-300
                     hover:after:scale-x-100"
                 >

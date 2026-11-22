@@ -51,12 +51,12 @@ export default function Home() {
           <div className="relative z-10 mx-auto max-w-[1200px]">
             <div className="mb-16 md:mb-24 text-center">
               <ScrollReveal>
-                <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-semibold leading-[1.15] tracking-[-0.04em] text-white">
+                <h2 className="section-display-heading font-display text-[clamp(2rem,5vw,3.5rem)] leading-[1.18] text-[#f5f7ff]">
                   AI 工具栈
                 </h2>
               </ScrollReveal>
               <ScrollReveal delay={0.12}>
-                <p className="mt-5 text-base leading-relaxed text-text-tertiary md:text-lg max-w-2xl mx-auto">
+                <p className="mt-5 text-[15px] leading-[1.75] text-text-tertiary md:text-base max-w-2xl mx-auto">
                   按任务选工具。用不同模型做复杂推理和交叉复核，用个人 Agent 跟进日常事项，再用开发 Harness 查轨迹、跑验证。
                 </p>
               </ScrollReveal>

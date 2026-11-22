@@ -175,10 +175,10 @@ export function CustomCursor() {
         corners[2].style.left = `${4}px`;   corners[2].style.top = `${4}px`;   // ↘ 左边缘=4,  上边缘=4
         corners[3].style.left = `${-14}px`; corners[3].style.top = `${4}px`;   // ↙ 右边缘=-4, 上边缘=4
 
-        dot.style.opacity = "1";
+        dot.style.opacity = "0.85";
         dot.style.transition = "opacity 0.15s";
         corners.forEach((c) => {
-          c.style.opacity = "0.7";
+          c.style.opacity = "0.32";
           c.style.transition = "opacity 0.15s";
         });
       }

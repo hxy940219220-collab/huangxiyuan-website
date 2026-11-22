@@ -23,7 +23,7 @@ export function Identity() {
       className="relative z-10 w-full px-6 md:px-12 py-16 md:py-24"
     >
       <ScrollReveal>
-        <p className="font-body text-[10.5px] font-medium tracking-[0.20em] text-text-tertiary uppercase mb-6">
+        <p className="font-body text-[11px] font-medium tracking-[0.20em] text-text-tertiary uppercase mb-6">
           产品方向
         </p>
       </ScrollReveal>
@@ -32,14 +32,13 @@ export function Identity() {
         {/* Left */}
         <div>
           <BlurText
-            text="把 Agent 的任务进度和交付结果交给用户看"
-            className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-semibold leading-[1.18] tracking-[-0.02em] text-white"
-            delay={40}
-            animateBy="letters"
+            segments={["把\u00A0Agent\u00A0的任务进度和", "交付结果交给用户看"]}
+            className="section-display-heading font-display text-[clamp(2rem,4.4vw,3.35rem)] leading-[1.22] text-[#f5f7ff]"
+            delay={70}
             direction="top"
           />
-          <ScrollReveal delay={0.3}>
-            <p className="font-body text-[15px] text-text-tertiary mt-5 leading-relaxed">
+          <ScrollReveal delay={0.18}>
+            <p className="font-body text-[15px] text-text-tertiary mt-5 leading-[1.75] max-w-[56ch]">
               我关注用户把一件事交给 Agent 之后的体验。Tango 展示专家怎样接力完成同一项任务，QuickNote 让用户决定 Codex 能读哪些便签、何时能写入。
             </p>
           </ScrollReveal>
@@ -47,15 +46,15 @@ export function Identity() {
 
         {/* Right: tools + focus */}
         <div className="flex flex-col gap-7">
-          <ScrollReveal delay={0.2}>
+          <ScrollReveal delay={0.14}>
             <div>
-              <p className="font-body text-[11px] font-medium tracking-[0.12em] text-text-muted uppercase mb-4">
+              <p className="font-body text-[11px] font-medium tracking-[0.14em] text-text-tertiary uppercase mb-3.5">
                 产品设计
               </p>
               <div className="flex flex-wrap gap-2.5">
                 {TOOLS.map((t) => (
                   <span key={t.label} title={t.desc}
-                    className="px-4 py-2 rounded-full font-body text-[12px] font-medium tracking-[0.04em] text-text-secondary bg-white/[0.04] border border-white/[0.1] cursor-default"
+                    className="px-4 py-2 rounded-full font-body text-[12px] font-medium tracking-[0.03em] text-text-secondary bg-white/[0.04] border border-white/[0.11] cursor-default"
                   >
                     {t.label}
                   </span>
@@ -63,15 +62,15 @@ export function Identity() {
               </div>
             </div>
           </ScrollReveal>
-          <ScrollReveal delay={0.3}>
+          <ScrollReveal delay={0.22}>
             <div>
-              <p className="font-body text-[11px] font-medium tracking-[0.12em] text-text-muted uppercase mb-4">
+              <p className="font-body text-[11px] font-medium tracking-[0.14em] text-text-tertiary uppercase mb-3.5">
                 当前关注
               </p>
               <div className="flex flex-wrap gap-2.5">
                 {FOCUS.map((f) => (
                   <span key={f.label} title={f.desc}
-                    className="px-4 py-2 rounded-full font-body text-[12px] font-medium tracking-[0.04em] text-neon-cyan bg-neon-cyan/[0.06] border border-neon-cyan/[0.2] cursor-default"
+                    className="px-4 py-2 rounded-full font-body text-[12px] font-medium tracking-[0.04em] text-neon-cyan bg-neon-cyan/[0.06] border border-neon-cyan/[0.24] cursor-default"
                   >
                     {f.label}
                   </span>

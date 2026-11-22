@@ -76,7 +76,7 @@ export function Method() {
       {/* Header */}
       <div className="text-center mb-14">
         <ScrollReveal>
-          <p className="font-body text-[10.5px] font-medium tracking-[0.20em] text-text-tertiary uppercase mb-6">
+          <p className="font-body text-[11px] font-medium tracking-[0.20em] text-text-tertiary uppercase mb-5">
             Agent 产品方法
           </p>
         </ScrollReveal>
@@ -84,14 +84,14 @@ export function Method() {
           <div className="flex flex-col items-center gap-0 md:hidden">
             <BlurText
               text="从定义任务"
-              className="font-display justify-center text-center text-[clamp(1.5rem,6.5vw,2.5rem)] font-semibold leading-[1.25] text-white"
+              className="section-display-heading font-display justify-center text-center text-[clamp(1.5rem,6.5vw,2.5rem)] leading-[1.25] text-[#f5f7ff]"
               delay={40}
               animateBy="letters"
               direction="top"
             />
             <BlurText
               text="到验收交付"
-              className="font-display justify-center text-center text-[clamp(1.5rem,6.5vw,2.5rem)] font-semibold leading-[1.25] text-text-tertiary"
+              className="section-display-heading font-display justify-center text-center text-[clamp(1.5rem,6.5vw,2.5rem)] leading-[1.25] text-text-tertiary"
               delay={40}
               animateBy="letters"
               direction="top"
@@ -99,10 +99,9 @@ export function Method() {
           </div>
           <div className="hidden md:flex flex-col items-center gap-0">
             <BlurText
-              text="从定义任务，到验收交付"
-              className="font-display justify-center text-center text-[clamp(1.5rem,4.8vw,3.5rem)] font-semibold leading-[1.18] text-white"
-              delay={40}
-              animateBy="letters"
+              segments={["从定义任务，", "到验收交付"]}
+              className="section-display-heading font-display justify-center text-center text-[clamp(1.75rem,4.6vw,3.4rem)] leading-[1.2] text-[#f5f7ff]"
+              delay={75}
               direction="top"
             />
           </div>
@@ -110,7 +109,7 @@ export function Method() {
       </div>
 
       {/* A-I-P-M Timeline */}
-      <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-8 mb-16">
+      <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-8 mb-20">
         <div
           className="hidden lg:block absolute top-6 left-[60px] right-[60px] h-px z-0 opacity-40"
           style={{
@@ -121,27 +120,27 @@ export function Method() {
         />
 
         {STEPS.map((step, i) => (
-          <ScrollReveal key={step.letter} delay={0.08 * (i + 1)}>
+          <ScrollReveal key={step.letter} delay={0.06 * (i + 1)}>
             <div className="relative z-[1] mx-auto w-full max-w-[360px] text-left flex gap-5 items-start lg:mx-0 lg:max-w-none">
               {/* 左列：圆点 + 字母（移动端）；电脑端只显示圆点 */}
               <div className="flex flex-col items-center gap-3 flex-shrink-0 pt-1.5 w-10 lg:w-auto lg:block">
                 <div className={`relative z-[2] w-3 h-3 rounded-full ${step.color}`}>
                   <div className="absolute -inset-1.5 rounded-full border border-white/[0.15] animate-[dotPulse_3s_ease-in-out_infinite]" />
                 </div>
-                <p className="font-display text-[2.5rem] font-semibold leading-none text-white lg:hidden">
+                <p className="font-display text-[2.6rem] leading-none text-[#f5f7ff] lg:hidden">
                   {step.letter}
                 </p>
               </div>
               {/* 右列：内容；电脑端字母仍显示在内容顶部 */}
               <div className="min-w-0 flex-1">
-                <p className="hidden lg:block font-display text-[2.75rem] font-semibold leading-none text-white mb-3">
+                <p className="hidden lg:block font-display text-[3rem] leading-none text-[#f5f7ff] mb-3">
                   {step.letter}
                 </p>
-                <h3 className="font-body text-sm font-semibold tracking-[0.06em] text-text-secondary uppercase mb-1">
+                <h3 className="font-body text-[15px] font-medium tracking-[0.04em] text-[#f5f7ff] mb-1">
                   {step.title}
                 </h3>
-                <p className="font-body text-[10.5px] tracking-[0.1em] text-text-muted mb-2.5 uppercase">{step.label}</p>
-                <p className="text-[13px] text-text-tertiary leading-relaxed">
+                <p className="font-body text-[11px] tracking-[0.08em] text-text-tertiary mb-2.5 uppercase">{step.label}</p>
+                <p className="text-[13.5px] text-text-tertiary leading-[1.72]">
                   {step.desc}
                 </p>
               </div>
@@ -153,7 +152,7 @@ export function Method() {
       {/* Research Archive */}
       <div>
         <ScrollReveal>
-          <p className="font-body text-[10.5px] font-medium tracking-[0.20em] text-text-tertiary uppercase mb-8 text-center">
+          <p className="font-body text-[11px] font-medium tracking-[0.20em] text-text-tertiary uppercase mb-8 text-center">
             研究归档
           </p>
         </ScrollReveal>
@@ -162,34 +161,41 @@ export function Method() {
           {RESEARCH_TOPICS.map((topic, i) => {
             const Card = topic.href ? 'a' : 'div';
             const isClickable = !!topic.href;
+            const isFeatured = i === 0;
             return (
-            <ScrollReveal key={topic.num} delay={0.1 * (i + 1)}>
+            <ScrollReveal
+              key={topic.num}
+              delay={0.06 * (i + 1)}
+              className={`h-full ${isFeatured ? "sm:col-span-2" : ""}`}
+            >
               <Card
                 {...(topic.href ? { href: topic.href, target: "_blank", rel: "noopener noreferrer" } : {})}
-                className={`group block p-6 rounded-2xl bg-[#0c0c1a] border transition-all duration-500
+                className={`group flex h-full flex-col justify-between p-6 md:p-7 rounded-[20px] bg-[#0b0b14] border transition-all duration-300
                   ${isClickable
-                    ? 'border-white/[0.12] cursor-pointer cursor-target no-underline hover:border-neon-cyan/50 hover:bg-[#0e0e1e] hover:-translate-y-1 hover:shadow-[0_0_48px_rgba(0,200,255,0.10),0_20px_56px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.04)]'
+                    ? 'border-white/[0.11] cursor-pointer cursor-target no-underline hover:border-neon-cyan/50 hover:bg-[#0e0e1c] hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(0,200,255,0.10),0_16px_48px_rgba(0,0,0,0.45)]'
                     : 'border-dashed border-white/[0.1] bg-transparent opacity-70 shadow-none'
                   }`}
               >
-                <div className="flex items-center justify-between mb-3">
-                  <p className={`font-body text-[11px] font-medium tracking-[0.12em] ${isClickable ? 'text-neon-cyan' : 'text-text-muted'}`}>
-                    {topic.num}
-                  </p>
-                  {isClickable ? (
-                    <span className="inline-flex items-center gap-1.5 text-neon-cyan/70 text-[11px] font-medium tracking-[0.06em] transition-all duration-400 group-hover:text-neon-cyan group-hover:gap-2">
-                      查看 <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-neon-cyan/10 border border-neon-cyan/20 text-[10px] transition-all duration-400 group-hover:bg-neon-cyan/20 group-hover:border-neon-cyan/40 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">&rarr;</span>
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center px-2.5 py-1 rounded-full border border-white/[0.1] text-text-muted text-[10px] font-medium tracking-[0.1em] uppercase">
-                      整理中
-                    </span>
-                  )}
+                <div>
+                  <div className="flex items-center justify-between mb-3.5">
+                    <p className={`font-display text-[13px] tracking-[0.12em] ${isClickable ? 'text-neon-cyan' : 'text-text-muted'}`}>
+                      {topic.num}
+                    </p>
+                    {isClickable ? (
+                      <span className="inline-flex items-center gap-1.5 font-body text-neon-cyan/80 text-[11.5px] font-medium tracking-[0.06em] transition-all duration-300 group-hover:text-neon-cyan group-hover:gap-2">
+                        查看 <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-neon-cyan/10 border border-neon-cyan/25 text-[10px] transition-all duration-300 group-hover:bg-neon-cyan/20 group-hover:border-neon-cyan/45 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">&rarr;</span>
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full border border-white/[0.1] font-body text-text-muted text-[10px] font-medium tracking-[0.1em] uppercase">
+                        整理中
+                      </span>
+                    )}
+                  </div>
+                  <h3 className={`card-display-title font-display ${isFeatured ? "text-[1.5rem] md:text-[1.75rem]" : "text-[1.35rem] md:text-[1.45rem]"} leading-snug text-[#f5f7ff] mb-2 transition-colors duration-300 group-hover:text-neon-cyan`}>
+                    {topic.title}
+                  </h3>
                 </div>
-                <h3 className="font-display text-[1.375rem] font-semibold leading-snug text-white mb-2 transition-colors duration-400 group-hover:text-neon-cyan/90">
-                  {topic.title}
-                </h3>
-                <p className="text-[13px] text-text-tertiary leading-relaxed">
+                <p className={`text-[13.5px] text-text-tertiary leading-[1.72] ${isFeatured ? "max-w-3xl" : ""}`}>
                   {topic.desc}
                 </p>
               </Card>

@@ -14,22 +14,22 @@ colors:
   muted-text: "#8b8e9f"
 typography:
   display:
-    fontFamily: "Noto Sans SC, PingFang SC, Microsoft YaHei, system-ui, sans-serif"
+    fontFamily: "Newsreader, Zhuque Fangsong, Noto Serif SC, Songti SC, serif"
     fontSize: "clamp(2rem, 5vw, 3.5rem)"
-    fontWeight: 600
-    lineHeight: 1.15
-    letterSpacing: "-0.02em"
-  body:
-    fontFamily: "Noto Sans SC, PingFang SC, Microsoft YaHei, system-ui, sans-serif"
-    fontSize: "15px"
     fontWeight: 400
+    lineHeight: 1.2
+    letterSpacing: "0.04em"
+  body:
+    fontFamily: "Plus Jakarta Sans, MiSans VF, PingFang SC, Microsoft YaHei, system-ui, sans-serif"
+    fontSize: "15px"
+    fontWeight: 380
     lineHeight: 1.7
   label:
-    fontFamily: "Noto Sans SC, PingFang SC, Microsoft YaHei, system-ui, sans-serif"
+    fontFamily: "Plus Jakarta Sans, MiSans VF, PingFang SC, system-ui, sans-serif"
     fontSize: "11px"
     fontWeight: 500
     lineHeight: 1.4
-    letterSpacing: "0.12em"
+    letterSpacing: "0.14em"
 rounded:
   control: "12px"
   panel: "20px"

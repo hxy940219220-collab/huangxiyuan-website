@@ -93,20 +93,19 @@ const ANGLE_PER_CARD = 360 / CARD_COUNT;
 
 function CardFace({ card }: { card: CardData }) {
   return (
-    <div className="relative z-10 flex h-full flex-col p-5 md:p-6">
-      <span className="font-body text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-white/25">
+    <div className="relative z-10 flex h-full flex-col p-6 md:p-7">
+      <span className="font-display text-[12px] uppercase tracking-[0.16em] text-text-muted">
         {card.num}
       </span>
       <h3
-        className="mt-4 md:mt-6 text-balance font-semibold leading-[1.02] text-white"
+        className="card-display-title mt-4 md:mt-5 font-display text-balance leading-[1.1] text-[#f5f7ff]"
         style={{
-          fontSize: "clamp(1.2rem, 1.4vw, 1.5rem)",
-          letterSpacing: "0.02em",
+          fontSize: "clamp(1.4rem, 1.65vw, 1.7rem)",
         }}
       >
         {card.title}
       </h3>
-      <p className="mt-3 md:mt-4 text-[11.5px] md:text-[12px] leading-[1.9] text-white/52 [overflow-wrap:anywhere]">
+      <p className="mt-3 md:mt-4 font-body text-[12.5px] md:text-[13px] leading-[1.8] text-text-secondary/85 [overflow-wrap:anywhere]">
         {card.desc}
       </p>
       <div className="mt-auto pt-6 md:pt-8">
@@ -114,7 +113,7 @@ function CardFace({ card }: { card: CardData }) {
           {card.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full border border-white/[0.12] bg-white/[0.03] px-2 py-[0.22rem] font-body text-[8.5px] tracking-[0.08em] text-white/45"
+              className="rounded-full border border-white/[0.14] bg-white/[0.04] px-2.5 py-1 font-body text-[10.5px] tracking-[0.04em] text-text-tertiary"
             >
               {tag}
             </span>
@@ -266,45 +265,47 @@ export function RotatingCards3D() {
             {CARDS.map((card, index) => {
               const cardAngle = index * ANGLE_PER_CARD;
               const relativeAngle = (((cardAngle - normalizedRotation) % 360) + 360) % 360;
-              const facingFactor = Math.abs(Math.cos((relativeAngle * Math.PI) / 180));
-              const opacity = 0.55 + facingFactor * 0.45;
-              const blur = (1 - facingFactor) * 0.25;
-              const z = Math.round(50 + facingFactor * 10);
+              const cosAngle = Math.cos((relativeAngle * Math.PI) / 180);
+              // 只展示前半球（主卡 + 左右两张侧翼预览卡），背面卡片平滑淡出避免文字镜像叠影穿帮
+              const frontness = Math.max(0, cosAngle);
+              const isRear = cosAngle <= 0.02;
+              const opacity = isRear ? 0 : 0.36 + frontness * 0.64;
+              const blur = isRear ? 4 : (1 - frontness) * 1.4;
+              const z = Math.round(30 + (cosAngle + 1) * 20);
 
               let scale: number;
               if (relativeAngle < 36 || relativeAngle > 324) {
-                scale = 1.08;
+                scale = 1.06;
               } else if (relativeAngle < 108 || relativeAngle > 252) {
-                scale = 0.92;
+                scale = 0.90;
               } else {
-                scale = 0.60;
+                scale = 0.72;
               }
 
               return (
                 <div
                   id={card.id}
                   key={card.num}
-                  className="scroll-mt-24 absolute rounded-[24px] border text-left shadow-[0_10px_26px_rgba(0,0,0,0.35)] pointer-events-auto"
+                  className="scroll-mt-24 absolute rounded-[24px] border text-left shadow-[0_10px_26px_rgba(0,0,0,0.35)]"
                   style={{
-                    width: "min(21rem, 46vw)",
-                    height: "clamp(18rem, 34vw, 22rem)",
+                    width: "min(21.5rem, 48vw)",
+                    height: "clamp(18.5rem, 34vw, 22rem)",
                     left: "50%",
                     top: "0px",
                     transform: `translateX(-50%) rotateY(${cardAngle}deg) translateZ(var(--ring-radius)) scale(${scale.toFixed(2)})`,
                     transformStyle: "preserve-3d",
-                    backfaceVisibility: "visible",
-                    WebkitBackfaceVisibility: "visible",
+                    backfaceVisibility: "hidden",
+                    WebkitBackfaceVisibility: "hidden",
                     borderColor: index === frontIndex ? card.accentBorder : "rgba(255,255,255,0.12)",
                     boxShadow:
                       index === frontIndex
-                        ? `0 12px 56px rgba(0,0,0,0.5), 0 0 40px ${card.glowColor.replace("0.45", "0.15")}, inset 0 1px 0 rgba(255,255,255,0.06)`
+                        ? `0 16px 56px rgba(0,0,0,0.55), 0 0 40px ${card.glowColor.replace("0.45", "0.16")}, inset 0 1px 0 rgba(255,255,255,0.06)`
                         : "0 12px 48px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.03)",
-                    backgroundColor: "rgba(13,13,28,0.65)",
-                    backdropFilter: "blur(18px)",
-                    WebkitBackdropFilter: "blur(18px)",
+                    backgroundColor: "rgba(11,11,20,0.92)",
                     opacity: opacity.toFixed(4),
-                    filter: `blur(${blur.toFixed(2)}px)`,
+                    filter: blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : "none",
                     zIndex: String(z),
+                    pointerEvents: isRear ? "none" : "auto",
                     cursor: isDragging ? "grabbing" : "grab",
                   }}
                 >
@@ -317,24 +318,11 @@ export function RotatingCards3D() {
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-[1px] rounded-[23px] border"
                     style={{
-                      borderColor: index === frontIndex ? card.accentBorder : "rgba(255,255,255,0.08)",
+                      borderColor: index === frontIndex ? card.accentBorder : "rgba(255,255,255,0.06)",
                     }}
                   />
 
-                  <div style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}>
-                    <CardFace card={card} />
-                  </div>
-                  <div
-                    style={{
-                      backfaceVisibility: "hidden",
-                      WebkitBackfaceVisibility: "hidden",
-                      transform: "rotateY(180deg)",
-                      position: "absolute",
-                      inset: 0,
-                    }}
-                  >
-                    <CardFace card={card} />
-                  </div>
+                  <CardFace card={card} />
                 </div>
               );
             })}

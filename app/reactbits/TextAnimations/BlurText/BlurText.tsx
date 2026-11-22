@@ -1,9 +1,10 @@
 "use client";
-import { motion, Transition, Easing } from 'motion/react';
+import { motion, Transition, Easing, useReducedMotion } from 'motion/react';
 import { useEffect, useRef, useState, useMemo } from 'react';
 
 type BlurTextProps = {
   text?: string;
+  segments?: string[];
   delay?: number;
   className?: string;
   animateBy?: 'words' | 'letters';
@@ -32,24 +33,26 @@ const buildKeyframes = (
 
 const BlurText: React.FC<BlurTextProps> = ({
   text = '',
-  delay = 200,
+  segments,
+  delay = 45,
   className = '',
   animateBy = 'words',
   direction = 'top',
-  threshold = 0.1,
-  rootMargin = '0px',
+  threshold = 0.05,
+  rootMargin = '0px 0px -4% 0px',
   animationFrom,
   animationTo,
-  easing = (t: number) => t,
+  easing = [0.16, 1, 0.3, 1],
   onAnimationComplete,
-  stepDuration = 0.35
+  stepDuration = 0.24
 }) => {
-  const elements = animateBy === 'words' ? text.split(' ') : text.split('');
+  const reduced = useReducedMotion();
+  const elements = segments ?? (animateBy === 'words' ? text.split(' ') : text.split(''));
   const [inView, setInView] = useState(false);
   const ref = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    if (!ref.current) return;
+    if (reduced || !ref.current) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -61,20 +64,20 @@ const BlurText: React.FC<BlurTextProps> = ({
     );
     observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [threshold, rootMargin]);
+  }, [threshold, rootMargin, reduced]);
 
   const defaultFrom = useMemo(
     () =>
-      direction === 'top' ? { filter: 'blur(10px)', opacity: 0, y: -50 } : { filter: 'blur(10px)', opacity: 0, y: 50 },
+      direction === 'top' ? { filter: 'blur(6px)', opacity: 0, y: -18 } : { filter: 'blur(6px)', opacity: 0, y: 18 },
     [direction]
   );
 
   const defaultTo = useMemo(
     () => [
       {
-        filter: 'blur(5px)',
-        opacity: 0.5,
-        y: direction === 'top' ? 5 : -5
+        filter: 'blur(2px)',
+        opacity: 0.72,
+        y: direction === 'top' ? 2 : -2
       },
       { filter: 'blur(0px)', opacity: 1, y: 0 }
     ],
@@ -87,6 +90,14 @@ const BlurText: React.FC<BlurTextProps> = ({
   const stepCount = toSnapshots.length + 1;
   const totalDuration = stepDuration * (stepCount - 1);
   const times = Array.from({ length: stepCount }, (_, i) => (stepCount === 1 ? 0 : i / (stepCount - 1)));
+
+  if (reduced) {
+    return (
+      <p ref={ref} className={`blur-text ${className}`}>
+        {segments ? segments.join('') : text}
+      </p>
+    );
+  }
 
   return (
     <p ref={ref} className={`blur-text ${className} flex flex-wrap`}>
@@ -117,7 +128,7 @@ const BlurText: React.FC<BlurTextProps> = ({
             }}
           >
             {segment === ' ' ? '\u00A0' : segment}
-            {animateBy === 'words' && index < elements.length - 1 && '\u00A0'}
+            {!segments && animateBy === 'words' && index < elements.length - 1 && '\u00A0'}
           </motion.span>
         );
       })}

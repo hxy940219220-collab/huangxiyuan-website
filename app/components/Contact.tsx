@@ -37,7 +37,7 @@ export function Contact() {
         className="absolute inset-0 flex items-center justify-center pointer-events-none z-0"
         aria-hidden="true"
       >
-        <span className="font-display text-[clamp(6rem,18vw,16rem)] font-semibold text-white/[0.015] leading-[0.8] select-none">
+        <span className="font-display text-[clamp(6rem,18vw,16rem)] text-white/[0.02] leading-[0.8] select-none">
           HXY
         </span>
       </div>
@@ -47,28 +47,27 @@ export function Contact() {
           <ShinyText
             text="联系"
             speed={4}
-            color="rgba(255,255,255,0.35)"
-            shineColor="#ffffff"
-            className="font-body text-[10.5px] font-medium tracking-[0.20em] uppercase mb-6"
+            color="rgba(155,161,184,0.85)"
+            shineColor="#f5f7ff"
+            className="font-body text-[11px] font-medium tracking-[0.20em] uppercase mb-6"
           />
         </ScrollReveal>
 
         <BlurText
-          text="一起构建智能、有用且令人难忘的产品。"
-          className="font-display text-[clamp(2rem,4.5vw,3rem)] font-semibold leading-[1.2] text-white max-w-[700px] mx-auto mb-9"
-          delay={40}
-          animateBy="words"
+          segments={["一起构建智能、有用", "且令人难忘的产品。"]}
+          className="section-display-heading font-display justify-center text-center text-[clamp(1.95rem,4.2vw,3rem)] leading-[1.28] text-[#f5f7ff] max-w-[560px] mx-auto mb-9"
+          delay={75}
           direction="top"
         />
 
-        <ScrollReveal delay={0.3}>
+        <ScrollReveal delay={0.18}>
           <div className="flex flex-col items-center gap-4">
-            <div className="flex gap-4 justify-center flex-wrap">
+            <div className="flex gap-3.5 justify-center flex-wrap">
               <motion.a
                   href="mailto:hxy940219220@gmail.com"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97, y: 1 }}
-                  className="cursor-target inline-flex items-center gap-2 px-4 md:px-7 py-3 md:py-3.5 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] no-underline bg-white text-black border-none transition-all duration-300 hover:shadow-[0_0_48px_rgba(0,200,255,0.45)]"
+                  className="cursor-target inline-flex items-center gap-2 px-5 md:px-7 py-3 md:py-3.5 rounded-full font-body text-[13px] md:text-[13.5px] font-semibold tracking-[0.04em] no-underline bg-[#f5f7ff] text-[#050509] border-none transition-all duration-300 hover:bg-neon-cyan hover:shadow-[0_0_36px_rgba(0,200,255,0.35)]"
                 >
                   <Envelope size={16} weight="bold" />
                   邮件联系
@@ -79,7 +78,7 @@ export function Contact() {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97, y: 1 }}
-                  className="cursor-target inline-flex items-center gap-2 px-4 md:px-7 py-3 md:py-3.5 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-white no-underline bg-white/[0.05] border border-white/[0.16] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-pink hover:bg-white/[0.1] hover:shadow-[0_0_32px_rgba(216,76,255,0.15)]"
+                  className="cursor-target inline-flex items-center gap-2 px-5 md:px-7 py-3 md:py-3.5 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-[#f5f7ff] no-underline bg-white/[0.04] border border-white/[0.16] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-cyan/55 hover:bg-white/[0.08] hover:shadow-[0_0_28px_rgba(0,200,255,0.14)]"
                 >
                   <GithubLogo size={16} weight="bold" />
                   GitHub
@@ -89,7 +88,7 @@ export function Contact() {
                   onClick={copyEmail}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97, y: 1 }}
-                  className="cursor-target inline-flex items-center gap-2 px-4 md:px-7 py-3 md:py-3.5 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-white bg-white/[0.05] border border-white/[0.16] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-cyan hover:bg-white/[0.1] hover:shadow-[0_0_32px_rgba(0,200,255,0.15)] cursor-pointer"
+                  className="cursor-target inline-flex items-center gap-2 px-5 md:px-7 py-3 md:py-3.5 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-[#f5f7ff] bg-white/[0.04] border border-white/[0.16] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-cyan/55 hover:bg-white/[0.08] hover:shadow-[0_0_28px_rgba(0,200,255,0.14)] cursor-pointer"
                 >
                   {copied ? (
                     <Check size={16} weight="bold" className="text-neon-cyan" />

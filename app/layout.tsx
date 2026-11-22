@@ -1,15 +1,34 @@
 import type { Metadata } from "next";
-import { Noto_Sans_SC } from "next/font/google";
+import { Newsreader, Noto_Serif_SC, Plus_Jakarta_Sans } from "next/font/google";
+import "@free-fonts/zhuque-fangsong/zhuque-fangsong.css";
+import "misans/lib/Normal/MiSansVF.min.css";
 import "./globals.css";
 import { SmoothScroll } from "./components/SmoothScroll";
 import { CustomCursor } from "./components/CustomCursor";
 import { Particles } from "./components/Particles";
 
-const notoSans = Noto_Sans_SC({
+const newsreader = Newsreader({
+  weight: "variable",
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-newsreader",
+  adjustFontFallback: false,
+});
+
+const notoSerifSC = Noto_Serif_SC({
   weight: "variable",
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-noto-sans",
+  variable: "--font-noto-serif",
+});
+
+const plusJakarta = Plus_Jakarta_Sans({
+  weight: "variable",
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-jakarta",
+  adjustFontFallback: false,
 });
 
 const SITE_URL = "https://www.huangxiyuan.net";
@@ -56,7 +75,7 @@ export default function RootLayout({
   return (
     <html
       lang="zh-CN"
-      className={`${notoSans.variable} h-full antialiased`}
+      className={`${newsreader.variable} ${notoSerifSC.variable} ${plusJakarta.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-bg-deepest text-text-primary font-body">
         <SmoothScroll />

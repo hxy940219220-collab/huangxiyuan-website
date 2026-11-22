@@ -67,15 +67,15 @@ export default function AgentProductResearchPage() {
           ← 返回研究归档
         </Link>
         <header className="mt-10 border-b border-white/15 pb-8 md:mt-14">
-          <h1 className="text-balance text-[clamp(2rem,5.2vw,3.5rem)] font-bold leading-[1.18] tracking-[-0.025em]">
+          <h1 className="section-display-heading font-display text-balance text-[clamp(2rem,5.2vw,3.4rem)] leading-[1.2] text-[#f5f7ff]">
             {title}
           </h1>
           <p className="mt-5 max-w-prose text-base leading-8 text-text-secondary">{description}</p>
-          <time dateTime="2026-11-21" className="mt-5 block text-sm text-text-tertiary">2026 年 11 月 21 日</time>
+          <time dateTime="2026-11-21" className="mt-5 block font-body text-sm text-text-tertiary">2026 年 11 月 21 日</time>
         </header>
         {notes.map(({ title, paragraphs, sources, project }) => (
           <section key={title} className="border-b border-white/10 py-9 md:py-11">
-            <h2 className="text-balance text-[clamp(1.35rem,3vw,1.8rem)] font-semibold leading-snug">{title}</h2>
+            <h2 className="card-display-title font-display text-balance text-[clamp(1.35rem,3vw,1.8rem)] leading-snug text-[#f5f7ff]">{title}</h2>
             {paragraphs.map((paragraph) => (
               <p key={paragraph} className="mt-4 max-w-prose text-base leading-8 text-text-secondary">{paragraph}</p>
             ))}

@@ -175,16 +175,16 @@ export function Hero({ active = true }: { active?: boolean }) {
       />
 
       {/* Content overlay - bottom left */}
-      <div className="absolute inset-0 z-[4] pointer-events-none flex flex-col justify-end pl-4 md:pl-8 pr-6 md:pr-10 pt-6 md:pt-10 pb-6 md:pb-14 w-full">
-        <div className="pointer-events-auto space-y-1.5 md:space-y-2 max-w-[640px]">
+      <div className="absolute inset-0 z-[4] pointer-events-none flex flex-col justify-end pl-5 md:pl-10 pr-6 md:pr-12 pt-6 md:pt-10 pb-8 md:pb-14 w-full">
+        <div className="pointer-events-auto space-y-2 md:space-y-2.5 max-w-[640px]">
           {/* Main title */}
           <motion.div
-            initial={reduced ? {} : { opacity: 0, y: 30, filter: "blur(10px)" }}
+            initial={reduced ? {} : { opacity: 0, y: 24, filter: "blur(8px)" }}
             animate={reduced ? {} : { opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
           >
             {reduced ? (
-              <h1 className="font-display text-[clamp(3rem,8vw,6.5rem)] font-bold leading-[1.15] tracking-[-0.02em] text-white overflow-visible">
+              <h1 className="hero-display-title font-display text-[clamp(3.1rem,7.8vw,6.25rem)] leading-[1.14] text-[#f5f7ff] overflow-visible">
                 黄锡源
               </h1>
             ) : (
@@ -193,10 +193,10 @@ export function Hero({ active = true }: { active?: boolean }) {
                   text="黄锡源"
                   tag="h1"
                   textAlign="left"
-                  className="font-display text-[clamp(3rem,8vw,6.5rem)] font-bold leading-[1.15] tracking-[-0.02em] text-white"
-                  delay={50}
-                  duration={1.2}
-                  from={{ opacity: 0, y: 80, filter: "blur(10px)" }}
+                  className="hero-display-title font-display text-[clamp(3.1rem,7.8vw,6.25rem)] leading-[1.14] text-[#f5f7ff]"
+                  delay={55}
+                  duration={1.0}
+                  from={{ opacity: 0, y: 48, filter: "blur(8px)" }}
                   to={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   ease="power4.out"
                   threshold={0.2}
@@ -208,12 +208,12 @@ export function Hero({ active = true }: { active?: boolean }) {
 
           {/* Subtitle */}
           <motion.div
-            initial={reduced ? {} : { opacity: 0, y: 24, filter: "blur(8px)" }}
+            initial={reduced ? {} : { opacity: 0, y: 18, filter: "blur(6px)" }}
             animate={reduced ? {} : { opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.9, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.85, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
           >
             {reduced ? (
-              <span className="font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary ml-1 md:ml-2">
+              <span className="hero-display-subtitle font-display text-[clamp(20px,3.6vw,40px)] text-text-secondary ml-1 md:ml-1.5">
                 AI 产品经理
               </span>
             ) : (
@@ -222,10 +222,10 @@ export function Hero({ active = true }: { active?: boolean }) {
                   text="AI 产品经理"
                   tag="span"
                   textAlign="left"
-                  className="font-display font-normal text-[clamp(20px,4vw,44px)] text-text-secondary ml-1 md:ml-2"
-                  delay={30}
-                  duration={0.9}
-                  from={{ opacity: 0, y: 24 }}
+                  className="hero-display-subtitle font-display text-[clamp(20px,3.6vw,40px)] text-text-secondary ml-1 md:ml-1.5"
+                  delay={28}
+                  duration={0.8}
+                  from={{ opacity: 0, y: 20 }}
                   to={{ opacity: 1, y: 0 }}
                   ease="power3.out"
                   threshold={0.2}
@@ -237,10 +237,10 @@ export function Hero({ active = true }: { active?: boolean }) {
 
           {/* Description */}
           <motion.p
-            initial={reduced ? {} : { opacity: 0, y: 20 }}
+            initial={reduced ? {} : { opacity: 0, y: 16 }}
             animate={reduced ? {} : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="font-body text-sm md:text-[15px] text-text-tertiary leading-relaxed ml-1 md:ml-2"
+            transition={{ duration: 0.85, delay: 0.72, ease: [0.16, 1, 0.3, 1] }}
+            className="font-body text-sm md:text-[15px] text-text-tertiary leading-[1.75] pl-0.5 md:pl-1"
           >
             设计个人智能体与多 Agent 工作流。<br />
             从任务交接到人工审批，让交付过程可查、结果可验。
@@ -248,9 +248,9 @@ export function Hero({ active = true }: { active?: boolean }) {
 
           {/* CTAs */}
           <motion.div
-            initial={reduced ? {} : { opacity: 0, y: 20 }}
+            initial={reduced ? {} : { opacity: 0, y: 16 }}
             animate={reduced ? {} : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.85, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
             className="flex gap-2.5 md:gap-3.5 flex-wrap pt-3"
           >
             <motion.a
@@ -261,10 +261,10 @@ export function Hero({ active = true }: { active?: boolean }) {
                 }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="cursor-target inline-flex items-center px-4 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] no-underline cursor-pointer bg-white text-black border-none transition-all duration-300 hover:bg-[#22c55e] hover:text-white hover:shadow-[0_0_36px_rgba(34,197,94,0.4)]"
+                className="cursor-target inline-flex items-center px-5 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-semibold tracking-[0.04em] no-underline cursor-pointer bg-[#f5f7ff] text-[#050509] border-none transition-all duration-300 hover:bg-neon-cyan hover:text-[#050509] hover:shadow-[0_0_32px_rgba(0,200,255,0.32)]"
               >
                 查看作品
-                <span className="ml-2 text-xs opacity-60 transition-all duration-300 group-hover:translate-x-0.5">&rarr;</span>
+                <span className="ml-2 font-mono text-xs opacity-75 transition-all duration-300 group-hover:translate-x-0.5">&rarr;</span>
               </motion.a>
             <motion.a
                 href="#about"
@@ -274,7 +274,7 @@ export function Hero({ active = true }: { active?: boolean }) {
                 }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="cursor-target inline-flex items-center px-4 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-white no-underline border border-white/[0.15] bg-white/[0.04] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-pink hover:bg-white/[0.08] hover:shadow-[0_0_28px_rgba(216,76,255,0.12)]"
+                className="cursor-target inline-flex items-center px-5 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-[#f5f7ff] no-underline border border-white/[0.16] bg-white/[0.04] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-cyan/55 hover:bg-white/[0.08] hover:shadow-[0_0_24px_rgba(0,200,255,0.14)]"
               >
                 关于我
               </motion.a>
@@ -286,7 +286,7 @@ export function Hero({ active = true }: { active?: boolean }) {
                 }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="cursor-target inline-flex items-center px-4 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-white no-underline border border-white/[0.15] bg-white/[0.04] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-pink hover:bg-white/[0.08] hover:shadow-[0_0_28px_rgba(216,76,255,0.12)]"
+                className="cursor-target inline-flex items-center px-5 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-[#f5f7ff] no-underline border border-white/[0.16] bg-white/[0.04] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-cyan/55 hover:bg-white/[0.08] hover:shadow-[0_0_24px_rgba(0,200,255,0.14)]"
               >
                 联系
               </motion.a>
