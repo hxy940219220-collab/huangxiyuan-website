@@ -90,17 +90,17 @@ const PROJECTS: ProjectItem[] = [
   {
     index: "02",
     id: "project-foldframe",
-    title: "Foldframe · AI内容创作与发布工作台",
+    title: "Foldframe · AI内容创作与多端发布工作台",
     image: "/projects/foldframe/layout-workshop.webp",
-    imageAlt: "Foldframe 排版工坊：左侧图文发布编辑区与右侧小红书仿真手机预览及竖排比例工具栏",
+    imageAlt: "Foldframe 排版工坊：3:4 极简琥珀护肤精华商业主图完整呈现在小红书仿真手机预览中，右侧配备竖排比例工具栏",
     imageFit: "cover",
     cardHref: "/projects/foldframe",
-    primaryTag: "社媒创作 Agent",
+    primaryTag: "社媒创作与发布",
     primaryTagClass: "border-neon-pink/45 bg-neon-pink/[0.08] text-[#d896ff]",
     hoverBorderClass: "hover:border-neon-pink/45",
-    tags: ["无限画布 / 多维改图", "仿真排版发布"],
+    tags: ["商业生图 / 视频", "多平台发布", "本机模型接入"],
     summary:
-      "把内容创作、无限画布二创与多平台仿真排版串成一条本地工作流。创作端直连本机多模型 CLI，发布端分流图文与视频，并在仿真手机里实时调比例、裁剪与写文案。",
+      "覆盖从商业产品图、写实人像、短视频制作、仿真手机排版到 13 个主流社媒平台定时发布的完整工作流。支持直连本机 Antigravity、Codex 与即梦 AI 引擎，一次创作即可多端高效分发。",
     actions: [
       { label: "查看产品展示", href: "/projects/foldframe", variant: "primary", icon: "arrow" },
       { label: "在线展示页", href: "https://foldframe-studio.vercel.app", external: true, variant: "secondary", icon: "arrow" },
@@ -241,7 +241,8 @@ function MediaFrame({ project }: { project: ProjectItem }) {
         src={project.image}
         alt={project.imageAlt}
         fill
-        sizes="(min-width: 768px) 50vw, 100vw"
+        quality={92}
+        sizes="(min-width: 1024px) 50vw, 100vw"
         className={
           project.imageFit === "contain"
             ? "object-contain transition-transform duration-500 group-hover/card:scale-[1.015]"
