@@ -104,11 +104,11 @@ const scenes = [
   {
     id: "models",
     label: "7. 模型接入",
-    title: "7. 本地模型接入：直连本机 Antigravity、Codex、即梦与第三方 API",
+    title: "7. 本地模型接入：直连本机 Antigravity、Codex、即梦、Grok 与 WorkBuddy",
     description:
-      "不被单一云端厂商锁定。工作台支持直接接入电脑本机已登录的 Antigravity、Codex（含 ChatGPT 账号与 GPT 生图）、即梦 AI（5.0 生图 / Seedance 视频）以及离线 Ollama，也可按需配置 OpenAI、DeepSeek、Gemini 等第三方 API，并为「内容 Agent、文案草稿、图片生成、视频生成」四个场景分别指定默认模型。",
+      "不被单一云端厂商锁定。工作台支持直接接入电脑本机已登录的 Antigravity、Codex（含 ChatGPT 账号与 GPT 生图）、即梦 AI（5.0 生图 / Seedance 视频）、Grok（支持一键跳转网页登录）与腾讯 WorkBuddy（国产多模型引擎），也可按需配置 OpenAI、DeepSeek、Gemini 等第三方 API，并为「内容 Agent、文案草稿、图片生成、视频生成」四个场景分别指定默认模型。",
     image: "/projects/foldframe/models-hub.webp",
-    alt: "Foldframe 模型接入中心：展示本机 Antigravity、Codex、即梦 AI、Ollama 引擎状态，以及 Agent、文案、生图、生视频四个场景的模型路由设置",
+    alt: "Foldframe 模型接入中心：展示本机 Antigravity、Codex、即梦 AI、Grok 与 WorkBuddy 引擎状态及一键网页登录，以及 Agent、文案、生图、生视频四个场景的模型路由设置",
     width: 2880,
     height: 1800,
   },
@@ -225,7 +225,7 @@ export default function FoldframeProjectPage() {
       </section>
 
       <footer className={`${styles.wrap} ${styles.footer}`}>
-        <p>Next.js 14 · NestJS · MongoDB · 支持直连本机 Antigravity / Codex / 即梦 AI 与 13 个主流社媒平台</p>
+        <p>Next.js 14 · NestJS · MongoDB · 支持直连本机 Antigravity / Codex / 即梦 AI / Grok / WorkBuddy 与 13 个主流社媒平台</p>
         <div style={{ display: "flex", gap: "18px", flexWrap: "wrap" }}>
           <a href="https://foldframe-studio.vercel.app" target="_blank" rel="noreferrer">独立展示页 ↗</a>
           <a href="https://github.com/hxy940219220-collab/foldframe" target="_blank" rel="noreferrer">GitHub ↗</a>

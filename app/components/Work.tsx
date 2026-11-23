@@ -100,7 +100,7 @@ const PROJECTS: ProjectItem[] = [
     hoverBorderClass: "hover:border-neon-pink/45",
     tags: ["商业生图 / 视频", "多平台发布", "本机模型接入"],
     summary:
-      "覆盖从商业产品图、写实人像、短视频制作、仿真手机排版到 13 个主流社媒平台定时发布的完整工作流。支持直连本机 Antigravity、Codex 与即梦 AI 引擎，一次创作即可多端高效分发。",
+      "覆盖从商业产品图、写实人像、短视频制作、仿真手机排版到 13 个主流社媒平台定时发布的完整工作流。支持直连本机 Antigravity、Codex、即梦 AI、Grok（网页授权）与 WorkBuddy 引擎，一次创作即可多端高效分发。",
     actions: [
       { label: "查看产品展示", href: "/projects/foldframe", variant: "primary", icon: "arrow" },
       { label: "在线展示页", href: "https://foldframe-studio.vercel.app", external: true, variant: "secondary", icon: "arrow" },
