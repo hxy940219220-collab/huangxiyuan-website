@@ -89,6 +89,26 @@ const PROJECTS: ProjectItem[] = [
   },
   {
     index: "02",
+    id: "project-foldframe",
+    title: "Foldframe · AI内容创作与发布工作台",
+    image: "/projects/foldframe/layout-workshop.webp",
+    imageAlt: "Foldframe 排版工坊：左侧图文发布编辑区与右侧小红书仿真手机预览及竖排比例工具栏",
+    imageFit: "cover",
+    cardHref: "/projects/foldframe",
+    primaryTag: "社媒创作 Agent",
+    primaryTagClass: "border-neon-pink/45 bg-neon-pink/[0.08] text-[#d896ff]",
+    hoverBorderClass: "hover:border-neon-pink/45",
+    tags: ["无限画布 / 多维改图", "仿真排版发布"],
+    summary:
+      "把内容创作、无限画布二创与多平台仿真排版串成一条本地工作流。创作端直连本机多模型 CLI，发布端分流图文与视频，并在仿真手机里实时调比例、裁剪与写文案。",
+    actions: [
+      { label: "查看产品展示", href: "/projects/foldframe", variant: "primary", icon: "arrow" },
+      { label: "在线展示页", href: "https://foldframe-studio.vercel.app", external: true, variant: "secondary", icon: "arrow" },
+      { label: "GitHub", href: "https://github.com/hxy940219220-collab/foldframe", external: true, variant: "secondary", icon: "github" },
+    ],
+  },
+  {
+    index: "03",
     id: "project-framepop",
     title: "Framepop 灵感设计AI工作台",
     image: "/projects/framepop/video-models.webp",
@@ -107,7 +127,7 @@ const PROJECTS: ProjectItem[] = [
     ],
   },
   {
-    index: "03",
+    index: "04",
     id: "project-quicknote",
     title: "QuickNote · AI 便签",
     iconSrc: "/projects/quicknote/app-icon-current.png",
@@ -130,7 +150,7 @@ const PROJECTS: ProjectItem[] = [
     ],
   },
   {
-    index: "04",
+    index: "05",
     id: "project-eureka",
     title: "尤里卡 · IP 内容创作",
     image: "/eureka-project-card.webp",
@@ -147,26 +167,6 @@ const PROJECTS: ProjectItem[] = [
     actions: [
       { label: "查看演示", href: "/projects/eureka", variant: "primary", icon: "arrow" },
       { label: "GitHub", href: "https://github.com/hxy940219220-collab/huangxiyuan-website", external: true, variant: "secondary", icon: "github" },
-    ],
-  },
-  {
-    index: "05",
-    id: "project-report-note",
-    title: "研报笔记 Agent",
-    image: "/report-note-agent-project-card.webp",
-    imageAlt: "研报笔记 Agent 桌面应用",
-    imageFit: "cover",
-    cardHref: "/projects/report-note-agent",
-    primaryTag: "文档 Agent",
-    primaryTagClass: "border-neon-orange/45 bg-neon-orange/[0.08] text-[#ff935c]",
-    hoverBorderClass: "hover:border-neon-orange/40",
-    tags: ["Human-in-the-loop", "Electron"],
-    summary: "把 PDF / DOCX 行业报告拆成可审核、可编辑、可导出的文案、封面与报告图片。",
-    thesis: "不止生成摘要，而把内容生产串成可控工作流",
-    detail: "本机解析文档，生成可编辑草稿与封面，选择报告页面，经人工审核后导出或同步到发布编辑页。",
-    actions: [
-      { label: "查看演示", href: "/projects/report-note-agent", variant: "primary", icon: "arrow" },
-      { label: "GitHub", href: "https://github.com/hxy940219220-collab/xhs-report-agent", external: true, variant: "secondary", icon: "github" },
     ],
   },
   {
