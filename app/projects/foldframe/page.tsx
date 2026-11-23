@@ -92,9 +92,9 @@ export default function FoldframeProjectPage() {
       </header>
 
       <section className={`${styles.wrap} ${styles.hero}`} aria-labelledby="foldframe-title">
-        <p className={styles.kicker}>社媒创作与发布工作台</p>
-        <h1 id="foldframe-title" className={styles.longTitle}>{title}</h1>
-        <p className={styles.lead}>{description}</p>
+        <p className={styles.kicker}>AI 内容创作与发布工作台</p>
+        <h1 id="foldframe-title">Foldframe</h1>
+        <p className={styles.lead}>把多模态内容创作、无限画布节点二创与多平台仿真排版发布串成一条本地工作流。</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "20px" }}>
           <a
             href="https://foldframe-studio.vercel.app"
