@@ -109,6 +109,25 @@ const PROJECTS: ProjectItem[] = [
   },
   {
     index: "03",
+    id: "project-hr-studio",
+    title: "HR 搭档 · AI 人事工作台",
+    image: "/projects/hr-studio/office-map.webp",
+    imageAlt: "HR 搭档的组织地图，每个部门都有独立办公区和员工角色",
+    imageFit: "contain",
+    imageBg: "bg-[#f7f8f7]",
+    cardHref: "/projects/hr-studio",
+    primaryTag: "AI 人事工作台",
+    primaryTagClass: "border-[#75ba9c]/45 bg-[#75ba9c]/[0.08] text-[#a1dfc2]",
+    hoverBorderClass: "hover:border-[#75ba9c]/45",
+    tags: ["组织地图", "招聘与面试", "档案问答"],
+    summary: "在办公室地图上点选同事，就能打开员工档案。为招聘岗位开启单独的 AI 会话，可以结合候选人的简历和面试记录拟定追问，并把需要核实的事项建成待办。",
+    actions: [
+      { label: "查看功能截图", href: "/projects/hr-studio", variant: "primary", icon: "arrow" },
+      { label: "体验工作台", href: "https://hr-dadang.vercel.app/", external: true, variant: "secondary", icon: "arrow" },
+    ],
+  },
+  {
+    index: "04",
     id: "project-framepop",
     title: "Framepop 灵感设计AI工作台",
     image: "/projects/framepop/video-models.webp",
@@ -127,7 +146,7 @@ const PROJECTS: ProjectItem[] = [
     ],
   },
   {
-    index: "04",
+    index: "05",
     id: "project-quicknote",
     title: "QuickNote · AI 便签",
     iconSrc: "/projects/quicknote/app-icon-current.png",
@@ -150,7 +169,7 @@ const PROJECTS: ProjectItem[] = [
     ],
   },
   {
-    index: "05",
+    index: "06",
     id: "project-eureka",
     title: "尤里卡 · IP 内容创作",
     image: "/eureka-project-card.webp",
@@ -170,7 +189,7 @@ const PROJECTS: ProjectItem[] = [
     ],
   },
   {
-    index: "06",
+    index: "07",
     id: "project-call-home",
     title: "Call Home · 给父母的一通电话",
     image: "/call-home-project-card.webp",
@@ -191,7 +210,7 @@ const PROJECTS: ProjectItem[] = [
     },
   },
   {
-    index: "07",
+    index: "08",
     id: "project-claude-signal",
     title: "Claude Signal · 实体审批台",
     image: "/claude-signal-project-card.webp",
@@ -210,25 +229,6 @@ const PROJECTS: ProjectItem[] = [
       spec: "ESP32-S3 · OLED · 实体按键",
       dotClass: "bg-[#4ade80] shadow-[0_0_8px_#4ade80]",
     },
-  },
-  {
-    index: "08",
-    id: "project-focusmeow",
-    title: "FocusMeow · 专注喵",
-    image: "/focusmeow.webp",
-    imageAlt: "FocusMeow 专注喵",
-    imageFit: "cover",
-    primaryTag: "AI 陪伴",
-    primaryTagClass: "border-neon-pink/45 bg-neon-pink/[0.08] text-[#e68aff]",
-    hoverBorderClass: "hover:border-neon-pink/40",
-    tags: ["Habit Design", "React Native"],
-    summary: "用猫咪陪伴、成长奖励与 AI 反馈，驱动长期专注习惯形成的情感化 app。",
-    thesis: "不把它做成「又一个番茄钟」",
-    detail: "四层叠加的产品骨架——专注工具层、游戏养成层、情感陪伴层、智能解释层，让效率与情绪同时成立。",
-    actions: [
-      { label: "GitHub", href: "https://github.com/think2do/FocusMeow", external: true, variant: "secondary", icon: "github" },
-      { label: "Product Hunt", href: "https://www.producthunt.com/products/focus-meow/focus-meow/launch-day?utm_source=my-products", external: true, variant: "secondary", icon: "arrow" },
-    ],
   },
 ];
 

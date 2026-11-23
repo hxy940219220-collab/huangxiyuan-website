@@ -23,11 +23,11 @@ const NAV_ITEMS: NavItem[] = [
     subs: [
       { label: "Tango · 跨境电商AI工作台", href: "#project-tango" },
       { label: "Foldframe · AI内容创作与多端发布工作台", href: "#project-foldframe" },
+      { label: "HR 搭档 · AI 人事工作台", href: "#project-hr-studio" },
       { label: "Framepop 灵感设计AI工作台", href: "#project-framepop" },
       { label: "QuickNote · AI 便签", href: "#project-quicknote" },
       { label: "Call Home · 互动装置", href: "#project-call-home" },
       { label: "Claude Signal · 实体审批台", href: "#project-claude-signal" },
-      { label: "FocusMeow · 专注喵", href: "#project-focusmeow" },
     ],
   },
   {
