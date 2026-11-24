@@ -9,8 +9,9 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
-import { ArrowUpRight, List, X } from "@phosphor-icons/react";
+import { ArrowUpRight, List, MagnifyingGlass, X } from "@phosphor-icons/react";
 import { BackgroundMusic } from "./BackgroundMusic";
+import { CommandPalette } from "./CommandPalette";
 
 type NavSub = {
   label: string;
@@ -91,6 +92,7 @@ const DROPDOWN_CLOSE_DELAY = 140;
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const reduced = useReducedMotion();
@@ -358,9 +360,30 @@ export function Navbar() {
             })}
           </ul>
 
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-2.5">
             <BackgroundMusic />
 
+            <button
+              type="button"
+              onClick={() => setPaletteOpen(true)}
+              aria-label="打开全站快速检索 (⌘K)"
+              className="cursor-target hidden lg:inline-flex h-9 items-center gap-2 rounded-full border border-white/[0.14] bg-white/[0.04] px-3 font-body text-[11.5px] text-text-tertiary transition-all duration-300 hover:border-neon-cyan/45 hover:bg-white/[0.08] hover:text-[#f5f7ff] cursor-pointer"
+            >
+              <MagnifyingGlass size={13} weight="regular" />
+              <span className="tracking-[0.04em]">检索</span>
+              <kbd className="rounded border border-white/[0.12] bg-white/[0.05] px-1.5 py-0.5 font-sans text-[10px] leading-none text-text-muted">
+                ⌘K
+              </kbd>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setPaletteOpen(true)}
+              aria-label="打开快速检索"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.15] bg-white/[0.06] text-text-secondary transition-colors active:bg-white/[0.12] md:hidden"
+            >
+              <MagnifyingGlass size={17} weight="light" />
+            </button>
             {/* Hamburger */}
             <button
               type="button"
@@ -428,6 +451,8 @@ export function Navbar() {
           </>
         )}
       </AnimatePresence>
+
+      <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
     </>
   );
 }
