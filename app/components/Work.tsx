@@ -53,7 +53,7 @@ type ProjectItem = {
   iconSrc?: string;
   image: string;
   imageAlt: string;
-  imageFit?: "cover" | "contain" | "map-cover";
+  imageFit?: "cover" | "contain" | "map-cover" | "poster";
   imageBg?: string;
   cardHref?: string;
   primaryTag: string;
@@ -63,7 +63,6 @@ type ProjectItem = {
   summary: string;
   thesis?: string;
   detail?: string;
-  cornerBadge?: { label: string; dotClass: string };
   hardwareSpec?: { status: string; spec: string; dotClass: string };
   actions?: ProjectAction[];
 };
@@ -173,7 +172,7 @@ const PROJECTS: ProjectItem[] = [
     title: "尤里卡 · IP 内容创作",
     image: "/eureka-project-card.webp",
     imageAlt: "尤里卡 IP 内容创作 AI 工作台",
-    imageFit: "cover",
+    imageFit: "poster",
     cardHref: "/projects/eureka",
     primaryTag: "AI 内容创作",
     primaryTagClass: "border-neon-gold/45 bg-neon-gold/[0.08] text-neon-gold",
@@ -193,7 +192,7 @@ const PROJECTS: ProjectItem[] = [
     title: "Call Home · 给父母的一通电话",
     image: "/call-home-project-card.webp",
     imageAlt: "Call Home 给父母的一通电话互动装置",
-    imageFit: "cover",
+    imageFit: "poster",
     primaryTag: "嵌入式开发",
     primaryTagClass: "border-neon-pink/45 bg-neon-pink/[0.08] text-[#e68aff]",
     hoverBorderClass: "hover:border-neon-pink/40",
@@ -201,7 +200,6 @@ const PROJECTS: ProjectItem[] = [
     summary: "用距离感知与电话听筒，把“想起父母”变成一次真实的联系。",
     thesis: "不是播放一段公益动画，而是设计从靠近到行动的体验路径",
     detail: "以树莓派 5 为主控，联动超声波测距、STM32 与听筒微动开关，完成三态画面切换，并通过二维码唤起预填短信。",
-    cornerBadge: { label: "实物原型", dotClass: "bg-neon-pink" },
     hardwareSpec: {
       status: "实物原型 · 三态联动",
       spec: "Raspberry Pi 5 · STM32",
@@ -214,7 +212,7 @@ const PROJECTS: ProjectItem[] = [
     title: "Claude Signal · 实体审批台",
     image: "/claude-signal-project-card.webp",
     imageAlt: "Claude Signal 多会话 Agent 实体审批台",
-    imageFit: "cover",
+    imageFit: "poster",
     primaryTag: "嵌入式开发",
     primaryTagClass: "border-[#4ade80]/45 bg-[#4ade80]/[0.08] text-[#6ee7a0]",
     hoverBorderClass: "hover:border-[#4ade80]/40",
@@ -222,7 +220,6 @@ const PROJECTS: ProjectItem[] = [
     summary: "把多个 Claude Code 会话的运行状态，映射成看得见、按得下的硬件信号。",
     thesis: "不是再开一个监控窗口，而是让 Agent 状态离开屏幕",
     detail: "ESP32-S3 汇总后台会话，红黄绿灯与 OLED 提示执行、报错、待审批和完成；需要授权时，街机键可直接完成审批。",
-    cornerBadge: { label: "实物原型", dotClass: "bg-[#4ade80]" },
     hardwareSpec: {
       status: "实物原型 · 多会话监控",
       spec: "ESP32-S3 · OLED · 实体按键",
@@ -233,10 +230,13 @@ const PROJECTS: ProjectItem[] = [
 
 function MediaFrame({ project }: { project: ProjectItem }) {
   const mapCover = project.imageFit === "map-cover";
-  const fitClass = project.imageFit !== "contain" ? "object-cover" : "object-contain";
+  const poster = project.imageFit === "poster";
+  const frameRatio = poster ? "aspect-[1672/941]" : "aspect-[16/10]";
+  const fitClass = poster || project.imageFit === "contain" ? "object-contain" : "object-cover";
+  const useOverlay = !poster && !mapCover;
   const inner = (
     <div
-      className={`relative aspect-[16/10] w-full overflow-hidden rounded-[13px] border border-white/[0.09] ${project.imageBg ?? "bg-[#080812]"}`}
+      className={`relative ${frameRatio} w-full overflow-hidden rounded-[13px] border border-white/[0.09] ${project.imageBg ?? "bg-[#080812]"}`}
     >
       <Image
         src={project.image}
@@ -245,21 +245,13 @@ function MediaFrame({ project }: { project: ProjectItem }) {
         quality={92}
         unoptimized={mapCover}
         sizes="(min-width: 1024px) 50vw, 100vw"
-        className={`${fitClass} ${mapCover ? "" : "transition-transform duration-500 group-hover/card:scale-[1.015]"}`}
+        className={`${fitClass} ${useOverlay ? "transition-transform duration-500 group-hover/card:scale-[1.015]" : ""}`}
       />
-      {!mapCover && (
+      {useOverlay && (
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 rounded-[13px] ring-1 ring-inset ring-black/25 bg-[linear-gradient(to_top,rgba(11,11,20,0.42)_0%,transparent_28%)]"
         />
-      )}
-      {project.cornerBadge && (
-        <div className="pointer-events-none absolute top-3 right-3 inline-flex items-center gap-1.5 rounded-full border border-white/[0.14] bg-[#050509]/80 px-2.5 py-1 backdrop-blur-md">
-          <span className={`h-1.5 w-1.5 rounded-full ${project.cornerBadge.dotClass}`} />
-          <span className="font-body text-[10.5px] font-medium tracking-[0.08em] text-[#f5f7ff]">
-            {project.cornerBadge.label}
-          </span>
-        </div>
       )}
     </div>
   );
