@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Screenshot from "./Screenshot";
 import Link from "next/link";
 import styles from "../showcase.module.css";
 import gallery from "./gallery.module.css";
@@ -70,7 +70,7 @@ const assistant: Scene[] = [
     image: "ai-context.webp", alt: "对照岗位资料抽屉与候选人薪资信息的会话界面" },
 ];
 
-function Screen({ scene, wide = false }: { scene: Scene; wide?: boolean }) {
+function Screen({ scene }: { scene: Scene }) {
   const src = base + "/" + scene.image;
   return (
     <figure id={scene.id} className={gallery.scene}>
@@ -79,8 +79,7 @@ function Screen({ scene, wide = false }: { scene: Scene; wide?: boolean }) {
         <p>{scene.text}</p>
       </figcaption>
       <a className={gallery.imageLink} href={src} target="_blank" rel="noreferrer" aria-label={`查看原图：${scene.title}`}>
-        <Image src={src} alt={scene.alt} width={scene.width ?? 2088} height={scene.height ?? 1363} quality={92}
-          sizes={wide ? "(min-width: 1190px) 1150px, calc(100vw - 40px)" : "(min-width: 1190px) 555px, (min-width: 850px) 47vw, calc(100vw - 40px)"} />
+        <Screenshot original={src} alt={scene.alt} width={scene.width ?? 2088} height={scene.height ?? 1363} />
       </a>
     </figure>
   );
@@ -101,8 +100,7 @@ export default function HRStudioPage() {
         <a className={styles.demoLink} href="https://hr-dadang.vercel.app/" target="_blank" rel="noopener noreferrer">打开示例工作台 ↗</a>
         <figure className={gallery.overview}>
           <a className={gallery.imageLink} href={cover.url} target="_blank" rel="noreferrer" aria-label="查看完整工作台原图">
-            <Image src={cover.url} alt={cover.alt} width={cover.width} height={cover.height} quality={92} preload
-              sizes="(min-width: 1190px) 1150px, calc(100vw - 40px)" />
+            <Screenshot original={cover.url} alt={cover.alt} width={cover.width} height={cover.height} cover />
           </a>
           <figcaption className={styles.caption}>青屿科技示例工作区。点击图片可查看原图。</figcaption>
         </figure>
@@ -113,7 +111,7 @@ export default function HRStudioPage() {
         </nav>
         <section id="employees" className={gallery.chapter} aria-labelledby="employees-title">
           <h2 id="employees-title">员工管理</h2>
-          <Screen scene={office} wide />
+          <Screen scene={office} />
           <div className={gallery.grid}>{employee.map(scene => <Screen key={scene.id} scene={scene} />)}</div>
         </section>
         <section id="recruitment" className={gallery.chapter} aria-labelledby="recruitment-title">
