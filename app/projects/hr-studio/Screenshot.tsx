@@ -17,7 +17,8 @@ export default function Screenshot({ original, alt, width, height, cover }: Scre
       src={preview} alt={alt} width={width} height={height} unoptimized
       preload={cover} loading={cover ? undefined : "eager"}
       onError={({ currentTarget }) => {
-        if (currentTarget.getAttribute("src") === preview) currentTarget.src = original;
+        const fallback = new URL(original, currentTarget.baseURI).href;
+        if (currentTarget.src !== fallback) currentTarget.src = fallback;
       }}
     />
   );
