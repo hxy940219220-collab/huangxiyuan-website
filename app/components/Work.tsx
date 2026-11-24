@@ -149,8 +149,8 @@ const PROJECTS: ProjectItem[] = [
     id: "project-quicknote",
     title: "QuickNote · AI 便签",
     iconSrc: "/projects/quicknote/app-icon-current.png",
-    image: "/projects/quicknote/recognition-workbench.webp",
-    imageAlt: "QuickNote 截图识别主窗口列出活动时间、地点和物品，前方的划词浮窗对照英文原句与译文",
+    image: "/projects/quicknote/recognition-scenes.webp",
+    imageAlt: "QuickNote 图片识别窗口展示框选的新用户转化漏斗，文字识别浮窗翻译报告中鼠标选中的英文句子",
     imageFit: "poster",
     imageBg: "bg-[#17130e]",
     cardHref: "/projects/quicknote",
@@ -159,9 +159,9 @@ const PROJECTS: ProjectItem[] = [
     hoverBorderClass: "hover:border-[#efc768]/45",
     tags: ["macOS", "Codex / MCP"],
     summary:
-      "读资料时，划词就能翻译或问 AI，截图就能提取文字和整理重点。原图与答案可直接存进指定便签，省下在阅读、聊天和笔记之间来回复制的时间。",
+      "阅读报告时，选中一句英文就能翻译，框选一张图表就能提问。原文、截图和答案都可以存进指定便签。",
     detail:
-      "划词和识图窗口可置顶。存下来的笔记可全文搜索，也能向它们提问并查看答案引用的原文。",
+      "文字识别和图片识别窗口都可置顶。保存的便签支持全文搜索，也可以直接提问，查看答案引用的原文。",
     actions: [
       { label: "查看演示", href: "/projects/quicknote", variant: "primary", icon: "arrow" },
       { label: "GitHub", href: "https://github.com/hxy940219220-collab/QuickNote-IOS", external: true, variant: "secondary", icon: "github" },

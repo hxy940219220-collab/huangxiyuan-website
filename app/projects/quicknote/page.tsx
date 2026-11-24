@@ -3,19 +3,19 @@ import type { Metadata } from "next";
 import { ProjectDemo, type ProjectDemoData } from "../ProjectDemo";
 
 const cover = {
-  url: "/projects/quicknote/recognition-workbench.webp",
+  url: "/projects/quicknote/recognition-scenes.webp",
   width: 1672,
   height: 941,
-  alt: "QuickNote 划词翻译与截图识别，展示选中原文、译文、活动截图和识别结果",
+  alt: "QuickNote 图片识别窗口分析新用户转化漏斗，文字识别浮窗翻译鼠标选中的报告原句",
 };
 
 const screenshotDemo = {
-  url: "/projects/quicknote/native-image-pin.webp",
-  width: 1440,
-  height: 906,
-  alt: "QuickNote 在置顶窗口里分析活动截图，显示 AI 答案和存入便签的按钮",
+  url: "/projects/quicknote/image-recognition-scene.webp",
+  width: 1200,
+  height: 760,
+  alt: "框选的漏斗图展示访问、注册和创建首条便签三个阶段，图片识别窗口根据截图回答转化问题",
 };
-const projectDescription = "QuickNote 是一款 macOS AI 便签。划词翻译、截图提问，原图和 AI 答案直接存入便签。支持窗口置顶、本机全文搜索、带引用的便签问答和离线语音转写。";
+const projectDescription = "QuickNote 是一款 macOS AI 便签。选中报告中的一句话即可翻译，框选图表即可提问，原文、原图和 AI 答案都能存入便签。支持窗口置顶、本机全文搜索、带引用的便签问答和离线语音转写。";
 
 export const metadata: Metadata = {
   title: "QuickNote · macOS AI 便签 | HXY Projects",
@@ -53,9 +53,9 @@ const project: ProjectDemoData = {
   accentSoft: "rgba(225, 177, 69, 0.13)",
   github: "https://github.com/hxy940219220-collab/QuickNote-IOS",
   stats: [
-    { value: "⌥ Space / ⌘ ⇧", label: "划词 / 截图" },
+    { value: "Option + Space", label: "文字识别" },
+    { value: "Command + Shift", label: "图片识别" },
     { value: "原图 + AI 答案", label: "存入便签" },
-    { value: "本机全文搜索", label: "找回笔记" },
   ],
   thesis: "从一段摘录到下次复习，都在同一条便签里。",
   principles: [
@@ -75,21 +75,21 @@ const project: ProjectDemoData = {
       description: "在这台 Mac 搜索便签标题、正文和标签。记不清关键词时，直接问已有便签，再从回答的引用跳回原文。",
     },
   ],
-  demoDescription: "界面截图使用演示资料。从一段外文或一张课程截图开始，看看它们怎样变成能继续整理的便签。",
+  demoDescription: "前两组演示使用同一份新用户转化报告，图表数据为示例。先翻译报告中的英文结论，再框选漏斗图核对数字。",
   steps: [
     {
       number: "01",
-      title: "划词后翻译、解释、分析或提问",
-      description: "按 Option + Space 在选区旁打开划词窗口。翻译外文、解释术语、拆解论证，或就这段内容追问。把窗口置顶，边核对原文边看答案，再存入指定便签。",
-      image: "/projects/quicknote/native-selection-pin.webp",
-      imageAlt: "置顶的 QuickNote 划词窗口，显示英文原文、中文译文和存入便签的按钮",
-      width: 720,
-      height: 466,
+      title: "文字识别 · 选中报告原句看译文",
+      description: "用鼠标选中报告里的英文结论，按 Option + Space 在选区旁打开文字识别。译文写道：“只有一半注册用户创建了第一条便签。”原文和译文都能存入便签。",
+      image: "/projects/quicknote/text-recognition-scene.webp",
+      imageAlt: "鼠标选中报告中的 “Only half of registered users created their first note.”，旁边的文字识别浮窗显示中文译文",
+      width: 900,
+      height: 580,
     },
     {
       number: "02",
-      title: "截图后读图、分析或提问",
-      description: "按 Command + Shift 框选屏幕，从课件、图表或网页里提取文字、总结要点、翻译、整理表格或生成待办。也可以直接提问。使用 Codex 时，可在窗口内选择模型和推理强度。截图和答案分别存入便签，随时能对照原图。",
+      title: "图片识别 · 框选漏斗图看转化",
+      description: "按 Command + Shift，拖动选框截取报告里的漏斗图。窗口保留这次截取的图表，方便对照访问、注册、创建首条便签三个阶段，核实哪个环节的流失率最高。截图和回答都可存入便签。",
       image: screenshotDemo.url,
       imageAlt: screenshotDemo.alt,
       width: screenshotDemo.width,
@@ -125,7 +125,7 @@ const project: ProjectDemoData = {
     {
       number: "06",
       title: "用 ChatGPT 账号，或配置模型 API",
-      description: "安装 Codex CLI 后，可在「接入 AI 模型」里登录 ChatGPT 账号，无需另外配置 API Key。也可以接入自己的模型服务，为划词、识图和便签整理等任务分别选择模型来源。",
+      description: "安装 Codex CLI 后，可在「接入 AI 模型」里登录 ChatGPT 账号，无需另外配置 API Key。也可以接入自己的模型服务，为文字识别、图片识别和便签整理等任务分别选择模型来源。",
       image: "/projects/quicknote/current-codex-settings.webp",
       imageAlt: "QuickNote 的 AI 模型设置，显示演示用 ChatGPT 账号、用量和推理强度",
       width: 1440,
