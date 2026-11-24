@@ -16,7 +16,6 @@ export function Contact() {
     try {
       await navigator.clipboard.writeText(EMAIL);
     } catch {
-      // 剪贴板 API 不可用时降级为选中文本
       const ta = document.createElement("textarea");
       ta.value = EMAIL;
       document.body.appendChild(ta);
@@ -55,47 +54,53 @@ export function Contact() {
 
         <BlurText
           segments={["一起构建智能、有用", "且令人难忘的产品。"]}
-          className="section-display-heading font-display justify-center text-center text-[clamp(1.95rem,4.2vw,3rem)] leading-[1.28] text-[#f5f7ff] max-w-[560px] mx-auto mb-9"
+          className="section-display-heading font-display justify-center text-center text-[clamp(1.95rem,4.2vw,3rem)] leading-[1.28] text-[#f5f7ff] max-w-[560px] mx-auto mb-5"
           delay={75}
           direction="top"
         />
+
+        <ScrollReveal delay={0.12}>
+          <p className="mx-auto mb-9 max-w-xl font-body text-[13.5px] md:text-[14px] leading-[1.75] text-text-tertiary">
+            关注方向：AI 产品经理（Agent 协作 · 企业工作流 · AI 创新产品）· 欢迎交流产品思考与落地实践
+          </p>
+        </ScrollReveal>
 
         <ScrollReveal delay={0.18}>
           <div className="flex flex-col items-center gap-4">
             <div className="flex gap-3.5 justify-center flex-wrap">
               <motion.a
-                  href="mailto:hxy940219220@gmail.com"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97, y: 1 }}
-                  className="cursor-target inline-flex items-center gap-2 px-5 md:px-7 py-3 md:py-3.5 rounded-full font-body text-[13px] md:text-[13.5px] font-semibold tracking-[0.04em] no-underline bg-[#f5f7ff] text-[#050509] border-none transition-all duration-300 hover:bg-neon-cyan hover:shadow-[0_0_36px_rgba(0,200,255,0.35)]"
-                >
-                  <Envelope size={16} weight="bold" />
-                  邮件联系
+                href="mailto:hxy940219220@gmail.com"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97, y: 1 }}
+                className="cursor-target inline-flex items-center gap-2 px-5 md:px-7 py-3 md:py-3.5 rounded-full font-body text-[13px] md:text-[13.5px] font-semibold tracking-[0.04em] no-underline bg-[#f5f7ff] text-[#050509] border-none transition-all duration-300 hover:bg-neon-cyan hover:shadow-[0_0_36px_rgba(0,200,255,0.35)]"
+              >
+                <Envelope size={16} weight="bold" />
+                邮件联系
               </motion.a>
               <motion.a
-                  href="https://github.com/hxy940219220-collab"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97, y: 1 }}
-                  className="cursor-target inline-flex items-center gap-2 px-5 md:px-7 py-3 md:py-3.5 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-[#f5f7ff] no-underline bg-white/[0.04] border border-white/[0.16] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-cyan/55 hover:bg-white/[0.08] hover:shadow-[0_0_28px_rgba(0,200,255,0.14)]"
-                >
-                  <GithubLogo size={16} weight="bold" />
-                  GitHub
+                href="https://github.com/hxy940219220-collab"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97, y: 1 }}
+                className="cursor-target inline-flex items-center gap-2 px-5 md:px-7 py-3 md:py-3.5 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-[#f5f7ff] no-underline bg-white/[0.04] border border-white/[0.16] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-cyan/55 hover:bg-white/[0.08] hover:shadow-[0_0_28px_rgba(0,200,255,0.14)]"
+              >
+                <GithubLogo size={16} weight="bold" />
+                GitHub
               </motion.a>
               <motion.button
-                  type="button"
-                  onClick={copyEmail}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97, y: 1 }}
-                  className="cursor-target inline-flex items-center gap-2 px-5 md:px-7 py-3 md:py-3.5 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-[#f5f7ff] bg-white/[0.04] border border-white/[0.16] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-cyan/55 hover:bg-white/[0.08] hover:shadow-[0_0_28px_rgba(0,200,255,0.14)] cursor-pointer"
-                >
-                  {copied ? (
-                    <Check size={16} weight="bold" className="text-neon-cyan" />
-                  ) : (
-                    <Copy size={16} weight="bold" />
-                  )}
-                  {copied ? "已复制邮箱" : "复制邮箱"}
+                type="button"
+                onClick={copyEmail}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97, y: 1 }}
+                className="cursor-target inline-flex items-center gap-2 px-5 md:px-7 py-3 md:py-3.5 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-[#f5f7ff] bg-white/[0.04] border border-white/[0.16] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-cyan/55 hover:bg-white/[0.08] hover:shadow-[0_0_28px_rgba(0,200,255,0.14)] cursor-pointer"
+              >
+                {copied ? (
+                  <Check size={16} weight="bold" className="text-neon-cyan" />
+                ) : (
+                  <Copy size={16} weight="bold" />
+                )}
+                {copied ? "已复制邮箱" : "复制邮箱"}
               </motion.button>
             </div>
           </div>

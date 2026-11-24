@@ -10,6 +10,12 @@ import {
 } from "motion/react";
 import SplitText from "../reactbits/TextAnimations/SplitText/SplitText";
 
+const HERO_SIGNALS = [
+  { value: "08", label: "产品与硬件验证原型" },
+  { value: "05", label: "前沿与机制研究专题" },
+  { value: "03", label: "核心企业工作流拆解" },
+];
+
 export function Hero({ active = true }: { active?: boolean }) {
   const reduced = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -167,93 +173,110 @@ export function Hero({ active = true }: { active?: boolean }) {
 
       {/* Bottom fade to black */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-[3] pointer-events-none h-[40%]"
+        className="absolute bottom-0 left-0 right-0 z-[3] pointer-events-none h-[42%]"
         style={{
           background: "linear-gradient(to top, #050509 0%, transparent 100%)",
         }}
         aria-hidden="true"
       />
 
-      {/* Content overlay - bottom left */}
+      {/* Content overlay - bottom left + desktop right evidence strip */}
       <div className="absolute inset-0 z-[4] pointer-events-none flex flex-col justify-end pl-5 md:pl-10 pr-6 md:pr-12 pt-6 md:pt-10 pb-8 md:pb-14 w-full">
-        <div className="pointer-events-auto space-y-2 md:space-y-2.5 max-w-[640px]">
-          {/* Main title */}
-          <motion.div
-            initial={reduced ? {} : { opacity: 0, y: 24, filter: "blur(8px)" }}
-            animate={reduced ? {} : { opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {reduced ? (
-              <h1 className="hero-display-title font-display text-[clamp(3.1rem,7.8vw,6.25rem)] leading-[1.14] text-[#f5f7ff] overflow-visible">
-                黄锡源
-              </h1>
-            ) : (
-              <div className="overflow-visible">
-                <SplitText
-                  text="黄锡源"
-                  tag="h1"
-                  textAlign="left"
-                  className="hero-display-title font-display text-[clamp(3.1rem,7.8vw,6.25rem)] leading-[1.14] text-[#f5f7ff]"
-                  delay={55}
-                  duration={1.0}
-                  from={{ opacity: 0, y: 48, filter: "blur(8px)" }}
-                  to={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  ease="power4.out"
-                  threshold={0.2}
-                  rootMargin="-50px"
-                />
-              </div>
-            )}
-          </motion.div>
-
-          {/* Subtitle */}
-          <motion.div
-            initial={reduced ? {} : { opacity: 0, y: 18, filter: "blur(6px)" }}
-            animate={reduced ? {} : { opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.85, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {reduced ? (
-              <span className="hero-display-subtitle font-display text-[clamp(20px,3.6vw,40px)] text-text-secondary ml-1 md:ml-1.5">
-                AI 产品经理
+        <div className="flex w-full items-end justify-between gap-10">
+          <div className="pointer-events-auto space-y-2 md:space-y-2.5 max-w-[660px]">
+            {/* Eyebrow domain signal */}
+            <motion.div
+              initial={reduced ? {} : { opacity: 0, y: 12 }}
+              animate={reduced ? {} : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.75, delay: 0.14, ease: [0.16, 1, 0.3, 1] }}
+              className="inline-flex items-center gap-2.5 pb-1 pl-0.5 md:pl-1"
+            >
+              <span
+                className="h-1.5 w-1.5 rounded-full bg-neon-cyan shadow-[0_0_10px_#00c8ff]"
+                aria-hidden="true"
+              />
+              <span className="font-body text-[10.5px] md:text-[11px] font-medium tracking-[0.18em] text-text-secondary/85 uppercase">
+                Agent Workflow · Business Scenarios · Rapid Prototyping
               </span>
-            ) : (
-              <div className="overflow-visible">
-                <SplitText
-                  text="AI 产品经理"
-                  tag="span"
-                  textAlign="left"
-                  className="hero-display-subtitle font-display text-[clamp(20px,3.6vw,40px)] text-text-secondary ml-1 md:ml-1.5"
-                  delay={28}
-                  duration={0.8}
-                  from={{ opacity: 0, y: 20 }}
-                  to={{ opacity: 1, y: 0 }}
-                  ease="power3.out"
-                  threshold={0.2}
-                  rootMargin="-50px"
-                />
-              </div>
-            )}
-          </motion.div>
+            </motion.div>
 
-          {/* Description */}
-          <motion.p
-            initial={reduced ? {} : { opacity: 0, y: 16 }}
-            animate={reduced ? {} : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.72, ease: [0.16, 1, 0.3, 1] }}
-            className="font-body text-sm md:text-[15px] text-text-tertiary leading-[1.75] pl-0.5 md:pl-1"
-          >
-            设计个人智能体与多 Agent 工作流。<br />
-            从任务交接到人工审批，让交付过程可查、结果可验。
-          </motion.p>
+            {/* Main title */}
+            <motion.div
+              initial={reduced ? {} : { opacity: 0, y: 24, filter: "blur(8px)" }}
+              animate={reduced ? {} : { opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {reduced ? (
+                <h1 className="hero-display-title font-display text-[clamp(3.1rem,7.8vw,6.25rem)] leading-[1.14] text-[#f5f7ff] overflow-visible">
+                  黄锡源
+                </h1>
+              ) : (
+                <div className="overflow-visible">
+                  <SplitText
+                    text="黄锡源"
+                    tag="h1"
+                    textAlign="left"
+                    className="hero-display-title font-display text-[clamp(3.1rem,7.8vw,6.25rem)] leading-[1.14] text-[#f5f7ff]"
+                    delay={55}
+                    duration={1.0}
+                    from={{ opacity: 0, y: 48, filter: "blur(8px)" }}
+                    to={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    ease="power4.out"
+                    threshold={0.2}
+                    rootMargin="-50px"
+                  />
+                </div>
+              )}
+            </motion.div>
 
-          {/* CTAs */}
-          <motion.div
-            initial={reduced ? {} : { opacity: 0, y: 16 }}
-            animate={reduced ? {} : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="flex gap-2.5 md:gap-3.5 flex-wrap pt-3"
-          >
-            <motion.a
+            {/* Subtitle */}
+            <motion.div
+              initial={reduced ? {} : { opacity: 0, y: 18, filter: "blur(6px)" }}
+              animate={reduced ? {} : { opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.85, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {reduced ? (
+                <span className="hero-display-subtitle font-display text-[clamp(20px,3.6vw,40px)] text-text-secondary ml-1 md:ml-1.5">
+                  AI 产品经理
+                </span>
+              ) : (
+                <div className="overflow-visible">
+                  <SplitText
+                    text="AI 产品经理"
+                    tag="span"
+                    textAlign="left"
+                    className="hero-display-subtitle font-display text-[clamp(20px,3.6vw,40px)] text-text-secondary ml-1 md:ml-1.5"
+                    delay={28}
+                    duration={0.8}
+                    from={{ opacity: 0, y: 20 }}
+                    to={{ opacity: 1, y: 0 }}
+                    ease="power3.out"
+                    threshold={0.2}
+                    rootMargin="-50px"
+                  />
+                </div>
+              )}
+            </motion.div>
+
+            {/* Description */}
+            <motion.p
+              initial={reduced ? {} : { opacity: 0, y: 16 }}
+              animate={reduced ? {} : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.85, delay: 0.72, ease: [0.16, 1, 0.3, 1] }}
+              className="font-body text-sm md:text-[15px] text-text-tertiary leading-[1.78] pl-0.5 md:pl-1 max-w-[54ch]"
+            >
+              围绕真实业务场景设计个人智能体与多 Agent 协作流。<br className="hidden sm:inline" />
+              持续追踪前沿模型演进，用可运行的产品与软硬件原型验证交互边界与交付体验。
+            </motion.p>
+
+            {/* CTAs */}
+            <motion.div
+              initial={reduced ? {} : { opacity: 0, y: 16 }}
+              animate={reduced ? {} : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.85, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              className="flex gap-2.5 md:gap-3.5 flex-wrap pt-3"
+            >
+              <motion.a
                 href="#work"
                 onClick={(e) => {
                   e.preventDefault();
@@ -266,19 +289,19 @@ export function Hero({ active = true }: { active?: boolean }) {
                 查看作品
                 <span className="ml-2 font-mono text-xs opacity-75 transition-all duration-300 group-hover:translate-x-0.5">&rarr;</span>
               </motion.a>
-            <motion.a
-                href="#about"
+              <motion.a
+                href="#method"
                 onClick={(e) => {
                   e.preventDefault();
-                  document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
+                  document.querySelector("#method")?.scrollIntoView({ behavior: "smooth" });
                 }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 className="cursor-target inline-flex items-center px-5 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-[#f5f7ff] no-underline border border-white/[0.16] bg-white/[0.04] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-cyan/55 hover:bg-white/[0.08] hover:shadow-[0_0_24px_rgba(0,200,255,0.14)]"
               >
-                关于我
+                方法与前沿研究
               </motion.a>
-            <motion.a
+              <motion.a
                 href="#contact"
                 onClick={(e) => {
                   e.preventDefault();
@@ -290,7 +313,33 @@ export function Hero({ active = true }: { active?: boolean }) {
               >
                 联系
               </motion.a>
-          </motion.div>
+            </motion.div>
+          </div>
+
+          {/* Desktop-only Observatory Evidence Strip */}
+          <motion.dl
+            initial={reduced ? {} : { opacity: 0, y: 16 }}
+            animate={reduced ? {} : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 1.02, ease: [0.16, 1, 0.3, 1] }}
+            className="pointer-events-auto hidden xl:flex items-center gap-7 pb-1"
+            aria-label="作品与研究概览"
+          >
+            {HERO_SIGNALS.map((item, idx) => (
+              <div
+                key={item.label}
+                className={`flex flex-col items-end text-right ${
+                  idx > 0 ? "border-l border-white/[0.12] pl-7" : ""
+                }`}
+              >
+                <dd className="font-display text-[1.85rem] leading-none tabular-nums text-[#f5f7ff]">
+                  {item.value}
+                </dd>
+                <dt className="mt-2 font-body text-[11px] tracking-[0.06em] text-text-tertiary">
+                  {item.label}
+                </dt>
+              </div>
+            ))}
+          </motion.dl>
         </div>
       </div>
     </section>
