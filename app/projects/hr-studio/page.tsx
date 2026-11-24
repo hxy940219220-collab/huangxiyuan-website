@@ -8,13 +8,13 @@ import { LightboxProvider, LightboxTrigger, type LightboxItem } from "../Lightbo
 import { ProjectPager } from "../ProjectPager";
 
 const title = "HR 搭档 · AI 人事工作台";
-const description = "从工位打开员工档案，核对薪酬、绩效和培训记录。招聘团队可以从岗位需求跟进到面试和入职，也能在岗位会话里让 AI 整理面试材料。";
+const description = "以 AI 同事、待办审批、企业人才库与交互式组织地图为核心的 AI-Native 人事工作台。日常巡检由 AI 主动起草并汇总确认，员工档案、薪酬绩效与全流程招聘在同一工作区内闭环联动。";
 const base = "/projects/hr-studio";
 const cover = {
   url: base + "/workspace-overview.webp",
-  alt: "HR 搭档完整工作台，包括左侧导航、组织指标、六个部门的工位地图和当日事项",
-  width: 2304,
-  height: 2223,
+  alt: "HR 搭档工作台首页，包括左侧导航、组织指标、六个部门的工位地图、常驻 AI 同事条与当日事项",
+  width: 2880,
+  height: 2822,
 };
 
 export const metadata: Metadata = {
@@ -35,13 +35,52 @@ type Scene = {
   height?: number;
 };
 
+const aiNative: Scene[] = [
+  {
+    id: "ai-colleagues",
+    title: "四位专职 AI 同事，规则透明可控",
+    text: "寻访、面试、初筛与核薪四位搭档各司其职，卡片直接标明触发时机与执行方式。可随时暂停、调整规则与偏好记忆，并在同事列表、运行记录与技能广场之间一键切换。",
+    image: "ai-colleagues.webp",
+    width: 2880,
+    height: 1720,
+    alt: "AI 同事页面，展示寻访搭档、面试搭档、初筛搭档与核薪搭档的触发规则与启停开关",
+  },
+  {
+    id: "ai-inbox",
+    title: "待办审批：日常待办与 AI 建议同屏处理",
+    text: "同一页统一承接日常待办、AI 待确认与已处理记录。AI 产出的排期、催评、翻库推荐与核薪异常按事务分组，支持一键批量确认、改期或驳回并记住偏好。",
+    image: "ai-inbox.webp",
+    width: 2880,
+    height: 1840,
+    alt: "待办审批页面，按事务分组展示 AI 待确认建议，支持批量确认与切换日常待办",
+  },
+  {
+    id: "talent-pool",
+    title: "独立沉淀企业人才库",
+    text: "将银牌候选人、可回流前员工与在职活水沉淀为独立人才资产，直接标出经面试验证的技能、期望薪资、90 天冷却期与授权状态，避免重复打扰。",
+    image: "talent-pool.webp",
+    width: 2880,
+    height: 1800,
+    alt: "企业人才库列表，展示银牌候选人、前员工、验证技能与筛选标签",
+  },
+  {
+    id: "talent-rediscover",
+    title: "开新岗先翻库，一键激活或建岗",
+    text: "按在招岗位自动匹配库内高契合人选，点按即可加入候选人进入流程；也支持一句话输入需求直接建岗，优先盘活已有储备。",
+    image: "talent-rediscover.webp",
+    width: 2880,
+    height: 1800,
+    alt: "按岗位匹配人才库视图，展示匹配度与一键加入候选人操作",
+  },
+];
+
 const office: Scene = {
   id: "office",
   title: "点开工位，查看这位同事的档案",
   text: "点开产品设计部顾思远的工位，右侧就能读到他的岗位职责、工作经历和在司奖励。想看更近的变动，可以切到薪酬记录或绩效回顾。关上档案就回到原来的地图。",
   image: "office-person-drawer.webp",
-  width: 2304,
-  height: 1500,
+  width: 2880,
+  height: 1800,
   alt: "从组织地图点开员工后，右侧显示员工档案，背景仍可见原来的部门与工位",
 };
 
@@ -95,6 +134,8 @@ const hiring: Scene[] = [
     title: "沿着招聘看板跟进人选",
     text: "从上方漏斗选中一个阶段，查看相应的候选人。看板卡片保留岗位和面试安排，拖动到新阶段可继续办理。",
     image: "hiring-board.webp",
+    width: 2880,
+    height: 1840,
     alt: "招聘漏斗及按面试阶段排列的人选卡片",
   },
   {
@@ -129,22 +170,33 @@ const hiring: Scene[] = [
 
 const assistant: Scene[] = [
   {
+    id: "scope",
+    title: "绑定业务对象，边对话边核对资料",
+    text: "从左侧新建对话一键绑定部门、员工或招聘需求，顶部路径明确标注当前对象。讨论岗位或薪资时展开右侧资料，即可对照预算、人选期望与面试进度，并支持内置引擎离线秒查。",
+    image: "ai-context.webp",
+    width: 2880,
+    height: 1800,
+    alt: "对照岗位资料抽屉与候选人薪资信息的 AI 对话界面，顶部清晰标出当前绑定的招聘需求",
+  },
+  {
+    id: "skills",
+    title: "技能广场：复用与导入 HR 工作法",
+    text: "按招聘、面试、薪酬与组织场景沉淀标准技能，也支持导入 SKILL.md 扩展自定义流程，在 AI 对话中一键带入执行。",
+    image: "skills.webp",
+    width: 2880,
+    height: 1840,
+    alt: "技能广场页面，支持按分类筛选、搜索以及导入自定义技能",
+  },
+  {
     id: "interview",
     title: "根据简历和岗位准备追问",
     text: "在岗位会话中选定候选人，生成面试准备单。已记录的经历和有待确认的问题分开呈现，点击引用可以回到来源档案。",
     image: "ai-interview.webp",
     alt: "岗位会话里的候选人面试准备单与资料引用",
   },
-  {
-    id: "scope",
-    title: "边对话，边核对岗位资料",
-    text: "会话可以绑定部门、员工或招聘需求。讨论薪资时展开右侧资料，可同时查看岗位预算、候选人的期望和面试进度。",
-    image: "ai-context.webp",
-    alt: "对照岗位资料抽屉与候选人薪资信息的会话界面",
-  },
 ];
 
-const allScenes: Scene[] = [office, ...employee, ...hiring, ...assistant];
+const allScenes: Scene[] = [...aiNative, office, ...employee, ...hiring, ...assistant];
 const indexById = new Map<string, number>(allScenes.map((s, i) => [s.id, i + 1]));
 
 const lightboxItems: LightboxItem[] = [
@@ -197,6 +249,14 @@ export default function HRStudioPage() {
           <p className={styles.kicker}>03 · AI 人事工作台</p>
           <h1 id="hr-title" className={styles.longTitle}>{title}</h1>
           <p className={styles.lead}>{description}</p>
+          <a
+            href="https://hr-dadang.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`cursor-target ${styles.demoLink}`}
+          >
+            在线体验 ↗
+          </a>
           <figure className={gallery.overview}>
             <LightboxTrigger
               index={0}
@@ -211,10 +271,17 @@ export default function HRStudioPage() {
         </section>
         <div className={styles.wrap}>
           <nav className={gallery.contents} aria-label="功能导览">
+            <a href="#ai-native">AI 同事与人才库</a>
             <a href="#employees">员工管理</a>
             <a href="#recruitment">招聘管理</a>
-            <a href="#ai">AI 面试协作</a>
+            <a href="#ai">AI 对话与技能</a>
           </nav>
+          <section id="ai-native" className={gallery.chapter} aria-labelledby="ai-native-title">
+            <h2 id="ai-native-title">AI 同事与人才库</h2>
+            <div className={gallery.grid}>
+              {aiNative.map((scene) => <Screen key={scene.id} scene={scene} />)}
+            </div>
+          </section>
           <section id="employees" className={gallery.chapter} aria-labelledby="employees-title">
             <h2 id="employees-title">员工管理</h2>
             <Screen scene={office} fitContent />
@@ -229,7 +296,7 @@ export default function HRStudioPage() {
             </div>
           </section>
           <section id="ai" className={gallery.chapter} aria-labelledby="ai-title">
-            <h2 id="ai-title">AI 面试协作</h2>
+            <h2 id="ai-title">AI 对话与技能</h2>
             <div className={gallery.grid}>
               {assistant.map((scene) => <Screen key={scene.id} scene={scene} />)}
             </div>
