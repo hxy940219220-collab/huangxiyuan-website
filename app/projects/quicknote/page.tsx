@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { ProjectDemo, type ProjectDemoData } from "../ProjectDemo";
 
 const cover = {
-  url: "/projects/quicknote/project-cover.webp",
+  url: "/projects/quicknote/recognition-workbench.webp",
   width: 1672,
   height: 941,
   alt: "QuickNote 划词翻译与截图识别，展示选中原文、译文、活动截图和识别结果",
