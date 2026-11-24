@@ -8,6 +8,11 @@ import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react
 import { GithubLogo, ArrowUpRight, Cpu } from "@phosphor-icons/react";
 import { ScrollReveal } from "./ScrollReveal";
 import BlurText from "../reactbits/TextAnimations/BlurText/BlurText";
+import {
+  LightboxProvider,
+  LightboxTrigger,
+  type LightboxItem,
+} from "../projects/LightboxGallery";
 
 /* 3D Tilt card wrapper */
 function TiltWrap({ children, className = "" }: { children: ReactNode; className?: string }) {
@@ -59,6 +64,7 @@ type ProjectItem = {
   imageFit?: "cover" | "contain" | "map-cover" | "poster";
   imageBg?: string;
   cardHref?: string;
+  lightboxIndex?: number;
   primaryTag: string;
   primaryTagClass: string;
   hoverBorderClass: string;
@@ -207,6 +213,7 @@ const PROJECTS: ProjectItem[] = [
     image: "/call-home-project-card.webp",
     imageAlt: "Call Home 给父母的一通电话互动装置",
     imageFit: "poster",
+    lightboxIndex: 0,
     primaryTag: "嵌入式开发",
     primaryTagClass: "border-neon-pink/45 bg-neon-pink/[0.08] text-[#e68aff]",
     hoverBorderClass: "hover:border-neon-pink/40",
@@ -228,6 +235,7 @@ const PROJECTS: ProjectItem[] = [
     image: "/claude-signal-project-card.webp",
     imageAlt: "Claude Signal 多会话 Agent 实体审批台",
     imageFit: "poster",
+    lightboxIndex: 1,
     primaryTag: "嵌入式开发",
     primaryTagClass: "border-[#4ade80]/45 bg-[#4ade80]/[0.08] text-[#6ee7a0]",
     hoverBorderClass: "hover:border-[#4ade80]/40",
@@ -240,6 +248,23 @@ const PROJECTS: ProjectItem[] = [
       spec: "ESP32-S3 · OLED · 实体按键",
       dotClass: "bg-[#4ade80] shadow-[0_0_8px_#4ade80]",
     },
+  },
+];
+
+const HARDWARE_LIGHTBOX_ITEMS: LightboxItem[] = [
+  {
+    src: "/call-home-project-card.webp",
+    alt: "Call Home 给父母的一通电话互动装置",
+    title: "07 · Call Home · 给父母的一通电话",
+    caption:
+      "以 Raspberry Pi 5 为主控，联动超声波测距、STM32 与听筒微动开关，完成靠近唤醒、拿起倾听与扫码联系的三态硬件交互闭环。",
+  },
+  {
+    src: "/claude-signal-project-card.webp",
+    alt: "Claude Signal 多会话 Agent 实体审批台",
+    title: "08 · Claude Signal · 实体审批台",
+    caption:
+      "基于 ESP32-S3 汇总后台多路 Claude Code 会话运行状态，通过红黄绿信号灯、OLED 屏幕与实体街机按键实现脱离屏幕的低摩擦人工审批。",
   },
 ];
 
@@ -285,6 +310,20 @@ function MediaFrame({ project }: { project: ProjectItem }) {
     );
   }
 
+  if (project.lightboxIndex !== undefined) {
+    return (
+      <div className="p-2.5 pb-0 shrink-0">
+        <LightboxTrigger
+          index={project.lightboxIndex}
+          label={`放大查看 ${project.title} 原型图`}
+          className="rounded-[13px] overflow-hidden"
+        >
+          {inner}
+        </LightboxTrigger>
+      </div>
+    );
+  }
+
   return <div className="p-2.5 pb-0 shrink-0">{inner}</div>;
 }
 
@@ -307,10 +346,11 @@ export function Work() {
     cat === "all" ? PROJECTS.length : PROJECTS.filter((p) => p.category === cat).length;
 
   return (
-    <section
-      id="work"
-      className="relative z-10 w-full px-6 md:px-12 py-16 md:py-24"
-    >
+    <LightboxProvider items={HARDWARE_LIGHTBOX_ITEMS}>
+      <section
+        id="work"
+        className="relative z-10 w-full px-6 md:px-12 py-16 md:py-24"
+      >
       {/* Header */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-14 mb-9">
         <BlurText
@@ -388,13 +428,17 @@ export function Work() {
                 <motion.article
                   id={project.id}
                   whileHover={{ y: -5 }}
-                  className={`${project.id === "project-quicknote" ? quickNote.card : ""} group/card relative flex h-full scroll-mt-24 flex-col overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#0b0b14] shadow-[0_12px_48px_rgba(0,0,0,0.45)] transition-all duration-300 ${project.hoverBorderClass} hover:shadow-[0_20px_60px_rgba(0,0,0,0.55),0_0_36px_rgba(0,200,255,0.08)]`}
+                  className={`${project.id === "project-quicknote" ? quickNote.card : ""} group/card relative flex h-full scroll-mt-24 flex-col overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#0b0b14] shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_12px_48px_rgba(0,0,0,0.45)] transition-all duration-300 ${project.hoverBorderClass} hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.11),0_20px_60px_rgba(0,0,0,0.55),0_0_36px_rgba(0,200,255,0.08)]`}
                 >
                   <MediaFrame project={project} />
 
                   <div className="flex flex-1 flex-col p-6 md:p-7">
-                    {/* Tag Chips */}
+                    {/* Monograph Index + Tag Chips */}
                     <div className="mb-3.5 flex flex-wrap items-center gap-2">
+                      <span className="font-display text-[12.5px] tabular-nums tracking-[0.12em] text-text-muted">
+                        {project.index}
+                      </span>
+                      <span className="h-3 w-px bg-white/[0.12] mr-0.5" aria-hidden="true" />
                       <span
                         className={`rounded-full border px-3 py-1 font-body text-[11px] font-medium tracking-[0.04em] ${project.primaryTagClass}`}
                       >
@@ -492,6 +536,7 @@ export function Work() {
           ))}
         </AnimatePresence>
       </motion.div>
-    </section>
+      </section>
+    </LightboxProvider>
   );
 }

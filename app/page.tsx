@@ -59,8 +59,11 @@ export default function Home() {
       <main>
         <Hero active={introDone} />
         <Identity />
+        <div className="section-hairline" aria-hidden="true" />
         <Work />
+        <div className="section-hairline" aria-hidden="true" />
         <Method />
+        <div className="section-hairline" aria-hidden="true" />
         {/* 3D 旋转卡片 · 能力展示 */}
         <section
           id="capabilities"
@@ -88,7 +91,9 @@ export default function Home() {
             <RotatingCards3D />
           </div>
         </section>
+        <div className="section-hairline" aria-hidden="true" />
         <About />
+        <div className="section-hairline" aria-hidden="true" />
         <Contact />
       </main>
       <Footer />
