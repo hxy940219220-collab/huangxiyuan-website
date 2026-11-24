@@ -24,6 +24,13 @@
   cursor: zoom-in;
 }
 .imageLink img { display: block; width: 100%; height: auto; }
+/* Full-window captures also fit shorter laptop displays. The link opens the native pixels. */
+.overview .imageLink, .chapter > .scene > .imageLink {
+  width: fit-content; max-width: 100%; margin-inline: auto;
+}
+.overview .imageLink img, .chapter > .scene > .imageLink img {
+  width: auto; max-width: 100%; height: auto; max-height: 83svh; object-fit: contain;
+}
 .imageLink:hover { outline: 1px solid var(--accent); }
 @media (max-width: 849px) {
   .grid { grid-template-columns: minmax(0, 1fr); }
