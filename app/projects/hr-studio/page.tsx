@@ -97,7 +97,6 @@ export default function HRStudioPage() {
       <section className={`${styles.wrap} ${styles.hero}`} aria-labelledby="hr-title">
         <h1 id="hr-title" className={styles.longTitle}>{title}</h1>
         <p className={styles.lead}>{description}</p>
-        <a className={styles.demoLink} href="https://hr-dadang.vercel.app/" target="_blank" rel="noopener noreferrer">打开示例工作台 ↗</a>
         <figure className={gallery.overview}>
           <a className={gallery.imageLink} href={cover.url} target="_blank" rel="noreferrer" aria-label="查看完整工作台原图">
             <Screenshot original={cover.url} alt={cover.alt} width={cover.width} height={cover.height} cover />

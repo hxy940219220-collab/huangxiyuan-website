@@ -123,7 +123,6 @@ const PROJECTS: ProjectItem[] = [
     summary: "在办公室地图上点选同事，就能打开员工档案。为招聘岗位开启单独的 AI 会话，可以结合候选人的简历和面试记录拟定追问，并把需要核实的事项建成待办。",
     actions: [
       { label: "查看功能截图", href: "/projects/hr-studio", variant: "primary", icon: "arrow" },
-      { label: "体验工作台", href: "https://hr-dadang.vercel.app/", external: true, variant: "secondary", icon: "arrow" },
     ],
   },
   {
