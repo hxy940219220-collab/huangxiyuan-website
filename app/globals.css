@@ -59,7 +59,6 @@
 
 html {
   overflow-x: clip;
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -213,20 +212,11 @@ body {
 }
 
 /* ============================================================
-   CURSOR TARGET — expanded hit area for TargetCursor lock-on
-   Wrapped in @layer components so utility classes like `absolute`
-   and `fixed` always take precedence over `position: relative`.
+   CURSOR TARGET — semantic hook for CustomCursor lock-on
    ============================================================ */
 @layer components {
   .cursor-target {
     position: relative;
-  }
-  .cursor-target::before {
-    content: "";
-    position: absolute;
-    inset: -40px;
-    z-index: -1;
-    pointer-events: none;
   }
 }
 

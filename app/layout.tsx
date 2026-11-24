@@ -3,7 +3,6 @@ import { Newsreader, Noto_Serif_SC, Plus_Jakarta_Sans } from "next/font/google";
 import "@free-fonts/zhuque-fangsong/zhuque-fangsong.css";
 import "misans/lib/Normal/MiSansVF.min.css";
 import "./globals.css";
-import { SmoothScroll } from "./components/SmoothScroll";
 import { CustomCursor } from "./components/CustomCursor";
 import { Particles } from "./components/Particles";
 
@@ -78,7 +77,6 @@ export default function RootLayout({
       className={`${newsreader.variable} ${notoSerifSC.variable} ${plusJakarta.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-bg-deepest text-text-primary font-body">
-        <SmoothScroll />
         <CustomCursor />
         <Particles />
         {children}

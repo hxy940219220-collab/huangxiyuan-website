@@ -1,15 +1,12 @@
 "use client";
 
 import { useReducedMotion } from "motion/react";
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 
-/* ------------------------------------------------------------------ */
-/* 环境粒子系统 —— Canvas 2D                                              */
-/* · 适量霓虹光点缓慢漂浮，以 30fps 保留氛围并控制持续开销                    */
-/* · 鼠标附近粒子微弱排斥 (150px 范围内最大偏移 ~8px) + 离开后 spring 回位    */
-/* · 粒子间近距离连线（星座网络）                                            */
-/* · 径向渐变 mask 让边缘自然淡出                                          */
-/* ------------------------------------------------------------------ */
+/* 轻量级环境星尘粒子（仅桌面端挂载）：
+   - 移除高开销的全屏 CSS mask-image 与 lighter 混合模式
+   - 粒子数精简至 42 个，按颜色分组合并 Path 绘制（每帧仅 5 次 fill + 1 次 stroke）
+   - 24fps 帧率限制，页面隐藏或开场动画期间自动暂停，滚动完全零卡顿 */
 
 interface Particle {
   x: number;
@@ -17,240 +14,139 @@ interface Particle {
   vx: number;
   vy: number;
   size: number;
-  baseSize: number;
-  color: string;
-  opacity: number;
-  phase: number;    // 正弦摇摆相位
-  speed: number;    // 个体速度系数
+  colorIdx: number;
 }
 
-const NEON_COLORS = [
-  "rgba(0,200,255,@@@)",    // neon-cyan
-  "rgba(216,76,255,@@@)",   // neon-pink
-  "rgba(255,216,74,@@@)",   // neon-gold
-  "rgba(255,106,26,@@@)",   // neon-orange
-  "rgba(255,255,255,@@@)",  // white (rare)
+const PALETTE = [
+  "rgba(0,200,255,0.28)",
+  "rgba(216,76,255,0.24)",
+  "rgba(255,216,74,0.24)",
+  "rgba(255,106,26,0.22)",
+  "rgba(255,255,255,0.22)",
 ];
 
-const PARTICLE_COUNT_DESKTOP = 160;
-const PARTICLE_COUNT_MOBILE = 48;
-const FRAME_INTERVAL = 1000 / 30;
-
-function getParticleCount(w: number): number {
-  return w < 768 ? PARTICLE_COUNT_MOBILE : PARTICLE_COUNT_DESKTOP;
-}
-const MOUSE_RADIUS = 150;       // 光标排斥半径
-const CONNECT_DISTANCE = 130;   // 连线最大距离
-const MAX_LINE_OPACITY = 0.22;  // 连线最大不透明度
+const DESKTOP_PARTICLE_COUNT = 42;
+const CONNECT_DIST_SQ = 115 * 115;
+const FRAME_INTERVAL = 1000 / 24;
 
 function createParticle(w: number, h: number): Particle {
-  const colorTemplate = NEON_COLORS[Math.floor(Math.random() * NEON_COLORS.length)];
-  const baseOpacity = Math.random() * 0.45 + 0.1;
-  const size = Math.random() * 2.0 + 0.5;
-
   return {
     x: Math.random() * w,
     y: Math.random() * h,
-    vx: (Math.random() - 0.5) * 0.35,
-    vy: (Math.random() - 0.5) * 0.35 - 0.08, // 轻微向上漂浮
-    size,
-    baseSize: size,
-    color: colorTemplate.replace("@@@", String(baseOpacity)),
-    opacity: baseOpacity,
-    phase: Math.random() * Math.PI * 2,
-    speed: Math.random() * 0.6 + 0.4,
+    vx: (Math.random() - 0.5) * 0.24,
+    vy: (Math.random() - 0.5) * 0.24 - 0.05,
+    size: Math.random() * 1.4 + 0.6,
+    colorIdx: Math.floor(Math.random() * PALETTE.length),
   };
 }
 
 export function Particles() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const reduced = useReducedMotion();
-  const animRef = useRef<number>(0);
-  const animateFnRef = useRef<(now: number) => void>(() => undefined);
-  const particlesRef = useRef<Particle[]>([]);
-  const mouseRef = useRef({ x: -9999, y: -9999 });
-  const timeRef = useRef(0);
-  const lastFrameRef = useRef(0);
-  const dimsRef = useRef({ w: 0, h: 0 });
+  const [isDesktop, setIsDesktop] = useState(false);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  /* ---- 鼠标追踪 ---- */
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
-    };
-    const onLeave = () => {
-      mouseRef.current = { x: -9999, y: -9999 };
-    };
-    window.addEventListener("mousemove", onMove, { passive: true });
-    document.addEventListener("mouseleave", onLeave);
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseleave", onLeave);
-    };
-  }, []);
-
-  /* ---- 动画循环 ---- */
-  const animate = useCallback((now: number) => {
-    animRef.current = requestAnimationFrame((next) => animateFnRef.current(next));
-
-    // 开场期间只保留封面动画，避免 Canvas、视频和文字动效争抢主线程。
-    if (document.querySelector("[data-evan-intro]")) return;
-
-    const elapsed = now - lastFrameRef.current;
-    if (elapsed < FRAME_INTERVAL) return;
-    lastFrameRef.current = now - (elapsed % FRAME_INTERVAL);
-
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const { w, h } = dimsRef.current;
-    const particles = particlesRef.current;
-    const mouse = mouseRef.current;
-    timeRef.current += 0.008;
-
-    ctx.clearRect(0, 0, w, h);
-
-    // 混合模式让粒子叠加发光
-    ctx.globalCompositeOperation = "lighter";
-
-    // 第一步：更新 + 绘制所有粒子
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
-
-      // 正弦摇摆（有机感）
-      const sway = Math.sin(timeRef.current * p.speed + p.phase) * 0.15;
-
-      // 光标排斥 — 粒子在光标附近被轻轻推开
-      const dx = mouse.x - p.x;
-      const dy = mouse.y - p.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-
-      if (dist < MOUSE_RADIUS && dist > 1) {
-        const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS; // 0~1
-        const angle = Math.atan2(dy, dx);
-        const push = force * force * 0.5; // 二次方让近处排斥力更强
-        p.vx -= Math.cos(angle) * push * 0.025;
-        p.vy -= Math.sin(angle) * push * 0.025;
-      }
-
-      // 阻尼 + 微弱回拉力 (spring-back)
-      p.vx *= 0.994;
-      p.vy *= 0.994;
-
-      // 光标离开后微弱的原位倾向 (只对明显偏移的粒子)
-      if (dist > MOUSE_RADIUS * 1.5) {
-        p.vx *= 0.99; // 更快衰减
-        p.vy *= 0.99;
-      }
-
-      // 速度限制
-      const spd = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-      if (spd > 0.7) {
-        p.vx = (p.vx / spd) * 0.7;
-        p.vy = (p.vy / spd) * 0.7;
-      }
-      if (spd < 0.05) {
-        // 微小的随机扰动防止静止
-        p.vx += (Math.random() - 0.5) * 0.02;
-        p.vy += (Math.random() - 0.5) * 0.02;
-      }
-
-      p.x += p.vx + sway;
-      p.y += p.vy;
-
-      // 边界环绕
-      if (p.x < -20) p.x = w + 20;
-      if (p.x > w + 20) p.x = -20;
-      if (p.y < -20) p.y = h + 20;
-      if (p.y > h + 20) p.y = -20;
-
-      // 绘制粒子
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fillStyle = p.color;
-      ctx.fill();
-    }
-
-    // 第二步：粒子间连线
-    for (let i = 0; i < particles.length; i++) {
-      const a = particles[i];
-      // 只检查附近粒子（性能优化：分批检查）
-      const step = Math.max(1, Math.floor(particles.length / 60));
-      for (let j = i + step; j < particles.length; j += step) {
-        const b = particles[j];
-        const dx = a.x - b.x;
-        const dy = a.y - b.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < CONNECT_DISTANCE) {
-          const alpha = (1 - dist / CONNECT_DISTANCE) * MAX_LINE_OPACITY;
-          // 取两个粒子颜色的平均值
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = `rgba(150,180,255,${alpha.toFixed(3)})`;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
-      }
-    }
-
-    ctx.globalCompositeOperation = "source-over";
-  }, []);
-
-  /* ---- 初始化 ---- */
   useEffect(() => {
     if (reduced) return;
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, [reduced]);
+
+  useEffect(() => {
+    if (reduced || !isDesktop) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
+    const ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) return;
+
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+    let rafId = 0;
+    let lastTime = 0;
+
+    const particles: Particle[] = Array.from({ length: DESKTOP_PARTICLE_COUNT }, () =>
+      createParticle(w, h)
+    );
 
     const resize = () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
+      w = window.innerWidth;
+      h = window.innerHeight;
       canvas.width = w;
       canvas.height = h;
-      dimsRef.current = { w, h };
-
-      // 按屏幕尺寸决定粒子数量
-      const target = getParticleCount(w);
-      const current = particlesRef.current;
-      if (current.length !== target) {
-        particlesRef.current = Array.from({ length: target }, () =>
-          createParticle(w, h)
-        );
-      } else if (current.length === 0) {
-        particlesRef.current = Array.from({ length: target }, () =>
-          createParticle(w, h)
-        );
-      }
     };
     resize();
 
-    animateFnRef.current = animate;
-    animRef.current = requestAnimationFrame((now) => animateFnRef.current(now));
-    window.addEventListener("resize", resize);
+    const tick = (now: number) => {
+      rafId = window.requestAnimationFrame(tick);
+      if (document.hidden) return;
+
+      const elapsed = now - lastTime;
+      if (elapsed < FRAME_INTERVAL) return;
+      lastTime = now - (elapsed % FRAME_INTERVAL);
+
+      ctx.clearRect(0, 0, w, h);
+
+      // 更新位置
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < -10) p.x = w + 10;
+        else if (p.x > w + 10) p.x = -10;
+        if (p.y < -10) p.y = h + 10;
+        else if (p.y > h + 10) p.y = -10;
+      }
+
+      // 合并单次描边绘制近邻连线
+      ctx.beginPath();
+      ctx.strokeStyle = "rgba(150,180,255,0.08)";
+      ctx.lineWidth = 0.5;
+      for (let i = 0; i < particles.length; i++) {
+        const a = particles[i];
+        for (let j = i + 1; j < particles.length; j++) {
+          const b = particles[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          if (dx * dx + dy * dy < CONNECT_DIST_SQ) {
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+          }
+        }
+      }
+      ctx.stroke();
+
+      // 按颜色分批绘制圆点（仅 5 次 fill）
+      for (let c = 0; c < PALETTE.length; c++) {
+        ctx.beginPath();
+        ctx.fillStyle = PALETTE[c];
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          if (p.colorIdx !== c) continue;
+          ctx.moveTo(p.x + p.size, p.y);
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        }
+        ctx.fill();
+      }
+    };
+
+    rafId = window.requestAnimationFrame(tick);
+    window.addEventListener("resize", resize, { passive: true });
 
     return () => {
-      cancelAnimationFrame(animRef.current);
+      window.cancelAnimationFrame(rafId);
       window.removeEventListener("resize", resize);
     };
-  }, [animate, reduced]);
+  }, [reduced, isDesktop]);
 
-  if (reduced) return null;
+  if (reduced || !isDesktop) return null;
 
   return (
     <canvas
       ref={canvasRef}
       className="fixed inset-0 z-[6] pointer-events-none"
       aria-hidden="true"
-      style={{
-        maskImage:
-          "radial-gradient(ellipse at center, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 100%)",
-        WebkitMaskImage:
-          "radial-gradient(ellipse at center, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 100%)",
-      }}
     />
   );
 }

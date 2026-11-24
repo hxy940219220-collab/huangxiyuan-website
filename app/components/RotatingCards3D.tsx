@@ -5,7 +5,7 @@ import { useReducedMotion } from "motion/react";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 
 /* ------------------------------------------------------------------ */
-/* 3D 旋转卡片 — 窄长方形 + 前半球展示 + 键盘 / 侧翼点击 / 导航联动      */
+/* 3D 旋转卡片 — 按需 rAF 驱动（静止时 0% CPU）+ 无 3D 内置 blur 掉帧    */
 /* ------------------------------------------------------------------ */
 
 interface CardData {
@@ -26,7 +26,7 @@ const CARDS: CardData[] = [
     num: "01",
     id: "tool-gpt",
     title: "GPT",
-    desc: "用 GPT-6.2 Astra 做复杂推理、产品研究和代码评审。日常迭代与批量任务可用 GPT-6.2 Sol。",
+    desc: "用 GPT-6.2 Astra 做复杂推理、产品研究和代码评审；日常迭代可用 GPT-6.2 Sol。",
     tags: ["GPT-6.2 Astra", "GPT-6.2 Sol"],
     gradient:
       "radial-gradient(circle at 28% 24%, rgba(0,200,255,0.22), transparent 26%), radial-gradient(circle at 76% 60%, rgba(0,180,230,0.14), transparent 30%)",
@@ -39,7 +39,7 @@ const CARDS: CardData[] = [
     num: "02",
     id: "tool-claude",
     title: "Claude",
-    desc: "用 Claude Fable 5.2 拆解复杂技术问题，用 Claude Opus 5.5 做架构评审和长任务规划。",
+    desc: "用 Claude Fable 5.2 拆解复杂技术问题，用 Claude Opus 5.5 做架构评审与长任务规划。",
     tags: ["Fable 5.2", "Opus 5.5"],
     gradient:
       "radial-gradient(circle at 24% 28%, rgba(216,76,255,0.20), transparent 28%), radial-gradient(circle at 72% 72%, rgba(180,50,230,0.14), transparent 26%)",
@@ -52,7 +52,7 @@ const CARDS: CardData[] = [
     num: "03",
     id: "tool-grok-bot",
     title: "Grok Bot",
-    desc: "在云端电脑里按授权操作工具，完成定期的信息整理和跨应用任务。需要确认的动作由人审批。",
+    desc: "在云端环境按授权完成定期信息整理与跨应用跟进，关键动作保留人工审批。",
     tags: ["Personal Agent", "任务授权"],
     gradient:
       "radial-gradient(circle at 24% 28%, rgba(40,220,178,0.18), transparent 28%), radial-gradient(circle at 74% 68%, rgba(0,200,255,0.12), transparent 28%)",
@@ -65,7 +65,7 @@ const CARDS: CardData[] = [
     num: "04",
     id: "tool-gemini",
     title: "Gemini",
-    desc: "用 Gemini 4 Carbon 对照文档、图表和截图，完成多步骤研究，并核对关键结论的依据。",
+    desc: "用 Gemini 4 Carbon 对照文档、图表与界面截图完成多模态研究并核实结论依据。",
     tags: ["Gemini 4 Carbon", "多模态研究"],
     gradient:
       "radial-gradient(circle at 26% 34%, rgba(255,216,74,0.20), transparent 28%), radial-gradient(circle at 70% 30%, rgba(220,180,50,0.14), transparent 28%)",
@@ -78,7 +78,7 @@ const CARDS: CardData[] = [
     num: "05",
     id: "tool-deepseek-harness",
     title: "DeepSeek Harness",
-    desc: "用 DeepSeek V4.1 Flash 辅助读代码、定位改动和运行测试，通过工具执行轨迹核对结果。",
+    desc: "用 DeepSeek V4.1 Flash 辅助阅读代码、定位改动与运行测试，结合执行轨迹核验结果。",
     tags: ["DeepSeek V4.1 Flash", "执行轨迹"],
     gradient:
       "radial-gradient(circle at 24% 24%, rgba(0,90,255,0.22), transparent 28%), radial-gradient(circle at 66% 36%, rgba(30,110,255,0.14), transparent 28%)",
@@ -91,7 +91,7 @@ const CARDS: CardData[] = [
     num: "06",
     id: "tool-typeless",
     title: "Typeless",
-    desc: "把口述想法转成可编辑的需求、会议要点和给 Agent 的任务说明。",
+    desc: "把自然口述想法实时整理为结构化需求文档、会议纪要与给 Agent 的任务说明。",
     tags: ["语音输入", "任务说明"],
     gradient:
       "radial-gradient(circle at 28% 30%, rgba(255,106,26,0.20), transparent 28%), radial-gradient(circle at 68% 64%, rgba(230,90,20,0.14), transparent 28%)",
@@ -113,7 +113,7 @@ function CardFace({ card, isFront }: { card: CardData; isFront: boolean }) {
           {card.num}
         </span>
         <span
-          className="inline-flex h-10 w-10 items-center justify-center rounded-[11px] border bg-white/[0.05] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-colors duration-300"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-[11px] border bg-white/[0.05] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-colors duration-250"
           style={{
             borderColor: isFront ? card.accentBorder : "rgba(255,255,255,0.12)",
           }}
@@ -136,7 +136,7 @@ function CardFace({ card, isFront }: { card: CardData; isFront: boolean }) {
       >
         {card.title}
       </h3>
-      <p className="mt-3 md:mt-4 font-body text-[13px] leading-[1.78] text-text-secondary/85 [overflow-wrap:anywhere]">
+      <p className="mt-3 md:mt-4 font-body text-[13px] leading-[1.74] text-text-secondary/85 [overflow-wrap:anywhere]">
         {card.desc}
       </p>
       <div className="mt-auto pt-5 md:pt-7">
@@ -160,7 +160,6 @@ export function RotatingCards3D() {
   const [rotation, setRotation] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const dragStartRef = useRef({ x: 0, rotation: 0, moved: false });
-  const containerRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const displayRef = useRef(0);
   const targetRef = useRef(0);
@@ -170,18 +169,54 @@ export function RotatingCards3D() {
     return Math.round(rot / ANGLE_PER_CARD) * ANGLE_PER_CARD;
   }, []);
 
+  // 按需启动插值动画，到位即停，静止时完全不占用主线程
+  const startSettleLoop = useCallback(() => {
+    if (reduced || rafRef.current !== 0) return;
+
+    const step = () => {
+      const ring = ringRef.current;
+      if (!ring) {
+        rafRef.current = 0;
+        return;
+      }
+      const displayed = displayRef.current;
+      const target = targetRef.current;
+      const diff = target - displayed;
+
+      if (Math.abs(diff) < 0.05) {
+        displayRef.current = target;
+        ring.style.transform = `rotateY(${-target}deg)`;
+        rafRef.current = 0;
+        return;
+      }
+
+      const next = displayed + diff * 0.2;
+      displayRef.current = next;
+      ring.style.transform = `rotateY(${-next}deg)`;
+      rafRef.current = window.requestAnimationFrame(step);
+    };
+
+    rafRef.current = window.requestAnimationFrame(step);
+  }, [reduced]);
+
+  useEffect(() => {
+    return () => {
+      if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
   const rotateToIndex = useCallback(
     (index: number) => {
       if (reduced) return;
       const snapped = snapToNearest(targetRef.current);
       const targetCard = index * ANGLE_PER_CARD;
-      // 取最短旋转路径，避免跨圈空转
       const delta = ((((targetCard - snapped) % 360) + 540) % 360) - 180;
       const destination = snapped + delta;
       targetRef.current = destination;
       setRotation(destination);
+      startSettleLoop();
     },
-    [reduced, snapToNearest]
+    [reduced, snapToNearest, startSettleLoop]
   );
 
   const rotateTo = useCallback(
@@ -190,11 +225,11 @@ export function RotatingCards3D() {
       const delta = direction === "next" ? ANGLE_PER_CARD : -ANGLE_PER_CARD;
       targetRef.current = snapToNearest(targetRef.current) + delta;
       setRotation(targetRef.current);
+      startSettleLoop();
     },
-    [reduced, snapToNearest]
+    [reduced, snapToNearest, startSettleLoop]
   );
 
-  // 响应导航栏「工具栈」下拉项点击，自动旋转对应卡片到正面
   useEffect(() => {
     const handleSelectTool = (event: Event) => {
       const toolId = (event as CustomEvent<string>).detail;
@@ -204,30 +239,6 @@ export function RotatingCards3D() {
     window.addEventListener("hxy:select-tool", handleSelectTool);
     return () => window.removeEventListener("hxy:select-tool", handleSelectTool);
   }, [rotateToIndex]);
-
-  useEffect(() => {
-    if (reduced) return;
-    const ring = ringRef.current;
-    if (!ring) return;
-
-    const loop = () => {
-      const displayed = displayRef.current;
-      const target = targetRef.current;
-      let next = displayed;
-      if (Math.abs(target - displayed) < 0.01) {
-        next = target;
-      } else {
-        next = displayed + (target - displayed) * 0.18;
-      }
-      if (next !== displayed) {
-        displayRef.current = next;
-        ring.style.transform = `rotateY(${-next}deg)`;
-      }
-      rafRef.current = requestAnimationFrame(loop);
-    };
-    rafRef.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [reduced]);
 
   const handlePointerDown = useCallback(
     (event: React.PointerEvent) => {
@@ -248,7 +259,9 @@ export function RotatingCards3D() {
       const nextRotation = dragStartRef.current.rotation - dx * 0.38;
       targetRef.current = nextRotation;
       displayRef.current = nextRotation;
-      setRotation(nextRotation);
+      if (ringRef.current) {
+        ringRef.current.style.transform = `rotateY(${-nextRotation}deg)`;
+      }
     },
     [isDragging, reduced]
   );
@@ -259,7 +272,8 @@ export function RotatingCards3D() {
     const snapped = snapToNearest(targetRef.current);
     targetRef.current = snapped;
     setRotation(snapped);
-  }, [isDragging, snapToNearest]);
+    startSettleLoop();
+  }, [isDragging, snapToNearest, startSettleLoop]);
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
@@ -279,7 +293,6 @@ export function RotatingCards3D() {
 
   return (
     <div
-      ref={containerRef}
       tabIndex={0}
       role="region"
       aria-label="AI 工具栈卡片轮播，支持拖拽或左右方向键切换"
@@ -296,37 +309,36 @@ export function RotatingCards3D() {
         style={{
           perspective: "1600px",
           perspectiveOrigin: "50% 48%",
-          height: "clamp(22.5rem, 44vw, 27rem)",
+          height: "clamp(21.5rem, 42vw, 26rem)",
           maxWidth: "1200px",
         }}
       >
-        {/* 桌面端两侧悬浮切换按钮（移动端移至底部避免遮挡卡片正文） */}
         {!reduced && (
           <>
             <button
               type="button"
               onClick={() => rotateTo("prev")}
-              className="cursor-target hidden md:flex absolute left-3 z-[80] h-13 w-13 -translate-y-1/2 top-1/2 items-center justify-center rounded-full border border-white/[0.14] bg-white/[0.06] text-white/55 shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-neon-cyan/40 hover:bg-white/[0.12] hover:text-white hover:shadow-[0_0_24px_rgba(0,200,255,0.18)] cursor-pointer"
+              className="cursor-target hidden md:flex absolute left-3 z-[80] h-12 w-12 -translate-y-1/2 top-1/2 items-center justify-center rounded-full border border-white/[0.14] bg-[#0b0b14]/90 text-white/60 shadow-lg transition-colors duration-200 hover:border-neon-cyan/45 hover:text-white cursor-pointer"
               aria-label="上一张工具卡片"
             >
-              <CaretLeft size={22} weight="light" />
+              <CaretLeft size={21} weight="light" />
             </button>
             <button
               type="button"
               onClick={() => rotateTo("next")}
-              className="cursor-target hidden md:flex absolute right-3 z-[80] h-13 w-13 -translate-y-1/2 top-1/2 items-center justify-center rounded-full border border-white/[0.14] bg-white/[0.06] text-white/55 shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-neon-cyan/40 hover:bg-white/[0.12] hover:text-white hover:shadow-[0_0_24px_rgba(0,200,255,0.18)] cursor-pointer"
+              className="cursor-target hidden md:flex absolute right-3 z-[80] h-12 w-12 -translate-y-1/2 top-1/2 items-center justify-center rounded-full border border-white/[0.14] bg-[#0b0b14]/90 text-white/60 shadow-lg transition-colors duration-200 hover:border-neon-cyan/45 hover:text-white cursor-pointer"
               aria-label="下一张工具卡片"
             >
-              <CaretRight size={22} weight="light" />
+              <CaretRight size={21} weight="light" />
             </button>
           </>
         )}
 
         <div
-          className="absolute left-1/2 top-4"
+          className="absolute left-1/2 top-3"
           style={{
             width: "min(32rem, 80vw)",
-            height: "23rem",
+            height: "22rem",
             transform: "translateX(-50%)",
             transformStyle: "preserve-3d",
             transformOrigin: "50% 50%",
@@ -335,7 +347,7 @@ export function RotatingCards3D() {
         >
           <div
             ref={ringRef}
-            className="absolute inset-0"
+            className="absolute inset-0 will-change-transform"
             style={{
               transformStyle: "preserve-3d",
               transform: "rotateY(0deg)",
@@ -345,19 +357,17 @@ export function RotatingCards3D() {
               const cardAngle = index * ANGLE_PER_CARD;
               const relativeAngle = (((cardAngle - normalizedRotation) % 360) + 360) % 360;
               const cosAngle = Math.cos((relativeAngle * Math.PI) / 180);
-              // 只展示前半球（主卡 + 左右两张侧翼预览卡），背面卡片平滑淡出避免文字镜像叠影穿帮
               const frontness = Math.max(0, cosAngle);
               const isRear = cosAngle <= 0.02;
               const isFront = index === frontIndex;
-              const opacity = isRear ? 0 : 0.36 + frontness * 0.64;
-              const blur = isRear ? 4 : (1 - frontness) * 1.4;
+              const opacity = isRear ? 0 : 0.34 + frontness * 0.66;
               const z = Math.round(30 + (cosAngle + 1) * 20);
 
               let scale: number;
               if (relativeAngle < 36 || relativeAngle > 324) {
-                scale = 1.05;
+                scale = 1.04;
               } else if (relativeAngle < 108 || relativeAngle > 252) {
-                scale = 0.89;
+                scale = 0.88;
               } else {
                 scale = 0.72;
               }
@@ -371,22 +381,20 @@ export function RotatingCards3D() {
                       rotateToIndex(index);
                     }
                   }}
-                  className="scroll-mt-24 absolute rounded-[24px] border text-left shadow-[0_10px_26px_rgba(0,0,0,0.35)] w-[min(19.5rem,74vw)] md:w-[min(21.5rem,36vw)]"
+                  className="scroll-mt-24 absolute rounded-[24px] border text-left w-[min(19.5rem,74vw)] md:w-[min(21.5rem,36vw)] transition-opacity duration-200"
                   style={{
-                    height: "clamp(18.5rem, 34vw, 22rem)",
+                    height: "clamp(18rem, 33vw, 21.5rem)",
                     left: "50%",
                     top: "0px",
                     transform: `translateX(-50%) rotateY(${cardAngle}deg) translateZ(var(--ring-radius)) scale(${scale.toFixed(2)})`,
-                    transformStyle: "preserve-3d",
                     backfaceVisibility: "hidden",
                     WebkitBackfaceVisibility: "hidden",
-                    borderColor: isFront ? card.accentBorder : "rgba(255,255,255,0.12)",
+                    borderColor: isFront ? card.accentBorder : "rgba(255,255,255,0.11)",
                     boxShadow: isFront
-                      ? `0 16px 56px rgba(0,0,0,0.55), 0 0 40px ${card.glowColor.replace("0.45", "0.16")}, inset 0 1px 0 rgba(255,255,255,0.06)`
-                      : "0 12px 48px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.03)",
-                    backgroundColor: "rgba(11,11,20,0.94)",
-                    opacity: opacity.toFixed(4),
-                    filter: blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : "none",
+                      ? `0 16px 48px rgba(0,0,0,0.5), 0 0 32px ${card.glowColor.replace("0.45", "0.14")}, inset 0 1px 0 rgba(255,255,255,0.06)`
+                      : "0 10px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03)",
+                    backgroundColor: "#0b0b14",
+                    opacity: opacity.toFixed(3),
                     zIndex: String(z),
                     pointerEvents: isRear ? "none" : "auto",
                     cursor: isDragging ? "grabbing" : isFront ? "grab" : "pointer",
@@ -397,14 +405,6 @@ export function RotatingCards3D() {
                     className="pointer-events-none absolute inset-0 rounded-[24px]"
                     style={{ backgroundImage: card.gradient }}
                   />
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-[1px] rounded-[23px] border"
-                    style={{
-                      borderColor: isFront ? card.accentBorder : "rgba(255,255,255,0.06)",
-                    }}
-                  />
-
                   <CardFace card={card} isFront={isFront} />
                 </div>
               );
@@ -413,8 +413,8 @@ export function RotatingCards3D() {
         </div>
       </div>
 
-      {/* 底部控制区：移动端集成左右切换箭头 + 分页指示点，绝不遮挡卡片 */}
-      <div className="mt-5 md:mt-8 flex items-center justify-center gap-4">
+      {/* 底部控制区 */}
+      <div className="mt-4 md:mt-7 flex items-center justify-center gap-4">
         {!reduced && (
           <button
             type="button"
@@ -432,11 +432,10 @@ export function RotatingCards3D() {
               key={card.num}
               type="button"
               onClick={() => rotateToIndex(index)}
-              className="h-2 w-2 rounded-full transition-all duration-300 border-0 cursor-pointer"
+              className="h-2 w-2 rounded-full transition-transform duration-200 border-0 cursor-pointer"
               style={{
-                backgroundColor: index === frontIndex ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.18)",
-                boxShadow: index === frontIndex ? `0 0 10px ${CARDS[frontIndex].glowColor}` : "none",
-                transform: index === frontIndex ? "scale(1.45)" : "scale(1)",
+                backgroundColor: index === frontIndex ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.2)",
+                transform: index === frontIndex ? "scale(1.4)" : "scale(1)",
               }}
               aria-label={`切换到卡片 ${card.num} · ${card.title}`}
               aria-current={index === frontIndex ? "true" : undefined}

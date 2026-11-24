@@ -3,13 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
 
-/* Refined Reticle Cursor — 5 种状态：
-   1. 默认 · 漫游 — 柔和微光圆点 + 轻盈四角括号缓慢旋转
-   2. 链接悬停 · 聚焦 — 圆点隐去，四角括号贴附元素边缘
-   3. 按钮悬停 · 磁吸 — 四角贴附按钮圆角边缘
-   4. 封面预览 · 查看 — 悬停项目海报时呈现柔和毛玻璃「查看 ↗」药丸
-   5. 文字选择 / 离开视口 · 隐退 — 整体淡出
-   严格仅在精细指针设备（hover: hover + pointer: fine）且首次鼠标移动后挂载。 */
+/* High-Performance Reticle Cursor:
+   - 按需调度 rAF（鼠标静止时 0% CPU 占用，不再无限空转）
+   - 使用 pointerover/pointerout 事件委托替代逐帧 document.elementsFromPoint()
+   - 滚动时自动释放吸附框，零滚动期 getBoundingClientRect() 强制重排
+   - 全程使用 GPU translate3d 合成移动，仅在桌面端精细指针下挂载 */
+
+const CORNER_SIZE = 9;
+const DOT_SIZE = 4;
 
 function isButtonLike(el: Element): boolean {
   if (el.tagName === "BUTTON") return true;
@@ -20,9 +21,6 @@ function isButtonLike(el: Element): boolean {
   return false;
 }
 
-const CORNER_SIZE = 9;
-const DOT_SIZE = 4;
-
 export function CustomCursor() {
   const reduced = useReducedMotion();
   const [active, setActive] = useState(false);
@@ -31,13 +29,15 @@ export function CustomCursor() {
   const spinRef = useRef<HTMLDivElement>(null);
   const pillRef = useRef<HTMLDivElement>(null);
   const cornersRef = useRef<HTMLDivElement[]>([]);
+
   const rafRef = useRef(0);
   const posRef = useRef({ x: -100, y: -100 });
   const visibleRef = useRef(true);
-  const dirtyRef = useRef(true);
   const selectingRef = useRef(false);
+  const hoverModeRef = useRef<"roam" | "view" | "target">("roam");
+  const targetRectRef = useRef<DOMRect | null>(null);
+  const targetInsetRef = useRef(0);
 
-  // 严格限制仅在桌面端真实鼠标设备首次移动后启用，移动端/触屏/窄屏零渲染
   useEffect(() => {
     if (reduced || active) return;
     if (typeof window === "undefined") return;
@@ -49,7 +49,6 @@ export function CustomCursor() {
     const handleFirstMove = (e: MouseEvent) => {
       posRef.current = { x: e.clientX, y: e.clientY };
       visibleRef.current = true;
-      dirtyRef.current = true;
       setActive(true);
     };
 
@@ -67,12 +66,74 @@ export function CustomCursor() {
     if (!dot || !spin || !pill || corners.length < 4) return;
 
     const mq = window.matchMedia("(min-width: 768px) and (hover: hover) and (pointer: fine)");
+
+    const renderFrame = () => {
+      rafRef.current = 0;
+      const { x, y } = posRef.current;
+      const translate = `translate3d(${x}px, ${y}px, 0)`;
+
+      dot.style.transform = translate;
+      spin.style.transform = translate;
+      pill.style.transform =
+        hoverModeRef.current === "view" && visibleRef.current && !selectingRef.current
+          ? `${translate} translate(-50%, -50%) scale(1)`
+          : `${translate} translate(-50%, -50%) scale(0.85)`;
+
+      if (!visibleRef.current || selectingRef.current || !mq.matches) {
+        dot.style.opacity = "0";
+        pill.style.opacity = "0";
+        corners.forEach((c) => {
+          c.style.opacity = "0";
+        });
+        return;
+      }
+
+      if (hoverModeRef.current === "view") {
+        dot.style.opacity = "0";
+        corners.forEach((c) => {
+          c.style.opacity = "0";
+        });
+        pill.style.opacity = "1";
+        return;
+      }
+
+      pill.style.opacity = "0";
+
+      if (hoverModeRef.current === "target" && targetRectRef.current) {
+        const rect = targetRectRef.current;
+        const inset = targetInsetRef.current;
+        dot.style.opacity = "0";
+        corners.forEach((c) => {
+          c.style.opacity = "0.88";
+        });
+
+        corners[0].style.transform = `translate3d(${rect.left - x + inset}px, ${rect.top - y + inset}px, 0)`;
+        corners[1].style.transform = `translate3d(${rect.right - x - CORNER_SIZE - inset}px, ${rect.top - y + inset}px, 0)`;
+        corners[2].style.transform = `translate3d(${rect.right - x - CORNER_SIZE - inset}px, ${rect.bottom - y - CORNER_SIZE - inset}px, 0)`;
+        corners[3].style.transform = `translate3d(${rect.left - x + inset}px, ${rect.bottom - y - CORNER_SIZE - inset}px, 0)`;
+      } else {
+        dot.style.opacity = "0.85";
+        corners.forEach((c) => {
+          c.style.opacity = "0.24";
+        });
+
+        corners[0].style.transform = "translate3d(-13px, -13px, 0)";
+        corners[1].style.transform = "translate3d(4px, -13px, 0)";
+        corners[2].style.transform = "translate3d(4px, 4px, 0)";
+        corners[3].style.transform = "translate3d(-13px, 4px, 0)";
+      }
+    };
+
+    const scheduleRender = () => {
+      if (rafRef.current === 0) {
+        rafRef.current = window.requestAnimationFrame(renderFrame);
+      }
+    };
+
     const syncBodyCursor = () => {
       document.body.style.cursor = mq.matches ? "none" : "";
-      if (!mq.matches) {
-        visibleRef.current = false;
-        dirtyRef.current = true;
-      }
+      if (!mq.matches) visibleRef.current = false;
+      scheduleRender();
     };
     syncBodyCursor();
     mq.addEventListener("change", syncBodyCursor);
@@ -80,162 +141,92 @@ export function CustomCursor() {
     const onMove = (e: MouseEvent) => {
       posRef.current = { x: e.clientX, y: e.clientY };
       visibleRef.current = true;
-      dirtyRef.current = true;
+      scheduleRender();
+    };
+
+    const onPointerOver = (e: PointerEvent) => {
+      const el = e.target instanceof Element ? e.target : null;
+      if (!el) return;
+
+      const viewEl = el.closest(".cursor-view");
+      if (viewEl) {
+        hoverModeRef.current = "view";
+        targetRectRef.current = null;
+        scheduleRender();
+        return;
+      }
+
+      const targetEl = el.closest(".cursor-target");
+      if (targetEl) {
+        hoverModeRef.current = "target";
+        targetRectRef.current = targetEl.getBoundingClientRect();
+        targetInsetRef.current = isButtonLike(targetEl) ? 4 : -2;
+        scheduleRender();
+        return;
+      }
+
+      if (hoverModeRef.current !== "roam") {
+        hoverModeRef.current = "roam";
+        targetRectRef.current = null;
+        scheduleRender();
+      }
+    };
+
+    const onScroll = () => {
+      // 滚动期间释放吸附框，零强制重排
+      if (hoverModeRef.current === "target") {
+        hoverModeRef.current = "roam";
+        targetRectRef.current = null;
+        scheduleRender();
+      }
     };
 
     const onLeave = () => {
       visibleRef.current = false;
-      dirtyRef.current = true;
+      scheduleRender();
     };
 
     const onSelectionChange = () => {
       const sel = window.getSelection();
       selectingRef.current = !!(sel && sel.toString().length > 0 && sel.type === "Range");
-      dirtyRef.current = true;
-    };
-
-    const onScroll = () => {
-      dirtyRef.current = true;
-    };
-
-    const hideAll = () => {
-      dot.style.opacity = "0";
-      pill.style.opacity = "0";
-      pill.style.transform = "translate(-50%, -50%) scale(0.85)";
-      corners.forEach((c) => {
-        c.style.opacity = "0";
-      });
-      spin.classList.remove("cursor-spin");
-    };
-
-    const loop = () => {
-      if (!dirtyRef.current) {
-        rafRef.current = requestAnimationFrame(loop);
-        return;
-      }
-      dirtyRef.current = false;
-
-      const { x, y } = posRef.current;
-
-      dot.style.left = `${x}px`;
-      dot.style.top = `${y}px`;
-      spin.style.left = `${x}px`;
-      spin.style.top = `${y}px`;
-      pill.style.left = `${x}px`;
-      pill.style.top = `${y}px`;
-
-      if (!visibleRef.current || selectingRef.current) {
-        hideAll();
-        rafRef.current = requestAnimationFrame(loop);
-        return;
-      }
-
-      const els = document.elementsFromPoint(x, y);
-      let viewTarget: Element | null = null;
-      let target: Element | null = null;
-      let isButton = false;
-
-      for (const el of els) {
-        if (el.matches?.(".cursor-view") || el.closest?.(".cursor-view")) {
-          viewTarget = el.matches?.(".cursor-view") ? el : el.closest(".cursor-view");
-          break;
-        }
-        if (el.matches?.(".cursor-target")) {
-          target = el;
-          isButton = isButtonLike(el);
-          break;
-        }
-        const closest = el.closest?.(".cursor-target");
-        if (closest) {
-          target = closest;
-          isButton = isButtonLike(closest);
-          break;
-        }
-      }
-
-      if (viewTarget) {
-        spin.classList.remove("cursor-spin");
-        dot.style.opacity = "0";
-        corners.forEach((c) => {
-          c.style.opacity = "0";
-        });
-        pill.style.opacity = "1";
-        pill.style.transform = "translate(-50%, -50%) scale(1)";
-      } else if (target) {
-        spin.classList.remove("cursor-spin");
-        pill.style.opacity = "0";
-        pill.style.transform = "translate(-50%, -50%) scale(0.85)";
-
-        const rect = target.getBoundingClientRect();
-        const inset = isButton ? 4 : -2;
-        const speed = isButton ? "0.14s" : "0.17s";
-
-        corners.forEach((c) => {
-          c.style.transition = `left ${speed} ease-out, top ${speed} ease-out, opacity 0.15s`;
-          c.style.opacity = "0.9";
-        });
-
-        corners[0].style.left = `${rect.left - x + inset}px`;
-        corners[0].style.top = `${rect.top - y + inset}px`;
-        corners[1].style.left = `${rect.right - x - CORNER_SIZE - inset}px`;
-        corners[1].style.top = `${rect.top - y + inset}px`;
-        corners[2].style.left = `${rect.right - x - CORNER_SIZE - inset}px`;
-        corners[2].style.top = `${rect.bottom - y - CORNER_SIZE - inset}px`;
-        corners[3].style.left = `${rect.left - x + inset}px`;
-        corners[3].style.top = `${rect.bottom - y - CORNER_SIZE - inset}px`;
-
-        dot.style.opacity = "0";
-      } else {
-        spin.classList.add("cursor-spin");
-        pill.style.opacity = "0";
-        pill.style.transform = "translate(-50%, -50%) scale(0.85)";
-
-        corners.forEach((c) => {
-          c.style.transition = "opacity 0.18s";
-          c.style.opacity = "0.24";
-        });
-
-        corners[0].style.left = `${-13}px`; corners[0].style.top = `${-13}px`;
-        corners[1].style.left = `${4}px`;   corners[1].style.top = `${-13}px`;
-        corners[2].style.left = `${4}px`;   corners[2].style.top = `${4}px`;
-        corners[3].style.left = `${-13}px`; corners[3].style.top = `${4}px`;
-
-        dot.style.opacity = "0.85";
-      }
-
-      rafRef.current = requestAnimationFrame(loop);
+      scheduleRender();
     };
 
     window.addEventListener("mousemove", onMove, { passive: true });
-    document.addEventListener("mouseleave", onLeave);
+    document.addEventListener("pointerover", onPointerOver, { passive: true });
     window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("mouseleave", onLeave);
     document.addEventListener("selectionchange", onSelectionChange);
-    rafRef.current = requestAnimationFrame(loop);
+    scheduleRender();
 
     return () => {
       document.body.style.cursor = "";
       mq.removeEventListener("change", syncBodyCursor);
       window.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseleave", onLeave);
+      document.removeEventListener("pointerover", onPointerOver);
       window.removeEventListener("scroll", onScroll);
+      document.removeEventListener("mouseleave", onLeave);
       document.removeEventListener("selectionchange", onSelectionChange);
-      cancelAnimationFrame(rafRef.current);
+      if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
     };
   }, [reduced, active]);
 
   if (reduced || !active) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] hidden pointer-events-none md:block [@media(pointer:coarse)]:hidden" aria-hidden="true">
+    <div
+      className="fixed inset-0 z-[9999] hidden pointer-events-none md:block [@media(pointer:coarse)]:hidden"
+      aria-hidden="true"
+    >
       {/* 中心微光点 */}
       <div
         ref={dotRef}
-        className="absolute rounded-full -ml-[2px] -mt-[2px] transition-opacity duration-150"
+        className="absolute left-0 top-0 rounded-full -ml-[2px] -mt-[2px] will-change-transform transition-opacity duration-150"
         style={{
           width: DOT_SIZE,
           height: DOT_SIZE,
           backgroundColor: "#5ce1ff",
-          boxShadow: "0 0 10px rgba(0,200,255,0.75)",
+          boxShadow: "0 0 8px rgba(0,200,255,0.7)",
           opacity: 0,
         }}
       />
@@ -243,24 +234,21 @@ export function CustomCursor() {
       {/* 项目封面悬停药丸 */}
       <div
         ref={pillRef}
-        className="absolute inline-flex items-center gap-1 rounded-full border border-white/[0.18] bg-[rgba(8,8,18,0.84)] px-3.5 py-1.5 font-body text-[11.5px] font-medium tracking-[0.06em] text-[#f5f7ff] shadow-[0_12px_32px_rgba(0,0,0,0.45)] backdrop-blur-md transition-[opacity,transform] duration-200 ease-out whitespace-nowrap"
-        style={{
-          opacity: 0,
-          transform: "translate(-50%, -50%) scale(0.85)",
-        }}
+        className="absolute left-0 top-0 inline-flex items-center gap-1 rounded-full border border-white/[0.18] bg-[#080812]/88 px-3.5 py-1.5 font-body text-[11.5px] font-medium tracking-[0.06em] text-[#f5f7ff] shadow-[0_10px_28px_rgba(0,0,0,0.45)] will-change-transform transition-opacity duration-150 whitespace-nowrap"
+        style={{ opacity: 0 }}
       >
         查看 ↗
       </div>
 
-      {/* 四角括号旋转容器 */}
-      <div ref={spinRef} className="cursor-spin absolute" style={{ left: 0, top: 0, width: 0, height: 0 }}>
+      {/* 四角括号容器 */}
+      <div ref={spinRef} className="absolute left-0 top-0 h-0 w-0 will-change-transform">
         {["tl", "tr", "br", "bl"].map((pos, i) => (
           <div
             key={pos}
             ref={(el) => {
               if (el) cornersRef.current[i] = el;
             }}
-            className="absolute"
+            className="absolute left-0 top-0 will-change-transform transition-[transform,opacity] duration-150 ease-out"
             style={{
               width: CORNER_SIZE,
               height: CORNER_SIZE,
@@ -268,9 +256,6 @@ export function CustomCursor() {
               borderRight: !pos.includes("l") ? "1.5px solid #00c8ff" : "none",
               borderTop: pos.includes("t") ? "1.5px solid #00c8ff" : "none",
               borderBottom: !pos.includes("t") ? "1.5px solid #00c8ff" : "none",
-              boxShadow: "0 0 7px rgba(0,200,255,0.45)",
-              left: "-100px",
-              top: "-100px",
               opacity: 0,
             }}
           />
