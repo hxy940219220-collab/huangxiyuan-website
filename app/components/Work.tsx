@@ -53,7 +53,7 @@ type ProjectItem = {
   iconSrc?: string;
   image: string;
   imageAlt: string;
-  imageFit?: "cover" | "contain" | "full-frame";
+  imageFit?: "cover" | "contain" | "map-cover";
   imageBg?: string;
   cardHref?: string;
   primaryTag: string;
@@ -111,9 +111,9 @@ const PROJECTS: ProjectItem[] = [
     index: "03",
     id: "project-hr-studio",
     title: "HR 搭档 · AI 人事工作台",
-    image: "/projects/hr-studio/workspace-overview.webp",
-    imageAlt: "HR 搭档工作台全景，左侧是业务导航，主区展示组织地图与员工工位",
-    imageFit: "full-frame",
+    image: "/projects/hr-studio/office-card.webp",
+    imageAlt: "HR 搭档组织地图，六个部门的同事与招聘工位",
+    imageFit: "map-cover",
     imageBg: "bg-[#f7f8f7]",
     cardHref: "/projects/hr-studio",
     primaryTag: "AI 人事工作台",
@@ -232,8 +232,8 @@ const PROJECTS: ProjectItem[] = [
 ];
 
 function MediaFrame({ project }: { project: ProjectItem }) {
-  const fullFrame = project.imageFit === "full-frame";
-  const fitClass = project.imageFit === "cover" || !project.imageFit ? "object-cover" : "object-contain";
+  const mapCover = project.imageFit === "map-cover";
+  const fitClass = project.imageFit !== "contain" ? "object-cover" : "object-contain";
   const inner = (
     <div
       className={`relative aspect-[16/10] w-full overflow-hidden rounded-[13px] border border-white/[0.09] ${project.imageBg ?? "bg-[#080812]"}`}
@@ -243,10 +243,11 @@ function MediaFrame({ project }: { project: ProjectItem }) {
         alt={project.imageAlt}
         fill
         quality={92}
+        unoptimized={mapCover}
         sizes="(min-width: 1024px) 50vw, 100vw"
-        className={`${fitClass} ${fullFrame ? "p-1.5" : "transition-transform duration-500 group-hover/card:scale-[1.015]"}`}
+        className={`${fitClass} ${mapCover ? "" : "transition-transform duration-500 group-hover/card:scale-[1.015]"}`}
       />
-      {!fullFrame && (
+      {!mapCover && (
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 rounded-[13px] ring-1 ring-inset ring-black/25 bg-[linear-gradient(to_top,rgba(11,11,20,0.42)_0%,transparent_28%)]"
