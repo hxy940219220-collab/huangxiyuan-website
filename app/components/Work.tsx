@@ -3,8 +3,7 @@
 import Image from "next/image";
 import quickNote from "./QuickNoteShowcase.module.css";
 import Link from "next/link";
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
+import { useEffect, useState } from "react";
 import { GithubLogo, ArrowUpRight, Cpu } from "@phosphor-icons/react";
 import { ScrollReveal } from "./ScrollReveal";
 import BlurText from "../reactbits/TextAnimations/BlurText/BlurText";
@@ -13,36 +12,6 @@ import {
   LightboxTrigger,
   type LightboxItem,
 } from "../projects/LightboxGallery";
-
-/* 3D Tilt card wrapper */
-function TiltWrap({ children, className = "" }: { children: ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const rotateX = useSpring(useMotionValue(0), { damping: 25, stiffness: 120, mass: 1.5 });
-  const rotateY = useSpring(useMotionValue(0), { damping: 25, stiffness: 120, mass: 1.5 });
-
-  function handleMouse(e: React.MouseEvent) {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left - rect.width / 2;
-    const offsetY = e.clientY - rect.top - rect.height / 2;
-    rotateX.set((offsetY / (rect.height / 2)) * -4);
-    rotateY.set((offsetX / (rect.width / 2)) * 4);
-  }
-
-  function handleLeave() {
-    rotateX.set(0);
-    rotateY.set(0);
-  }
-
-  return (
-    <div ref={ref} className={`[perspective:900px] ${className}`} onMouseMove={handleMouse} onMouseLeave={handleLeave}>
-      <motion.div style={{ rotateX, rotateY }} className="[transform-style:preserve-3d] h-full">
-        {children}
-      </motion.div>
-    </div>
-  );
-}
 
 type ProjectCategory = "all" | "workbench" | "tool" | "hardware";
 
@@ -70,17 +39,15 @@ type ProjectItem = {
   hoverBorderClass: string;
   tags: string[];
   summary: string;
-  thesis?: string;
-  detail?: string;
   hardwareSpec?: { status: string; spec: string; dotClass: string };
   actions?: ProjectAction[];
 };
 
 const CATEGORIES: Array<{ id: ProjectCategory; label: string }> = [
   { id: "all", label: "全部" },
-  { id: "workbench", label: "Agent 工作台" },
-  { id: "tool", label: "个人与创作工具" },
-  { id: "hardware", label: "硬件原型" },
+  { id: "workbench", label: "工作台" },
+  { id: "tool", label: "效率工具" },
+  { id: "hardware", label: "硬件" },
 ];
 
 const PROJECTS: ProjectItem[] = [
@@ -98,7 +65,7 @@ const PROJECTS: ProjectItem[] = [
     hoverBorderClass: "hover:border-[#ff6a1a]/45",
     tags: ["多专家协作", "本机模型 / API"],
     summary:
-      "一个商品上新任务可由最多四位专家接力。竞品分析、商品页文案和设计图留在同一条对话里，运营可以查看每个阶段的进度并复用产物。",
+      "最多四位专家在同一会话接力完成竞品分析、Listing 文案与主图交付，阶段进度可查、产物可直接复用。",
     actions: [
       { label: "查看产品演示", href: "/projects/tango", variant: "primary", icon: "arrow" },
     ],
@@ -117,7 +84,7 @@ const PROJECTS: ProjectItem[] = [
     hoverBorderClass: "hover:border-neon-pink/45",
     tags: ["商业生图 / 视频", "多平台发布", "本机模型接入"],
     summary:
-      "覆盖从商业产品图、写实人像、短视频制作、仿真手机排版到 13 个主流社媒平台定时发布的完整工作流。支持直连本机 Antigravity、Codex、即梦 AI、Grok（网页授权）与 WorkBuddy 引擎，一次创作即可多端高效分发。",
+      "整合商业生图、短视频、仿真手机排版与 13 平台定时发布，支持直连本机 Antigravity、Codex、即梦与 Grok 引擎。",
     actions: [
       { label: "查看产品演示", href: "/projects/foldframe", variant: "primary", icon: "arrow" },
     ],
@@ -137,7 +104,7 @@ const PROJECTS: ProjectItem[] = [
     hoverBorderClass: "hover:border-[#75ba9c]/45",
     tags: ["组织地图", "招聘与面试", "档案问答"],
     summary:
-      "在办公室地图上点选同事，就能打开员工档案。为招聘岗位开启单独的 AI 会话，可以结合候选人的简历和面试记录拟定追问，并把需要核实的事项建成待办。",
+      "在办公室地图点选工位直达员工档案与薪酬台账，结合岗位专属会话辅助简历核验与面试追问。",
     actions: [
       { label: "查看产品演示", href: "/projects/hr-studio", variant: "primary", icon: "arrow" },
     ],
@@ -157,7 +124,7 @@ const PROJECTS: ProjectItem[] = [
     hoverBorderClass: "hover:border-neon-cyan/45",
     tags: ["图像与视频", "多模型接入"],
     summary:
-      "从一句想法开始，在画布上编排文案和分镜。连起参考图与视频节点，用自己的模型生成画面、短片或配音。",
+      "在同一张节点画布上串联创意简报、分镜脚本与多种视频生成模型，一站产出画面、短片与配音。",
     actions: [
       { label: "查看产品演示", href: "/projects/framepop", variant: "primary", icon: "arrow" },
     ],
@@ -177,9 +144,7 @@ const PROJECTS: ProjectItem[] = [
     hoverBorderClass: "hover:border-[#efc768]/45",
     tags: ["macOS", "Codex / MCP"],
     summary:
-      "阅读报告时，选中一句英文就能翻译，框选一张图表就能提问。原文、截图和答案都可以存进指定便签。",
-    detail:
-      "文字识别和图片识别窗口都可置顶。保存的便签支持全文搜索，也可以直接提问，查看答案引用的原文。",
+      "选中文本即翻译提问，框选图表即识图分析；支持窗口置顶、本机全文检索与 Codex 授权读写。",
     actions: [
       { label: "查看产品演示", href: "/projects/quicknote", variant: "primary", icon: "arrow" },
       { label: "GitHub", href: "https://github.com/hxy940219220-collab/QuickNote-IOS", external: true, variant: "secondary", icon: "github" },
@@ -198,9 +163,8 @@ const PROJECTS: ProjectItem[] = [
     primaryTagClass: "border-neon-gold/45 bg-neon-gold/[0.08] text-neon-gold",
     hoverBorderClass: "hover:border-neon-gold/40",
     tags: ["Agent Workflow", "Electron"],
-    summary: "从联网热点与个人灵感出发，生成可直接执行的视频脚本和逐字口播稿。",
-    thesis: "不做空白聊天框，而把“今天讲什么”变成可持续的创作流程",
-    detail: "将选题搜索、来源核验、真人口播或双角色脚本、敏感词审查、发布包和数据复盘串成一个本地 AI 工作台。",
+    summary:
+      "从联网热点检索与来源核验出发，一键生成结构化视频脚本、逐字口播稿与多平台发布包。",
     actions: [
       { label: "查看产品演示", href: "/projects/eureka", variant: "primary", icon: "arrow" },
     ],
@@ -218,9 +182,8 @@ const PROJECTS: ProjectItem[] = [
     primaryTagClass: "border-neon-pink/45 bg-neon-pink/[0.08] text-[#e68aff]",
     hoverBorderClass: "hover:border-neon-pink/40",
     tags: ["Raspberry Pi 5", "STM32"],
-    summary: "用距离感知与电话听筒，把“想起父母”变成一次真实的联系。",
-    thesis: "不是播放一段公益动画，而是设计从靠近到行动的体验路径",
-    detail: "以树莓派 5 为主控，联动超声波测距、STM32 与听筒微动开关，完成三态画面切换，并通过二维码唤起预填短信。",
+    summary:
+      "树莓派 5 联动超声波测距、STM32 与听筒微动开关，设计从靠近唤醒到拿起联系的三态交互体验。",
     hardwareSpec: {
       status: "实物原型 · 三态联动",
       spec: "Raspberry Pi 5 · STM32",
@@ -240,9 +203,8 @@ const PROJECTS: ProjectItem[] = [
     primaryTagClass: "border-[#4ade80]/45 bg-[#4ade80]/[0.08] text-[#6ee7a0]",
     hoverBorderClass: "hover:border-[#4ade80]/40",
     tags: ["ESP32-S3", "Agent 审批"],
-    summary: "把多个 Claude Code 会话的运行状态，映射成看得见、按得下的硬件信号。",
-    thesis: "不是再开一个监控窗口，而是让 Agent 状态离开屏幕",
-    detail: "ESP32-S3 汇总后台会话，红黄绿灯与 OLED 提示执行、报错、待审批和完成；需要授权时，街机键可直接完成审批。",
+    summary:
+      "ESP32-S3 汇总多路 Claude Code 会话状态，通过红黄绿灯、OLED 与街机键实现脱离屏幕的实体审批。",
     hardwareSpec: {
       status: "实物原型 · 多会话监控",
       spec: "ESP32-S3 · OLED · 实体按键",
@@ -282,10 +244,10 @@ function MediaFrame({ project }: { project: ProjectItem }) {
         src={project.image}
         alt={project.imageAlt}
         fill
-        quality={92}
+        quality={90}
         unoptimized={mapCover}
         sizes="(min-width: 1024px) 50vw, 100vw"
-        className={`${fitClass} ${useOverlay ? "transition-transform duration-500 group-hover/card:scale-[1.015]" : ""}`}
+        className={`${fitClass} ${useOverlay ? "transition-transform duration-300 group-hover/card:scale-[1.012]" : ""}`}
       />
       {useOverlay && (
         <div
@@ -330,7 +292,6 @@ function MediaFrame({ project }: { project: ProjectItem }) {
 export function Work() {
   const [activeCategory, setActiveCategory] = useState<ProjectCategory>("all");
 
-  // 响应导航栏跳转某个具体项目时自动切回“全部”，防止目标项目被过滤隐藏
   useEffect(() => {
     const handleReveal = () => setActiveCategory("all");
     window.addEventListener("hxy:reveal-project", handleReveal);
@@ -349,193 +310,158 @@ export function Work() {
     <LightboxProvider items={HARDWARE_LIGHTBOX_ITEMS}>
       <section
         id="work"
-        className="relative z-10 w-full px-6 md:px-12 py-16 md:py-24"
+        className="relative z-10 w-full px-6 md:px-12 py-12 md:py-20"
       >
-      {/* Header */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-14 mb-9">
-        <BlurText
-          text="代表项目"
-          className="section-display-heading font-display text-[clamp(2rem,5vw,3.5rem)] leading-[1.16] text-[#f5f7ff]"
-          delay={50}
-          animateBy="words"
-          direction="top"
-        />
-        <ScrollReveal delay={0.14}>
-          <p className="text-[15px] text-text-tertiary leading-[1.75] self-end pb-1">
-            Tango 展示多位跨境专家怎样接力交付，Foldframe 打通商业视觉创作与多平台发布，HR 搭档把组织地图与招聘流程接入 AI 协作，Framepop 与 QuickNote 分别探索多模型画布和受控权限便签。点进项目页可以看到每种设计怎样落到实际操作里。
-          </p>
-        </ScrollReveal>
-      </div>
+        {/* Concise Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 md:gap-10 mb-6 md:mb-8">
+          <BlurText
+            text="代表项目"
+            className="section-display-heading font-display text-[clamp(1.9rem,4.8vw,3.35rem)] leading-[1.15] text-[#f5f7ff]"
+            delay={45}
+            animateBy="words"
+            direction="top"
+          />
+          <ScrollReveal delay={0.08}>
+            <p className="text-[13.5px] md:text-[14.5px] text-text-tertiary leading-[1.65] md:pb-1">
+              覆盖企业工作台、个人效率工具与硬件交互原型的实证作品。
+            </p>
+          </ScrollReveal>
+        </div>
 
-      {/* Category Filter Tabs */}
-      <ScrollReveal delay={0.08}>
-        <div
-          role="tablist"
-          aria-label="按项目类型筛选"
-          className="mb-9 flex flex-wrap items-center gap-2"
-        >
-          {CATEGORIES.map((cat) => {
-            const selected = activeCategory === cat.id;
-            return (
-              <button
-                key={cat.id}
-                type="button"
-                role="tab"
-                aria-selected={selected}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`cursor-target relative inline-flex items-center gap-2 rounded-full border px-4 py-2 font-body text-[12.5px] tracking-[0.03em] transition-colors duration-250 cursor-pointer ${
-                  selected
-                    ? "border-neon-cyan/50 text-[#f5f7ff]"
-                    : "border-white/[0.11] bg-white/[0.02] text-text-tertiary hover:border-white/[0.22] hover:text-text-secondary"
-                }`}
-              >
-                {selected && (
-                  <motion.span
-                    layoutId="work-filter-pill"
-                    transition={{ type: "spring", stiffness: 360, damping: 32 }}
-                    className="absolute inset-0 -z-10 rounded-full bg-neon-cyan/[0.11]"
-                    aria-hidden="true"
-                  />
-                )}
-                <span>{cat.label}</span>
-                <span
-                  className={`font-body text-[11px] tabular-nums ${
-                    selected ? "text-neon-cyan" : "text-text-muted"
+        {/* Compact Single-Row Category Filter Tabs */}
+        <ScrollReveal delay={0.06}>
+          <div
+            role="tablist"
+            aria-label="按项目类型筛选"
+            className="mb-7 md:mb-9 flex flex-wrap items-center gap-1.5 sm:gap-2"
+          >
+            {CATEGORIES.map((cat) => {
+              const selected = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={selected}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`cursor-target inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 font-body text-[12px] tracking-[0.03em] transition-colors duration-200 cursor-pointer ${
+                    selected
+                      ? "border-neon-cyan/55 bg-neon-cyan/[0.12] text-[#f5f7ff]"
+                      : "border-white/[0.11] bg-white/[0.02] text-text-tertiary hover:border-white/[0.22] hover:text-text-secondary"
                   }`}
                 >
-                  {countFor(cat.id)}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </ScrollReveal>
+                  <span>{cat.label}</span>
+                  <span
+                    className={`font-body text-[11px] tabular-nums ${
+                      selected ? "text-neon-cyan" : "text-text-muted"
+                    }`}
+                  >
+                    {countFor(cat.id)}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </ScrollReveal>
 
-      {/* Project cards */}
-      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-7">
-        <AnimatePresence mode="popLayout">
-          {visibleProjects.map((project, idx) => (
-            <motion.div
+        {/* Project cards — pure CSS GPU hover transform, zero layout thrashing */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-7">
+          {visibleProjects.map((project) => (
+            <article
               key={project.id}
-              layout
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.97 }}
-              transition={{ duration: 0.34, delay: 0.03 * (idx % 2), ease: [0.16, 1, 0.3, 1] }}
-              className="h-full"
+              id={project.id}
+              className={`${project.id === "project-quicknote" ? quickNote.card : ""} group/card relative flex h-full scroll-mt-24 flex-col overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#0b0b14] shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_12px_40px_rgba(0,0,0,0.4)] transition-[transform,border-color,box-shadow] duration-250 ease-out hover:-translate-y-1 ${project.hoverBorderClass} hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_18px_52px_rgba(0,0,0,0.5)]`}
             >
-              <TiltWrap className="h-full">
-                <motion.article
-                  id={project.id}
-                  whileHover={{ y: -5 }}
-                  className={`${project.id === "project-quicknote" ? quickNote.card : ""} group/card relative flex h-full scroll-mt-24 flex-col overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#0b0b14] shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_12px_48px_rgba(0,0,0,0.45)] transition-all duration-300 ${project.hoverBorderClass} hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.11),0_20px_60px_rgba(0,0,0,0.55),0_0_36px_rgba(0,200,255,0.08)]`}
-                >
-                  <MediaFrame project={project} />
+              <MediaFrame project={project} />
 
-                  <div className="flex flex-1 flex-col p-6 md:p-7">
-                    {/* Monograph Index + Tag Chips */}
-                    <div className="mb-3.5 flex flex-wrap items-center gap-2">
-                      <span className="font-display text-[12.5px] tabular-nums tracking-[0.12em] text-text-muted">
-                        {project.index}
-                      </span>
-                      <span className="h-3 w-px bg-white/[0.12] mr-0.5" aria-hidden="true" />
-                      <span
-                        className={`rounded-full border px-3 py-1 font-body text-[11px] font-medium tracking-[0.04em] ${project.primaryTagClass}`}
-                      >
-                        {project.primaryTag}
-                      </span>
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full border border-white/[0.10] bg-white/[0.025] px-3 py-1 font-body text-[11px] tracking-[0.03em] text-text-tertiary"
-                        >
-                          {tag}
-                        </span>
-                      ))}
+              <div className="flex flex-1 flex-col p-5 md:p-6">
+                {/* Monograph Index + Tag Chips */}
+                <div className="mb-3 flex flex-wrap items-center gap-2">
+                  <span className="font-display text-[12px] tabular-nums tracking-[0.12em] text-text-muted">
+                    {project.index}
+                  </span>
+                  <span className="h-3 w-px bg-white/[0.12] mr-0.5" aria-hidden="true" />
+                  <span
+                    className={`rounded-full border px-2.5 py-0.5 font-body text-[11px] font-medium tracking-[0.04em] ${project.primaryTagClass}`}
+                  >
+                    {project.primaryTag}
+                  </span>
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-white/[0.10] bg-white/[0.025] px-2.5 py-0.5 font-body text-[11px] tracking-[0.03em] text-text-tertiary"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Title */}
+                <h3 className="card-display-title mb-2 font-display text-[1.35rem] md:text-[1.5rem] leading-snug text-[#f5f7ff]">
+                  {project.title}
+                </h3>
+
+                {/* Single Concise Core Summary */}
+                <p className="mb-4 max-w-prose text-[13.5px] md:text-[14px] leading-[1.68] text-text-secondary/90">
+                  {project.summary}
+                </p>
+
+                {/* Footer Actions or Hardware Telemetry Readout */}
+                <div className="mt-auto pt-3 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-3 min-h-[48px]">
+                  {project.actions ? (
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      {project.actions.map((action) => {
+                        const cls =
+                          action.variant === "primary"
+                            ? "cursor-target inline-flex min-h-9.5 items-center gap-1.5 rounded-full bg-neon-cyan px-4.5 py-2 font-body text-[12px] font-semibold tracking-[0.04em] text-[#050509] no-underline transition-colors duration-200 hover:bg-[#5ce1ff] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neon-cyan"
+                            : "cursor-target inline-flex min-h-9.5 items-center gap-1.5 rounded-full border border-white/[0.14] bg-white/[0.04] px-4 py-2 font-body text-[12px] font-medium tracking-[0.03em] text-[#f5f7ff] no-underline transition-colors duration-200 hover:border-neon-cyan/50 hover:bg-white/[0.08] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neon-cyan";
+
+                        const content = (
+                          <>
+                            {action.icon === "github" && <GithubLogo size={14} weight="fill" />}
+                            <span>{action.label}</span>
+                            {action.icon === "arrow" && <ArrowUpRight size={13} weight="bold" />}
+                          </>
+                        );
+
+                        if (action.external) {
+                          return (
+                            <a
+                              key={action.label}
+                              href={action.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={cls}
+                            >
+                              {content}
+                            </a>
+                          );
+                        }
+
+                        return (
+                          <Link key={action.label} href={action.href} className={cls}>
+                            {content}
+                          </Link>
+                        );
+                      })}
                     </div>
-
-                    {/* Title */}
-                    <h3 className="card-display-title mb-2.5 font-display text-[1.45rem] md:text-[1.55rem] leading-snug text-[#f5f7ff]">
-                      {project.title}
-                    </h3>
-
-                    {/* Summary */}
-                    <p className="mb-3 max-w-prose text-[14.5px] leading-[1.7] text-text-secondary">
-                      {project.summary}
-                    </p>
-
-                    {/* Optional Thesis + Mechanism Detail */}
-                    {project.thesis && (
-                      <p className="mb-1.5 font-body text-[12px] font-medium tracking-[0.04em] text-text-secondary/90">
-                        {project.thesis}
-                      </p>
-                    )}
-                    {project.detail && (
-                      <p className="mb-5 text-[13px] leading-[1.68] text-text-tertiary">
-                        {project.detail}
-                      </p>
-                    )}
-                    {!project.detail && <div className="mb-3" />}
-
-                    {/* Footer Actions or Hardware Telemetry Readout */}
-                    <div className="mt-auto pt-3 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-3 min-h-[52px]">
-                      {project.actions ? (
-                        <div className="flex flex-wrap items-center gap-2.5">
-                          {project.actions.map((action) => {
-                            const cls =
-                              action.variant === "primary"
-                                ? "cursor-target inline-flex min-h-10 items-center gap-1.5 rounded-full bg-neon-cyan px-5 py-2 font-body text-[12px] font-semibold tracking-[0.04em] text-[#050509] no-underline transition-all duration-300 hover:bg-[#5ce1ff] hover:shadow-[0_0_24px_rgba(0,200,255,0.25)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neon-cyan"
-                                : "cursor-target inline-flex min-h-10 items-center gap-1.5 rounded-full border border-white/[0.14] bg-white/[0.04] px-4 py-2 font-body text-[12px] font-medium tracking-[0.03em] text-[#f5f7ff] no-underline transition-all duration-300 hover:border-neon-cyan/50 hover:bg-white/[0.08] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neon-cyan";
-
-                            const content = (
-                              <>
-                                {action.icon === "github" && <GithubLogo size={14} weight="fill" />}
-                                <span>{action.label}</span>
-                                {action.icon === "arrow" && <ArrowUpRight size={13} weight="bold" />}
-                              </>
-                            );
-
-                            if (action.external) {
-                              return (
-                                <a
-                                  key={action.label}
-                                  href={action.href}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className={cls}
-                                >
-                                  {content}
-                                </a>
-                              );
-                            }
-
-                            return (
-                              <Link key={action.label} href={action.href} className={cls}>
-                                {content}
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      ) : project.hardwareSpec ? (
-                        <div className="flex w-full flex-wrap items-center justify-between gap-2 py-1">
-                          <span className="inline-flex items-center gap-2 font-body text-[12px] font-medium text-text-secondary">
-                            <span className={`h-2 w-2 rounded-full ${project.hardwareSpec.dotClass}`} />
-                            {project.hardwareSpec.status}
-                          </span>
-                          <span className="inline-flex items-center gap-1.5 font-body text-[11.5px] tracking-[0.04em] text-text-tertiary">
-                            <Cpu size={14} weight="light" className="text-text-muted" />
-                            {project.hardwareSpec.spec}
-                          </span>
-                        </div>
-                      ) : null}
+                  ) : project.hardwareSpec ? (
+                    <div className="flex w-full flex-wrap items-center justify-between gap-2 py-1">
+                      <span className="inline-flex items-center gap-2 font-body text-[12px] font-medium text-text-secondary">
+                        <span className={`h-2 w-2 rounded-full ${project.hardwareSpec.dotClass}`} />
+                        {project.hardwareSpec.status}
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 font-body text-[11.5px] tracking-[0.04em] text-text-tertiary">
+                        <Cpu size={14} weight="light" className="text-text-muted" />
+                        {project.hardwareSpec.spec}
+                      </span>
                     </div>
-                  </div>
-                </motion.article>
-              </TiltWrap>
-            </motion.div>
+                  ) : null}
+                </div>
+              </div>
+            </article>
           ))}
-        </AnimatePresence>
-      </motion.div>
+        </div>
       </section>
     </LightboxProvider>
   );

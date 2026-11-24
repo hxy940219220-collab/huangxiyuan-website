@@ -67,24 +67,24 @@ export default function Home() {
         {/* 3D 旋转卡片 · 能力展示 */}
         <section
           id="capabilities"
-          className="relative z-10 w-full px-6 md:px-12 py-20 md:py-32 overflow-hidden"
+          className="relative z-10 w-full px-6 md:px-12 py-14 md:py-24 overflow-hidden"
         >
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0"
           >
-            <div className="absolute inset-x-[8%] top-[10%] h-[28rem] bg-[radial-gradient(circle_at_top,rgba(255,132,64,0.06),transparent_68%)] blur-3xl" />
+            <div className="absolute inset-x-[12%] top-[8%] h-[22rem] bg-[radial-gradient(circle_at_top,rgba(255,132,64,0.06),transparent_68%)]" />
           </div>
           <div className="relative z-10 mx-auto max-w-[1200px]">
-            <div className="mb-16 md:mb-24 text-center">
+            <div className="mb-10 md:mb-16 text-center">
               <ScrollReveal>
-                <h2 className="section-display-heading font-display text-[clamp(2rem,5vw,3.5rem)] leading-[1.18] text-[#f5f7ff]">
+                <h2 className="section-display-heading font-display text-[clamp(1.9rem,4.8vw,3.35rem)] leading-[1.18] text-[#f5f7ff]">
                   AI 工具栈
                 </h2>
               </ScrollReveal>
-              <ScrollReveal delay={0.12}>
-                <p className="mt-5 text-[15px] leading-[1.75] text-text-tertiary md:text-base max-w-2xl mx-auto">
-                  按任务选工具。用不同模型做复杂推理和交叉复核，用个人 Agent 跟进日常事项，再用开发 Harness 查轨迹、跑验证。
+              <ScrollReveal delay={0.08}>
+                <p className="mt-3.5 text-[14px] leading-[1.7] text-text-tertiary md:text-[15px] max-w-xl mx-auto">
+                  按任务选工具：多模型交叉推理、个人 Agent 日常跟进、开发 Harness 核对执行轨迹。
                 </p>
               </ScrollReveal>
             </div>
