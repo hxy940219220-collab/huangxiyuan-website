@@ -189,13 +189,13 @@ export function Hero({ active = true }: { active?: boolean }) {
               initial={reduced ? {} : { opacity: 0, y: 12 }}
               animate={reduced ? {} : { opacity: 1, y: 0 }}
               transition={{ duration: 0.75, delay: 0.14, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-2.5 pb-1 pl-0.5 md:pl-1"
+              className="mb-1 inline-flex items-center gap-2.5 rounded-full border border-white/[0.14] bg-[#050509]/62 px-3.5 py-1.5 backdrop-blur-md"
             >
               <span
-                className="h-1.5 w-1.5 rounded-full bg-neon-cyan shadow-[0_0_10px_#00c8ff]"
+                className="h-1.5 w-1.5 shrink-0 rounded-full bg-neon-cyan shadow-[0_0_10px_#00c8ff]"
                 aria-hidden="true"
               />
-              <span className="font-body text-[10.5px] md:text-[11px] font-medium tracking-[0.18em] text-text-secondary/85 uppercase">
+              <span className="font-body text-[10px] md:text-[10.5px] font-medium tracking-[0.16em] text-[#f5f7ff]/90 uppercase">
                 Agent Workflow · Business Scenarios · Rapid Prototyping
               </span>
             </motion.div>
@@ -321,20 +321,20 @@ export function Hero({ active = true }: { active?: boolean }) {
             initial={reduced ? {} : { opacity: 0, y: 16 }}
             animate={reduced ? {} : { opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 1.02, ease: [0.16, 1, 0.3, 1] }}
-            className="pointer-events-auto hidden xl:flex items-center gap-7 pb-1"
+            className="pointer-events-auto hidden lg:flex shrink-0 items-center gap-5 xl:gap-7 pb-1"
             aria-label="作品与研究概览"
           >
             {HERO_SIGNALS.map((item, idx) => (
               <div
                 key={item.label}
                 className={`flex flex-col items-end text-right ${
-                  idx > 0 ? "border-l border-white/[0.12] pl-7" : ""
+                  idx > 0 ? "border-l border-white/[0.12] pl-5 xl:pl-7" : ""
                 }`}
               >
-                <dd className="font-display text-[1.85rem] leading-none tabular-nums text-[#f5f7ff]">
+                <dd className="font-display text-[1.7rem] xl:text-[1.85rem] leading-none tabular-nums text-[#f5f7ff]">
                   {item.value}
                 </dd>
-                <dt className="mt-2 font-body text-[11px] tracking-[0.06em] text-text-tertiary">
+                <dt className="mt-2 font-body text-[11px] tracking-[0.05em] text-text-tertiary whitespace-nowrap">
                   {item.label}
                 </dt>
               </div>
