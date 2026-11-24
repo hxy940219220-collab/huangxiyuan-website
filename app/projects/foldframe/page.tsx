@@ -1,9 +1,12 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../showcase.module.css";
+import { LightboxProvider, LightboxTrigger, type LightboxItem } from "../LightboxGallery";
+import { ProjectPager } from "../ProjectPager";
 
-const title = "Foldframe · AI内容创作与多端发布工作台";
+const title = "Foldframe · AI 内容创作与多端发布工作台";
 const description =
   "覆盖商业产品图、写实人像、品牌海报、短视频制作、仿真手机排版、13 个主流平台发布待办与本机多模型接入的一体化 AI 工作台。";
 const cover = {
@@ -114,124 +117,147 @@ const scenes = [
   },
 ];
 
+const lightboxItems: LightboxItem[] = [
+  {
+    src: cover.url,
+    alt: cover.alt,
+    title: "Foldframe · 排版工坊主预览",
+    caption:
+      "「AI 发布 → 排版工坊」将商业产品主图、AI 辅助写作与仿真手机预览放在同一屏：左侧管理多图素材与标题正文，右侧实时预览小红书、抖音、Instagram 效果。",
+  },
+  ...scenes.map((scene) => ({
+    src: scene.image,
+    alt: scene.alt,
+    title: scene.title,
+    caption: scene.description,
+  })),
+];
+
+const pageAccent = {
+  "--accent": "#d896ff",
+  "--accent-soft": "rgba(216, 76, 255, 0.14)",
+} as CSSProperties;
+
 export default function FoldframeProjectPage() {
   return (
-    <main className={styles.page}>
-      <header className={styles.header}>
-        <div className={styles.wrap}>
-          <Link href="/" className={styles.wordmark}>HXY / EVAN</Link>
-          <Link href="/#project-foldframe" className={styles.back}>← 返回项目</Link>
-        </div>
-      </header>
+    <LightboxProvider items={lightboxItems}>
+      <main className={styles.page} style={pageAccent}>
+        <header className={styles.header}>
+          <div className={styles.wrap}>
+            <Link href="/" className={`cursor-target ${styles.wordmark}`}>HXY / EVAN</Link>
+            <Link href="/#project-foldframe" className={`cursor-target ${styles.back}`}>← 返回项目栏</Link>
+          </div>
+        </header>
 
-      <section className={`${styles.wrap} ${styles.hero}`} aria-labelledby="foldframe-title">
-        <p className={styles.kicker}>AI 内容创作与多端发布工作台</p>
-        <h1 id="foldframe-title">Foldframe</h1>
-        <p className={styles.lead}>
-          把商业生图、短视频制作、仿真手机排版、13 个平台发布待办和本机多模型接入整合进同一个工作台。
-        </p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "20px" }}>
-          <a
-            href="https://foldframe-studio.vercel.app"
-            target="_blank"
-            rel="noreferrer"
-            className={styles.demoLink}
-            style={{ marginTop: 0 }}
-          >
-            打开独立展示页 ↗
-          </a>
-          <a
-            href="https://github.com/hxy940219220-collab/foldframe"
-            target="_blank"
-            rel="noreferrer"
-            className={styles.demoLink}
-            style={{
-              marginTop: 0,
-              background: "transparent",
-              color: "var(--text)",
-              borderColor: "var(--line)",
-            }}
-          >
-            GitHub 源码 ↗
-          </a>
-          <a
-            href="#demo"
-            className={styles.demoLink}
-            style={{
-              marginTop: 0,
-              background: "transparent",
-              color: "var(--body)",
-              borderColor: "var(--line)",
-            }}
-          >
-            查看 7 大核心功能 ↓
-          </a>
-        </div>
-
-        <figure>
-          <a href={cover.url} target="_blank" rel="noreferrer" aria-label="查看 Foldframe 排版工坊 2K 原图">
-            <Image
-              src={cover.url}
-              alt={cover.alt}
-              width={cover.width}
-              height={cover.height}
-              quality={92}
-              unoptimized
-              preload
-              sizes="(min-width: 1190px) 1150px, calc(100vw - 40px)"
-              className={styles.heroImage}
-            />
-          </a>
-          <figcaption className={styles.caption}>
-            「AI 发布 → 排版工坊」将商业产品主图、AI 辅助写作与仿真手机预览放在同一屏：左侧管理多图素材与标题正文，右侧实时预览小红书、抖音、Instagram 效果，并可在手机旁一键切换比例、裁剪或重构构图。
-          </figcaption>
-        </figure>
-      </section>
-
-      <section id="demo" className={`${styles.wrap} ${styles.demo}`} aria-labelledby="foldframe-gallery">
-        <div className={styles.demoHeading}>
-          <h2 id="foldframe-gallery">核心功能实拍（1–7）</h2>
-          <nav aria-label="跳到核心功能" className={styles.jump}>
-            {scenes.map(scene => (
-              <a key={scene.id} href={`#${scene.id}`}>{scene.label}</a>
-            ))}
-          </nav>
-        </div>
-
-        {scenes.map(scene => (
-          <article id={scene.id} key={scene.id} className={styles.step}>
-            <h3>{scene.title}</h3>
-            <p>{scene.description}</p>
+        <section className={`${styles.wrap} ${styles.hero}`} aria-labelledby="foldframe-title">
+          <p className={styles.kicker}>02 · AI 内容创作与多端发布工作台</p>
+          <h1 id="foldframe-title">Foldframe</h1>
+          <p className={styles.lead}>
+            把商业生图、短视频制作、仿真手机排版、13 个平台发布待办和本机多模型接入整合进同一个工作台。
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "22px" }}>
             <a
-              className={styles.frame}
-              href={scene.image}
+              href="https://foldframe-studio.vercel.app"
               target="_blank"
               rel="noreferrer"
-              aria-label={`查看原图：${scene.title}`}
+              className={`cursor-target ${styles.demoLink}`}
+              style={{ marginTop: 0 }}
             >
+              打开独立展示页 ↗
+            </a>
+            <a
+              href="https://github.com/hxy940219220-collab/foldframe"
+              target="_blank"
+              rel="noreferrer"
+              className={`cursor-target ${styles.demoLink}`}
+              style={{
+                marginTop: 0,
+                background: "rgba(255,255,255,0.04)",
+                color: "var(--text)",
+                borderColor: "rgba(255,255,255,0.16)",
+              }}
+            >
+              GitHub 源码 ↗
+            </a>
+            <a
+              href="#demo"
+              className={`cursor-target ${styles.demoLink}`}
+              style={{
+                marginTop: 0,
+                background: "transparent",
+                color: "var(--body-strong)",
+                borderColor: "rgba(255,255,255,0.12)",
+              }}
+            >
+              查看 7 大核心功能 ↓
+            </a>
+          </div>
+
+          <figure>
+            <LightboxTrigger index={0} label="放大查看 Foldframe 排版工坊 2K 原图" className={styles.heroImage}>
               <Image
-                src={scene.image}
-                alt={scene.alt}
-                width={scene.width}
-                height={scene.height}
+                src={cover.url}
+                alt={cover.alt}
+                width={cover.width}
+                height={cover.height}
                 quality={92}
                 unoptimized
+                preload
                 sizes="(min-width: 1190px) 1150px, calc(100vw - 40px)"
-                loading="lazy"
+                className="block h-auto w-full"
               />
-            </a>
-          </article>
-        ))}
-      </section>
+            </LightboxTrigger>
+            <figcaption className={styles.caption}>
+              「AI 发布 → 排版工坊」将商业产品主图、AI 辅助写作与仿真手机预览放在同一屏：左侧管理多图素材与标题正文，右侧实时预览小红书、抖音、Instagram 效果，并可在手机旁一键切换比例、裁剪或重构构图。
+            </figcaption>
+          </figure>
+        </section>
 
-      <footer className={`${styles.wrap} ${styles.footer}`}>
-        <p>Next.js 14 · NestJS · MongoDB · 支持直连本机 Antigravity / Codex / 即梦 AI / Grok / WorkBuddy 与 13 个主流社媒平台</p>
-        <div style={{ display: "flex", gap: "18px", flexWrap: "wrap" }}>
-          <a href="https://foldframe-studio.vercel.app" target="_blank" rel="noreferrer">独立展示页 ↗</a>
-          <a href="https://github.com/hxy940219220-collab/foldframe" target="_blank" rel="noreferrer">GitHub ↗</a>
-          <Link href="/#work">查看其他项目 ↗</Link>
-        </div>
-      </footer>
-    </main>
+        <section id="demo" className={`${styles.wrap} ${styles.demo}`} aria-labelledby="foldframe-gallery">
+          <div className={styles.demoHeading}>
+            <h2 id="foldframe-gallery">核心功能实拍（1–7）</h2>
+            <nav aria-label="跳到核心功能" className={styles.jump}>
+              {scenes.map((scene) => (
+                <a key={scene.id} href={`#${scene.id}`}>{scene.label}</a>
+              ))}
+            </nav>
+          </div>
+
+          {scenes.map((scene, index) => (
+            <article id={scene.id} key={scene.id} className={styles.step}>
+              <h3>{scene.title}</h3>
+              <p>{scene.description}</p>
+              <LightboxTrigger
+                index={index + 1}
+                label={`放大查看：${scene.title}`}
+                className={styles.frame}
+              >
+                <Image
+                  src={scene.image}
+                  alt={scene.alt}
+                  width={scene.width}
+                  height={scene.height}
+                  quality={92}
+                  unoptimized
+                  sizes="(min-width: 1190px) 1150px, calc(100vw - 40px)"
+                  loading="lazy"
+                />
+              </LightboxTrigger>
+            </article>
+          ))}
+        </section>
+
+        <ProjectPager currentSlug="foldframe" />
+
+        <footer className={`${styles.wrap} ${styles.footer}`}>
+          <p>Next.js 14 · NestJS · MongoDB · 支持直连本机 Antigravity / Codex / 即梦 AI / Grok / WorkBuddy 与 13 个主流社媒平台</p>
+          <div style={{ display: "flex", gap: "18px", flexWrap: "wrap" }}>
+            <a href="https://foldframe-studio.vercel.app" target="_blank" rel="noreferrer">独立展示页 ↗</a>
+            <a href="https://github.com/hxy940219220-collab/foldframe" target="_blank" rel="noreferrer">GitHub ↗</a>
+            <Link href="/#work">返回全部项目 ↗</Link>
+          </div>
+        </footer>
+      </main>
+    </LightboxProvider>
   );
 }

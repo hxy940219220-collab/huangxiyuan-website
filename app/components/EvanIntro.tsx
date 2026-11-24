@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Instrument_Serif } from "next/font/google";
 
 const evanSerif = Instrument_Serif({
@@ -14,7 +14,7 @@ const evanSerif = Instrument_Serif({
 /* ------------------------------------------------------------------ */
 /* EVAN 开场动画                                                       */
 /* 自动入场 → CSS 故障定格 → 辉光消散 → 露出首页                         */
-/* 总时长约 2.8s，滚动或点击可提前跳过                                  */
+/* 总时长约 2.8s，滚动或点击可提前跳过；同会话返回首页自动跳过             */
 /* ------------------------------------------------------------------ */
 
 const LETTERS = [
@@ -26,12 +26,13 @@ const LETTERS = [
 
 const ENTRANCE_STAGGER = 120;
 const HOLD_DURATION = 600;
-const DISSOLVE_DURATION = 1200;
+const DISSOLVE_DURATION = 1000;
 const ENTRANCE_TOTAL = ENTRANCE_STAGGER * (LETTERS.length - 1) + 600;
 
 type IntroPhase = "entrance" | "hold" | "dissolve" | "done";
 
 export function EvanIntro({ onComplete }: { onComplete: () => void }) {
+  const reduced = useReducedMotion();
   const [phase, setPhase] = useState<IntroPhase>("entrance");
   const [dismissed, setDismissed] = useState(false);
   const onCompleteRef = useRef(onComplete);
@@ -40,8 +41,18 @@ export function EvanIntro({ onComplete }: { onComplete: () => void }) {
     onCompleteRef.current = onComplete;
   }, [onComplete]);
 
+  // 尊重系统减少动态效果偏好，直接进入首页
   useEffect(() => {
-    if (dismissed) return;
+    if (!reduced || dismissed) return;
+    const frame = window.requestAnimationFrame(() => {
+      setDismissed(true);
+      onCompleteRef.current();
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [reduced, dismissed]);
+
+  useEffect(() => {
+    if (dismissed || reduced) return;
     const schedule: Partial<Record<IntroPhase, { next: IntroPhase; delay: number }>> = {
       entrance: { next: "hold", delay: ENTRANCE_TOTAL },
       hold: { next: "dissolve", delay: HOLD_DURATION },
@@ -60,24 +71,30 @@ export function EvanIntro({ onComplete }: { onComplete: () => void }) {
     }, current.delay);
 
     return () => window.clearTimeout(timer);
-  }, [phase, dismissed]);
+  }, [phase, dismissed, reduced]);
 
   const skip = useCallback(() => {
     if (phase === "entrance" || phase === "hold") setPhase("dissolve");
   }, [phase]);
 
   useEffect(() => {
+    if (dismissed || phase === "dissolve" || phase === "done") return;
     const onWheel = (event: WheelEvent) => {
       if (Math.abs(event.deltaY) > 10) skip();
     };
     const onClick = () => skip();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" || event.key === "Enter" || event.key === " ") skip();
+    };
     window.addEventListener("wheel", onWheel, { passive: true });
     window.addEventListener("click", onClick);
+    window.addEventListener("keydown", onKeyDown);
     return () => {
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("click", onClick);
+      window.removeEventListener("keydown", onKeyDown);
     };
-  }, [skip]);
+  }, [skip, dismissed, phase]);
 
   if (dismissed) return null;
 
@@ -105,7 +122,9 @@ export function EvanIntro({ onComplete }: { onComplete: () => void }) {
   return (
     <motion.div
       data-evan-intro
-      className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden"
+      className={`fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden ${
+        isDissolving ? "pointer-events-none" : ""
+      }`}
       style={{ background: "#050509" }}
       animate={isDissolving ? { opacity: 0 } : { opacity: 1 }}
       transition={{ duration: DISSOLVE_DURATION / 1000, ease: "easeInOut" }}
@@ -127,8 +146,12 @@ export function EvanIntro({ onComplete }: { onComplete: () => void }) {
       />
 
       <button
-        onClick={skip}
-        className="absolute top-6 right-6 md:top-8 md:right-8 max-sm:top-auto max-sm:bottom-8 max-sm:left-1/2 max-sm:-translate-x-1/2 z-10 px-4 py-2 rounded-full font-body text-[11px] tracking-[0.1em] uppercase text-text-muted border border-white/[0.08] bg-white/[0.03] transition-all duration-300 hover:text-white hover:border-white/[0.2] hover:bg-white/[0.06]"
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          skip();
+        }}
+        className="absolute top-6 right-6 md:top-8 md:right-8 max-sm:top-auto max-sm:bottom-8 max-sm:left-1/2 max-sm:-translate-x-1/2 z-10 px-4 py-2 rounded-full font-body text-[11px] tracking-[0.1em] uppercase text-text-muted border border-white/[0.08] bg-white/[0.03] transition-all duration-300 hover:text-white hover:border-white/[0.2] hover:bg-white/[0.06] cursor-pointer"
       >
         跳过 Skip
       </button>
@@ -171,14 +194,14 @@ export function EvanIntro({ onComplete }: { onComplete: () => void }) {
                   }
                 : isDissolving
                   ? {
-                      opacity: { duration: 1.2, delay: index * 0.06, ease: "easeInOut" },
-                      filter: { duration: 1.2, delay: index * 0.06, ease: "easeInOut" },
-                      scale: { duration: 1.2, delay: index * 0.06, ease: "easeInOut" },
+                      opacity: { duration: 1.0, delay: index * 0.05, ease: "easeInOut" },
+                      filter: { duration: 1.0, delay: index * 0.05, ease: "easeInOut" },
+                      scale: { duration: 1.0, delay: index * 0.05, ease: "easeInOut" },
                     }
                   : {
-                      opacity: { duration: 0.5, delay: index * ENTRANCE_STAGGER / 1000, ease: [0.16, 1, 0.3, 1] },
-                      y: { duration: 0.7, delay: index * ENTRANCE_STAGGER / 1000, ease: [0.16, 1, 0.3, 1] },
-                      filter: { duration: 0.7, delay: index * ENTRANCE_STAGGER / 1000, ease: [0.16, 1, 0.3, 1] },
+                      opacity: { duration: 0.5, delay: (index * ENTRANCE_STAGGER) / 1000, ease: [0.16, 1, 0.3, 1] },
+                      y: { duration: 0.7, delay: (index * ENTRANCE_STAGGER) / 1000, ease: [0.16, 1, 0.3, 1] },
+                      filter: { duration: 0.7, delay: (index * ENTRANCE_STAGGER) / 1000, ease: [0.16, 1, 0.3, 1] },
                     }
             }
           >

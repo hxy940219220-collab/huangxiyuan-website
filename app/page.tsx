@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
 import { EvanIntro } from "./components/EvanIntro";
@@ -13,10 +13,34 @@ import { About } from "./components/About";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 
+const INTRO_SESSION_KEY = "hxy-intro-seen";
+let introSeenInSession = false;
+
 export default function Home() {
-  const [introDone, setIntroDone] = useState(false);
+  const [introDone, setIntroDone] = useState(() => introSeenInSession);
+
+  useEffect(() => {
+    if (introDone) return;
+    let seen = false;
+    try {
+      seen = window.sessionStorage.getItem(INTRO_SESSION_KEY) === "1";
+    } catch {
+      seen = false;
+    }
+    if (seen) {
+      introSeenInSession = true;
+      const frame = window.requestAnimationFrame(() => setIntroDone(true));
+      return () => window.cancelAnimationFrame(frame);
+    }
+  }, [introDone]);
 
   const completeIntro = () => {
+    introSeenInSession = true;
+    try {
+      window.sessionStorage.setItem(INTRO_SESSION_KEY, "1");
+    } catch {
+      // Ignore storage failures in restricted browsing contexts.
+    }
     setIntroDone(true);
     window.dispatchEvent(new Event("hxy:bgm-play"));
   };

@@ -3,9 +3,9 @@
 import Image from "next/image";
 import quickNote from "./QuickNoteShowcase.module.css";
 import Link from "next/link";
-import { useRef, type ReactNode } from "react";
-import { motion, useMotionValue, useSpring } from "motion/react";
-import { GithubLogo, ArrowUpRight } from "@phosphor-icons/react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
+import { GithubLogo, ArrowUpRight, Globe, Cpu } from "@phosphor-icons/react";
 import { ScrollReveal } from "./ScrollReveal";
 import BlurText from "../reactbits/TextAnimations/BlurText/BlurText";
 
@@ -39,17 +39,20 @@ function TiltWrap({ children, className = "" }: { children: ReactNode; className
   );
 }
 
+type ProjectCategory = "all" | "workbench" | "tool" | "hardware";
+
 type ProjectAction = {
   label: string;
   href: string;
   external?: boolean;
   variant: "primary" | "secondary";
-  icon?: "github" | "arrow";
+  icon?: "github" | "arrow" | "globe";
 };
 
 type ProjectItem = {
   index: string;
   id: string;
+  category: Exclude<ProjectCategory, "all">;
   title: string;
   iconSrc?: string;
   image: string;
@@ -68,11 +71,19 @@ type ProjectItem = {
   actions?: ProjectAction[];
 };
 
+const CATEGORIES: Array<{ id: ProjectCategory; label: string }> = [
+  { id: "all", label: "全部" },
+  { id: "workbench", label: "Agent 工作台" },
+  { id: "tool", label: "个人与创作工具" },
+  { id: "hardware", label: "硬件原型" },
+];
+
 const PROJECTS: ProjectItem[] = [
   {
     index: "01",
     id: "project-tango",
-    title: "Tango · 跨境电商AI工作台",
+    category: "workbench",
+    title: "Tango · 跨境电商 AI 工作台",
     image: "/projects/tango/home.webp",
     imageAlt: "Tango 工作台首页，显示跨境运营任务和常用专家",
     imageFit: "cover",
@@ -90,7 +101,8 @@ const PROJECTS: ProjectItem[] = [
   {
     index: "02",
     id: "project-foldframe",
-    title: "Foldframe · AI内容创作与多端发布工作台",
+    category: "workbench",
+    title: "Foldframe · AI 内容创作与多端发布工作台",
     image: "/projects/foldframe/layout-workshop.webp",
     imageAlt: "Foldframe 排版工坊：3:4 极简琥珀护肤精华商业主图完整呈现在小红书仿真手机预览中，右侧配备竖排比例工具栏",
     imageFit: "cover",
@@ -103,13 +115,14 @@ const PROJECTS: ProjectItem[] = [
       "覆盖从商业产品图、写实人像、短视频制作、仿真手机排版到 13 个主流社媒平台定时发布的完整工作流。支持直连本机 Antigravity、Codex、即梦 AI、Grok（网页授权）与 WorkBuddy 引擎，一次创作即可多端高效分发。",
     actions: [
       { label: "查看产品展示", href: "/projects/foldframe", variant: "primary", icon: "arrow" },
-      { label: "在线展示页", href: "https://foldframe-studio.vercel.app", external: true, variant: "secondary", icon: "arrow" },
+      { label: "在线展示页", href: "https://foldframe-studio.vercel.app", external: true, variant: "secondary", icon: "globe" },
       { label: "GitHub", href: "https://github.com/hxy940219220-collab/foldframe", external: true, variant: "secondary", icon: "github" },
     ],
   },
   {
     index: "03",
     id: "project-hr-studio",
+    category: "workbench",
     title: "HR 搭档 · AI 人事工作台",
     image: "/projects/hr-studio/office-card.webp",
     imageAlt: "HR 搭档组织地图，六个部门的同事与招聘工位",
@@ -120,7 +133,8 @@ const PROJECTS: ProjectItem[] = [
     primaryTagClass: "border-[#75ba9c]/45 bg-[#75ba9c]/[0.08] text-[#a1dfc2]",
     hoverBorderClass: "hover:border-[#75ba9c]/45",
     tags: ["组织地图", "招聘与面试", "档案问答"],
-    summary: "在办公室地图上点选同事，就能打开员工档案。为招聘岗位开启单独的 AI 会话，可以结合候选人的简历和面试记录拟定追问，并把需要核实的事项建成待办。",
+    summary:
+      "在办公室地图上点选同事，就能打开员工档案。为招聘岗位开启单独的 AI 会话，可以结合候选人的简历和面试记录拟定追问，并把需要核实的事项建成待办。",
     actions: [
       { label: "查看功能截图", href: "/projects/hr-studio", variant: "primary", icon: "arrow" },
     ],
@@ -128,7 +142,8 @@ const PROJECTS: ProjectItem[] = [
   {
     index: "04",
     id: "project-framepop",
-    title: "Framepop 灵感设计AI工作台",
+    category: "workbench",
+    title: "Framepop · 灵感设计 AI 工作台",
     image: "/projects/framepop/video-models.webp",
     imageAlt: "Framepop 水母画布，视频菜单列出 Kling 4.0、MiniMax H3 Max、Seedance 2.5 和 Vidu Q4 Preview",
     imageFit: "contain",
@@ -147,6 +162,7 @@ const PROJECTS: ProjectItem[] = [
   {
     index: "05",
     id: "project-quicknote",
+    category: "tool",
     title: "QuickNote · AI 便签",
     iconSrc: "/projects/quicknote/app-icon-current.png",
     image: "/projects/quicknote/recognition-scenes.webp",
@@ -170,6 +186,7 @@ const PROJECTS: ProjectItem[] = [
   {
     index: "06",
     id: "project-eureka",
+    category: "tool",
     title: "尤里卡 · IP 内容创作",
     image: "/eureka-project-card.webp",
     imageAlt: "尤里卡 IP 内容创作 AI 工作台",
@@ -184,12 +201,12 @@ const PROJECTS: ProjectItem[] = [
     detail: "将选题搜索、来源核验、真人口播或双角色脚本、敏感词审查、发布包和数据复盘串成一个本地 AI 工作台。",
     actions: [
       { label: "查看演示", href: "/projects/eureka", variant: "primary", icon: "arrow" },
-      { label: "GitHub", href: "https://github.com/hxy940219220-collab/huangxiyuan-website", external: true, variant: "secondary", icon: "github" },
     ],
   },
   {
     index: "07",
     id: "project-call-home",
+    category: "hardware",
     title: "Call Home · 给父母的一通电话",
     image: "/call-home-project-card.webp",
     imageAlt: "Call Home 给父母的一通电话互动装置",
@@ -210,6 +227,7 @@ const PROJECTS: ProjectItem[] = [
   {
     index: "08",
     id: "project-claude-signal",
+    category: "hardware",
     title: "Claude Signal · 实体审批台",
     image: "/claude-signal-project-card.webp",
     imageAlt: "Claude Signal 多会话 Agent 实体审批台",
@@ -263,7 +281,7 @@ function MediaFrame({ project }: { project: ProjectItem }) {
         <Link
           href={project.cardHref}
           aria-label={`查看 ${project.title}`}
-          className="cursor-target block rounded-[13px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon-cyan"
+          className="cursor-view block rounded-[13px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon-cyan"
         >
           {inner}
         </Link>
@@ -275,13 +293,30 @@ function MediaFrame({ project }: { project: ProjectItem }) {
 }
 
 export function Work() {
+  const [activeCategory, setActiveCategory] = useState<ProjectCategory>("all");
+
+  // 响应导航栏跳转某个具体项目时自动切回“全部”，防止目标项目被过滤隐藏
+  useEffect(() => {
+    const handleReveal = () => setActiveCategory("all");
+    window.addEventListener("hxy:reveal-project", handleReveal);
+    return () => window.removeEventListener("hxy:reveal-project", handleReveal);
+  }, []);
+
+  const visibleProjects =
+    activeCategory === "all"
+      ? PROJECTS
+      : PROJECTS.filter((project) => project.category === activeCategory);
+
+  const countFor = (cat: ProjectCategory) =>
+    cat === "all" ? PROJECTS.length : PROJECTS.filter((p) => p.category === cat).length;
+
   return (
     <section
       id="work"
       className="relative z-10 w-full px-6 md:px-12 py-16 md:py-24"
     >
       {/* Header */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-14 mb-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-14 mb-9">
         <BlurText
           text="代表项目"
           className="section-display-heading font-display text-[clamp(2rem,5vw,3.5rem)] leading-[1.16] text-[#f5f7ff]"
@@ -291,130 +326,188 @@ export function Work() {
         />
         <ScrollReveal delay={0.14}>
           <p className="text-[15px] text-text-tertiary leading-[1.75] self-end pb-1">
-            Tango 展示多位电商专家怎样接力交付，Framepop 把分镜、参考素材和生成模型放进同一张画布，QuickNote 让 Codex 在授权范围内读写便签。项目页可以看到每种设计怎样落到实际操作里。
+            Tango 展示多位跨境专家怎样接力交付，Foldframe 打通商业视觉创作与多平台发布，HR 搭档把组织地图与招聘流程接入 AI 协作，Framepop 与 QuickNote 分别探索多模型画布和受控权限便签。点进项目页可以看到每种设计怎样落到实际操作里。
           </p>
         </ScrollReveal>
       </div>
 
-      {/* Project cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-        {PROJECTS.map((project, idx) => (
-          <ScrollReveal key={project.id} delay={0.04 * (idx % 2)} className="h-full">
-            <TiltWrap className="h-full">
-              <motion.article
-                id={project.id}
-                whileHover={{ y: -5 }}
-                className={`${project.id === "project-quicknote" ? quickNote.card : ""} group/card relative flex h-full scroll-mt-24 flex-col overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#0b0b14] shadow-[0_12px_48px_rgba(0,0,0,0.45)] transition-all duration-300 ${project.hoverBorderClass} hover:shadow-[0_20px_60px_rgba(0,0,0,0.55),0_0_36px_rgba(0,200,255,0.08)]`}
+      {/* Category Filter Tabs */}
+      <ScrollReveal delay={0.08}>
+        <div
+          role="tablist"
+          aria-label="按项目类型筛选"
+          className="mb-9 flex flex-wrap items-center gap-2"
+        >
+          {CATEGORIES.map((cat) => {
+            const selected = activeCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                role="tab"
+                aria-selected={selected}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`cursor-target relative inline-flex items-center gap-2 rounded-full border px-4 py-2 font-body text-[12.5px] tracking-[0.03em] transition-colors duration-250 cursor-pointer ${
+                  selected
+                    ? "border-neon-cyan/50 text-[#f5f7ff]"
+                    : "border-white/[0.11] bg-white/[0.02] text-text-tertiary hover:border-white/[0.22] hover:text-text-secondary"
+                }`}
               >
-                <MediaFrame project={project} />
+                {selected && (
+                  <motion.span
+                    layoutId="work-filter-pill"
+                    transition={{ type: "spring", stiffness: 360, damping: 32 }}
+                    className="absolute inset-0 -z-10 rounded-full bg-neon-cyan/[0.11]"
+                    aria-hidden="true"
+                  />
+                )}
+                <span>{cat.label}</span>
+                <span
+                  className={`font-body text-[11px] tabular-nums ${
+                    selected ? "text-neon-cyan" : "text-text-muted"
+                  }`}
+                >
+                  {countFor(cat.id)}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </ScrollReveal>
 
-                <div className="flex flex-1 flex-col p-6 md:p-7">
-                  {/* Tag Chips */}
-                  <div className="mb-3.5 flex flex-wrap items-center gap-2">
-                    <span
-                      className={`rounded-full border px-3 py-1 font-body text-[11px] font-medium tracking-[0.04em] ${project.primaryTagClass}`}
-                    >
-                      {project.primaryTag}
-                    </span>
-                    {project.tags.map((tag) => (
+      {/* Project cards */}
+      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-7">
+        <AnimatePresence mode="popLayout">
+          {visibleProjects.map((project, idx) => (
+            <motion.div
+              key={project.id}
+              layout
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              transition={{ duration: 0.34, delay: 0.03 * (idx % 2), ease: [0.16, 1, 0.3, 1] }}
+              className="h-full"
+            >
+              <TiltWrap className="h-full">
+                <motion.article
+                  id={project.id}
+                  whileHover={{ y: -5 }}
+                  className={`${project.id === "project-quicknote" ? quickNote.card : ""} group/card relative flex h-full scroll-mt-24 flex-col overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#0b0b14] shadow-[0_12px_48px_rgba(0,0,0,0.45)] transition-all duration-300 ${project.hoverBorderClass} hover:shadow-[0_20px_60px_rgba(0,0,0,0.55),0_0_36px_rgba(0,200,255,0.08)]`}
+                >
+                  <MediaFrame project={project} />
+
+                  <div className="flex flex-1 flex-col p-6 md:p-7">
+                    {/* Tag Chips */}
+                    <div className="mb-3.5 flex flex-wrap items-center gap-2">
                       <span
-                        key={tag}
-                        className="rounded-full border border-white/[0.10] bg-white/[0.025] px-3 py-1 font-body text-[11px] tracking-[0.03em] text-text-tertiary"
+                        className={`rounded-full border px-3 py-1 font-body text-[11px] font-medium tracking-[0.04em] ${project.primaryTagClass}`}
                       >
-                        {tag}
+                        {project.primaryTag}
                       </span>
-                    ))}
-                  </div>
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full border border-white/[0.10] bg-white/[0.025] px-3 py-1 font-body text-[11px] tracking-[0.03em] text-text-tertiary"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
 
-                  {/* Title */}
-                  <h3 className="card-display-title mb-2.5 flex items-center gap-2.5 font-display text-[1.45rem] md:text-[1.55rem] leading-snug text-[#f5f7ff]">
-                    {project.iconSrc && (
-                      <Image
-                        src={project.iconSrc}
-                        alt=""
-                        width={30}
-                        height={30}
-                        className="size-[30px] shrink-0 object-contain"
-                      />
+                    {/* Title */}
+                    <h3 className="card-display-title mb-2.5 flex items-center gap-2.5 font-display text-[1.45rem] md:text-[1.55rem] leading-snug text-[#f5f7ff]">
+                      {project.iconSrc && (
+                        <Image
+                          src={project.iconSrc}
+                          alt=""
+                          width={30}
+                          height={30}
+                          className="size-[30px] shrink-0 object-contain"
+                        />
+                      )}
+                      <span>{project.title}</span>
+                    </h3>
+
+                    {/* Summary */}
+                    <p className="mb-3 max-w-prose text-[14.5px] leading-[1.7] text-text-secondary">
+                      {project.summary}
+                    </p>
+
+                    {/* Optional Thesis + Mechanism Detail */}
+                    {project.thesis && (
+                      <p className="mb-1.5 font-body text-[12px] font-medium tracking-[0.04em] text-text-secondary/90">
+                        {project.thesis}
+                      </p>
                     )}
-                    <span>{project.title}</span>
-                  </h3>
+                    {project.detail && (
+                      <p className="mb-5 text-[13px] leading-[1.68] text-text-tertiary">
+                        {project.detail}
+                      </p>
+                    )}
+                    {!project.detail && <div className="mb-3" />}
 
-                  {/* Summary */}
-                  <p className="mb-3 max-w-prose text-[14.5px] leading-[1.7] text-text-secondary">
-                    {project.summary}
-                  </p>
+                    {/* Footer Actions or Hardware Telemetry Readout */}
+                    <div className="mt-auto pt-3 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-3 min-h-[52px]">
+                      {project.actions ? (
+                        <div className="flex flex-wrap items-center gap-2.5">
+                          {project.actions.map((action) => {
+                            const cls =
+                              action.variant === "primary"
+                                ? "cursor-target inline-flex min-h-10 items-center gap-1.5 rounded-full bg-neon-cyan px-5 py-2 font-body text-[12px] font-semibold tracking-[0.04em] text-[#050509] no-underline transition-all duration-300 hover:bg-[#5ce1ff] hover:shadow-[0_0_24px_rgba(0,200,255,0.25)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neon-cyan"
+                                : "cursor-target inline-flex min-h-10 items-center gap-1.5 rounded-full border border-white/[0.14] bg-white/[0.04] px-4 py-2 font-body text-[12px] font-medium tracking-[0.03em] text-[#f5f7ff] no-underline transition-all duration-300 hover:border-neon-cyan/50 hover:bg-white/[0.08] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neon-cyan";
 
-                  {/* Optional Thesis + Mechanism Detail */}
-                  {project.thesis && (
-                    <p className="mb-1.5 font-body text-[12px] font-medium tracking-[0.04em] text-text-secondary/90">
-                      {project.thesis}
-                    </p>
-                  )}
-                  {project.detail && (
-                    <p className="mb-5 text-[13px] leading-[1.68] text-text-tertiary">
-                      {project.detail}
-                    </p>
-                  )}
-                  {!project.detail && <div className="mb-3" />}
-
-                  {/* Footer Actions or Hardware Telemetry Readout */}
-                  <div className="mt-auto pt-3 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-3 min-h-[52px]">
-                    {project.actions ? (
-                      <div className="flex flex-wrap items-center gap-2.5">
-                        {project.actions.map((action) => {
-                          const cls =
-                            action.variant === "primary"
-                              ? "cursor-target inline-flex min-h-10 items-center gap-1.5 rounded-full bg-neon-cyan px-5 py-2 font-body text-[12px] font-semibold tracking-[0.04em] text-[#050509] no-underline transition-all duration-300 hover:bg-[#5ce1ff] hover:shadow-[0_0_24px_rgba(0,200,255,0.25)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neon-cyan"
-                              : "cursor-target inline-flex min-h-10 items-center gap-1.5 rounded-full border border-white/[0.14] bg-white/[0.04] px-4 py-2 font-body text-[12px] font-medium tracking-[0.03em] text-[#f5f7ff] no-underline transition-all duration-300 hover:border-neon-cyan/50 hover:bg-white/[0.08] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neon-cyan";
-
-                          const content = (
-                            <>
-                              {action.icon === "github" && <GithubLogo size={14} weight="fill" />}
-                              <span>{action.label}</span>
-                              {action.icon === "arrow" && <ArrowUpRight size={13} weight="bold" />}
-                            </>
-                          );
-
-                          if (action.external) {
-                            return (
-                              <a
-                                key={action.label}
-                                href={action.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={cls}
-                              >
-                                {content}
-                              </a>
+                            const content = (
+                              <>
+                                {action.icon === "github" && <GithubLogo size={14} weight="fill" />}
+                                {action.icon === "globe" && <Globe size={14} weight="light" />}
+                                <span>{action.label}</span>
+                                {(action.icon === "arrow" || action.icon === "globe") && (
+                                  <ArrowUpRight size={13} weight="bold" />
+                                )}
+                              </>
                             );
-                          }
 
-                          return (
-                            <Link key={action.label} href={action.href} className={cls}>
-                              {content}
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    ) : project.hardwareSpec ? (
-                      <div className="flex w-full flex-wrap items-center justify-between gap-2 py-1">
-                        <span className="inline-flex items-center gap-2 font-body text-[12px] font-medium text-text-secondary">
-                          <span className={`h-2 w-2 rounded-full ${project.hardwareSpec.dotClass}`} />
-                          {project.hardwareSpec.status}
-                        </span>
-                        <span className="font-body text-[11.5px] tracking-[0.04em] text-text-tertiary">
-                          {project.hardwareSpec.spec}
-                        </span>
-                      </div>
-                    ) : null}
+                            if (action.external) {
+                              return (
+                                <a
+                                  key={action.label}
+                                  href={action.href}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className={cls}
+                                >
+                                  {content}
+                                </a>
+                              );
+                            }
+
+                            return (
+                              <Link key={action.label} href={action.href} className={cls}>
+                                {content}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      ) : project.hardwareSpec ? (
+                        <div className="flex w-full flex-wrap items-center justify-between gap-2 py-1">
+                          <span className="inline-flex items-center gap-2 font-body text-[12px] font-medium text-text-secondary">
+                            <span className={`h-2 w-2 rounded-full ${project.hardwareSpec.dotClass}`} />
+                            {project.hardwareSpec.status}
+                          </span>
+                          <span className="inline-flex items-center gap-1.5 font-body text-[11.5px] tracking-[0.04em] text-text-tertiary">
+                            <Cpu size={14} weight="light" className="text-text-muted" />
+                            {project.hardwareSpec.spec}
+                          </span>
+                        </div>
+                      ) : null}
+                    </div>
                   </div>
-                </div>
-              </motion.article>
-            </TiltWrap>
-          </ScrollReveal>
-        ))}
-      </div>
+                </motion.article>
+              </TiltWrap>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
     </section>
   );
 }

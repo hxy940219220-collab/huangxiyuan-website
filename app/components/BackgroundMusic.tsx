@@ -1,6 +1,6 @@
 "use client";
 
-import { SpeakerLow, SpeakerSlash } from "@phosphor-icons/react";
+import { SpeakerSlash } from "@phosphor-icons/react";
 import {
   useCallback,
   useEffect,
@@ -10,7 +10,7 @@ import {
 } from "react";
 
 const DEFAULT_VOLUME = 0.1;
-const COLLAPSE_DELAY = 1000;
+const COLLAPSE_DELAY = 1200;
 const VOLUME_KEY = "hxy-bgm-volume";
 const PLAY_EVENT = "hxy:bgm-play";
 
@@ -47,9 +47,9 @@ export function BackgroundMusic() {
   }, [cancelCollapse]);
 
   const revealControl = useCallback(() => {
+    cancelCollapse();
     setExpanded(true);
-    scheduleCollapse();
-  }, [scheduleCollapse]);
+  }, [cancelCollapse]);
 
   const playAudio = useCallback(async () => {
     const audio = audioRef.current;
@@ -102,8 +102,11 @@ export function BackgroundMusic() {
     volumeRef.current = storedVolume;
     enabledRef.current = true;
     audio.volume = storedVolume;
-    setVolume(storedVolume);
-    setEnabled(true);
+
+    let syncFrame = 0;
+    if (storedVolume !== DEFAULT_VOLUME) {
+      syncFrame = window.requestAnimationFrame(() => setVolume(storedVolume));
+    }
 
     const removeUnlockListeners = () => {
       document.removeEventListener("pointerdown", unlockPlayback);
@@ -147,6 +150,7 @@ export function BackgroundMusic() {
 
     document.addEventListener("visibilitychange", handleVisibility);
     return () => {
+      if (syncFrame) window.cancelAnimationFrame(syncFrame);
       removeUnlockListeners();
       document.removeEventListener("visibilitychange", handleVisibility);
       window.removeEventListener(PLAY_EVENT, handlePlayRequest);
@@ -157,11 +161,10 @@ export function BackgroundMusic() {
   useEffect(() => () => cancelCollapse(), [cancelCollapse]);
 
   const togglePlayback = () => {
-    revealControl();
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (!audio.paused) {
+    if (!audio.paused || isPlaying) {
       enabledRef.current = false;
       setEnabled(false);
       pauseAudio();
@@ -237,70 +240,56 @@ export function BackgroundMusic() {
         onPause={() => setIsPlaying(false)}
       />
 
+      {/* 播放按钮固定在右侧不位移，悬停时向左平滑展开音量条，避免点击偏移误触滑块 */}
       <div
         data-bgm-control
         role="group"
         aria-label="背景音乐播放与音量"
         title="KNSRK · Crystal Obsidian"
         onMouseEnter={revealControl}
-        onMouseMove={revealControl}
         onMouseLeave={scheduleCollapse}
         onFocusCapture={handleFocus}
         onBlurCapture={handleBlur}
-        className="absolute right-0 top-0 h-9 w-[150px]"
+        className={`absolute right-0 top-0 h-9 transition-[width] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          expanded ? "w-[164px]" : "w-9"
+        }`}
       >
+        {/* 展开胶囊背景 */}
         <div
           aria-hidden="true"
-          className={`absolute inset-0 origin-right rounded-full border border-[oklch(0.34_0.025_285/0.7)] bg-[oklch(0.12_0.018_285/0.97)] shadow-[0_8px_26px_oklch(0.02_0.01_285/0.42)] transition-[scale,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[scale,opacity] ${
-            expanded ? "scale-x-100 opacity-100" : "scale-x-[0.24] opacity-0"
+          className={`pointer-events-none absolute inset-0 origin-right rounded-full border border-white/[0.14] bg-[rgba(11,11,22,0.96)] shadow-[0_10px_28px_rgba(0,0,0,0.48)] backdrop-blur-xl transition-opacity duration-250 ${
+            expanded ? "opacity-100" : "opacity-0"
           }`}
         />
 
-        <button
-          type="button"
-          onClick={togglePlayback}
-          onPointerUp={(event) => {
-            event.currentTarget.blur();
-            focusWithinRef.current = false;
-            scheduleCollapse();
-          }}
-          aria-label={isPlaying ? "关闭背景音乐" : "播放背景音乐"}
-          aria-pressed={isPlaying}
-          className={`cursor-target absolute left-0.5 top-0.5 z-10 flex h-8 w-8 items-center justify-center rounded-full border transition-[translate,color,background-color,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[translate] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon-cyan ${
-            expanded ? "translate-x-0" : "translate-x-[114px]"
-          } ${
-            isPlaying
-              ? "border-[oklch(0.76_0.15_220/0.5)] bg-[oklch(0.76_0.15_220/0.12)] text-neon-cyan shadow-[0_0_16px_oklch(0.76_0.15_220/0.12)]"
-              : "border-[oklch(0.48_0.02_285/0.4)] bg-[oklch(0.2_0.018_285/0.76)] text-text-tertiary"
-          }`}
-        >
-          {isPlaying ? <SpeakerLow size={16} weight="fill" /> : <SpeakerSlash size={16} weight="regular" />}
-        </button>
-
+        {/* 左侧音量控制区 */}
         <div
           id="background-music-volume"
           aria-hidden={!expanded}
-          className={`absolute left-[40px] right-2 top-1/2 -translate-y-1/2 transition-[opacity,translate] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          className={`absolute left-3.5 right-[44px] top-1/2 -translate-y-1/2 transition-[opacity,transform] duration-250 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             expanded
-              ? "translate-x-0 opacity-100 pointer-events-auto delay-100"
-              : "translate-x-3 opacity-0 pointer-events-none delay-0"
+              ? "translate-x-0 opacity-100 pointer-events-auto"
+              : "translate-x-2 opacity-0 pointer-events-none"
           }`}
         >
-          <div className="flex items-center justify-between gap-2 font-body text-[8.5px] leading-none tracking-[0.05em]">
+          <div className="mb-0.5 flex items-center justify-between gap-2 font-body text-[10.5px] leading-none tracking-[0.03em]">
             <span className="text-text-secondary">音乐</span>
-            <output className={isPlaying ? "text-neon-cyan" : "text-text-muted"} aria-live="polite">
-              {isPlaying ? level : enabled ? "待播放" : "已关闭"}
+            <output
+              className={`tabular-nums ${isPlaying ? "text-neon-cyan" : "text-text-muted"}`}
+              aria-live="polite"
+            >
+              {isPlaying ? level : enabled ? "待播放" : "已暂停"}
             </output>
           </div>
           <div className="relative h-[13px]">
             <div
               data-bgm-track
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-[5px] top-1/2 h-[2px] -translate-y-1/2 overflow-hidden rounded-full bg-[oklch(0.48_0.02_285/0.28)]"
+              className="pointer-events-none absolute inset-x-[4px] top-1/2 h-[2px] -translate-y-1/2 overflow-hidden rounded-full bg-white/[0.16]"
             >
               <div
                 data-bgm-fill
-                className="h-full rounded-full bg-[oklch(0.79_0.15_220)]"
+                className="h-full rounded-full bg-neon-cyan"
                 style={{ width: level }}
               />
             </div>
@@ -325,6 +314,33 @@ export function BackgroundMusic() {
             />
           </div>
         </div>
+
+        {/* 固定在右侧的播放/静音按钮（永不逃离光标） */}
+        <button
+          type="button"
+          onClick={togglePlayback}
+          onPointerUp={(event) => {
+            event.currentTarget.blur();
+            focusWithinRef.current = false;
+          }}
+          aria-label={isPlaying ? "暂停背景音乐" : "播放背景音乐"}
+          aria-pressed={isPlaying}
+          className={`cursor-target absolute right-0.5 top-0.5 z-10 flex h-8 w-8 items-center justify-center rounded-full border transition-[color,background-color,border-color,box-shadow] duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon-cyan cursor-pointer ${
+            isPlaying
+              ? "border-neon-cyan/50 bg-neon-cyan/[0.12] text-neon-cyan shadow-[0_0_16px_rgba(0,200,255,0.16)]"
+              : "border-white/[0.15] bg-white/[0.06] text-text-tertiary hover:border-white/[0.28] hover:text-[#f5f7ff]"
+          }`}
+        >
+          {isPlaying ? (
+            <span className="flex h-3.5 items-end gap-[2.5px]" aria-hidden="true">
+              <span className="bgm-eq-bar bgm-eq-1 w-[2px] rounded-full bg-neon-cyan" />
+              <span className="bgm-eq-bar bgm-eq-2 w-[2px] rounded-full bg-neon-cyan" />
+              <span className="bgm-eq-bar bgm-eq-3 w-[2px] rounded-full bg-neon-cyan" />
+            </span>
+          ) : (
+            <SpeakerSlash size={15} weight="regular" />
+          )}
+        </button>
       </div>
     </aside>
   );

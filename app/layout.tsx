@@ -34,7 +34,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 const SITE_URL = "https://www.huangxiyuan.net";
 const SITE_TITLE = "黄锡源 HXY / AIPM - AI 产品经理";
 const SITE_DESCRIPTION =
-  "黄锡源 HXY，AI 产品经理。设计个人智能体与多 Agent 工作流，研究 Agent-to-Agent 交接、MCP 工具接入、Harness 和评测。项目包括 Tango、Framepop 与 QuickNote。";
+  "黄锡源 HXY，AI 产品经理。设计个人智能体与多 Agent 工作流，研究 Agent-to-Agent 交接、MCP 工具接入、Harness 和评测。项目包括 Tango、Foldframe、HR 搭档、Framepop 与 QuickNote。";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

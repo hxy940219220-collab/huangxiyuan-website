@@ -39,7 +39,8 @@ export const metadata: Metadata = {
 };
 
 const project: ProjectDemoData = {
-  index: "01",
+  slug: "quicknote",
+  index: "05",
   eyebrow: "macOS AI 便签",
   appIcon: "/projects/quicknote/app-icon-current.png",
   title: "QuickNote",

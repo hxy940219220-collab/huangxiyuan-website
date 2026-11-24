@@ -1,9 +1,12 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../showcase.module.css";
+import { LightboxProvider, LightboxTrigger, type LightboxItem } from "../LightboxGallery";
+import { ProjectPager } from "../ProjectPager";
 
-const title = "Tango · 跨境电商AI工作台";
+const title = "Tango · 跨境电商 AI 工作台";
 const description = "为跨境电商运营组织一支 AI 专家团队。带上商品资料，在同一个工作台完成竞品分析、商品页策划与内容制作。";
 const homeImage = "/projects/tango/home.webp";
 const homeAlt = "Tango 工作台首页，显示常用专家和四类跨境运营任务";
@@ -66,60 +69,81 @@ const steps = [
   },
 ];
 
+const lightboxItems: LightboxItem[] = [
+  { src: homeImage, alt: homeAlt, title: "Tango · 工作台首页", caption: homeAlt },
+  ...steps.map((step) => ({
+    src: step.image,
+    alt: step.alt,
+    title: step.title,
+    caption: step.description,
+  })),
+];
+
+const pageAccent = {
+  "--accent": "#ff9c66",
+  "--accent-soft": "rgba(255, 106, 26, 0.14)",
+} as CSSProperties;
+
 export default function TangoProjectPage() {
   return (
-    <main className={styles.page}>
-      <header className={styles.header}>
-        <div className={styles.wrap}>
-          <Link href="/" className={styles.wordmark}>HXY / EVAN</Link>
-          <Link href="/#work" className={styles.back}>← 返回项目</Link>
-        </div>
-      </header>
+    <LightboxProvider items={lightboxItems}>
+      <main className={styles.page} style={pageAccent}>
+        <header className={styles.header}>
+          <div className={styles.wrap}>
+            <Link href="/" className={`cursor-target ${styles.wordmark}`}>HXY / EVAN</Link>
+            <Link href="/#project-tango" className={`cursor-target ${styles.back}`}>← 返回项目栏</Link>
+          </div>
+        </header>
 
-      <section className={`${styles.wrap} ${styles.hero}`} aria-labelledby="tango-title">
-        <p className={styles.kicker}>跨境电商AI工作台</p>
-        <h1 id="tango-title">Tango</h1>
-        <p className={styles.lead}>让竞品研究、商品页和内容制作在同一条任务里接力。</p>
-        <a href="#demo" className={styles.demoLink}>查看功能截图 ↓</a>
-        <Image
-          src={homeImage}
-          alt={homeAlt}
-          {...screenshotSize}
-          preload
-          sizes="(min-width: 1260px) 1150px, calc(100vw - 40px)"
-          className={styles.heroImage}
-        />
-      </section>
+        <section className={`${styles.wrap} ${styles.hero}`} aria-labelledby="tango-title">
+          <p className={styles.kicker}>01 · 跨境电商 AI 工作台</p>
+          <h1 id="tango-title">Tango</h1>
+          <p className={styles.lead}>让竞品研究、商品页和内容制作在同一条任务里接力。</p>
+          <a href="#demo" className={`cursor-target ${styles.demoLink}`}>查看功能截图 ↓</a>
+          <LightboxTrigger index={0} label="放大查看 Tango 工作台首页截图" className={styles.heroImage}>
+            <Image
+              src={homeImage}
+              alt={homeAlt}
+              {...screenshotSize}
+              preload
+              sizes="(min-width: 1260px) 1150px, calc(100vw - 40px)"
+              className="block h-auto w-full"
+            />
+          </LightboxTrigger>
+        </section>
 
-      <section id="demo" className={`${styles.wrap} ${styles.demo}`} aria-labelledby="tango-demo-title">
-        <div className={styles.demoHeading}>
-          <h2 id="tango-demo-title">工作台实拍</h2>
-          <nav aria-label="跳到功能" className={styles.jump}>
-            {steps.map(step => <a key={step.id} href={`#${step.id}`}>{step.nav}</a>)}
-          </nav>
-        </div>
-        {steps.map(step => (
-          <article id={step.id} key={step.id} className={styles.step}>
-            <h3>{step.title}</h3>
-            <p>{step.description}</p>
-            <a className={styles.frame} href={step.image} target="_blank" rel="noreferrer" aria-label={`查看原图：${step.title}`}>
-              <Image
-                src={step.image}
-                alt={step.alt}
-                width={screenshotSize.width}
-                height={step.height ?? screenshotSize.height}
-                sizes="(min-width: 1260px) 1150px, calc(100vw - 40px)"
-                loading="lazy"
-              />
-            </a>
-          </article>
-        ))}
-      </section>
+        <section id="demo" className={`${styles.wrap} ${styles.demo}`} aria-labelledby="tango-demo-title">
+          <div className={styles.demoHeading}>
+            <h2 id="tango-demo-title">工作台实拍</h2>
+            <nav aria-label="跳到功能" className={styles.jump}>
+              {steps.map((step) => <a key={step.id} href={`#${step.id}`}>{step.nav}</a>)}
+            </nav>
+          </div>
+          {steps.map((step, index) => (
+            <article id={step.id} key={step.id} className={styles.step}>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+              <LightboxTrigger index={index + 1} label={`放大查看：${step.title}`} className={styles.frame}>
+                <Image
+                  src={step.image}
+                  alt={step.alt}
+                  width={screenshotSize.width}
+                  height={step.height ?? screenshotSize.height}
+                  sizes="(min-width: 1260px) 1150px, calc(100vw - 40px)"
+                  loading="lazy"
+                />
+              </LightboxTrigger>
+            </article>
+          ))}
+        </section>
 
-      <footer className={`${styles.wrap} ${styles.footer}`}>
-        <p>Electron · Node.js · SQLite · llama.cpp</p>
-        <Link href="/#work">查看其他项目 ↗</Link>
-      </footer>
-    </main>
+        <ProjectPager currentSlug="tango" />
+
+        <footer className={`${styles.wrap} ${styles.footer}`}>
+          <p>Electron · Node.js · SQLite · llama.cpp</p>
+          <Link href="/#work">返回全部项目 ↗</Link>
+        </footer>
+      </main>
+    </LightboxProvider>
   );
 }

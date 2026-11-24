@@ -45,6 +45,7 @@
 .card-display-title {
   font-weight: 400;
   letter-spacing: 0.02em;
+  text-wrap: balance;
 }
 
 /* ============================================================
@@ -196,16 +197,20 @@ body {
 
 /* ============================================================
    CURSOR TARGET — expanded hit area for TargetCursor lock-on
+   Wrapped in @layer components so utility classes like `absolute`
+   and `fixed` always take precedence over `position: relative`.
    ============================================================ */
-.cursor-target {
-  position: relative;
-}
-.cursor-target::before {
-  content: "";
-  position: absolute;
-  inset: -40px;
-  z-index: -1;
-  pointer-events: none;
+@layer components {
+  .cursor-target {
+    position: relative;
+  }
+  .cursor-target::before {
+    content: "";
+    position: absolute;
+    inset: -40px;
+    z-index: -1;
+    pointer-events: none;
+  }
 }
 
 /* Cursor corner rotation */
@@ -214,8 +219,21 @@ body {
   to { transform: rotate(360deg); }
 }
 .cursor-spin {
-  animation: cursor-spin 8s linear infinite;
+  animation: cursor-spin 12s linear infinite;
 }
+
+/* Background music equalizer bars */
+@keyframes bgmEq {
+  0%, 100% { height: 4px; opacity: 0.65; }
+  50% { height: 13px; opacity: 1; }
+}
+.bgm-eq-bar {
+  height: 5px;
+  animation: bgmEq 0.9s ease-in-out infinite;
+}
+.bgm-eq-1 { animation-delay: 0s; }
+.bgm-eq-2 { animation-delay: 0.22s; }
+.bgm-eq-3 { animation-delay: 0.44s; }
 
 /* ============================================================
    BACKGROUND MUSIC — compact native range, branded without glass

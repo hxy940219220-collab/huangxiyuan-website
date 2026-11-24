@@ -1,8 +1,15 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { List, X } from "@phosphor-icons/react";
+import { useState, useCallback, useEffect, useRef } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "motion/react";
+import { ArrowUpRight, List, X } from "@phosphor-icons/react";
 import { BackgroundMusic } from "./BackgroundMusic";
 
 type NavSub = {
@@ -13,6 +20,7 @@ type NavSub = {
 type NavItem = {
   label: string;
   href: string;
+  sectionId: string;
   subs: NavSub[];
 };
 
@@ -20,12 +28,14 @@ const NAV_ITEMS: NavItem[] = [
   {
     label: "作品",
     href: "#work",
+    sectionId: "work",
     subs: [
-      { label: "Tango · 跨境电商AI工作台", href: "#project-tango" },
-      { label: "Foldframe · AI内容创作与多端发布工作台", href: "#project-foldframe" },
+      { label: "Tango · 跨境电商 AI 工作台", href: "#project-tango" },
+      { label: "Foldframe · AI 内容创作与多端发布工作台", href: "#project-foldframe" },
       { label: "HR 搭档 · AI 人事工作台", href: "#project-hr-studio" },
-      { label: "Framepop 灵感设计AI工作台", href: "#project-framepop" },
+      { label: "Framepop · 灵感设计 AI 工作台", href: "#project-framepop" },
       { label: "QuickNote · AI 便签", href: "#project-quicknote" },
+      { label: "尤里卡 · IP 内容创作", href: "#project-eureka" },
       { label: "Call Home · 互动装置", href: "#project-call-home" },
       { label: "Claude Signal · 实体审批台", href: "#project-claude-signal" },
     ],
@@ -33,17 +43,19 @@ const NAV_ITEMS: NavItem[] = [
   {
     label: "思考",
     href: "#method",
+    sectionId: "method",
     subs: [
       { label: "个人智能体与多 Agent 产品设计", href: "/research/agent-product" },
       { label: "AI 前沿时间线", href: "/ai-frontier-timeline.html" },
       { label: "Harness Engineering", href: "/harness-engineering.html" },
-      { label: "Claude Code 设计逻辑", href: "https://learn-claude-code-visual.vercel.app/index.html" },
+      { label: "Claude Code 源码设计逻辑", href: "https://learn-claude-code-visual.vercel.app/index.html" },
       { label: "Hermes × OpenClaw 历史对比", href: "/hermes-vs-openclaw.html" },
     ],
   },
   {
     label: "工具栈",
     href: "#capabilities",
+    sectionId: "capabilities",
     subs: [
       { label: "GPT-6.2 Astra", href: "#tool-gpt" },
       { label: "Claude Fable 5.2 / Opus 5.5", href: "#tool-claude" },
@@ -56,6 +68,7 @@ const NAV_ITEMS: NavItem[] = [
   {
     label: "关于",
     href: "#about",
+    sectionId: "about",
     subs: [
       { label: "个人智能体", href: "#about-product" },
       { label: "多 Agent 协作", href: "#about-agent" },
@@ -65,39 +78,175 @@ const NAV_ITEMS: NavItem[] = [
   {
     label: "联系",
     href: "#contact",
+    sectionId: "contact",
     subs: [
-      { label: "GitHub", href: "https://github.com/hxy940219220-collab/huangxiyuan-website" },
-      { label: "huangxiyuan.net", href: "https://huangxiyuan.net" },
+      { label: "GitHub", href: "https://github.com/hxy940219220-collab" },
+      { label: "huangxiyuan.net", href: "https://www.huangxiyuan.net" },
       { label: "hxy940219220@gmail.com", href: "mailto:hxy940219220@gmail.com" },
     ],
   },
 ];
 
+const DROPDOWN_CLOSE_DELAY = 140;
+
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   const reduced = useReducedMotion();
+  const navRef = useRef<HTMLElement>(null);
+  const closeTimerRef = useRef<number | null>(null);
 
-  // Scroll-driven 背景透明度 (用 MotionValue 避免 React 重渲染)
-  const { scrollY } = useScroll();
-  const navBgOpacity = useTransform(scrollY, [0, 100, 200], [0, 0.55, 0.85]);
+  // Scroll-driven 背景透明度 & 阅读进度条 (用 MotionValue 避免 React 重渲染)
+  const { scrollY, scrollYProgress } = useScroll();
+  const navBgOpacity = useTransform(scrollY, [0, 100, 200], [0, 0.58, 0.88]);
   const navBorderOpacity = useTransform(scrollY, [0, 200], [0, 1]);
-  const navShadowOpacity = useTransform(scrollY, [0, 200], [0, 0.35]);
+  const navShadowOpacity = useTransform(scrollY, [0, 200], [0, 0.38]);
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 280,
+    damping: 32,
+    restDelta: 0.001,
+  });
+  const progressOpacity = useTransform(scrollY, [40, 140], [0, 1]);
 
+  const cancelCloseTimer = useCallback(() => {
+    if (closeTimerRef.current !== null) {
+      window.clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  }, []);
 
-  const scrollTo = useCallback((href: string) => {
-    setMenuOpen(false);
-    const el = document.querySelector(href);
-    el?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
-  }, [reduced]);
+  const openMenu = useCallback(
+    (href: string) => {
+      cancelCloseTimer();
+      setOpenDropdown(href);
+    },
+    [cancelCloseTimer]
+  );
+
+  const scheduleCloseMenu = useCallback(
+    (href: string) => {
+      cancelCloseTimer();
+      closeTimerRef.current = window.setTimeout(() => {
+        setOpenDropdown((current) => (current === href ? null : current));
+        closeTimerRef.current = null;
+      }, DROPDOWN_CLOSE_DELAY);
+    },
+    [cancelCloseTimer]
+  );
+
+  const closeAllDropdowns = useCallback(() => {
+    cancelCloseTimer();
+    setOpenDropdown(null);
+  }, [cancelCloseTimer]);
+
+  useEffect(() => () => cancelCloseTimer(), [cancelCloseTimer]);
+
+  // 点击外部、按 Escape 或窗口失焦时立即关闭下拉菜单，防止残留重叠
+  useEffect(() => {
+    if (!openDropdown) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (navRef.current && event.target instanceof Node && !navRef.current.contains(event.target)) {
+        closeAllDropdowns();
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeAllDropdowns();
+      }
+    };
+    const handleWindowBlur = () => closeAllDropdowns();
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("blur", handleWindowBlur);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("blur", handleWindowBlur);
+    };
+  }, [openDropdown, closeAllDropdowns]);
+
+  // 监听当前阅读分区，高亮顶部导航项
+  useEffect(() => {
+    const ids = NAV_ITEMS.map((item) => item.sectionId);
+    const elements = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+    if (elements.length === 0) return;
+
+    const visibleRatios = new Map<string, number>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            visibleRatios.set(entry.target.id, entry.intersectionRatio);
+          } else {
+            visibleRatios.delete(entry.target.id);
+          }
+        }
+        if (visibleRatios.size === 0) {
+          if (window.scrollY < 260) setActiveSection(null);
+          return;
+        }
+        let bestId: string | null = null;
+        let bestScore = -1;
+        for (const [id, ratio] of visibleRatios.entries()) {
+          if (ratio > bestScore) {
+            bestScore = ratio;
+            bestId = id;
+          }
+        }
+        if (bestId) setActiveSection(bestId);
+      },
+      { rootMargin: "-20% 0px -45% 0px", threshold: [0, 0.15, 0.35, 0.6] }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollTo = useCallback(
+    (href: string) => {
+      setMenuOpen(false);
+      closeAllDropdowns();
+
+      // 工具栈卡片：滚动到工具栈区块并旋转对应卡片到正面
+      if (href.startsWith("#tool-")) {
+        const toolId = href.slice(1);
+        window.dispatchEvent(new CustomEvent("hxy:select-tool", { detail: toolId }));
+        const capabilitiesEl = document.getElementById("capabilities");
+        capabilitiesEl?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+        return;
+      }
+
+      // 项目卡片：如果当前有分类筛选，先切回“全部”确保目标卡片可见
+      if (href.startsWith("#project-")) {
+        window.dispatchEvent(new CustomEvent("hxy:reveal-project", { detail: href.slice(1) }));
+        window.requestAnimationFrame(() => {
+          const target = document.querySelector(href);
+          target?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+        });
+        return;
+      }
+
+      const el = document.querySelector(href);
+      el?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+    },
+    [reduced, closeAllDropdowns]
+  );
 
   return (
     <>
       <motion.nav
+        ref={navRef}
+        onMouseLeave={closeAllDropdowns}
         className="fixed top-0 left-0 right-0 z-[100] px-4 md:px-6 py-4"
         style={{
           backgroundColor: useTransform(navBgOpacity, (v) => `rgba(8,8,18,${v})`),
-          backdropFilter: useTransform(navBgOpacity, (v) => v > 0.1 ? `blur(${Math.round(v * 26)}px)` : "none"),
-          WebkitBackdropFilter: useTransform(navBgOpacity, (v) => v > 0.1 ? `blur(${Math.round(v * 26)}px)` : "none"),
+          backdropFilter: useTransform(navBgOpacity, (v) => (v > 0.1 ? `blur(${Math.round(v * 26)}px)` : "none")),
+          WebkitBackdropFilter: useTransform(navBgOpacity, (v) => (v > 0.1 ? `blur(${Math.round(v * 26)}px)` : "none")),
           borderBottomWidth: useTransform(navBorderOpacity, (v) => `${v}px`),
           borderBottomStyle: "solid",
           borderBottomColor: "rgba(255,255,255,0.08)",
@@ -107,47 +256,106 @@ export function Navbar() {
         <div className="relative w-full flex items-center justify-between">
           {/* Brand */}
           <a
-            href="#"
-            onClick={(e) => { e.preventDefault(); scrollTo("#hero"); }}
+            href="#hero"
+            onClick={(e) => {
+              e.preventDefault();
+              e.currentTarget.blur();
+              scrollTo("#hero");
+            }}
             className="font-display text-[15px] font-semibold tracking-[0.06em] uppercase text-[#f5f7ff] no-underline"
           >
             HXY <span className="text-text-tertiary font-normal">/ EVAN</span>
           </a>
 
-          {/* Desktop nav */}
+          {/* Desktop nav — 单一受控下拉态，彻底避免焦点残留导致的菜单重叠 */}
           <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-9 list-none md:flex">
-            {NAV_ITEMS.map((item) => (
-              <li key={item.href} className="relative group">
-                <a
-                  href={item.href}
-                  onClick={(e) => { e.preventDefault(); scrollTo(item.href); }}
-                  className="cursor-target relative font-body text-[13px] font-medium tracking-[0.08em] uppercase text-text-secondary no-underline transition-colors duration-300 hover:text-[#f5f7ff]
-                    after:content-[''] after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-px after:bg-neon-cyan after:scale-x-0 after:transition-transform after:duration-300
-                    hover:after:scale-x-100"
+            {NAV_ITEMS.map((item) => {
+              const isOpen = openDropdown === item.href;
+              const isActive = activeSection === item.sectionId;
+
+              return (
+                <li
+                  key={item.href}
+                  className="relative"
+                  onMouseEnter={() => openMenu(item.href)}
+                  onMouseLeave={() => scheduleCloseMenu(item.href)}
+                  onBlur={(event) => {
+                    if (
+                      !(event.relatedTarget instanceof Node) ||
+                      !event.currentTarget.contains(event.relatedTarget)
+                    ) {
+                      setOpenDropdown((current) => (current === item.href ? null : current));
+                    }
+                  }}
                 >
-                  {item.label}
-                </a>
-                {/* 下拉子项 */}
-                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:pointer-events-auto transition-all duration-300 z-50">
-                  <div className="flex flex-col gap-0.5 py-2 px-1 rounded-xl bg-[rgba(13,13,28,0.94)] border border-white/[0.10] backdrop-blur-xl shadow-[0_16px_48px_rgba(0,0,0,0.55)] min-w-[180px]">
-                    {item.subs.map((sub) => {
-                      const isSectionLink = sub.href.startsWith("#");
-                      return (
-                        <a
-                          key={sub.label}
-                          href={sub.href}
-                          {...(!isSectionLink ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                          onClick={isSectionLink ? (e) => { e.preventDefault(); scrollTo(sub.href); } : undefined}
-                          className="block px-3 py-2 rounded-lg font-body text-[12px] text-text-secondary whitespace-nowrap no-underline transition-colors duration-200 hover:text-white hover:bg-white/[0.06] focus-visible:text-white focus-visible:bg-white/[0.06] focus-visible:outline focus-visible:outline-1 focus-visible:outline-neon-cyan"
-                        >
-                          {sub.label}
-                        </a>
-                      );
-                    })}
+                  <a
+                    href={item.href}
+                    aria-haspopup="true"
+                    aria-expanded={isOpen}
+                    onFocus={(e) => {
+                      if (e.currentTarget.matches(":focus-visible")) {
+                        openMenu(item.href);
+                      }
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.currentTarget.blur();
+                      scrollTo(item.href);
+                    }}
+                    className={`cursor-target relative font-body text-[13px] font-medium tracking-[0.08em] uppercase no-underline transition-colors duration-300
+                      after:content-[''] after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-px after:bg-neon-cyan after:transition-transform after:duration-300
+                      ${
+                        isOpen || isActive
+                          ? "text-[#f5f7ff] after:scale-x-100"
+                          : "text-text-secondary hover:text-[#f5f7ff] after:scale-x-0 hover:after:scale-x-100"
+                      }`}
+                  >
+                    {item.label}
+                  </a>
+
+                  {/* 下拉子项 — 完全由 openDropdown 单一状态控制 */}
+                  <div
+                    onMouseEnter={() => openMenu(item.href)}
+                    className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 transition-all duration-200 ease-out z-50 ${
+                      isOpen
+                        ? "opacity-100 translate-y-0 pointer-events-auto"
+                        : "opacity-0 translate-y-1.5 pointer-events-none"
+                    }`}
+                    aria-hidden={!isOpen}
+                  >
+                    <div className="flex flex-col gap-0.5 py-2 px-1.5 rounded-xl bg-[rgba(11,11,22,0.96)] border border-white/[0.11] backdrop-blur-xl shadow-[0_18px_48px_rgba(0,0,0,0.6)] min-w-[204px]">
+                      {item.subs.map((sub) => {
+                        const isSectionLink = sub.href.startsWith("#");
+                        const isExternal = sub.href.startsWith("http") || sub.href.startsWith("mailto:");
+                        return (
+                          <a
+                            key={sub.label}
+                            href={sub.href}
+                            tabIndex={isOpen ? 0 : -1}
+                            {...(!isSectionLink ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                            onClick={(e) => {
+                              e.currentTarget.blur();
+                              if (isSectionLink) {
+                                e.preventDefault();
+                                scrollTo(sub.href);
+                              } else {
+                                closeAllDropdowns();
+                              }
+                            }}
+                            className="flex items-center justify-between gap-3 px-3 py-2 rounded-lg font-body text-[12px] text-text-secondary whitespace-nowrap no-underline transition-colors duration-200 hover:text-white hover:bg-white/[0.07] focus-visible:text-white focus-visible:bg-white/[0.07] focus-visible:outline focus-visible:outline-1 focus-visible:outline-neon-cyan"
+                          >
+                            <span>{sub.label}</span>
+                            {isExternal && (
+                              <ArrowUpRight size={12} weight="regular" className="shrink-0 text-text-muted" />
+                            )}
+                          </a>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
 
           <div className="ml-auto flex items-center gap-2">
@@ -155,9 +363,11 @@ export function Navbar() {
 
             {/* Hamburger */}
             <button
+              type="button"
               onClick={() => setMenuOpen((v) => !v)}
               className="flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.15] bg-white/[0.06] transition-all duration-400 md:hidden"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
             >
               {menuOpen ? (
                 <X size={18} weight="light" color="#fff" />
@@ -167,6 +377,15 @@ export function Navbar() {
             </button>
           </div>
         </div>
+
+        {/* 1.5px 顶部阅读进度条 */}
+        {!reduced && (
+          <motion.div
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-0 left-0 right-0 h-[1.5px] origin-left bg-gradient-to-r from-neon-cyan/60 via-neon-cyan to-neon-pink/75"
+            style={{ scaleX: smoothProgress, opacity: progressOpacity }}
+          />
+        )}
       </motion.nav>
 
       {/* Mobile dropdown menu */}
@@ -187,18 +406,24 @@ export function Navbar() {
               style={{ transformOrigin: "top right" }}
               className="fixed top-[68px] right-4 z-[99] md:hidden w-[200px] p-1.5 rounded-2xl bg-[rgba(13,13,28,0.96)] border border-white/[0.12] backdrop-blur-xl shadow-[0_16px_48px_rgba(0,0,0,0.55)] flex flex-col"
             >
-              {NAV_ITEMS.map(
-                (item) => (
+              {NAV_ITEMS.map((item) => {
+                const isActive = activeSection === item.sectionId;
+                return (
                   <a
                     key={item.label + item.href}
                     href={item.href}
-                    onClick={(e) => { e.preventDefault(); scrollTo(item.href); }}
-                    className="block px-4 py-3 rounded-xl font-body text-[14px] font-medium tracking-[0.04em] text-text-secondary no-underline transition-colors duration-200 active:bg-white/[0.08] active:text-white"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollTo(item.href);
+                    }}
+                    className={`block px-4 py-3 rounded-xl font-body text-[14px] font-medium tracking-[0.04em] no-underline transition-colors duration-200 active:bg-white/[0.08] active:text-white ${
+                      isActive ? "bg-white/[0.06] text-[#f5f7ff]" : "text-text-secondary"
+                    }`}
                   >
                     {item.label}
                   </a>
-                )
-              )}
+                );
+              })}
             </motion.div>
           </>
         )}

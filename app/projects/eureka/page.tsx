@@ -31,7 +31,8 @@ export const metadata: Metadata = {
 };
 
 const project: ProjectDemoData = {
-  index: "01",
+  slug: "eureka",
+  index: "06",
   eyebrow: "Eureka / AI Creator Workflow",
   title: "尤里卡",
   subtitle: "把“今天讲什么”变成可持续的内容创作流程。",
@@ -41,7 +42,7 @@ const project: ProjectDemoData = {
   heroAlt: "尤里卡创作台的视频脚本与逐字口播稿双栏界面",
   accent: "#F5B400",
   accentSoft: "rgba(245, 180, 0, 0.12)",
-  github: "https://github.com/hxy940219220-collab/huangxiyuan-website",
+  privateRepository: true,
   stats: [
     { value: "2 种", label: "Shoot formats" },
     { value: "30 min", label: "Max duration" },

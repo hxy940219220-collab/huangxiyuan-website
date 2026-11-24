@@ -18,15 +18,17 @@ export function SmoothScroll() {
     });
     lenisRef.current = lenis;
 
+    let rafId = 0;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
-    const id = requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
-      cancelAnimationFrame(id);
+      cancelAnimationFrame(rafId);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, [reduced]);
 

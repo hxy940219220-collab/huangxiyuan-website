@@ -1,70 +1,111 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
 
-/* Reticle cursor — 4 种状态：
-   1. 默认 · 漫游 — dot + 4 corner brackets 缓慢旋转
-   2. 链接悬停 · 聚焦 — dot 消失，corners 贴附元素边缘
-   3. 按钮悬停 · 磁吸 — corners 贴附按钮圆角，颜色跟随按钮 accent
-   4. 文字选择 · 隐退 — 光标整体淡出，选文结束后恢复
-   触屏设备自动隐藏。 */
+/* Refined Reticle Cursor — 5 种状态：
+   1. 默认 · 漫游 — 柔和微光圆点 + 轻盈四角括号缓慢旋转
+   2. 链接悬停 · 聚焦 — 圆点隐去，四角括号贴附元素边缘
+   3. 按钮悬停 · 磁吸 — 四角贴附按钮圆角边缘
+   4. 封面预览 · 查看 — 悬停项目海报时呈现柔和毛玻璃「查看 ↗」药丸
+   5. 文字选择 / 离开视口 · 隐退 — 整体淡出
+   严格仅在精细指针设备（hover: hover + pointer: fine）且首次鼠标移动后挂载。 */
 
-function isTouchDevice() {
-  if (typeof window === "undefined") return false;
-  return "ontouchstart" in window || navigator.maxTouchPoints > 0;
-}
-
-// 检测元素是否为按钮类型
 function isButtonLike(el: Element): boolean {
   if (el.tagName === "BUTTON") return true;
   if (el.tagName === "A" && (el as HTMLAnchorElement).href) {
-    // 检查是否看起来像按钮 (有特定 class 或是 CTA)
-    const cls = el.className || "";
+    const cls = typeof el.className === "string" ? el.className : "";
     if (cls.includes("rounded-full") || cls.includes("btn") || cls.includes("cta")) return true;
   }
   return false;
 }
 
-const CORNER_SIZE = 10;
-const DOT_SIZE = 5;
+const CORNER_SIZE = 9;
+const DOT_SIZE = 4;
 
 export function CustomCursor() {
   const reduced = useReducedMotion();
+  const [active, setActive] = useState(false);
+
   const dotRef = useRef<HTMLDivElement>(null);
   const spinRef = useRef<HTMLDivElement>(null);
+  const pillRef = useRef<HTMLDivElement>(null);
   const cornersRef = useRef<HTMLDivElement[]>([]);
   const rafRef = useRef(0);
   const posRef = useRef({ x: -100, y: -100 });
+  const visibleRef = useRef(true);
   const dirtyRef = useRef(true);
   const selectingRef = useRef(false);
-  const prevStateRef = useRef<"roam" | "link" | "button" | "select">("roam");
+
+  // 严格限制仅在桌面端真实鼠标设备首次移动后启用，移动端/触屏/窄屏零渲染
+  useEffect(() => {
+    if (reduced || active) return;
+    if (typeof window === "undefined") return;
+    const fineDesktopPointer = window.matchMedia(
+      "(min-width: 768px) and (hover: hover) and (pointer: fine)"
+    ).matches;
+    if (!fineDesktopPointer) return;
+
+    const handleFirstMove = (e: MouseEvent) => {
+      posRef.current = { x: e.clientX, y: e.clientY };
+      visibleRef.current = true;
+      dirtyRef.current = true;
+      setActive(true);
+    };
+
+    window.addEventListener("mousemove", handleFirstMove, { passive: true, once: true });
+    return () => window.removeEventListener("mousemove", handleFirstMove);
+  }, [reduced, active]);
 
   useEffect(() => {
-    if (reduced || isTouchDevice()) return;
+    if (reduced || !active) return;
 
     const dot = dotRef.current;
     const spin = spinRef.current;
+    const pill = pillRef.current;
     const corners = cornersRef.current;
-    if (!dot || !spin || corners.length < 4) return;
+    if (!dot || !spin || !pill || corners.length < 4) return;
 
-    document.body.style.cursor = "none";
+    const mq = window.matchMedia("(min-width: 768px) and (hover: hover) and (pointer: fine)");
+    const syncBodyCursor = () => {
+      document.body.style.cursor = mq.matches ? "none" : "";
+      if (!mq.matches) {
+        visibleRef.current = false;
+        dirtyRef.current = true;
+      }
+    };
+    syncBodyCursor();
+    mq.addEventListener("change", syncBodyCursor);
 
     const onMove = (e: MouseEvent) => {
       posRef.current = { x: e.clientX, y: e.clientY };
+      visibleRef.current = true;
       dirtyRef.current = true;
     };
 
-    // 检测文字选择状态
+    const onLeave = () => {
+      visibleRef.current = false;
+      dirtyRef.current = true;
+    };
+
     const onSelectionChange = () => {
       const sel = window.getSelection();
-      const hasSelection = !!(sel && sel.toString().length > 0 && sel.type === "Range");
-      selectingRef.current = hasSelection;
+      selectingRef.current = !!(sel && sel.toString().length > 0 && sel.type === "Range");
       dirtyRef.current = true;
     };
 
     const onScroll = () => {
       dirtyRef.current = true;
+    };
+
+    const hideAll = () => {
+      dot.style.opacity = "0";
+      pill.style.opacity = "0";
+      pill.style.transform = "translate(-50%, -50%) scale(0.85)";
+      corners.forEach((c) => {
+        c.style.opacity = "0";
+      });
+      spin.classList.remove("cursor-spin");
     };
 
     const loop = () => {
@@ -80,159 +121,157 @@ export function CustomCursor() {
       dot.style.top = `${y}px`;
       spin.style.left = `${x}px`;
       spin.style.top = `${y}px`;
+      pill.style.left = `${x}px`;
+      pill.style.top = `${y}px`;
 
-      // 文字选择中 → 隐退光标
-      if (selectingRef.current) {
-        prevStateRef.current = "select";
-        dot.style.opacity = "0";
-        dot.style.transition = "opacity 0.2s";
-        corners.forEach((c) => {
-          c.style.opacity = "0";
-          c.style.transition = "opacity 0.2s";
-        });
-        spin.classList.remove("cursor-spin");
+      if (!visibleRef.current || selectingRef.current) {
+        hideAll();
         rafRef.current = requestAnimationFrame(loop);
         return;
       }
 
-      // 检测光标下的元素
       const els = document.elementsFromPoint(x, y);
+      let viewTarget: Element | null = null;
       let target: Element | null = null;
       let isButton = false;
 
       for (const el of els) {
+        if (el.matches?.(".cursor-view") || el.closest?.(".cursor-view")) {
+          viewTarget = el.matches?.(".cursor-view") ? el : el.closest(".cursor-view");
+          break;
+        }
         if (el.matches?.(".cursor-target")) {
           target = el;
           isButton = isButtonLike(el);
           break;
         }
-        // 也检查 cursor-target 的父元素
-        if (el.closest?.(".cursor-target")) {
-          target = el.closest(".cursor-target");
-          isButton = isButtonLike(target!);
+        const closest = el.closest?.(".cursor-target");
+        if (closest) {
+          target = closest;
+          isButton = isButtonLike(closest);
           break;
         }
       }
 
-      if (target) {
+      if (viewTarget) {
         spin.classList.remove("cursor-spin");
+        dot.style.opacity = "0";
+        corners.forEach((c) => {
+          c.style.opacity = "0";
+        });
+        pill.style.opacity = "1";
+        pill.style.transform = "translate(-50%, -50%) scale(1)";
+      } else if (target) {
+        spin.classList.remove("cursor-spin");
+        pill.style.opacity = "0";
+        pill.style.transform = "translate(-50%, -50%) scale(0.85)";
 
-        if (isButton) {
-          // 按钮磁吸 — corners 贴附按钮圆角边缘
-          prevStateRef.current = "button";
-          const rect = target.getBoundingClientRect();
-          corners.forEach((c) => {
-            c.style.transition = "left 0.15s ease-out, top 0.15s ease-out";
-          });
-
-          // Corners 略微内收，贴合圆角按钮的视觉边缘
-          const inset = 4;
-          corners[0].style.left = `${rect.left - x + inset}px`;
-          corners[0].style.top = `${rect.top - y + inset}px`;
-          corners[1].style.left = `${rect.right - x - CORNER_SIZE - inset}px`;
-          corners[1].style.top = `${rect.top - y + inset}px`;
-          corners[2].style.left = `${rect.right - x - CORNER_SIZE - inset}px`;
-          corners[2].style.top = `${rect.bottom - y - CORNER_SIZE - inset}px`;
-          corners[3].style.left = `${rect.left - x + inset}px`;
-          corners[3].style.top = `${rect.bottom - y - CORNER_SIZE - inset}px`;
-
-          dot.style.opacity = "0";
-          corners.forEach((c) => (c.style.opacity = "1"));
-        } else {
-          // 链接聚焦 — corners 贴附元素矩形边缘
-          prevStateRef.current = "link";
-          const rect = target.getBoundingClientRect();
-
-          corners.forEach((c) => {
-            c.style.transition = "left 0.18s ease-out, top 0.18s ease-out";
-          });
-
-          corners[0].style.left = `${rect.left - x - 2}px`;
-          corners[0].style.top = `${rect.top - y - 2}px`;
-          corners[1].style.left = `${rect.right - x - CORNER_SIZE + 2}px`;
-          corners[1].style.top = `${rect.top - y - 2}px`;
-          corners[2].style.left = `${rect.right - x - CORNER_SIZE + 2}px`;
-          corners[2].style.top = `${rect.bottom - y - CORNER_SIZE + 2}px`;
-          corners[3].style.left = `${rect.left - x - 2}px`;
-          corners[3].style.top = `${rect.bottom - y - CORNER_SIZE + 2}px`;
-
-          dot.style.opacity = "0";
-          corners.forEach((c) => (c.style.opacity = "1"));
-        }
-      } else {
-        // 默认漫游 — dot 可见，corners 围绕旋转
-        prevStateRef.current = "roam";
-        spin.classList.add("cursor-spin");
+        const rect = target.getBoundingClientRect();
+        const inset = isButton ? 4 : -2;
+        const speed = isButton ? "0.14s" : "0.17s";
 
         corners.forEach((c) => {
-          c.style.transition = "none";
+          c.style.transition = `left ${speed} ease-out, top ${speed} ease-out, opacity 0.15s`;
+          c.style.opacity = "0.9";
         });
 
-        // 四角 brackets 以光标为中心完美对称
-        // 每个 corner 宽高 10px，inner edge 距中心 4px，inner gap = 8px
-        corners[0].style.left = `${-14}px`; corners[0].style.top = `${-14}px`; // ↖ 右边缘=-4, 下边缘=-4
-        corners[1].style.left = `${4}px`;   corners[1].style.top = `${-14}px`; // ↗ 左边缘=4,  下边缘=-4
-        corners[2].style.left = `${4}px`;   corners[2].style.top = `${4}px`;   // ↘ 左边缘=4,  上边缘=4
-        corners[3].style.left = `${-14}px`; corners[3].style.top = `${4}px`;   // ↙ 右边缘=-4, 上边缘=4
+        corners[0].style.left = `${rect.left - x + inset}px`;
+        corners[0].style.top = `${rect.top - y + inset}px`;
+        corners[1].style.left = `${rect.right - x - CORNER_SIZE - inset}px`;
+        corners[1].style.top = `${rect.top - y + inset}px`;
+        corners[2].style.left = `${rect.right - x - CORNER_SIZE - inset}px`;
+        corners[2].style.top = `${rect.bottom - y - CORNER_SIZE - inset}px`;
+        corners[3].style.left = `${rect.left - x + inset}px`;
+        corners[3].style.top = `${rect.bottom - y - CORNER_SIZE - inset}px`;
+
+        dot.style.opacity = "0";
+      } else {
+        spin.classList.add("cursor-spin");
+        pill.style.opacity = "0";
+        pill.style.transform = "translate(-50%, -50%) scale(0.85)";
+
+        corners.forEach((c) => {
+          c.style.transition = "opacity 0.18s";
+          c.style.opacity = "0.24";
+        });
+
+        corners[0].style.left = `${-13}px`; corners[0].style.top = `${-13}px`;
+        corners[1].style.left = `${4}px`;   corners[1].style.top = `${-13}px`;
+        corners[2].style.left = `${4}px`;   corners[2].style.top = `${4}px`;
+        corners[3].style.left = `${-13}px`; corners[3].style.top = `${4}px`;
 
         dot.style.opacity = "0.85";
-        dot.style.transition = "opacity 0.15s";
-        corners.forEach((c) => {
-          c.style.opacity = "0.32";
-          c.style.transition = "opacity 0.15s";
-        });
       }
 
       rafRef.current = requestAnimationFrame(loop);
     };
 
     window.addEventListener("mousemove", onMove, { passive: true });
+    document.addEventListener("mouseleave", onLeave);
     window.addEventListener("scroll", onScroll, { passive: true });
     document.addEventListener("selectionchange", onSelectionChange);
     rafRef.current = requestAnimationFrame(loop);
 
     return () => {
       document.body.style.cursor = "";
+      mq.removeEventListener("change", syncBodyCursor);
       window.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseleave", onLeave);
       window.removeEventListener("scroll", onScroll);
       document.removeEventListener("selectionchange", onSelectionChange);
       cancelAnimationFrame(rafRef.current);
     };
-  }, [reduced]);
+  }, [reduced, active]);
 
-  if (reduced) return null;
+  if (reduced || !active) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] pointer-events-none [@media(pointer:coarse)]:hidden" aria-hidden="true">
-      {/* 中心点 */}
+    <div className="fixed inset-0 z-[9999] hidden pointer-events-none md:block [@media(pointer:coarse)]:hidden" aria-hidden="true">
+      {/* 中心微光点 */}
       <div
         ref={dotRef}
-        className="absolute rounded-full -ml-[2.5px] -mt-[2.5px]"
+        className="absolute rounded-full -ml-[2px] -mt-[2px] transition-opacity duration-150"
         style={{
           width: DOT_SIZE,
           height: DOT_SIZE,
-          backgroundColor: "#00c8ff",
-          boxShadow: "0 0 14px rgba(0,200,255,0.95)",
+          backgroundColor: "#5ce1ff",
+          boxShadow: "0 0 10px rgba(0,200,255,0.75)",
+          opacity: 0,
         }}
       />
+
+      {/* 项目封面悬停药丸 */}
+      <div
+        ref={pillRef}
+        className="absolute inline-flex items-center gap-1 rounded-full border border-white/[0.18] bg-[rgba(8,8,18,0.84)] px-3.5 py-1.5 font-body text-[11.5px] font-medium tracking-[0.06em] text-[#f5f7ff] shadow-[0_12px_32px_rgba(0,0,0,0.45)] backdrop-blur-md transition-[opacity,transform] duration-200 ease-out whitespace-nowrap"
+        style={{
+          opacity: 0,
+          transform: "translate(-50%, -50%) scale(0.85)",
+        }}
+      >
+        查看 ↗
+      </div>
 
       {/* 四角括号旋转容器 */}
       <div ref={spinRef} className="cursor-spin absolute" style={{ left: 0, top: 0, width: 0, height: 0 }}>
         {["tl", "tr", "br", "bl"].map((pos, i) => (
           <div
             key={pos}
-            ref={(el) => { if (el) cornersRef.current[i] = el; }}
-            className="absolute opacity-70"
+            ref={(el) => {
+              if (el) cornersRef.current[i] = el;
+            }}
+            className="absolute"
             style={{
               width: CORNER_SIZE,
               height: CORNER_SIZE,
-              borderLeft: pos.includes("l") ? "2px solid #00c8ff" : "none",
-              borderRight: !pos.includes("l") ? "2px solid #00c8ff" : "none",
-              borderTop: pos.includes("t") ? "2px solid #00c8ff" : "none",
-              borderBottom: !pos.includes("t") ? "2px solid #00c8ff" : "none",
-              boxShadow: "0 0 9px rgba(0,200,255,0.65)",
+              borderLeft: pos.includes("l") ? "1.5px solid #00c8ff" : "none",
+              borderRight: !pos.includes("l") ? "1.5px solid #00c8ff" : "none",
+              borderTop: pos.includes("t") ? "1.5px solid #00c8ff" : "none",
+              borderBottom: !pos.includes("t") ? "1.5px solid #00c8ff" : "none",
+              boxShadow: "0 0 7px rgba(0,200,255,0.45)",
               left: "-100px",
               top: "-100px",
+              opacity: 0,
             }}
           />
         ))}

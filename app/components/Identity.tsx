@@ -39,7 +39,7 @@ export function Identity() {
           />
           <ScrollReveal delay={0.18}>
             <p className="font-body text-[15px] text-text-tertiary mt-5 leading-[1.75] max-w-[56ch]">
-              我关注用户把一件事交给 Agent 之后的体验。Tango 展示专家怎样接力完成同一项任务，QuickNote 让用户决定 Codex 能读哪些便签、何时能写入。
+              我关注用户把一件事交给 Agent 之后的体验。Tango 展示多位专家怎样接力完成跨境上新，Foldframe 与 HR 搭档把多模态创作和组织协作落进真实工作台，QuickNote 则让用户决定 Codex 能读哪些便签、何时能写入。
             </p>
           </ScrollReveal>
         </div>

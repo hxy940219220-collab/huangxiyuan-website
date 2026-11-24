@@ -80,7 +80,7 @@ export function About() {
           {CAPABILITIES.map((cap, i) => (
             <ScrollReveal key={cap.num} delay={0.08 * (i + 1)}>
               <div id={cap.id} className="scroll-mt-28 border-l border-white/[0.12] pl-6 transition-colors duration-300 hover:border-neon-cyan">
-                <p className="font-display text-[12.5px] tracking-[0.12em] text-text-muted mb-1">
+                <p className="font-display text-[12.5px] tabular-nums tracking-[0.12em] text-text-muted mb-1">
                   {cap.num}
                 </p>
                 <h3 className="card-display-title font-display text-[1.4rem] leading-snug text-[#f5f7ff] mb-1">
