@@ -1,18 +1,8 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect, type ComponentType } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useReducedMotion } from "motion/react";
-import {
-  CaretLeft,
-  CaretRight,
-  Cpu,
-  Diamond,
-  Robot,
-  Sparkle,
-  TerminalWindow,
-  Waveform,
-  type IconProps,
-} from "@phosphor-icons/react";
+import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 
 /* ------------------------------------------------------------------ */
 /* 3D 旋转卡片 — 窄长方形 + 前半球展示 + 键盘 / 侧翼点击 / 导航联动      */
@@ -26,9 +16,9 @@ interface CardData {
   tags: string[];
   gradient: string;
   accentBorder: string;
-  accentText: string;
   glowColor: string;
-  Icon: ComponentType<IconProps>;
+  iconSrc: string;
+  iconAlt: string;
 }
 
 const CARDS: CardData[] = [
@@ -41,9 +31,9 @@ const CARDS: CardData[] = [
     gradient:
       "radial-gradient(circle at 28% 24%, rgba(0,200,255,0.22), transparent 26%), radial-gradient(circle at 76% 60%, rgba(0,180,230,0.14), transparent 30%)",
     accentBorder: "rgba(0,200,255,0.38)",
-    accentText: "#5ce1ff",
     glowColor: "rgba(0,200,255,0.45)",
-    Icon: Sparkle,
+    iconSrc: "/tools/gpt.svg",
+    iconAlt: "ChatGPT / OpenAI 图标",
   },
   {
     num: "02",
@@ -54,9 +44,9 @@ const CARDS: CardData[] = [
     gradient:
       "radial-gradient(circle at 24% 28%, rgba(216,76,255,0.20), transparent 28%), radial-gradient(circle at 72% 72%, rgba(180,50,230,0.14), transparent 26%)",
     accentBorder: "rgba(216,76,255,0.38)",
-    accentText: "#e09eff",
     glowColor: "rgba(216,76,255,0.45)",
-    Icon: Cpu,
+    iconSrc: "/tools/claude.svg",
+    iconAlt: "Claude 图标",
   },
   {
     num: "03",
@@ -67,9 +57,9 @@ const CARDS: CardData[] = [
     gradient:
       "radial-gradient(circle at 24% 28%, rgba(40,220,178,0.18), transparent 28%), radial-gradient(circle at 74% 68%, rgba(0,200,255,0.12), transparent 28%)",
     accentBorder: "rgba(40,220,178,0.40)",
-    accentText: "#6cead0",
     glowColor: "rgba(40,220,178,0.45)",
-    Icon: Robot,
+    iconSrc: "/tools/grok.svg",
+    iconAlt: "Grok 图标",
   },
   {
     num: "04",
@@ -80,9 +70,9 @@ const CARDS: CardData[] = [
     gradient:
       "radial-gradient(circle at 26% 34%, rgba(255,216,74,0.20), transparent 28%), radial-gradient(circle at 70% 30%, rgba(220,180,50,0.14), transparent 28%)",
     accentBorder: "rgba(255,216,74,0.38)",
-    accentText: "#ffe27a",
     glowColor: "rgba(255,216,74,0.45)",
-    Icon: Diamond,
+    iconSrc: "/tools/gemini.svg",
+    iconAlt: "Google Gemini 图标",
   },
   {
     num: "05",
@@ -93,9 +83,9 @@ const CARDS: CardData[] = [
     gradient:
       "radial-gradient(circle at 24% 24%, rgba(0,90,255,0.22), transparent 28%), radial-gradient(circle at 66% 36%, rgba(30,110,255,0.14), transparent 28%)",
     accentBorder: "rgba(74,144,255,0.40)",
-    accentText: "#8ab8ff",
     glowColor: "rgba(74,144,255,0.45)",
-    Icon: TerminalWindow,
+    iconSrc: "/tools/deepseek.svg",
+    iconAlt: "DeepSeek 图标",
   },
   {
     num: "06",
@@ -106,9 +96,9 @@ const CARDS: CardData[] = [
     gradient:
       "radial-gradient(circle at 28% 30%, rgba(255,106,26,0.20), transparent 28%), radial-gradient(circle at 68% 64%, rgba(230,90,20,0.14), transparent 28%)",
     accentBorder: "rgba(255,106,26,0.38)",
-    accentText: "#ffa570",
     glowColor: "rgba(255,106,26,0.45)",
-    Icon: Waveform,
+    iconSrc: "/tools/typeless.png",
+    iconAlt: "Typeless 图标",
   },
 ];
 
@@ -116,7 +106,6 @@ const CARD_COUNT = CARDS.length;
 const ANGLE_PER_CARD = 360 / CARD_COUNT;
 
 function CardFace({ card, isFront }: { card: CardData; isFront: boolean }) {
-  const { Icon } = card;
   return (
     <div className="relative z-10 flex h-full flex-col p-6 md:p-7">
       <div className="flex items-center justify-between">
@@ -124,14 +113,19 @@ function CardFace({ card, isFront }: { card: CardData; isFront: boolean }) {
           {card.num}
         </span>
         <span
-          className="inline-flex h-8 w-8 items-center justify-center rounded-lg border bg-white/[0.03] transition-colors duration-300"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-[11px] border bg-white/[0.05] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-colors duration-300"
           style={{
-            borderColor: isFront ? card.accentBorder : "rgba(255,255,255,0.1)",
-            color: isFront ? card.accentText : "rgba(255,255,255,0.5)",
+            borderColor: isFront ? card.accentBorder : "rgba(255,255,255,0.12)",
           }}
-          aria-hidden="true"
         >
-          <Icon size={16} weight="light" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={card.iconSrc}
+            alt={card.iconAlt}
+            width={22}
+            height={22}
+            className="h-[22px] w-[22px] object-contain"
+          />
         </span>
       </div>
       <h3

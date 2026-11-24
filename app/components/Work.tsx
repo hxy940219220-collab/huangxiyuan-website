@@ -5,7 +5,7 @@ import quickNote from "./QuickNoteShowcase.module.css";
 import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
-import { GithubLogo, ArrowUpRight, Globe, Cpu } from "@phosphor-icons/react";
+import { GithubLogo, ArrowUpRight, Cpu } from "@phosphor-icons/react";
 import { ScrollReveal } from "./ScrollReveal";
 import BlurText from "../reactbits/TextAnimations/BlurText/BlurText";
 
@@ -46,7 +46,7 @@ type ProjectAction = {
   href: string;
   external?: boolean;
   variant: "primary" | "secondary";
-  icon?: "github" | "arrow" | "globe";
+  icon?: "github" | "arrow";
 };
 
 type ProjectItem = {
@@ -54,7 +54,6 @@ type ProjectItem = {
   id: string;
   category: Exclude<ProjectCategory, "all">;
   title: string;
-  iconSrc?: string;
   image: string;
   imageAlt: string;
   imageFit?: "cover" | "contain" | "map-cover" | "poster";
@@ -95,7 +94,7 @@ const PROJECTS: ProjectItem[] = [
     summary:
       "一个商品上新任务可由最多四位专家接力。竞品分析、商品页文案和设计图留在同一条对话里，运营可以查看每个阶段的进度并复用产物。",
     actions: [
-      { label: "查看功能截图", href: "/projects/tango", variant: "primary", icon: "arrow" },
+      { label: "查看产品演示", href: "/projects/tango", variant: "primary", icon: "arrow" },
     ],
   },
   {
@@ -114,9 +113,7 @@ const PROJECTS: ProjectItem[] = [
     summary:
       "覆盖从商业产品图、写实人像、短视频制作、仿真手机排版到 13 个主流社媒平台定时发布的完整工作流。支持直连本机 Antigravity、Codex、即梦 AI、Grok（网页授权）与 WorkBuddy 引擎，一次创作即可多端高效分发。",
     actions: [
-      { label: "查看产品展示", href: "/projects/foldframe", variant: "primary", icon: "arrow" },
-      { label: "在线展示页", href: "https://foldframe-studio.vercel.app", external: true, variant: "secondary", icon: "globe" },
-      { label: "GitHub", href: "https://github.com/hxy940219220-collab/foldframe", external: true, variant: "secondary", icon: "github" },
+      { label: "查看产品演示", href: "/projects/foldframe", variant: "primary", icon: "arrow" },
     ],
   },
   {
@@ -136,7 +133,7 @@ const PROJECTS: ProjectItem[] = [
     summary:
       "在办公室地图上点选同事，就能打开员工档案。为招聘岗位开启单独的 AI 会话，可以结合候选人的简历和面试记录拟定追问，并把需要核实的事项建成待办。",
     actions: [
-      { label: "查看功能截图", href: "/projects/hr-studio", variant: "primary", icon: "arrow" },
+      { label: "查看产品演示", href: "/projects/hr-studio", variant: "primary", icon: "arrow" },
     ],
   },
   {
@@ -156,7 +153,7 @@ const PROJECTS: ProjectItem[] = [
     summary:
       "从一句想法开始，在画布上编排文案和分镜。连起参考图与视频节点，用自己的模型生成画面、短片或配音。",
     actions: [
-      { label: "查看界面演示", href: "/projects/framepop", variant: "primary", icon: "arrow" },
+      { label: "查看产品演示", href: "/projects/framepop", variant: "primary", icon: "arrow" },
     ],
   },
   {
@@ -164,7 +161,6 @@ const PROJECTS: ProjectItem[] = [
     id: "project-quicknote",
     category: "tool",
     title: "QuickNote · AI 便签",
-    iconSrc: "/projects/quicknote/app-icon-current.png",
     image: "/projects/quicknote/recognition-scenes.webp",
     imageAlt: "QuickNote 图片识别窗口展示框选的新用户转化漏斗，文字识别浮窗翻译报告中鼠标选中的英文句子",
     imageFit: "poster",
@@ -179,7 +175,7 @@ const PROJECTS: ProjectItem[] = [
     detail:
       "文字识别和图片识别窗口都可置顶。保存的便签支持全文搜索，也可以直接提问，查看答案引用的原文。",
     actions: [
-      { label: "查看演示", href: "/projects/quicknote", variant: "primary", icon: "arrow" },
+      { label: "查看产品演示", href: "/projects/quicknote", variant: "primary", icon: "arrow" },
       { label: "GitHub", href: "https://github.com/hxy940219220-collab/QuickNote-IOS", external: true, variant: "secondary", icon: "github" },
     ],
   },
@@ -200,7 +196,7 @@ const PROJECTS: ProjectItem[] = [
     thesis: "不做空白聊天框，而把“今天讲什么”变成可持续的创作流程",
     detail: "将选题搜索、来源核验、真人口播或双角色脚本、敏感词审查、发布包和数据复盘串成一个本地 AI 工作台。",
     actions: [
-      { label: "查看演示", href: "/projects/eureka", variant: "primary", icon: "arrow" },
+      { label: "查看产品演示", href: "/projects/eureka", variant: "primary", icon: "arrow" },
     ],
   },
   {
@@ -415,17 +411,8 @@ export function Work() {
                     </div>
 
                     {/* Title */}
-                    <h3 className="card-display-title mb-2.5 flex items-center gap-2.5 font-display text-[1.45rem] md:text-[1.55rem] leading-snug text-[#f5f7ff]">
-                      {project.iconSrc && (
-                        <Image
-                          src={project.iconSrc}
-                          alt=""
-                          width={30}
-                          height={30}
-                          className="size-[30px] shrink-0 object-contain"
-                        />
-                      )}
-                      <span>{project.title}</span>
+                    <h3 className="card-display-title mb-2.5 font-display text-[1.45rem] md:text-[1.55rem] leading-snug text-[#f5f7ff]">
+                      {project.title}
                     </h3>
 
                     {/* Summary */}
@@ -459,11 +446,8 @@ export function Work() {
                             const content = (
                               <>
                                 {action.icon === "github" && <GithubLogo size={14} weight="fill" />}
-                                {action.icon === "globe" && <Globe size={14} weight="light" />}
                                 <span>{action.label}</span>
-                                {(action.icon === "arrow" || action.icon === "globe") && (
-                                  <ArrowUpRight size={13} weight="bold" />
-                                )}
+                                {action.icon === "arrow" && <ArrowUpRight size={13} weight="bold" />}
                               </>
                             );
 
