@@ -1,0 +1,36 @@
+.showcase main {
+  background-color: #100f0e;
+}
+
+.showcase header {
+  background-color: rgb(17 16 14 / 90%);
+}
+
+.showcase article {
+  background-color: #191714;
+}
+
+.showcase :global(.text-text-muted) { color: #b0a79a; }
+.showcase :global(.text-text-tertiary) { color: #c4bdb1; }
+.showcase :global(.text-text-secondary) { color: #e4ded3; }
+
+.card {
+  background-color: #131210;
+}
+
+.card:hover {
+  box-shadow: 0 20px 60px rgb(0 0 0 / 55%), 0 0 36px rgb(245 215 130 / 8%);
+}
+
+.card :global(.bg-neon-cyan) {
+  background-color: #f5d782;
+}
+
+.card :global(.bg-neon-cyan):hover {
+  background-color: #ffe6a3;
+  box-shadow: 0 0 24px rgb(245 215 130 / 20%);
+}
+
+.card a:focus-visible {
+  outline-color: #f5d782;
+}

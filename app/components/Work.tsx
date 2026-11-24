@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import quickNote from "./QuickNoteShowcase.module.css";
 import Link from "next/link";
 import { useRef, type ReactNode } from "react";
 import { motion, useMotionValue, useSpring } from "motion/react";
@@ -148,14 +149,14 @@ const PROJECTS: ProjectItem[] = [
     id: "project-quicknote",
     title: "QuickNote · AI 便签",
     iconSrc: "/projects/quicknote/app-icon-current.png",
-    image: "/projects/quicknote/native-image-pin.webp",
-    imageAlt: "QuickNote 在置顶窗口里分析截图，并提供存入便签的操作",
-    imageFit: "contain",
-    imageBg: "bg-[#080812]",
+    image: "/projects/quicknote/project-cover.webp",
+    imageAlt: "QuickNote 划词和截图识别演示，左右并列展示英文翻译与活动截图问答",
+    imageFit: "poster",
+    imageBg: "bg-[#17130e]",
     cardHref: "/projects/quicknote",
     primaryTag: "AI 便签",
-    primaryTagClass: "border-neon-cyan/45 bg-neon-cyan/[0.08] text-neon-cyan",
-    hoverBorderClass: "hover:border-neon-cyan/40",
+    primaryTagClass: "border-[#efc768]/45 bg-[#efc768]/[0.08] text-[#f5d782]",
+    hoverBorderClass: "hover:border-[#efc768]/45",
     tags: ["macOS", "Codex / MCP"],
     summary:
       "读资料时，划词就能翻译或问 AI，截图就能提取文字和整理重点。原图与答案可直接存进指定便签，省下在阅读、聊天和笔记之间来回复制的时间。",
@@ -303,7 +304,7 @@ export function Work() {
               <motion.article
                 id={project.id}
                 whileHover={{ y: -5 }}
-                className={`group/card relative flex h-full scroll-mt-24 flex-col overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#0b0b14] shadow-[0_12px_48px_rgba(0,0,0,0.45)] transition-all duration-300 ${project.hoverBorderClass} hover:shadow-[0_20px_60px_rgba(0,0,0,0.55),0_0_36px_rgba(0,200,255,0.08)]`}
+                className={`${project.id === "project-quicknote" ? quickNote.card : ""} group/card relative flex h-full scroll-mt-24 flex-col overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#0b0b14] shadow-[0_12px_48px_rgba(0,0,0,0.45)] transition-all duration-300 ${project.hoverBorderClass} hover:shadow-[0_20px_60px_rgba(0,0,0,0.55),0_0_36px_rgba(0,200,255,0.08)]`}
               >
                 <MediaFrame project={project} />
 

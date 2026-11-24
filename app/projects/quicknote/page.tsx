@@ -1,5 +1,13 @@
+import styles from "../../components/QuickNoteShowcase.module.css";
 import type { Metadata } from "next";
 import { ProjectDemo, type ProjectDemoData } from "../ProjectDemo";
+
+const cover = {
+  url: "/projects/quicknote/project-cover.webp",
+  width: 1672,
+  height: 941,
+  alt: "QuickNote 划词翻译与截图识别，展示选中原文、译文、活动截图和识别结果",
+};
 
 const screenshotDemo = {
   url: "/projects/quicknote/native-image-pin.webp",
@@ -20,13 +28,13 @@ export const metadata: Metadata = {
     url: "/projects/quicknote",
     siteName: "HXY / EVAN",
     locale: "zh_CN",
-    images: [screenshotDemo],
+    images: [cover],
   },
   twitter: {
     card: "summary_large_image",
     title: "QuickNote · macOS AI 便签",
     description: projectDescription,
-    images: [screenshotDemo.url],
+    images: [cover.url],
   },
 };
 
@@ -38,11 +46,11 @@ const project: ProjectDemoData = {
   subtitle: "读到难懂的地方，当场弄懂，顺手记下。",
   description:
     "读资料时，把一段话复制进聊天窗口，再把答案贴回笔记，容易打断思路。用 QuickNote 在选区旁翻译或提问，框选屏幕就能让 AI 读图。原图和答案都能直接存进指定便签，下次读到相关资料再接着补充。",
-  heroImage: screenshotDemo.url,
-  heroAlt: screenshotDemo.alt,
-  heroSize: { width: screenshotDemo.width, height: screenshotDemo.height },
-  accent: "#8B7CFF",
-  accentSoft: "rgba(139, 124, 255, 0.14)",
+  heroImage: cover.url,
+  heroAlt: cover.alt,
+  heroSize: { width: cover.width, height: cover.height },
+  accent: "#F5D782",
+  accentSoft: "rgba(225, 177, 69, 0.13)",
   github: "https://github.com/hxy940219220-collab/QuickNote-IOS",
   stats: [
     { value: "⌥ Space / ⌘ ⇧", label: "划词 / 截图" },
@@ -109,10 +117,10 @@ const project: ProjectDemoData = {
       number: "05",
       title: "富文本编辑与可预览的 AI 排版",
       description: "双击 Command 打开便签，用富文本、清单、表格、附件和文件夹整理资料。AI 排版先给出可预览的调整，由你决定是否应用。",
-      image: "/projects/quicknote/feature-editing.webp",
+      image: "/projects/quicknote/editing-toolbar.webp",
       imageAlt: "QuickNote 的文字格式、清单、表格与附件编辑入口",
-      width: 1672,
-      height: 941,
+      width: 996,
+      height: 787,
     },
     {
       number: "06",
@@ -139,5 +147,5 @@ const project: ProjectDemoData = {
 };
 
 export default function QuickNoteProjectPage() {
-  return <ProjectDemo project={project} />;
+  return <div className={styles.showcase}><ProjectDemo project={project} /></div>;
 }
