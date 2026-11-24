@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight } from "@phosphor-icons/react/dist/ssr";
 
 export type ProjectSlug =
   | "tango"
-  | "foldframe"
+  | "postpilot"
   | "hr-studio"
   | "framepop"
   | "quicknote"
@@ -16,7 +16,7 @@ const SHOWCASE_ORDER: Array<{
   subtitle: string;
 }> = [
   { slug: "tango", index: "01", title: "Tango", subtitle: "跨境电商 AI 工作台" },
-  { slug: "foldframe", index: "02", title: "Foldframe", subtitle: "AI 内容创作与多端发布工作台" },
+  { slug: "postpilot", index: "02", title: "PostPilot", subtitle: "AI 内容策划与多端发布工作台" },
   { slug: "hr-studio", index: "03", title: "HR 搭档", subtitle: "AI 人事工作台" },
   { slug: "framepop", index: "04", title: "Framepop", subtitle: "灵感设计 AI 工作台" },
   { slug: "quicknote", index: "05", title: "QuickNote", subtitle: "macOS AI 便签" },

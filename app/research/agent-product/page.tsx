@@ -74,9 +74,9 @@ const notes = [
     ],
     project: {
       badge: "实证项目 · 02",
-      label: "Foldframe · 本机多引擎与 13 平台分发链路",
-      desc: "查看多模型路由与跨平台内容排期如何串成统一工作台",
-      href: "/projects/foldframe",
+      label: "PostPilot · 本机多引擎与 13+ 平台排期分发链路",
+      desc: "查看多模型思考强度路由、排版草稿箱与跨平台排期如何串成统一工作台",
+      href: "/projects/postpilot",
     },
   },
   {

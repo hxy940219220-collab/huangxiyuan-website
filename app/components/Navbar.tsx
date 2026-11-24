@@ -30,7 +30,7 @@ const NAV_ITEMS: NavItem[] = [
     sectionId: "work",
     subs: [
       { label: "Tango · 跨境电商 AI 工作台", href: "#project-tango" },
-      { label: "Foldframe · AI 内容创作与多端发布工作台", href: "#project-foldframe" },
+      { label: "PostPilot · AI 内容策划与多端发布工作台", href: "#project-postpilot" },
       { label: "HR 搭档 · AI 人事工作台", href: "#project-hr-studio" },
       { label: "Framepop · 灵感设计 AI 工作台", href: "#project-framepop" },
       { label: "QuickNote · AI 便签", href: "#project-quicknote" },
