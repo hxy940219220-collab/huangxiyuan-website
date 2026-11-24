@@ -1,12 +1,12 @@
 "use client";
 
 import { useReducedMotion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-/* 轻量级环境星尘粒子（仅桌面端挂载）：
-   - 移除高开销的全屏 CSS mask-image 与 lighter 混合模式
-   - 粒子数精简至 42 个，按颜色分组合并 Path 绘制（每帧仅 5 次 fill + 1 次 stroke）
-   - 24fps 帧率限制，页面隐藏或开场动画期间自动暂停，滚动完全零卡顿 */
+/* 轻量高帧率环境星尘粒子：
+   - 桌面端 96 颗 / 移动端 24 颗，在保留星空氛围的同时维持极低 CPU/GPU 开销
+   - 按颜色分批合并 Path（每帧仅 5 次 fill + 1 次 stroke），全程零 Math.sqrt
+   - 移除高开销的全屏 CSS mask-image 与 lighter 混合模式，页面隐藏自动暂停 */
 
 interface Particle {
   x: number;
@@ -18,44 +18,37 @@ interface Particle {
 }
 
 const PALETTE = [
-  "rgba(0,200,255,0.28)",
-  "rgba(216,76,255,0.24)",
-  "rgba(255,216,74,0.24)",
-  "rgba(255,106,26,0.22)",
-  "rgba(255,255,255,0.22)",
+  "rgba(0,200,255,0.38)",
+  "rgba(216,76,255,0.32)",
+  "rgba(255,216,74,0.32)",
+  "rgba(255,106,26,0.28)",
+  "rgba(255,255,255,0.30)",
 ];
 
-const DESKTOP_PARTICLE_COUNT = 42;
-const CONNECT_DIST_SQ = 115 * 115;
-const FRAME_INTERVAL = 1000 / 24;
+const DESKTOP_PARTICLE_COUNT = 96;
+const MOBILE_PARTICLE_COUNT = 24;
+const CONNECT_DIST_SQ = 125 * 125;
+const MOUSE_RADIUS_SQ = 135 * 135;
+const MAX_LINKS_PER_PARTICLE = 3;
+const FRAME_INTERVAL = 1000 / 30;
 
 function createParticle(w: number, h: number): Particle {
   return {
     x: Math.random() * w,
     y: Math.random() * h,
-    vx: (Math.random() - 0.5) * 0.24,
-    vy: (Math.random() - 0.5) * 0.24 - 0.05,
-    size: Math.random() * 1.4 + 0.6,
+    vx: (Math.random() - 0.5) * 0.28,
+    vy: (Math.random() - 0.5) * 0.28 - 0.06,
+    size: Math.random() * 1.45 + 0.65,
     colorIdx: Math.floor(Math.random() * PALETTE.length),
   };
 }
 
 export function Particles() {
   const reduced = useReducedMotion();
-  const [isDesktop, setIsDesktop] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     if (reduced) return;
-    const mq = window.matchMedia("(min-width: 768px)");
-    const update = () => setIsDesktop(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, [reduced]);
-
-  useEffect(() => {
-    if (reduced || !isDesktop) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d", { alpha: true });
@@ -63,20 +56,35 @@ export function Particles() {
 
     let w = window.innerWidth;
     let h = window.innerHeight;
+    let isDesktop = w >= 768;
     let rafId = 0;
     let lastTime = 0;
+    const mouse = { x: -9999, y: -9999 };
 
-    const particles: Particle[] = Array.from({ length: DESKTOP_PARTICLE_COUNT }, () =>
-      createParticle(w, h)
-    );
+    let particles: Particle[] = [];
 
-    const resize = () => {
+    const syncParticles = () => {
       w = window.innerWidth;
       h = window.innerHeight;
+      isDesktop = w >= 768;
       canvas.width = w;
       canvas.height = h;
+      const target = isDesktop ? DESKTOP_PARTICLE_COUNT : MOBILE_PARTICLE_COUNT;
+      if (particles.length !== target) {
+        particles = Array.from({ length: target }, () => createParticle(w, h));
+      }
     };
-    resize();
+    syncParticles();
+
+    const onMove = (e: MouseEvent) => {
+      if (!isDesktop) return;
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    };
+    const onLeave = () => {
+      mouse.x = -9999;
+      mouse.y = -9999;
+    };
 
     const tick = (now: number) => {
       rafId = window.requestAnimationFrame(tick);
@@ -88,23 +96,45 @@ export function Particles() {
 
       ctx.clearRect(0, 0, w, h);
 
-      // 更新位置
+      // 更新粒子位置（桌面端带轻量鼠标微推开，零 Math.sqrt）
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
+
+        if (isDesktop && mouse.x > -1000) {
+          const dx = p.x - mouse.x;
+          const dy = p.y - mouse.y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < MOUSE_RADIUS_SQ && d2 > 4) {
+            const factor = (1 - d2 / MOUSE_RADIUS_SQ) * 0.0022;
+            p.vx += dx * factor;
+            p.vy += dy * factor;
+          }
+        }
+
+        // 柔和阻尼并限速
+        p.vx *= 0.992;
+        p.vy *= 0.992;
+        if (p.vx > 0.6) p.vx = 0.6;
+        else if (p.vx < -0.6) p.vx = -0.6;
+        if (p.vy > 0.6) p.vy = 0.6;
+        else if (p.vy < -0.6) p.vy = -0.6;
+
         p.x += p.vx;
         p.y += p.vy;
-        if (p.x < -10) p.x = w + 10;
-        else if (p.x > w + 10) p.x = -10;
-        if (p.y < -10) p.y = h + 10;
-        else if (p.y > h + 10) p.y = -10;
+
+        if (p.x < -12) p.x = w + 12;
+        else if (p.x > w + 12) p.x = -12;
+        if (p.y < -12) p.y = h + 12;
+        else if (p.y > h + 12) p.y = -12;
       }
 
-      // 合并单次描边绘制近邻连线
+      // 合并单次描边绘制近邻连线（限制单粒子最大连线数，防局部聚集掉帧）
       ctx.beginPath();
-      ctx.strokeStyle = "rgba(150,180,255,0.08)";
+      ctx.strokeStyle = "rgba(150,180,255,0.12)";
       ctx.lineWidth = 0.5;
       for (let i = 0; i < particles.length; i++) {
         const a = particles[i];
+        let links = 0;
         for (let j = i + 1; j < particles.length; j++) {
           const b = particles[j];
           const dx = a.x - b.x;
@@ -112,6 +142,8 @@ export function Particles() {
           if (dx * dx + dy * dy < CONNECT_DIST_SQ) {
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
+            links += 1;
+            if (links >= MAX_LINKS_PER_PARTICLE) break;
           }
         }
       }
@@ -132,15 +164,19 @@ export function Particles() {
     };
 
     rafId = window.requestAnimationFrame(tick);
-    window.addEventListener("resize", resize, { passive: true });
+    window.addEventListener("resize", syncParticles, { passive: true });
+    window.addEventListener("mousemove", onMove, { passive: true });
+    document.addEventListener("mouseleave", onLeave);
 
     return () => {
       window.cancelAnimationFrame(rafId);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", syncParticles);
+      window.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseleave", onLeave);
     };
-  }, [reduced, isDesktop]);
+  }, [reduced]);
 
-  if (reduced || !isDesktop) return null;
+  if (reduced) return null;
 
   return (
     <canvas
