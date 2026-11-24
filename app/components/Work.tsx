@@ -53,7 +53,7 @@ type ProjectItem = {
   iconSrc?: string;
   image: string;
   imageAlt: string;
-  imageFit?: "cover" | "contain";
+  imageFit?: "cover" | "contain" | "full-frame";
   imageBg?: string;
   cardHref?: string;
   primaryTag: string;
@@ -111,9 +111,9 @@ const PROJECTS: ProjectItem[] = [
     index: "03",
     id: "project-hr-studio",
     title: "HR 搭档 · AI 人事工作台",
-    image: "/projects/hr-studio/office-map.webp",
-    imageAlt: "HR 搭档的组织地图，每个部门都有独立办公区和员工角色",
-    imageFit: "contain",
+    image: "/projects/hr-studio/workspace-overview.webp",
+    imageAlt: "HR 搭档工作台全景，左侧是业务导航，主区展示组织地图与员工工位",
+    imageFit: "full-frame",
     imageBg: "bg-[#f7f8f7]",
     cardHref: "/projects/hr-studio",
     primaryTag: "AI 人事工作台",
@@ -233,6 +233,8 @@ const PROJECTS: ProjectItem[] = [
 ];
 
 function MediaFrame({ project }: { project: ProjectItem }) {
+  const fullFrame = project.imageFit === "full-frame";
+  const fitClass = project.imageFit === "cover" || !project.imageFit ? "object-cover" : "object-contain";
   const inner = (
     <div
       className={`relative aspect-[16/10] w-full overflow-hidden rounded-[13px] border border-white/[0.09] ${project.imageBg ?? "bg-[#080812]"}`}
@@ -243,17 +245,14 @@ function MediaFrame({ project }: { project: ProjectItem }) {
         fill
         quality={92}
         sizes="(min-width: 1024px) 50vw, 100vw"
-        className={
-          project.imageFit === "contain"
-            ? "object-contain transition-transform duration-500 group-hover/card:scale-[1.015]"
-            : "object-cover transition-transform duration-500 group-hover/card:scale-[1.015]"
-        }
+        className={`${fitClass} ${fullFrame ? "p-1.5" : "transition-transform duration-500 group-hover/card:scale-[1.015]"}`}
       />
-      {/* 柔和内边缘与底部暗角过渡，消除高亮浅色截图在深色面板上的刺眼跳跃 */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 rounded-[13px] ring-1 ring-inset ring-black/25 bg-[linear-gradient(to_top,rgba(11,11,20,0.42)_0%,transparent_28%)]"
-      />
+      {!fullFrame && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 rounded-[13px] ring-1 ring-inset ring-black/25 bg-[linear-gradient(to_top,rgba(11,11,20,0.42)_0%,transparent_28%)]"
+        />
+      )}
       {project.cornerBadge && (
         <div className="pointer-events-none absolute top-3 right-3 inline-flex items-center gap-1.5 rounded-full border border-white/[0.14] bg-[#050509]/80 px-2.5 py-1 backdrop-blur-md">
           <span className={`h-1.5 w-1.5 rounded-full ${project.cornerBadge.dotClass}`} />
