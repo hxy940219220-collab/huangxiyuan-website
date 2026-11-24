@@ -6,12 +6,10 @@ import {
   AnimatePresence,
   useReducedMotion,
   useScroll,
-  useSpring,
-  useTransform,
+  useMotionValueEvent,
 } from "motion/react";
-import { ArrowUpRight, List, MagnifyingGlass, X } from "@phosphor-icons/react";
+import { ArrowUpRight, List, X } from "@phosphor-icons/react";
 import { BackgroundMusic } from "./BackgroundMusic";
-import { CommandPalette } from "./CommandPalette";
 
 type NavSub = {
   label: string;
@@ -71,9 +69,9 @@ const NAV_ITEMS: NavItem[] = [
     href: "#about",
     sectionId: "about",
     subs: [
-      { label: "个人智能体", href: "#about-product" },
-      { label: "多 Agent 协作", href: "#about-agent" },
-      { label: "Harness 与评测", href: "#about-validation" },
+      { label: "业务流程与个人智能体", href: "#about-product" },
+      { label: "多 Agent 协作与混合路由", href: "#about-agent" },
+      { label: "Harness 验证与原型实证", href: "#about-validation" },
     ],
   },
   {
@@ -92,24 +90,19 @@ const DROPDOWN_CLOSE_DELAY = 140;
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const reduced = useReducedMotion();
   const navRef = useRef<HTMLElement>(null);
   const closeTimerRef = useRef<number | null>(null);
 
-  // Scroll-driven 背景透明度 & 阅读进度条 (用 MotionValue 避免 React 重渲染)
+  // 用布尔阈值替代逐帧动态修改 blur 半径和 borderBottomWidth，彻底消除滚动时 GPU 高斯模糊重绘卡顿
   const { scrollY, scrollYProgress } = useScroll();
-  const navBgOpacity = useTransform(scrollY, [0, 100, 200], [0, 0.58, 0.88]);
-  const navBorderOpacity = useTransform(scrollY, [0, 200], [0, 1]);
-  const navShadowOpacity = useTransform(scrollY, [0, 200], [0, 0.38]);
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 280,
-    damping: 32,
-    restDelta: 0.001,
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const next = latest > 24;
+    setScrolled((prev) => (prev === next ? prev : next));
   });
-  const progressOpacity = useTransform(scrollY, [40, 140], [0, 1]);
 
   const cancelCloseTimer = useCallback(() => {
     if (closeTimerRef.current !== null) {
@@ -144,7 +137,6 @@ export function Navbar() {
 
   useEffect(() => () => cancelCloseTimer(), [cancelCloseTimer]);
 
-  // 点击外部、按 Escape 或窗口失焦时立即关闭下拉菜单，防止残留重叠
   useEffect(() => {
     if (!openDropdown) return;
 
@@ -170,7 +162,6 @@ export function Navbar() {
     };
   }, [openDropdown, closeAllDropdowns]);
 
-  // 监听当前阅读分区，高亮顶部导航项
   useEffect(() => {
     const ids = NAV_ITEMS.map((item) => item.sectionId);
     const elements = ids
@@ -202,7 +193,7 @@ export function Navbar() {
         }
         if (bestId) setActiveSection(bestId);
       },
-      { rootMargin: "-20% 0px -45% 0px", threshold: [0, 0.15, 0.35, 0.6] }
+      { rootMargin: "-20% 0px -45% 0px", threshold: [0, 0.2, 0.5] }
     );
 
     elements.forEach((el) => observer.observe(el));
@@ -214,7 +205,6 @@ export function Navbar() {
       setMenuOpen(false);
       closeAllDropdowns();
 
-      // 工具栈卡片：滚动到工具栈区块并旋转对应卡片到正面
       if (href.startsWith("#tool-")) {
         const toolId = href.slice(1);
         window.dispatchEvent(new CustomEvent("hxy:select-tool", { detail: toolId }));
@@ -223,7 +213,6 @@ export function Navbar() {
         return;
       }
 
-      // 项目卡片：如果当前有分类筛选，先切回“全部”确保目标卡片可见
       if (href.startsWith("#project-")) {
         window.dispatchEvent(new CustomEvent("hxy:reveal-project", { detail: href.slice(1) }));
         window.requestAnimationFrame(() => {
@@ -241,19 +230,14 @@ export function Navbar() {
 
   return (
     <>
-      <motion.nav
+      <nav
         ref={navRef}
         onMouseLeave={closeAllDropdowns}
-        className="fixed top-0 left-0 right-0 z-[100] px-4 md:px-6 py-4"
-        style={{
-          backgroundColor: useTransform(navBgOpacity, (v) => `rgba(8,8,18,${v})`),
-          backdropFilter: useTransform(navBgOpacity, (v) => (v > 0.1 ? `blur(${Math.round(v * 26)}px)` : "none")),
-          WebkitBackdropFilter: useTransform(navBgOpacity, (v) => (v > 0.1 ? `blur(${Math.round(v * 26)}px)` : "none")),
-          borderBottomWidth: useTransform(navBorderOpacity, (v) => `${v}px`),
-          borderBottomStyle: "solid",
-          borderBottomColor: "rgba(255,255,255,0.08)",
-          boxShadow: useTransform(navShadowOpacity, (v) => `0 8px 48px rgba(0,0,0,${v})`),
-        }}
+        className={`fixed top-0 left-0 right-0 z-[100] px-4 md:px-6 py-4 border-b transition-[background-color,border-color,box-shadow] duration-300 ${
+          scrolled
+            ? "bg-[#080812]/88 backdrop-blur-md border-white/[0.08] shadow-[0_8px_36px_rgba(0,0,0,0.35)]"
+            : "bg-transparent border-transparent shadow-none"
+        }`}
       >
         <div className="relative w-full flex items-center justify-between">
           {/* Brand */}
@@ -269,7 +253,7 @@ export function Navbar() {
             HXY <span className="text-text-tertiary font-normal">/ EVAN</span>
           </a>
 
-          {/* Desktop nav — 单一受控下拉态，彻底避免焦点残留导致的菜单重叠 */}
+          {/* Desktop nav */}
           <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-9 list-none md:flex">
             {NAV_ITEMS.map((item) => {
               const isOpen = openDropdown === item.href;
@@ -304,8 +288,8 @@ export function Navbar() {
                       e.currentTarget.blur();
                       scrollTo(item.href);
                     }}
-                    className={`cursor-target relative font-body text-[13px] font-medium tracking-[0.08em] uppercase no-underline transition-colors duration-300
-                      after:content-[''] after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-px after:bg-neon-cyan after:transition-transform after:duration-300
+                    className={`cursor-target relative font-body text-[13px] font-medium tracking-[0.08em] uppercase no-underline transition-colors duration-250
+                      after:content-[''] after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-px after:bg-neon-cyan after:transition-transform after:duration-250
                       ${
                         isOpen || isActive
                           ? "text-[#f5f7ff] after:scale-x-100"
@@ -315,7 +299,6 @@ export function Navbar() {
                     {item.label}
                   </a>
 
-                  {/* 下拉子项 — 完全由 openDropdown 单一状态控制 */}
                   <div
                     onMouseEnter={() => openMenu(item.href)}
                     className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 transition-all duration-200 ease-out z-50 ${
@@ -325,7 +308,7 @@ export function Navbar() {
                     }`}
                     aria-hidden={!isOpen}
                   >
-                    <div className="flex flex-col gap-0.5 py-2 px-1.5 rounded-xl bg-[rgba(11,11,22,0.96)] border border-white/[0.11] backdrop-blur-xl shadow-[0_18px_48px_rgba(0,0,0,0.6)] min-w-[204px]">
+                    <div className="flex flex-col gap-0.5 py-2 px-1.5 rounded-xl bg-[#0b0b16]/96 border border-white/[0.11] backdrop-blur-md shadow-[0_18px_48px_rgba(0,0,0,0.6)] min-w-[204px]">
                       {item.subs.map((sub) => {
                         const isSectionLink = sub.href.startsWith("#");
                         const isExternal = sub.href.startsWith("http") || sub.href.startsWith("mailto:");
@@ -344,7 +327,7 @@ export function Navbar() {
                                 closeAllDropdowns();
                               }
                             }}
-                            className="flex items-center justify-between gap-3 px-3 py-2 rounded-lg font-body text-[12px] text-text-secondary whitespace-nowrap no-underline transition-colors duration-200 hover:text-white hover:bg-white/[0.07] focus-visible:text-white focus-visible:bg-white/[0.07] focus-visible:outline focus-visible:outline-1 focus-visible:outline-neon-cyan"
+                            className="flex items-center justify-between gap-3 px-3 py-2 rounded-lg font-body text-[12px] text-text-secondary whitespace-nowrap no-underline transition-colors duration-150 hover:text-white hover:bg-white/[0.07] focus-visible:text-white focus-visible:bg-white/[0.07] focus-visible:outline focus-visible:outline-1 focus-visible:outline-neon-cyan"
                           >
                             <span>{sub.label}</span>
                             {isExternal && (
@@ -360,35 +343,14 @@ export function Navbar() {
             })}
           </ul>
 
-          <div className="ml-auto flex items-center gap-2.5">
+          <div className="ml-auto flex items-center gap-2">
             <BackgroundMusic />
 
-            <button
-              type="button"
-              onClick={() => setPaletteOpen(true)}
-              aria-label="打开全站快速检索 (⌘K)"
-              className="cursor-target hidden lg:inline-flex h-9 items-center gap-2 rounded-full border border-white/[0.14] bg-white/[0.04] px-3 font-body text-[11.5px] text-text-tertiary transition-all duration-300 hover:border-neon-cyan/45 hover:bg-white/[0.08] hover:text-[#f5f7ff] cursor-pointer"
-            >
-              <MagnifyingGlass size={13} weight="regular" />
-              <span className="tracking-[0.04em]">检索</span>
-              <kbd className="rounded border border-white/[0.12] bg-white/[0.05] px-1.5 py-0.5 font-sans text-[10px] leading-none text-text-muted">
-                ⌘K
-              </kbd>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setPaletteOpen(true)}
-              aria-label="打开快速检索"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.15] bg-white/[0.06] text-text-secondary transition-colors active:bg-white/[0.12] md:hidden"
-            >
-              <MagnifyingGlass size={17} weight="light" />
-            </button>
             {/* Hamburger */}
             <button
               type="button"
               onClick={() => setMenuOpen((v) => !v)}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.15] bg-white/[0.06] transition-all duration-400 md:hidden"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.15] bg-white/[0.06] transition-colors duration-200 md:hidden"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}
             >
@@ -401,21 +363,20 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* 1.5px 顶部阅读进度条 */}
-        {!reduced && (
+        {/* 1.5px 顶部阅读进度条（纯 transform scaleX，GPU 合成零重排） */}
+        {!reduced && scrolled && (
           <motion.div
             aria-hidden="true"
-            className="pointer-events-none absolute bottom-0 left-0 right-0 h-[1.5px] origin-left bg-gradient-to-r from-neon-cyan/60 via-neon-cyan to-neon-pink/75"
-            style={{ scaleX: smoothProgress, opacity: progressOpacity }}
+            className="pointer-events-none absolute bottom-0 left-0 right-0 h-[1.5px] origin-left bg-gradient-to-r from-neon-cyan/60 via-neon-cyan to-neon-pink/75 will-change-transform"
+            style={{ scaleX: scrollYProgress }}
           />
         )}
-      </motion.nav>
+      </nav>
 
       {/* Mobile dropdown menu */}
       <AnimatePresence>
         {menuOpen && (
           <>
-            {/* 点击空白处关闭 */}
             <div
               className="fixed inset-0 z-[98] md:hidden"
               onClick={() => setMenuOpen(false)}
@@ -425,9 +386,9 @@ export function Navbar() {
               initial={{ opacity: 0, y: -8, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.96 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
               style={{ transformOrigin: "top right" }}
-              className="fixed top-[68px] right-4 z-[99] md:hidden w-[200px] p-1.5 rounded-2xl bg-[rgba(13,13,28,0.96)] border border-white/[0.12] backdrop-blur-xl shadow-[0_16px_48px_rgba(0,0,0,0.55)] flex flex-col"
+              className="fixed top-[68px] right-4 z-[99] md:hidden w-[200px] p-1.5 rounded-2xl bg-[#0d0d1c]/96 border border-white/[0.12] backdrop-blur-md shadow-[0_16px_48px_rgba(0,0,0,0.55)] flex flex-col"
             >
               {NAV_ITEMS.map((item) => {
                 const isActive = activeSection === item.sectionId;
@@ -439,7 +400,7 @@ export function Navbar() {
                       e.preventDefault();
                       scrollTo(item.href);
                     }}
-                    className={`block px-4 py-3 rounded-xl font-body text-[14px] font-medium tracking-[0.04em] no-underline transition-colors duration-200 active:bg-white/[0.08] active:text-white ${
+                    className={`block px-4 py-3 rounded-xl font-body text-[14px] font-medium tracking-[0.04em] no-underline transition-colors duration-150 active:bg-white/[0.08] active:text-white ${
                       isActive ? "bg-white/[0.06] text-[#f5f7ff]" : "text-text-secondary"
                     }`}
                   >
@@ -451,8 +412,6 @@ export function Navbar() {
           </>
         )}
       </AnimatePresence>
-
-      <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
     </>
   );
 }

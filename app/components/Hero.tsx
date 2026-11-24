@@ -10,16 +10,12 @@ import {
 } from "motion/react";
 import SplitText from "../reactbits/TextAnimations/SplitText/SplitText";
 
-const HERO_SIGNALS = [
-  { value: "08", label: "产品与硬件验证原型" },
-  { value: "05", label: "前沿与机制研究专题" },
-  { value: "03", label: "核心企业工作流拆解" },
-];
-
 export function Hero({ active = true }: { active?: boolean }) {
   const reduced = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showVideo, setShowVideo] = useState(true);
+  const [inViewport, setInViewport] = useState(true);
 
   // 只在桌面端挂载氛围背景，移动端使用静态海报以降低开销。
   const [isDesktop, setIsDesktop] = useState(false);
@@ -46,10 +42,29 @@ export function Hero({ active = true }: { active?: boolean }) {
     return () => window.cancelAnimationFrame(frame);
   }, [active, reduced]);
 
+  // 首屏滚出视口时自动暂停视频解码，滚回首屏恢复播放，大幅降低滚动期间 GPU 开销
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInViewport(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   // 兼容微信 / QQ 的 X5 内核，并在数据就绪或首次交互时补发播放请求。
   useEffect(() => {
     const video = videoRef.current;
     if (!showVideo || !video) return;
+
+    if (!inViewport) {
+      video.pause();
+      return;
+    }
 
     video.setAttribute("webkit-playsinline", "true");
     video.setAttribute("x5-playsinline", "true");
@@ -84,58 +99,57 @@ export function Hero({ active = true }: { active?: boolean }) {
       document.removeEventListener("click", play);
       document.removeEventListener("touchstart", play);
     };
-  }, [showVideo]);
+  }, [showVideo, inViewport]);
 
-  // 鼠标视差：海报与 Aurora 反向微移，形成纵深
+  // 鼠标视差：仅在首屏可见且为大屏精细指针时启用
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const sx = useSpring(mx, { damping: 42, stiffness: 55, mass: 1 });
-  const sy = useSpring(my, { damping: 42, stiffness: 55, mass: 1 });
-  const posterX = useTransform(sx, (v) => v * 10);
-  const posterY = useTransform(sy, (v) => v * 7);
-  const auroraX = useTransform(sx, (v) => v * -20);
-  const auroraY = useTransform(sy, (v) => v * -12);
+  const sx = useSpring(mx, { damping: 45, stiffness: 50, mass: 1 });
+  const sy = useSpring(my, { damping: 45, stiffness: 50, mass: 1 });
+  const posterX = useTransform(sx, (v) => v * 8);
+  const posterY = useTransform(sy, (v) => v * 5);
 
   useEffect(() => {
-    if (reduced || !window.matchMedia("(pointer: fine)").matches) return;
+    if (
+      reduced ||
+      !inViewport ||
+      !window.matchMedia("(min-width: 1024px) and (pointer: fine)").matches
+    ) {
+      return;
+    }
     const onMove = (e: MouseEvent) => {
       mx.set((e.clientX / window.innerWidth) * 2 - 1);
       my.set((e.clientY / window.innerHeight) * 2 - 1);
     };
     window.addEventListener("mousemove", onMove, { passive: true });
     return () => window.removeEventListener("mousemove", onMove);
-  }, [mx, my, reduced]);
+  }, [mx, my, reduced, inViewport]);
 
   return (
     <section
+      ref={sectionRef}
       id="hero"
       className="relative z-[10] min-h-[100dvh] flex items-center justify-center overflow-hidden bg-bg-deepest"
     >
-      {/* 静态氛围光替代持续运行的 WebGL，保留色彩纵深并降低 GPU 开销。 */}
+      {/* 静态氛围光 */}
       {active && isDesktop && !reduced && (
-        <motion.div
+        <div
           className="absolute inset-[-5%] z-0 pointer-events-none"
           aria-hidden="true"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.6, ease: "easeOut" }}
           style={{
-            x: auroraX,
-            y: auroraY,
             background:
               "radial-gradient(circle at 18% 32%, rgba(255,106,26,0.16), transparent 34%), radial-gradient(circle at 52% 18%, rgba(216,76,255,0.14), transparent 38%), radial-gradient(circle at 82% 44%, rgba(0,200,255,0.14), transparent 38%)",
           }}
         >
-          {/* 压暗背景，让前景照片与文字突出 */}
           <div className="absolute inset-0 bg-[#050509]/40" />
-        </motion.div>
+        </div>
       )}
 
-      {/* 前景海报 + 自动播放视频（海报始终作为首帧与兼容性兜底） */}
+      {/* 前景海报 + 自动播放视频 */}
       <motion.div
         className="absolute inset-0 z-[1] pointer-events-none"
         aria-hidden="true"
-        style={reduced ? undefined : { x: posterX, y: posterY, scale: 1.04 }}
+        style={reduced || !isDesktop ? undefined : { x: posterX, y: posterY, scale: 1.03 }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -173,173 +187,124 @@ export function Hero({ active = true }: { active?: boolean }) {
 
       {/* Bottom fade to black */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-[3] pointer-events-none h-[42%]"
+        className="absolute bottom-0 left-0 right-0 z-[3] pointer-events-none h-[40%]"
         style={{
           background: "linear-gradient(to top, #050509 0%, transparent 100%)",
         }}
         aria-hidden="true"
       />
 
-      {/* Content overlay - bottom left + desktop right evidence strip */}
+      {/* Content overlay - bottom left */}
       <div className="absolute inset-0 z-[4] pointer-events-none flex flex-col justify-end pl-5 md:pl-10 pr-6 md:pr-12 pt-6 md:pt-10 pb-8 md:pb-14 w-full">
-        <div className="flex w-full items-end justify-between gap-10">
-          <div className="pointer-events-auto space-y-2 md:space-y-2.5 max-w-[660px]">
-            {/* Eyebrow domain signal */}
-            <motion.div
-              initial={reduced ? {} : { opacity: 0, y: 12 }}
-              animate={reduced ? {} : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.75, delay: 0.14, ease: [0.16, 1, 0.3, 1] }}
-              className="mb-1 inline-flex items-center gap-2.5 rounded-full border border-white/[0.14] bg-[#050509]/62 px-3.5 py-1.5 backdrop-blur-md"
-            >
-              <span
-                className="h-1.5 w-1.5 shrink-0 rounded-full bg-neon-cyan shadow-[0_0_10px_#00c8ff]"
-                aria-hidden="true"
-              />
-              <span className="font-body text-[10px] md:text-[10.5px] font-medium tracking-[0.16em] text-[#f5f7ff]/90 uppercase">
-                Agent Workflow · Business Scenarios · Rapid Prototyping
-              </span>
-            </motion.div>
+        <div className="pointer-events-auto space-y-2 md:space-y-2.5 max-w-[600px]">
+          {/* Main title */}
+          <motion.div
+            initial={reduced ? {} : { opacity: 0, y: 20 }}
+            animate={reduced ? {} : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {reduced ? (
+              <h1 className="hero-display-title font-display text-[clamp(3.1rem,7.8vw,6.25rem)] leading-[1.14] text-[#f5f7ff] overflow-visible">
+                黄锡源
+              </h1>
+            ) : (
+              <div className="overflow-visible">
+                <SplitText
+                  text="黄锡源"
+                  tag="h1"
+                  textAlign="left"
+                  className="hero-display-title font-display text-[clamp(3.1rem,7.8vw,6.25rem)] leading-[1.14] text-[#f5f7ff]"
+                  delay={50}
+                  duration={0.85}
+                  from={{ opacity: 0, y: 36 }}
+                  to={{ opacity: 1, y: 0 }}
+                  ease="power3.out"
+                  threshold={0.2}
+                  rootMargin="-50px"
+                />
+              </div>
+            )}
+          </motion.div>
 
-            {/* Main title */}
-            <motion.div
-              initial={reduced ? {} : { opacity: 0, y: 24, filter: "blur(8px)" }}
-              animate={reduced ? {} : { opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {reduced ? (
-                <h1 className="hero-display-title font-display text-[clamp(3.1rem,7.8vw,6.25rem)] leading-[1.14] text-[#f5f7ff] overflow-visible">
-                  黄锡源
-                </h1>
-              ) : (
-                <div className="overflow-visible">
-                  <SplitText
-                    text="黄锡源"
-                    tag="h1"
-                    textAlign="left"
-                    className="hero-display-title font-display text-[clamp(3.1rem,7.8vw,6.25rem)] leading-[1.14] text-[#f5f7ff]"
-                    delay={55}
-                    duration={1.0}
-                    from={{ opacity: 0, y: 48, filter: "blur(8px)" }}
-                    to={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                    ease="power4.out"
-                    threshold={0.2}
-                    rootMargin="-50px"
-                  />
-                </div>
-              )}
-            </motion.div>
-
-            {/* Subtitle */}
-            <motion.div
-              initial={reduced ? {} : { opacity: 0, y: 18, filter: "blur(6px)" }}
-              animate={reduced ? {} : { opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.85, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {reduced ? (
-                <span className="hero-display-subtitle font-display text-[clamp(20px,3.6vw,40px)] text-text-secondary ml-1 md:ml-1.5">
-                  AI 产品经理
-                </span>
-              ) : (
-                <div className="overflow-visible">
-                  <SplitText
-                    text="AI 产品经理"
-                    tag="span"
-                    textAlign="left"
-                    className="hero-display-subtitle font-display text-[clamp(20px,3.6vw,40px)] text-text-secondary ml-1 md:ml-1.5"
-                    delay={28}
-                    duration={0.8}
-                    from={{ opacity: 0, y: 20 }}
-                    to={{ opacity: 1, y: 0 }}
-                    ease="power3.out"
-                    threshold={0.2}
-                    rootMargin="-50px"
-                  />
-                </div>
-              )}
-            </motion.div>
-
-            {/* Description */}
-            <motion.p
-              initial={reduced ? {} : { opacity: 0, y: 16 }}
-              animate={reduced ? {} : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.85, delay: 0.72, ease: [0.16, 1, 0.3, 1] }}
-              className="font-body text-sm md:text-[15px] text-text-tertiary leading-[1.78] pl-0.5 md:pl-1 max-w-[54ch]"
-            >
-              围绕真实业务场景设计个人智能体与多 Agent 协作流。<br className="hidden sm:inline" />
-              持续追踪前沿模型演进，用可运行的产品与软硬件原型验证交互边界与交付体验。
-            </motion.p>
-
-            {/* CTAs */}
-            <motion.div
-              initial={reduced ? {} : { opacity: 0, y: 16 }}
-              animate={reduced ? {} : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.85, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="flex gap-2.5 md:gap-3.5 flex-wrap pt-3"
-            >
-              <motion.a
-                href="#work"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.querySelector("#work")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="cursor-target inline-flex items-center px-5 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-semibold tracking-[0.04em] no-underline cursor-pointer bg-[#f5f7ff] text-[#050509] border-none transition-all duration-300 hover:bg-neon-cyan hover:text-[#050509] hover:shadow-[0_0_32px_rgba(0,200,255,0.32)]"
-              >
-                查看作品
-                <span className="ml-2 font-mono text-xs opacity-75 transition-all duration-300 group-hover:translate-x-0.5">&rarr;</span>
-              </motion.a>
-              <motion.a
-                href="#method"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.querySelector("#method")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="cursor-target inline-flex items-center px-5 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-[#f5f7ff] no-underline border border-white/[0.16] bg-white/[0.04] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-cyan/55 hover:bg-white/[0.08] hover:shadow-[0_0_24px_rgba(0,200,255,0.14)]"
-              >
-                方法与前沿研究
-              </motion.a>
-              <motion.a
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="cursor-target inline-flex items-center px-5 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-[#f5f7ff] no-underline border border-white/[0.16] bg-white/[0.04] backdrop-blur-[10px] transition-all duration-300 hover:border-neon-cyan/55 hover:bg-white/[0.08] hover:shadow-[0_0_24px_rgba(0,200,255,0.14)]"
-              >
-                联系
-              </motion.a>
-            </motion.div>
-          </div>
-
-          {/* Desktop-only Observatory Evidence Strip */}
-          <motion.dl
+          {/* Subtitle */}
+          <motion.div
             initial={reduced ? {} : { opacity: 0, y: 16 }}
             animate={reduced ? {} : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 1.02, ease: [0.16, 1, 0.3, 1] }}
-            className="pointer-events-auto hidden lg:flex shrink-0 items-center gap-5 xl:gap-7 pb-1"
-            aria-label="作品与研究概览"
+            transition={{ duration: 0.75, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
           >
-            {HERO_SIGNALS.map((item, idx) => (
-              <div
-                key={item.label}
-                className={`flex flex-col items-end text-right ${
-                  idx > 0 ? "border-l border-white/[0.12] pl-5 xl:pl-7" : ""
-                }`}
-              >
-                <dd className="font-display text-[1.7rem] xl:text-[1.85rem] leading-none tabular-nums text-[#f5f7ff]">
-                  {item.value}
-                </dd>
-                <dt className="mt-2 font-body text-[11px] tracking-[0.05em] text-text-tertiary whitespace-nowrap">
-                  {item.label}
-                </dt>
+            {reduced ? (
+              <span className="hero-display-subtitle font-display text-[clamp(20px,3.6vw,40px)] text-text-secondary ml-1 md:ml-1.5">
+                AI 产品经理
+              </span>
+            ) : (
+              <div className="overflow-visible">
+                <SplitText
+                  text="AI 产品经理"
+                  tag="span"
+                  textAlign="left"
+                  className="hero-display-subtitle font-display text-[clamp(20px,3.6vw,40px)] text-text-secondary ml-1 md:ml-1.5"
+                  delay={26}
+                  duration={0.7}
+                  from={{ opacity: 0, y: 18 }}
+                  to={{ opacity: 1, y: 0 }}
+                  ease="power3.out"
+                  threshold={0.2}
+                  rootMargin="-50px"
+                />
               </div>
-            ))}
-          </motion.dl>
+            )}
+          </motion.div>
+
+          {/* Concise Description */}
+          <motion.p
+            initial={reduced ? {} : { opacity: 0, y: 14 }}
+            animate={reduced ? {} : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, delay: 0.58, ease: [0.16, 1, 0.3, 1] }}
+            className="font-body text-sm md:text-[15px] text-text-tertiary leading-[1.75] pl-0.5 md:pl-1 max-w-[46ch]"
+          >
+            围绕真实业务场景设计个人智能体与多 Agent 协作流，<br className="hidden sm:inline" />
+            用可运行的软件与硬件原型验证交互边界与交付体验。
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            initial={reduced ? {} : { opacity: 0, y: 14 }}
+            animate={reduced ? {} : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, delay: 0.74, ease: [0.16, 1, 0.3, 1] }}
+            className="flex gap-2.5 md:gap-3.5 flex-wrap pt-3"
+          >
+            <a
+              href="#work"
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector("#work")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="cursor-target inline-flex items-center px-5 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-semibold tracking-[0.04em] no-underline cursor-pointer bg-[#f5f7ff] text-[#050509] border-none transition-colors duration-250 hover:bg-neon-cyan hover:text-[#050509]"
+            >
+              查看作品
+              <span className="ml-2 font-mono text-xs opacity-75">&rarr;</span>
+            </a>
+            <a
+              href="#about"
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="cursor-target inline-flex items-center px-5 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-[#f5f7ff] no-underline border border-white/[0.16] bg-[#080812]/70 transition-colors duration-250 hover:border-neon-cyan/55 hover:bg-white/[0.08]"
+            >
+              关于我
+            </a>
+            <a
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="cursor-target inline-flex items-center px-5 md:px-6 py-2.5 md:py-3 rounded-full font-body text-[13px] md:text-[13.5px] font-medium tracking-[0.04em] text-[#f5f7ff] no-underline border border-white/[0.16] bg-[#080812]/70 transition-colors duration-250 hover:border-neon-cyan/55 hover:bg-white/[0.08]"
+            >
+              联系
+            </a>
+          </motion.div>
         </div>
       </div>
     </section>
