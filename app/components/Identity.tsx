@@ -21,7 +21,7 @@ const PERSPECTIVES = [
   },
 ];
 
-const FOCUS = ["权限隔离", "阶段交接", "混合模型路由", "低摩擦审批"];
+const FOCUS = ["权限隔离", "阶段交接", "混合路由", "人工审批"];
 
 export function Identity() {
   return (

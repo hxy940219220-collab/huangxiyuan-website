@@ -8,7 +8,6 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
-import SplitText from "../reactbits/TextAnimations/SplitText/SplitText";
 
 export function Hero({ active = true }: { active?: boolean }) {
   const reduced = useReducedMotion();
@@ -198,62 +197,24 @@ export function Hero({ active = true }: { active?: boolean }) {
       <div className="absolute inset-0 z-[4] pointer-events-none flex flex-col justify-end pl-5 md:pl-10 pr-6 md:pr-12 pt-6 md:pt-10 pb-8 md:pb-14 w-full">
         <div className="pointer-events-auto space-y-2 md:space-y-2.5 max-w-[600px]">
           {/* Main title */}
-          <motion.div
-            initial={reduced ? {} : { opacity: 0, y: 20 }}
+          <motion.h1
+            initial={reduced ? {} : { opacity: 0, y: 24 }}
             animate={reduced ? {} : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.75, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+            className="hero-display-title font-display text-[clamp(3.1rem,7.8vw,6.25rem)] leading-[1.14] text-[#f5f7ff]"
           >
-            {reduced ? (
-              <h1 className="hero-display-title font-display text-[clamp(3.1rem,7.8vw,6.25rem)] leading-[1.14] text-[#f5f7ff] overflow-visible">
-                黄锡源
-              </h1>
-            ) : (
-              <div className="overflow-visible">
-                <SplitText
-                  text="黄锡源"
-                  tag="h1"
-                  textAlign="left"
-                  className="hero-display-title font-display text-[clamp(3.1rem,7.8vw,6.25rem)] leading-[1.14] text-[#f5f7ff]"
-                  delay={50}
-                  duration={0.85}
-                  from={{ opacity: 0, y: 36 }}
-                  to={{ opacity: 1, y: 0 }}
-                  ease="power3.out"
-                  threshold={0.2}
-                  rootMargin="-50px"
-                />
-              </div>
-            )}
-          </motion.div>
+            黄锡源
+          </motion.h1>
 
           {/* Subtitle */}
-          <motion.div
+          <motion.p
             initial={reduced ? {} : { opacity: 0, y: 16 }}
             animate={reduced ? {} : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.72, delay: 0.34, ease: [0.16, 1, 0.3, 1] }}
+            className="hero-display-subtitle font-display text-[clamp(20px,3.6vw,40px)] leading-[1.2] text-text-secondary ml-1 md:ml-1.5"
           >
-            {reduced ? (
-              <span className="hero-display-subtitle font-display text-[clamp(20px,3.6vw,40px)] text-text-secondary ml-1 md:ml-1.5">
-                AI 产品经理
-              </span>
-            ) : (
-              <div className="overflow-visible">
-                <SplitText
-                  text="AI 产品经理"
-                  tag="span"
-                  textAlign="left"
-                  className="hero-display-subtitle font-display text-[clamp(20px,3.6vw,40px)] text-text-secondary ml-1 md:ml-1.5"
-                  delay={26}
-                  duration={0.7}
-                  from={{ opacity: 0, y: 18 }}
-                  to={{ opacity: 1, y: 0 }}
-                  ease="power3.out"
-                  threshold={0.2}
-                  rootMargin="-50px"
-                />
-              </div>
-            )}
-          </motion.div>
+            AI 产品经理
+          </motion.p>
 
           {/* Concise Description */}
           <motion.p
