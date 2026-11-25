@@ -102,12 +102,11 @@ const PROJECTS: ProjectItem[] = [
     primaryTag: "AI 人事工作台",
     primaryTagClass: "border-[#75ba9c]/45 bg-[#75ba9c]/[0.08] text-[#a1dfc2]",
     hoverBorderClass: "hover:border-[#75ba9c]/45",
-    tags: ["AI 同事与审批", "企业人才库", "组织地图"],
+    tags: ["AI 对话与技能", "AI 同事与审批", "企业人才库"],
     summary:
-      "由 4 位 AI 同事自动完成翻库匹配、面试排期、催评与核薪核对，结果汇总进待办审批确认；同步打通企业人才库、绑定业务上下文的 AI 对话与交互式组织地图。",
+      "以绑定业务上下文的 AI 对话与技能广场为入口，配合 4 位 AI 同事自动完成翻库匹配、面试排期、催评与核薪核对，并打通企业人才库与交互式组织地图。",
     actions: [
       { label: "查看产品演示", href: "/projects/hr-studio", variant: "primary", icon: "arrow" },
-      { label: "在线体验", href: "https://hr-dadang.vercel.app/", external: true, variant: "secondary", icon: "arrow" },
     ],
   },
   {
